@@ -1,10 +1,11 @@
 const express = require('express')
-const dotenv = require('dotenv');
 var logger = require('morgan');
-dotenv.config();
+const db=require('../database/mongoose')
+const {port}=require("../config")
+
 const app = express()
 app.use(logger('dev'));
-
+db.connect()
 
 
 
@@ -16,7 +17,7 @@ app.get('/', function (req, res) {
 
 
 
-const port=process.env.PORT||3000
+
 app.listen(port,()=>{
     console.log(`server running in port ${port}`);
 })
