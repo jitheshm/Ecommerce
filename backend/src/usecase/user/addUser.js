@@ -1,11 +1,11 @@
-const User = require('../../entity/userEntity')
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
 
-const addUser = async (repository, data) => {
+const User = require('../../entity/userEntity')
+
+
+const addUser = async (repository,passwordService, data) => {
     try {
         await repository.checkUser(data)
-        const hash = await bcrypt.hash(data.password, saltRounds)
+        const hash = await passwordService.hashPassword(data.password)
         data.password = hash
         console.log(data);
         const user = new User(data)
