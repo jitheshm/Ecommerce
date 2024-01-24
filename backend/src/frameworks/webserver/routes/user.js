@@ -6,10 +6,10 @@ const router = express.Router()
 router.post('/signup', async (req, res) => {
     try {
         await signup(req.body)
-        res.json({ "success": true })
+        res.status(200).json({ "success": true })
     } catch (error) {
         //console.log(error);
-        res.json({ "error": error.message })
+        res.status(409).json({ "error": error.message })
     }
 })
 
