@@ -5,7 +5,9 @@ module.exports = {
             const user = new UserModel(data)
             console.log(user);
             await user.save()
+            
             console.log("new user inserted");
+            return user._id
         } catch (error) {
             console.log("user insertion failed" + error);
         }

@@ -10,7 +10,8 @@ const addUser = async (repository,passwordService, data) => {
         console.log(data);
         const user = new User(data)
         console.log(user);
-        await repository.create(user)
+        const userId=await repository.create(user)
+        return userId
     } catch (error) {
         
         throw error
