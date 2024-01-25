@@ -3,7 +3,7 @@ var Schema = mongoose.Schema
 const OtpSchema = new mongoose.Schema({
   otp:{ type: String, required: true },
   userId:{ type: Schema.ObjectId, required: true },
-  create:{ type: String, required: true }
+  createdAt: { type: Date, expires: '3m', default: Date.now }
 
 });
 
