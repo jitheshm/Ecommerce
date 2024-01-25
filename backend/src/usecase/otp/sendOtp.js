@@ -1,17 +1,19 @@
 
 const Otp = require('../../entity/otpEntity')
-const sendOtp = async ({otpRepository, otpService, email, userId,...mailerConfig}) => {
-    try {
+const sendOtp = async ({ otpRepository, otpService, email, userId, ...mailerConfig }) => {
+    
         const generateOtp = otpService.createOtp()
 
         const otp = new Otp(generateOtp, userId)
         console.log(otp);
-        await otpRepository.saveOtp(otp)
-        otpService.sendOtp(generateOtp, email,mailerConfig)
+        const status = await otpRepository.saveOtp(otp)
+        if (status) {
+            otpService.sendOtp(generateOtp, email, mailerConfig)
+        }
+        return status
 
-    } catch (error) {
-        console.log(error);
-    }
+
+   
 
 
 }

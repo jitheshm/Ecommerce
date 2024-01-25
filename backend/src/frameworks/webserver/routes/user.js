@@ -5,11 +5,16 @@ const {nodemailerEmail,nodemailerPassword}=require('../../config')
 const { ObjectId } = require('mongodb');
 router.post('/signup', async (req, res) => {
     try {
-        await signup(req.body,nodemailerEmail,nodemailerPassword)
-        res.status(200).json({ "success": true })
+        const status=await signup(req.body,nodemailerEmail,nodemailerPassword)
+        if(status){
+            res.status(200).json({ "success": true })
+        }else{
+            res.status(200).json({ "error":"user already exist" })
+        }
+        
     } catch (error) {
-        //console.log(error);
-        res.status(409).json({ "error": error.message })
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
     }
 })
 
