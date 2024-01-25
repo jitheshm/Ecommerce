@@ -13,7 +13,12 @@ module.exports={
             console.log("user insertion failed" + error);
         }
     },
-    findOtp:()=>{
-
+    findOtp:async(userId)=>{
+        const doc=await OtpModel.findOne({userId:userId})
+        if(doc){
+            return doc.otp
+        }else{
+            return null
+        }
     }
 }

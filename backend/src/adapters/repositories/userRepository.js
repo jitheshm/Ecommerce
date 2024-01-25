@@ -23,5 +23,15 @@ module.exports = {
             throw error
 
         }
+    },
+    verifyUser:async(userId)=>{
+        try {
+            console.log(userId);
+            await UserModel.updateOne({_id:userId},{isVerified:true})
+            return true
+        } catch (error) {
+            console.log(error);
+            return false
+        }
     }
 }
