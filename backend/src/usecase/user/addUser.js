@@ -9,15 +9,15 @@ const addUser = async (repository, passwordService, data) => {
         if (existUser && existUser.isVerified) {
             return null
         }else if(existUser){
-            return existUser._id
+            return existUser
         }else {
             const hash = await passwordService.hashPassword(data.password)
             data.password = hash
             console.log(data);
-            const user = new User(data)
-            console.log(user);
-            const userId = await repository.create(user)
-            return userId
+            const userObj = new User(data)
+            //console.log(user);
+            const user = await repository.create(userObj)
+            return user
         }
 
    

@@ -6,34 +6,61 @@ const otpService = require("../services/otpService")
 const otpRepository = require("../repositories/otpRepository")
 const verifyOtp = require("../../usecase/otp/verifyOtp")
 const verifyUser = require("../../usecase/user/verifyUser")
+const authService = require("../services/authService")
 module.exports = {
     signup: async (data, nodemailerEmail, nodemailerPassword) => {
 
         //console.log(data);
-        const userId = await addUser(userRepository, passwordService, data)
-        if (userId) {
-            console.log("haii");
+        const user = await addUser(userRepository, passwordService, data)
+        if (user) {
+            const tokenData={
+                id:user._id,
+                name:user.firstName,
+                isVerified:user.isVerified
+            }
+            
+            const token=authService.createToken(tokenData)
+
+            console.log(token);
             const otpOptions = {
                 otpRepository,
                 otpService,
                 email: data.email,
-                userId,
+                userId:user._id,
                 nodemailerEmail,
                 nodemailerPassword
             }
-            const status = await sendOtp(otpOptions)
-            return status
+
+            await sendOtp(otpOptions)
+            
+          return token
+
+            
         } else {
-            return false
+            return null
         }
 
     },
-    verifyUser: async (data, userId) => {
+    verifyUser: async (data, token) => {
+        const userData=await authService.verifyToken(token)
+        const userId=userData.id
+        console.log(userData);
         const status = await verifyOtp(data.otp, userId, otpRepository, otpService)
+        console.log("otp"+status);
         if (status) {
-            await verifyUser(userId, userRepository)
+            const verifyStatus=await verifyUser(userId, userRepository)
+            if(verifyStatus){
+                const tokenData={
+                    id:userData.id,
+                    name:userData.name,
+                    isVerified:true
+                }
+                const token=authService.createToken(tokenData)
+                return token
+            }
+            return null
         }
-        return status
+        return null
 
     }
 }

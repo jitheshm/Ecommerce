@@ -5,9 +5,9 @@ const {nodemailerEmail,nodemailerPassword}=require('../../config')
 const { ObjectId } = require('mongodb');
 router.post('/signup', async (req, res) => {
     try {
-        const status=await signup(req.body,nodemailerEmail,nodemailerPassword)
-        if(status){
-            res.status(200).json({ "success": true })
+        const token=await signup(req.body,nodemailerEmail,nodemailerPassword)
+        if(token){
+            res.status(200).json({ "success": true,token: token })
         }else{
             res.status(200).json({ "error":"user already exist" })
         }
@@ -20,11 +20,11 @@ router.post('/signup', async (req, res) => {
 
 router.post('/otpverify',async(req,res)=>{
     try {
-        //const token = req.header('Authorization');
-        userId=new ObjectId(req.body.id)
-        const status=await verifyUser(req.body,userId)
-        if(status){
-            res.json({success:true})
+        const token = req.header('Authorization');
+        //userId=new ObjectId(req.body.id)
+        const newToken=await verifyUser(req.body,token)
+        if(newToken){
+            res.json({success:true,token:newToken})
         }
         else{
             res.json({"error":"otp is incorrect"})

@@ -7,7 +7,7 @@ module.exports = {
             await user.save()
 
             console.log("new user inserted");
-            return user._id
+            return user
         } catch (error) {
             console.log("user insertion failed" + error);
             throw error
@@ -32,7 +32,7 @@ module.exports = {
             return true
         } catch (error) {
             console.log(error);
-            return false
+            throw error
         }
     }
 }
