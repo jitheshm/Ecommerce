@@ -6,7 +6,7 @@ module.exports = {
             // const Otp = new OtpModel(data)
             // console.log(Otp);
             // await Otp.save()
-            await OtpModel.findOneAndUpdate({_id:data.userId},data,{
+            await OtpModel.findOneAndUpdate({userId:data.userId},data,{
                 upsert:true
             })
 
