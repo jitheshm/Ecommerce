@@ -5,9 +5,12 @@ const User = require('../../entity/userEntity')
 const addUser = async (repository, passwordService, data) => {
    
         const existUser = await repository.checkUser(data)
-        if (existUser) {
+        console.log(existUser)
+        if (existUser && existUser.isVerified) {
             return null
-        } else {
+        }else if(existUser){
+            return existUser._id
+        }else {
             const hash = await passwordService.hashPassword(data.password)
             data.password = hash
             console.log(data);

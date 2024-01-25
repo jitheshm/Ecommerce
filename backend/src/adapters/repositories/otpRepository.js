@@ -3,9 +3,12 @@ const OtpModel = require('../models/otpModel')
 module.exports = {
     saveOtp: async (data) => {
         try {
-            const Otp = new OtpModel(data)
-            console.log(Otp);
-            await Otp.save()
+            // const Otp = new OtpModel(data)
+            // console.log(Otp);
+            // await Otp.save()
+            await OtpModel.findOneAndUpdate({_id:data.userId},data,{
+                upsert:true
+            })
 
             console.log("new otp inserted");
             return true
