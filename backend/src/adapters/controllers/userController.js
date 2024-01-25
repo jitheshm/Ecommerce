@@ -16,7 +16,8 @@ module.exports = {
             const tokenData={
                 id:user._id,
                 name:user.firstName,
-                isVerified:user.isVerified
+                isVerified:user.isVerified,
+                role:"user"
             }
             
             const token=authService.createToken(tokenData)
@@ -53,6 +54,7 @@ module.exports = {
                 const tokenData={
                     id:userData.id,
                     name:userData.name,
+                    role:"user",
                     isVerified:true
                 }
                 const token=authService.createToken(tokenData)
