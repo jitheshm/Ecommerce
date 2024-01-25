@@ -20,7 +20,7 @@ module.exports = {
                 role:"user"
             }
             
-            const token=authService.createToken(tokenData)
+            const token=await authService.createToken(tokenData)
 
             console.log(token);
             const otpOptions = {
