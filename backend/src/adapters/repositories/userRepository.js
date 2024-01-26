@@ -62,5 +62,14 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    fetchUsers: async () => {
+        try {
+            const users = await UserModel.find({})
+            return users
+        } catch (error) {
+            throw error
+        }
+
     }
 }

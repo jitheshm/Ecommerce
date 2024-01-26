@@ -1,5 +1,5 @@
 const express = require('express')
-const { login, blockUser, unblockUser } = require('../../../adapters/controllers/adminController')
+const { login, blockUser, unblockUser, fetchAllUsers } = require('../../../adapters/controllers/adminController')
 const router = express.Router()
 const { ObjectId } = require('mongodb');
 const authToken = require('../../middlewares/adminAuthToken');
@@ -17,7 +17,7 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.get('/blockuser',authToken, async (req, res) => {
+router.get('/blockuser', authToken, async (req, res) => {
     try {
         const userId = new ObjectId(req.query.id)
         console.log(req.query);
@@ -34,7 +34,7 @@ router.get('/blockuser',authToken, async (req, res) => {
 
 })
 
-router.get('/unblockuser',authToken, async (req, res) => {
+router.get('/unblockuser', authToken, async (req, res) => {
     try {
         const userId = new ObjectId(req.query.id)
         console.log(req.query);
@@ -49,6 +49,16 @@ router.get('/unblockuser',authToken, async (req, res) => {
         res.status(500).json({ "error": "internal server error" })
     }
 
+})
+
+router.get('/getusers', authToken, async (req, res) => {
+    try {
+        const users = await fetchAllUsers()
+        res.status(200).json({success:true,data:users})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
 })
 
 
