@@ -7,6 +7,7 @@ const otpRepository = require("../repositories/otpRepository")
 const verifyOtp = require("../../usecase/otp/verifyOtp")
 const verifyUser = require("../../usecase/user/verifyUser")
 const authService = require("../services/authService")
+const authUser = require("../../usecase/user/authUser")
 module.exports = {
     signup: async (data, nodemailerEmail, nodemailerPassword) => {
 
@@ -64,5 +65,10 @@ module.exports = {
         }
         return null
 
+    },
+    loginUser:async(data)=>{
+        const token= await authUser(data,userRepository,passwordService,authService)
+        return token
     }
+
 }

@@ -4,5 +4,10 @@ const saltRounds = 10;
     hashPassword:async(password)=>{
         const hash = await bcrypt.hash(password, saltRounds)
         return hash
+    },
+
+    verifyPassword:async(password,hashPassword)=>{
+        const result=await bcrypt.compare(password, hashPassword)
+        return result
     }
  }
