@@ -5,6 +5,7 @@ class User{
         this.email=email
         this.password=password
         this.isVerified=false
+        this.isBlocked=false
         this.dateOfJoin=new Date()
     }
 }
