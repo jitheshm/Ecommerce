@@ -48,5 +48,19 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    unblockUser: async (userId) => {
+        try {
+            console.log(userId);
+            const result = await UserModel.updateOne({ _id: userId }, { isBlocked: false })
+            console.log(result.matchedCount);
+            if (result.matchedCount === 0)
+                return false
+            else
+                return true
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }

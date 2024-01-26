@@ -18,7 +18,13 @@ const adminAuthToken = async(req, res, next) => {
         
     }
     catch (error) {
-        res.status(500).json({ "error": "internal server error" })
+        console.log(error.message);
+        if(error.message==="jwt expired"){
+            res.status(401).json({error:"unauthorised"})
+        }
+        else{
+            res.status(500).json({ "error": "internal server error" })
+        }
     }
 
 }

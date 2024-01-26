@@ -1,5 +1,6 @@
 const authAdmin = require("../../usecase/admin/authAdmin")
 const blockUser = require("../../usecase/admin/blockUser")
+const unblockUser = require("../../usecase/admin/unblock")
 const adminRepository = require("../repositories/adminRepository")
 const userRepository = require("../repositories/userRepository")
 const authService = require("../services/authService")
@@ -11,6 +12,10 @@ module.exports={
     },
     blockUser:async(userId)=>{
         const status= await blockUser(userId,userRepository)
+        return status
+    },
+    unblockUser:async(userId)=>{
+        const status= await unblockUser(userId,userRepository)
         return status
     }
 }
