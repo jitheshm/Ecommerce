@@ -44,5 +44,14 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    deleteVarient:async(varientId)=>{
+        try {
+              const delDoc=await ProductVarientModel.findOneAndDelete({_id:varientId})
+              return delDoc
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }

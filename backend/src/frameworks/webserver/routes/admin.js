@@ -3,7 +3,7 @@ const { login, blockUser, unblockUser, fetchAllUsers } = require('../../../adapt
 const router = express.Router()
 const { ObjectId } = require('mongodb');
 const authToken = require('../../middlewares/adminAuthToken');
-const { productAdd, varientAdd, varientUpdate } = require('../../../adapters/controllers/productController');
+const { productAdd, varientAdd, varientUpdate, varientDelete } = require('../../../adapters/controllers/productController');
 const fileUpload = require('../../middlewares/fileUpload');
 const path = require('path');
 const fs = require('fs');
@@ -95,7 +95,7 @@ router.post('/addvarient', authToken, fileUpload("products"), async (req, res) =
 
 })
 
-router.patch('/updatevarient', fileUpload("products"), async (req, res) => {
+router.patch('/updatevarient', authToken, fileUpload("products"), async (req, res) => {
     try {
         if (req.files) {
             const imagesUrl = req.files.map((data) => {
@@ -125,6 +125,33 @@ router.patch('/updatevarient', fileUpload("products"), async (req, res) => {
     }
 
 
+})
+
+router.delete('/deletevarient', authToken, async (req, res) => {
+    try {
+        const delDoc = await varientDelete(new ObjectId(req.query.id))
+        console.log(delDoc);
+        if (delDoc) {
+            const filesToDelete = delDoc.imagesUrl
+            if (filesToDelete)
+                for (const file of filesToDelete) {
+                    const filePath = path.join(__dirname, '../../../../', file);
+                    console.log(filePath);
+                    if (fs.existsSync(filePath)) {
+                        console.log(filePath);
+                        await fs.promises.unlink(filePath);
+                        console.log(`Deleted file: ${file}`);
+                    } else {
+                        console.log(`File not found: ${file}`);
+                    }
+                }
+            res.status(200).json({ success: true })
+        } else {
+            res.status(200).json({ success: false, msg: "no match found" })
+        }
+    } catch (error) {
+        res.status(500).json({ "error": "internal server error" })
+    }
 })
 
 
