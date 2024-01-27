@@ -3,7 +3,7 @@ const { login, blockUser, unblockUser, fetchAllUsers } = require('../../../adapt
 const router = express.Router()
 const { ObjectId } = require('mongodb');
 const authToken = require('../../middlewares/adminAuthToken');
-const { productAdd, varientAdd, varientUpdate, varientDelete } = require('../../../adapters/controllers/productController');
+const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate } = require('../../../adapters/controllers/productController');
 const fileUpload = require('../../middlewares/fileUpload');
 const path = require('path');
 const fs = require('fs');
@@ -154,6 +154,22 @@ router.delete('/deletevarient', authToken, async (req, res) => {
     }
 })
 
+
+router.patch('/updateproduct', authToken, async (req, res) => {
+
+    try {
+        req.body.id = new ObjectId(req.body.id)
+        console.log(req.body);
+        const status = await productUpdate(req.body)
+        if (status)
+            res.status(200).json({ success: true })
+        else
+            res.status(200).json({ success: false, msg: "product not found" })
+    } catch (error) {
+        res.status(500).json({ "error": "internal server error" })
+    }
+
+})
 
 
 
