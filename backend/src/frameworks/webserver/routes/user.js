@@ -3,6 +3,7 @@ const { signup, verifyUser, loginUser } = require('../../../adapters/controllers
 const router = express.Router()
 const { nodemailerEmail, nodemailerPassword } = require('../../config')
 const { ObjectId } = require('mongodb');
+const { getOneVarientPerProduct } = require('../../../adapters/controllers/productController');
 router.post('/signup', async (req, res) => {
     try {
         const token = await signup(req.body, nodemailerEmail, nodemailerPassword)
@@ -42,6 +43,16 @@ router.post('/login', async (req, res) => {
         } else {
             res.status(401).json({ error: "email or password is incorrect" })
         }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+})
+
+router.get('/getproducts', async (req, res) => {
+    try {
+        const products = await getOneVarientPerProduct()
+        res.status(200).json({ success: true, data: products })
     } catch (error) {
         console.log(error);
         res.status(500).json({ "error": "internal server error" })

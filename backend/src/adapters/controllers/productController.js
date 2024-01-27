@@ -7,6 +7,7 @@ const deletevarient = require("../../usecase/product/deleteVarient")
 const updatevarient = require("../../usecase/product/updateVarient")
 const productRepository = require("../repositories/productRepository")
 const productVarientRepository = require("../repositories/productVarientRepository")
+const getOneVarientPerProduct = require("../../usecase/product/getOneVarientPerProduct")
 
 module.exports = {
     productAdd: async (prodData) => {
@@ -38,5 +39,9 @@ module.exports = {
 
 
 
+    },
+    getOneVarientPerProduct:async()=>{
+        const products=await getOneVarientPerProduct(productVarientRepository)
+        return products
     }
 }

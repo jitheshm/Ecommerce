@@ -69,5 +69,39 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    getOneVarientPerProduct:async()=>{
+        try {
+            const result=await ProductVarientModel.aggregate([
+                {
+                    $lookup:{
+                        from:"products",
+                        localField:"productId",
+                        foreignField:"_id",
+                        as:"productDetails"
+
+                    }
+                },
+                {
+                    $match:{
+                        "productDetails.isListed":true
+                    }
+                },
+                {
+                    $group:{
+                        _id:"$productId",
+                        productVarient:{$first:"$$ROOT"}
+                    }
+                },
+                {
+                    $replaceRoot:{newRoot:"$productVarient"}
+                }
+            ]).exec()
+            console.log(result);
+            return result
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }
