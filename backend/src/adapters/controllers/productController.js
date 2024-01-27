@@ -8,6 +8,8 @@ const updatevarient = require("../../usecase/product/updateVarient")
 const productRepository = require("../repositories/productRepository")
 const productVarientRepository = require("../repositories/productVarientRepository")
 const getOneVarientPerProduct = require("../../usecase/product/getOneVarientPerProduct")
+const getproductdetails = require("../../usecase/product/getVarientDetail")
+const getVarientDetails = require("../../usecase/product/getVarientDetail")
 
 module.exports = {
     productAdd: async (prodData) => {
@@ -40,8 +42,12 @@ module.exports = {
 
 
     },
-    getOneVarientPerProduct:async()=>{
-        const products=await getOneVarientPerProduct(productVarientRepository)
+    getOneVarientPerProduct: async () => {
+        const products = await getOneVarientPerProduct(productVarientRepository)
         return products
+    },
+    getVarientDetail: async (id) => {
+       const varientDetail=await getVarientDetails(id,productVarientRepository)
+       return varientDetail
     }
 }

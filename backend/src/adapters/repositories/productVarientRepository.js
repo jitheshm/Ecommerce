@@ -56,45 +56,45 @@ module.exports = {
     },
     deleteAllVarient: async (productId) => {
         try {
-            const deleVarients = await ProductVarientModel.find({ productId: productId },{imagesUrl:1,_id:0})
+            const deleVarients = await ProductVarientModel.find({ productId: productId }, { imagesUrl: 1, _id: 0 })
             const result = await ProductVarientModel.deleteMany({ productId: productId })
             console.log(deleVarients);
-            console.log(result); 
+            console.log(result);
             if (result.matchedCount === 0)
                 return null
             else
                 return deleVarients
- 
+
         } catch (error) {
             console.log(error);
             throw error
         }
     },
-    getOneVarientPerProduct:async()=>{
+    getOneVarientPerProduct: async () => {
         try {
-            const result=await ProductVarientModel.aggregate([
+            const result = await ProductVarientModel.aggregate([
                 {
-                    $lookup:{
-                        from:"products",
-                        localField:"productId",
-                        foreignField:"_id",
-                        as:"productDetails"
+                    $lookup: {
+                        from: "products",
+                        localField: "productId",
+                        foreignField: "_id",
+                        as: "productDetails"
 
                     }
                 },
                 {
-                    $match:{
-                        "productDetails.isListed":true
+                    $match: {
+                        "productDetails.isListed": true
                     }
                 },
                 {
-                    $group:{
-                        _id:"$productId",
-                        productVarient:{$first:"$$ROOT"}
+                    $group: {
+                        _id: "$productId",
+                        productVarient: { $first: "$$ROOT" }
                     }
                 },
                 {
-                    $replaceRoot:{newRoot:"$productVarient"}
+                    $replaceRoot: { newRoot: "$productVarient" }
                 }
             ]).exec()
             console.log(result);
@@ -103,5 +103,24 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    getVarientDetails: async (id) => {
+        const varientDetail = await ProductVarientModel.aggregate([
+            {
+                $match: {
+                    _id: id
+                }
+            },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "productId",
+                    foreignField: "_id",
+                    as: "productDetails"
+
+                }
+            },
+        ]).exec()
+        return varientDetail
     }
 }

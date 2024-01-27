@@ -3,7 +3,7 @@ const { signup, verifyUser, loginUser } = require('../../../adapters/controllers
 const router = express.Router()
 const { nodemailerEmail, nodemailerPassword } = require('../../config')
 const { ObjectId } = require('mongodb');
-const { getOneVarientPerProduct } = require('../../../adapters/controllers/productController');
+const { getOneVarientPerProduct, getVarientDetail } = require('../../../adapters/controllers/productController');
 router.post('/signup', async (req, res) => {
     try {
         const token = await signup(req.body, nodemailerEmail, nodemailerPassword)
@@ -53,6 +53,17 @@ router.get('/getproducts', async (req, res) => {
     try {
         const products = await getOneVarientPerProduct()
         res.status(200).json({ success: true, data: products })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+})
+
+router.get('/getproductdetails/:id',async(req,res)=>{
+    try {
+        const id=new ObjectId(req.params.id)
+        const varientDetails=await getVarientDetail(id)
+        res.status(200).json({ success: true, data: varientDetails })
     } catch (error) {
         console.log(error);
         res.status(500).json({ "error": "internal server error" })
