@@ -3,8 +3,10 @@ const { login, blockUser, unblockUser, fetchAllUsers } = require('../../../adapt
 const router = express.Router()
 const { ObjectId } = require('mongodb');
 const authToken = require('../../middlewares/adminAuthToken');
-const { productAdd, varientAdd } = require('../../../adapters/controllers/productController');
+const { productAdd, varientAdd, varientUpdate } = require('../../../adapters/controllers/productController');
 const fileUpload = require('../../middlewares/fileUpload');
+const path = require('path');
+const fs = require('fs');
 router.post('/login', async (req, res) => {
     try {
         const token = await login(req.body)
@@ -73,8 +75,8 @@ router.post('/addproduct', authToken, async (req, res) => {
     }
 })
 
-router.post('/addvarient', fileUpload("products"), async (req, res) => {
-    
+router.post('/addvarient', authToken, fileUpload("products"), async (req, res) => {
+
     try {
         if (req.files) {
             const imagesUrl = req.files.map((data) => {
@@ -87,6 +89,38 @@ router.post('/addvarient', fileUpload("products"), async (req, res) => {
         res.status(200).json({ success: true })
     } catch (error) {
         console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+
+
+})
+
+router.patch('/updatevarient', fileUpload("products"), async (req, res) => {
+    try {
+        if (req.files) {
+            const imagesUrl = req.files.map((data) => {
+                return data.path
+            })
+            req.body.imagesUrl = imagesUrl
+
+        }
+
+        await varientUpdate(req.body)
+        const filesToDelete = req.body.oldImageUrl
+        if (filesToDelete)
+            for (const file of filesToDelete) {
+                const filePath = path.join(__dirname, '../../../../', file);
+                console.log(filePath);
+                if (fs.existsSync(filePath)) {
+                    console.log(filePath);
+                    await fs.promises.unlink(filePath);
+                    console.log(`Deleted file: ${file}`);
+                } else {
+                    console.log(`File not found: ${file}`);
+                }
+            }
+        res.status(200).json({ success: true })
+    } catch (error) {
         res.status(500).json({ "error": "internal server error" })
     }
 
