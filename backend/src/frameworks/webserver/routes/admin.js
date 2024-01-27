@@ -3,7 +3,7 @@ const { login, blockUser, unblockUser, fetchAllUsers } = require('../../../adapt
 const router = express.Router()
 const { ObjectId } = require('mongodb');
 const authToken = require('../../middlewares/adminAuthToken');
-const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate } = require('../../../adapters/controllers/productController');
+const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, allVarientDelete, productDelete } = require('../../../adapters/controllers/productController');
 const fileUpload = require('../../middlewares/fileUpload');
 const path = require('path');
 const fs = require('fs');
@@ -168,6 +168,35 @@ router.patch('/updateproduct', authToken, async (req, res) => {
     } catch (error) {
         res.status(500).json({ "error": "internal server error" })
     }
+
+})
+
+router.delete('/deleteproduct', authToken, async (req, res) => {
+    try {
+        const deleVarients = await productDelete(new ObjectId(req.query.id))
+        console.log(deleVarients);
+        if (deleVarients) {
+            const filesToDelete = deleVarients.flatMap(obj => obj.imagesUrl)
+            if (filesToDelete)
+                for (const file of filesToDelete) {
+                    const filePath = path.join(__dirname, '../../../../', file);
+                    console.log(filePath);
+                    if (fs.existsSync(filePath)) { 
+                        console.log(filePath);
+                        await fs.promises.unlink(filePath);
+                        console.log(`Deleted file: ${file}`); 
+                    } else {
+                        console.log(`File not found: ${file}`);
+                    }
+                }
+            res.status(200).json({ success: true })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+
+
 
 })
 

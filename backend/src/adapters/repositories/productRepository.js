@@ -30,5 +30,12 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    deleteProduct: async (productId) => {
+        const result = await ProductModel.deleteOne({ _id: productId })
+        if (result.matchedCount === 0)
+            return false
+        else
+            return true
     }
 }

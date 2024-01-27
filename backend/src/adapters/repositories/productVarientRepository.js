@@ -45,10 +45,26 @@ module.exports = {
             throw error
         }
     },
-    deleteVarient:async(varientId)=>{
+    deleteVarient: async (varientId) => {
         try {
-              const delDoc=await ProductVarientModel.findOneAndDelete({_id:varientId})
-              return delDoc
+            const delDoc = await ProductVarientModel.findOneAndDelete({ _id: varientId })
+            return delDoc
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
+    },
+    deleteAllVarient: async (productId) => {
+        try {
+            const deleVarients = await ProductVarientModel.find({ productId: productId },{imagesUrl:1,_id:0})
+            const result = await ProductVarientModel.deleteMany({ productId: productId })
+            console.log(deleVarients);
+            console.log(result); 
+            if (result.matchedCount === 0)
+                return null
+            else
+                return deleVarients
+ 
         } catch (error) {
             console.log(error);
             throw error
