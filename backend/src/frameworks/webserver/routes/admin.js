@@ -7,7 +7,7 @@ const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, all
 const fileUpload = require('../../middlewares/fileUpload');
 const path = require('path');
 const fs = require('fs');
-const { categoryAdd, categoryUpdate } = require('../../../adapters/controllers/categoryController');
+const { categoryAdd, categoryUpdate, categoryDelete } = require('../../../adapters/controllers/categoryController');
 router.post('/login', async (req, res) => {
     try {
         const token = await login(req.body)
@@ -214,6 +214,17 @@ router.patch('/updateCategory',authToken, async (req, res) => {
     try {
         req.body.id = new ObjectId(req.body.id)
         await categoryUpdate(req.body)
+        res.status(200).json({ success: true })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+})
+
+router.delete('/deleteCategory',authToken, async (req, res) => {
+    try {
+        const id = new ObjectId(req.query.id)
+        await categoryDelete(id)
         res.status(200).json({ success: true })
     } catch (error) {
         console.log(error);

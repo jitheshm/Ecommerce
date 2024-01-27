@@ -19,5 +19,13 @@ module.exports = {
             console.log("category insertion failed" + error);
             throw error
         }
+    },
+    delete: async (id) => {
+        try {
+            await CategoryModel.deleteOne({ _id: id })
+        } catch (error) {
+            console.log("category deletion failed" + error);
+            throw error
+        }
     }
 }
