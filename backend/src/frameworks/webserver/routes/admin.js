@@ -7,6 +7,7 @@ const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, all
 const fileUpload = require('../../middlewares/fileUpload');
 const path = require('path');
 const fs = require('fs');
+const { categoryAdd, categoryUpdate } = require('../../../adapters/controllers/categoryController');
 router.post('/login', async (req, res) => {
     try {
         const token = await login(req.body)
@@ -181,10 +182,10 @@ router.delete('/deleteproduct', authToken, async (req, res) => {
                 for (const file of filesToDelete) {
                     const filePath = path.join(__dirname, '../../../../', file);
                     console.log(filePath);
-                    if (fs.existsSync(filePath)) { 
+                    if (fs.existsSync(filePath)) {
                         console.log(filePath);
                         await fs.promises.unlink(filePath);
-                        console.log(`Deleted file: ${file}`); 
+                        console.log(`Deleted file: ${file}`);
                     } else {
                         console.log(`File not found: ${file}`);
                     }
@@ -198,6 +199,26 @@ router.delete('/deleteproduct', authToken, async (req, res) => {
 
 
 
+})
+
+router.post('/addcategory', authToken, async (req, res) => {
+    try {
+        await categoryAdd(req.body)
+        res.status(200).json({ success: true })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+})
+router.patch('/updateCategory',authToken, async (req, res) => {
+    try {
+        req.body.id = new ObjectId(req.body.id)
+        await categoryUpdate(req.body)
+        res.status(200).json({ success: true })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
 })
 
 
