@@ -9,6 +9,7 @@ import {
 import Login from './pages/User/Login';
 import Signup from './pages/User/Signup';
 import ProductDetails from './pages/User/ProductDetails';
+import Landing from './pages/User/Landing';
 
 
 
@@ -21,6 +22,10 @@ function App() {
         {
             path:"/signup",
             element:<Signup/>
+        },
+        {
+            path:"/",
+            element:<Landing/>
         },
         {
             path:"/product/:productId/:varientId",
