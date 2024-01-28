@@ -10,6 +10,8 @@ import Login from './pages/User/Login';
 import Signup from './pages/User/Signup';
 import ProductDetails from './pages/User/ProductDetails';
 import Landing from './pages/User/Landing';
+import Sidebar from './components/Admin/Sidebar/Sidebar';
+import Layout from './components/Admin/Layout/Layout';
 
 
 
@@ -30,6 +32,10 @@ function App() {
         {
             path:"/product/:productId/:varientId",
             element:<ProductDetails/>
+        },
+        {
+            path:"/admin",
+            element:<Layout/> 
         }
         
     ])
