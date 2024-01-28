@@ -5,6 +5,7 @@ import Header from './components/User/Header/Header'
 import Login from './components/User/Login/Login'
 import Signup from './components/User/Signup/Signup'
 import OtpVerify from './components/User/Otp/OtpVerify'
+import ProductDetails from './components/User/ProductDetails/ProductDetails'
 
 
 
@@ -14,7 +15,8 @@ function App() {
             <Header />
             {/* <Login/> */}
             {/* <Signup/> */}
-            <OtpVerify/>
+            {/* <OtpVerify/> */}
+            <ProductDetails/>
         </>
     )
 
