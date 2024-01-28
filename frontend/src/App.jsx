@@ -4,6 +4,7 @@ import './assets/bootstrap.min.css'
 import Header from './components/User/Header/Header'
 import Login from './components/User/Login/Login'
 import Signup from './components/User/Signup/Signup'
+import OtpVerify from './components/User/Otp/OtpVerify'
 
 
 
@@ -12,7 +13,8 @@ function App() {
         <>
             <Header />
             {/* <Login/> */}
-            <Signup/>
+            {/* <Signup/> */}
+            <OtpVerify/>
         </>
     )
 
