@@ -1,18 +1,18 @@
 import React from 'react'
 import logo from '../../../assets/logo.png'
-function Header() {
-    return (
+function Header() {  
+    return (  
         <> 
             <header>
                 {/* TOP HEADER */}
-                <div id="top-header">
+                <div id="top-header" className='d-none d-md-block'>
                     <div className="container">
-                        <ul className="header-links pull-left">
+                        <ul className="header-links pull-left ">
                             <li><a href="#"><i className="fa fa-phone" /> +021-95-51-84</a></li>
                             <li><a href="#"><i className="fa fa-envelope-o" /> email@email.com</a></li>
                             <li><a href="#"><i className="fa fa-map-marker" /> 1734 Stonecoal Road</a></li>
                         </ul>
-                        <ul className="header-links pull-right">
+                        <ul className="header-links pull-right ">
                             <li><a href="#"><i className="fa fa-dollar" /> USD</a></li>
                             <li><a href="#"><i className="fa fa-user-o" /> My Account</a></li>
                         </ul>
@@ -35,7 +35,7 @@ function Header() {
                             </div>
                             {/* /LOGO */}
                             {/* SEARCH BAR */}
-                            <div className="col-md-6">
+                            <div className="col-md-6 ">
                                 <div className="header-search">
                                     <form>
                                         <select className="input-select">
@@ -50,7 +50,7 @@ function Header() {
                             </div>
                             {/* /SEARCH BAR */}
                             {/* ACCOUNT */}
-                            <div className="col-md-3  ">
+                            <div className="col-md-3 ">
                                 <div className="header-ctn d-flex">
                                     {/* Wishlist */}
                                     <div>
