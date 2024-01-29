@@ -6,12 +6,10 @@ import {
     RouterProvider,
     useNavigate,
   } from "react-router-dom";
-import Login from './pages/User/Login';
-import Signup from './pages/User/Signup';
-import ProductDetails from './pages/User/ProductDetails';
-import Landing from './pages/User/Landing';
-import Sidebar from './components/Admin/Sidebar/Sidebar';
-import Layout from './components/Admin/Layout/Layout';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import ProductDetails from './pages/ProductDetails';
+import Landing from './pages/Landing';
 
 
 
@@ -33,10 +31,7 @@ function App() {
             path:"/product/:productId/:varientId",
             element:<ProductDetails/>
         },
-        {
-            path:"/admin",
-            element:<Layout/> 
-        }
+        
         
     ])
     return (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Header from '../../components/User/Header/Header'
-import SignupComponent from '../../components/User/Signup/Signup'
-import OtpVerify from '../../components/User/Otp/OtpVerify'
+import Header from '../components/Header/Header'
+import SignupComponent from '../components/Signup/Signup'
+import OtpVerify from '../components/Otp/OtpVerify'
 function Signup() {
     const [verifyOtp, setVerifyOtp] = useState(false)
     return (
