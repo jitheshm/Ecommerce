@@ -9,7 +9,7 @@ const authUser=async(data,userRepository,passwordService,authService)=>{
             const token=await authService.createToken(tokenData)
             console.log(token);
 
-            return token
+            return {token,name:existUser.firstName}
         }
     }
     return null

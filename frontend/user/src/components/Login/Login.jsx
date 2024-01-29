@@ -1,8 +1,45 @@
 import React from 'react'
 import { useState } from 'react'
-
+import instance from '../../axios'
+import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { verify } from '../../features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 function Login() {
-    
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [emailError, setEmailError] = useState(false)
+    const [passwordError, setPasswordError] = useState(false)
+    const dispatch=useDispatch()
+    const navigate=useNavigate()
+    const handleSubmit=()=>{
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            setEmailError(true)
+            return;
+        } else {
+            setEmailError(false)
+        }
+        if (password === "") {
+            setPasswordError(true)
+            return;
+        } else {
+            setPasswordError(false)
+        }
+        instance.post("/user/login", {
+           
+            email,
+            password,
+        }).then((res) => {
+            console.log(res);
+            Cookies.set('token', res.data.token, { expires: 365 })
+            dispatch(verify({ name: res.data.name }))
+            navigate("/")
+           
+        }).catch((err) => {
+            console.log(err);
+        
+        })
+    }
     return (
         <>
             <section className="vh-100 gradient-custom">
@@ -16,16 +53,23 @@ function Login() {
                                         <p className="text-white-50 mb-5">Please enter your login and password!</p>
                                         <div className="form-outline form-white mb-4 ">
                                             <label className="form-label" htmlFor="typeEmailX">Email</label>
-                                            <input type="email" id="typeEmailX" className="form-control form-control-lg " />
+                                            {emailError && <p style={{ color: "red" }}>Please enter a valid email address</p>}
+                                            <input type="email" id="typeEmailX" className="form-control form-control-lg " value={email} onChange={(e) => {
+                                                setEmail(e.target.value)
+
+                                            }} />
 
                                         </div>
                                         <div className="form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typePasswordX">Password</label>
-                                            <input type="password" id="typePasswordX" className="form-control form-control-lg" />
+                                            {passwordError && <p style={{ color: "red" }}>please enter your password</p>}
+                                            <input type="password" id="typePasswordX" className="form-control form-control-lg" value={password} onChange={(e) => {
+                                                setPassword(e.target.value)
+                                            }} />
 
                                         </div>
                                         <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
-                                        <button className="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                                        <button className="btn btn-outline-light btn-lg px-5" type="submit" onClick={handleSubmit}>Login</button>
                                         <div className="d-flex justify-content-center text-center mt-4 pt-1">
                                             <a href="#!" className="text-white"><i className="fab fa-facebook-f fa-lg" /></a>
                                             <a href="#!" className="text-white"><i className="fab fa-twitter fa-lg mx-4 px-2" /></a>

@@ -38,9 +38,9 @@ router.post('/otpverify', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        const token = await loginUser(req.body)
-        if (token) {
-            res.status(200).json({ success: true, token: token })
+        const result = await loginUser(req.body)
+        if (result) {
+            res.status(200).json({ success: true, token: result.token,name:result.name })
         } else {
             res.status(401).json({ error: "email or password is incorrect" })
         }

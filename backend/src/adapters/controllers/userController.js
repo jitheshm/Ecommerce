@@ -67,8 +67,8 @@ module.exports = {
 
     },
     loginUser:async(data)=>{
-        const token= await authUser(data,userRepository,passwordService,authService)
-        return token
+        const result= await authUser(data,userRepository,passwordService,authService)
+        return result
     }
 
 }
