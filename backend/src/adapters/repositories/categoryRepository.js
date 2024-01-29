@@ -27,5 +27,15 @@ module.exports = {
             console.log("category deletion failed" + error);
             throw error
         }
+    },
+    getCategory: async() => {
+        try {
+            const categories=await CategoryModel.find()
+            console.log(categories);
+            return categories
+        } catch (error) {
+            console.log("category fetching failed" + error);
+            throw error
+        }
     }
 }
