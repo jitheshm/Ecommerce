@@ -1,74 +1,10 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-import instance from '../../axios'
-import Cookies from 'js-cookie';
-function ProductForm() {
-    const [productName, setProductName] = useState("")
-    const [brand, setBrand] = useState("")
-    const [category, setCategory] = useState("")
-    const [aboutProduct, setAboutProduct] = useState("")
-    const [isListed, setIsListed] = useState(true)
-    const [waranty, setWaranty] = useState(0)
-    const [availableCategory, setAvailableCategory] = useState([])
-    const [productNameError, setProductNameError] = useState(false)
-    const [brandError, setBrandError] = useState(false)
-    const [categoryError, setCategoryError] = useState(false)
-    const [aboutError, setAboutError] = useState(false)
-   
-
-    useEffect(() => {
-        instance.get('/admin/getcategories', {
-            headers: {
-                Authorization: Cookies.get('token')
-            }
-        }).then((res) => {
-            console.log(res);
-            setAvailableCategory(res.data.data)
-        })
-    }, [])
-
-    const handleSubmit = () => {
-        if (productName.trim() === "") {
-            setProductNameError(true)
-            return;
-        } else {
-            setProductNameError(false)
-        }
-        if (brand.trim() === "") {
-            setBrandError(true)
-            return;
-        } else {
-            setBrandError(false)
-        }
-        if (category.trim() === "") {
-            setCategoryError(true)
-            return;
-        } else {
-            setCategoryError(false)
-        }
-        if (aboutProduct.trim() === "") {
-            setAboutError(true)
-            return;
-        } else {
-            setAboutError(false)
-        }
-        instance.post('admin/addproduct', {
-            productName,
-            brand,
-            category,
-            isListed,
-            aboutProduct,
-            waranty
-        }, {
-            headers: {
-                Authorization: Cookies.get('token')
-            }
-        }).then(() => {
-            console.log("success");
-
-        })
-
-    }
+/* eslint-disable react/prop-types */
+import React from 'react'
+function ProductForm({productName, setProductName, brand, 
+    setBrand, category, setCategory, aboutProduct, setAboutProduct, 
+    isListed, setIsListed, waranty, setWaranty, availableCategory, 
+     productNameError, brandError, categoryError, aboutError, handleSubmit}) {
+    
 
     return (
         <>
