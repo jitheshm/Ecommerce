@@ -1,15 +1,26 @@
 import React from 'react'
 import './ProductSlide.css'
 import ProductCard from '../ProductCard/ProductCard'
+import { useEffect } from 'react'
+import instance from '../../axios'
+import { useState } from 'react'
 
-function ProductSlide() {
+function ProductSlide({ title }) {
+    const [products, setProducts] = useState([])
+    useEffect(() => {
+     instance.get('/user/getproducts').then((res)=>{
+        console.log(res);
+        setProducts(res.data.data)
+     })
+    }, [])
+    
     return (
-        <div className='container-fluid px-5 my-5 '>  
+        <div className='container-fluid px-5 my-5 '>
             <div className="row">
                 <div className="row">
                     <div className="col-md-9">
                         <h3>
-                            Carousel Product Cart Slider</h3>
+                            {title}</h3>
                     </div>
                     <div className="col-md-3">
                         {/* Controls */}
@@ -21,16 +32,18 @@ function ProductSlide() {
                 <div id="carousel-example" className="carousel slide hidden-xs" data-ride="carousel">
                     {/* Wrapper for slides */}
                     <div className="">
-                        
+
                         <div className="item">
                             <div className="d-flex productSlide">
+
+                                {
+                                    products.map((product)=>{
+                                        return <ProductCard key={`${title}_${product._id}`} product={product} />
+                                    })
+                                }
                                 
-                                <ProductCard/> 
-                                <ProductCard/> 
-                                <ProductCard/> 
-                                <ProductCard/> 
-                                <ProductCard/> 
-                               
+                                
+
                             </div>
                         </div>
                     </div>

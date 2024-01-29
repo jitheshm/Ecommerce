@@ -10,6 +10,7 @@ app.use(express.json());
 var cors = require('cors')
 
 app.use(cors()) // Use this after the variable declaration 
+app.use('/public', express.static('public'));
 db.connect()
 
 
