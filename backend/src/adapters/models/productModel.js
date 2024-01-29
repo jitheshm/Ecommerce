@@ -4,7 +4,7 @@ const ProductSchema = new mongoose.Schema({
     productName :{ type: String, required: true },
     brand:{ type: String, required: true },
     categoryId:Schema.ObjectId,
-    aboutProdut:String,   
+    aboutProduct:String,   
     isListed:{ type: Boolean, required: true },
     waranty:Number
 });
