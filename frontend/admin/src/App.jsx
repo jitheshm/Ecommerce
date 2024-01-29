@@ -1,12 +1,24 @@
 import React from 'react'
 import Layout from './components/Layout/Layout'
-import ProductForm from './components/ProductForm/ProductForm'
 
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
+import AddProduct from './pages/AddProduct';
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/addproduct",
+      element: <Layout><AddProduct/></Layout>
+    }
+
+
+  ])
   return (
-   <Layout>
-    <ProductForm/>
-   </Layout>
+
+    <RouterProvider router={router} />
   )
 }
 
