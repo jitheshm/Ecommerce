@@ -2,12 +2,12 @@ import React from 'react'
 import ProductForm from '../components/ProductForm/ProductForm'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import instance from '../axios'
+import instance from '../axios'   
 
 function AddProduct() {
     const [productName, setProductName] = useState("")
     const [brand, setBrand] = useState("")
-    const [category, setCategory] = useState("")
+    const [categoryId, setCategoryId] = useState("")
     const [aboutProduct, setAboutProduct] = useState("")
     const [isListed, setIsListed] = useState(true)
     const [waranty, setWaranty] = useState(0)
@@ -23,8 +23,8 @@ function AddProduct() {
         setProductName,
         brand,
         setBrand,
-        category,
-        setCategory,
+        categoryId,
+        setCategoryId,
         aboutProduct,
         setAboutProduct,
         isListed,
@@ -33,6 +33,7 @@ function AddProduct() {
         setWaranty,
         availableCategory,
         setAvailableCategory,
+        method:'post',
         api:'/admin/addproduct'
     }
     return (

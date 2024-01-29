@@ -37,5 +37,14 @@ module.exports = {
             return false
         else
             return true
+    },
+    getproduct: async (id) => {
+        try {
+            const product = await ProductModel.findOne({ _id: id })
+            return product
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }

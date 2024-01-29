@@ -5,8 +5,8 @@ import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 function ProductForm({ productName, setProductName, brand,
-    setBrand, category, setCategory, aboutProduct, setAboutProduct,
-    isListed, setIsListed, waranty, setWaranty, availableCategory,setAvailableCategory ,api}) {
+    setBrand, categoryId, setCategoryId, aboutProduct, setAboutProduct,
+    isListed, setIsListed, waranty, setWaranty, availableCategory,setAvailableCategory ,api,id,method}) {
     const [productNameError, setProductNameError] = useState(false)
     const [brandError, setBrandError] = useState(false)
     const [categoryError, setCategoryError] = useState(false)
@@ -37,7 +37,7 @@ function ProductForm({ productName, setProductName, brand,
         } else {
             setBrandError(false)
         }
-        if (category.trim() === "") {
+        if (categoryId.trim() === "") {
             setCategoryError(true)
             return;
         } else {
@@ -49,17 +49,23 @@ function ProductForm({ productName, setProductName, brand,
         } else {
             setAboutError(false)
         }
-        instance.post(api, {
-            productName,
-            brand,
-            category,
-            isListed,
-            aboutProduct,
-            waranty
-        }, {
-            headers: {
+        console.log(categoryId);
+        instance.request({
+            method:method,
+            url:api,
+            data:{
+                productName,
+                brand,
+                categoryId,
+                isListed,
+                aboutProduct,
+                waranty,
+                id
+            },
+            headers:{
                 Authorization: Cookies.get('token')
             }
+        
         }).then(() => {
             console.log("success");
 
@@ -98,8 +104,8 @@ function ProductForm({ productName, setProductName, brand,
                 <div data-mdb-input-init className="form-outline mb-4">
                     <label className="form-label" htmlFor="form6Example3">Category</label>
                     {categoryError && <p style={{ color: "red" }}>please select category</p>}
-                    <select className="form-select" aria-label="Default select example" value={category} onChange={(e) => {
-                        setCategory(e.target.value)
+                    <select className="form-select" aria-label="Default select example" value={categoryId} onChange={(e) => {
+                        setCategoryId(e.target.value)
                     }}>
                         <option value="" selected>Select Category</option>
                         {
