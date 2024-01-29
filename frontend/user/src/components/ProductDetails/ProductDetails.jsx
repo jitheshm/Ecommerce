@@ -1,6 +1,21 @@
 import React from 'react'
-
+import { useEffect } from 'react'
+import { useState } from 'react'
+import instance from '../../axios'
+import { useParams } from 'react-router-dom'
+import { BASEURL } from "../../constants/constant.json"
+import noImage from '../../../src/assets/No-Image-Placeholder.png'
 function ProductDetails() {
+    const [product, setProduct] = useState([])
+    const {productId,varientId}=useParams()
+    useEffect(() => {
+     instance.get(`/user/getproductdetails/${varientId}`).then((res)=>{
+        console.log(res.data.data);
+        setProduct(res.data.data)   
+
+     })
+    }, [])
+    
     return (
         <>
             <div>
@@ -10,25 +25,23 @@ function ProductDetails() {
                             <aside className="col-lg-6">
                                 <div className="border rounded-4 mb-3 d-flex justify-content-center">
 
-                                    <img style={{ maxWidth: '100%', maxHeight: '100vh', margin: 'auto' }} className="rounded-4 fit" src="https://rukminim2.flixcart.com/image/416/416/xif0q/mobile/5/y/8/-original-imagtt4mhqrzjs9r.jpeg?q=70&crop=false" />
+                                    <img style={{ maxWidth: '100%', maxHeight: '70vh', margin: 'auto' }} className="rounded-4 fit" src={product[0]?BASEURL + "/" + product[0].imagesUrl[0]:noImage} />
 
                                 </div>
                                 <div className="d-flex justify-content-center mb-3">
-                                    <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" href="">
-                                        <img width={60} height={60} className="rounded-2" src="https://rukminim2.flixcart.com/image/416/416/xif0q/mobile/5/y/8/-original-imagtt4mhqrzjs9r.jpeg?q=70&crop=false" />
+                                    <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" >
+                                        <img width={60} height={60} className="rounded-2" src={product[0]?BASEURL + "/" + product[0].imagesUrl[1]:noImage} />
                                     </a>
-                                    <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" href="">
-                                        <img width={60} height={60} className="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp" />
+                                    <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" >
+                                        <img width={60} height={60} className="rounded-2" src={product[0]?BASEURL + "/" + product[0].imagesUrl[2]:noImage} />
                                     </a>
-                                    <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" href="">
-                                        <img width={60} height={60} className="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp" />
+                                    <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" >
+                                        <img width={60} height={60} className="rounded-2" src={product[0]?BASEURL + "/" + product[0].imagesUrl[3]:noImage} />
                                     </a>
-                                    <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" href="">
-                                        <img width={60} height={60} className="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp" />
+                                    <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" >
+                                        <img width={60} height={60} className="rounded-2" src={product[0]?BASEURL + "/" + product[0].imagesUrl[4]:noImage} />
                                     </a>
-                                    <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" href="">
-                                        <img width={60} height={60} className="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp" />
-                                    </a>
+                                    
                                 </div>
                                 {/* thumbs-wrap.// */}
                                 {/* gallery-wrap .end// */}
