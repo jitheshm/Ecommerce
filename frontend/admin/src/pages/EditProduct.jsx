@@ -2,9 +2,8 @@ import React from 'react'
 import ProductForm from '../components/ProductForm/ProductForm'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import instance from '../axios'
 
-function AddProduct() {
+function EditProduct() {
     const [productName, setProductName] = useState("")
     const [brand, setBrand] = useState("")
     const [category, setCategory] = useState("")
@@ -14,10 +13,9 @@ function AddProduct() {
     const [availableCategory, setAvailableCategory] = useState([])
    
 
-
     
 
-    
+   
     const props={
         productName,
         setProductName,
@@ -33,11 +31,11 @@ function AddProduct() {
         setWaranty,
         availableCategory,
         setAvailableCategory,
-        api:'/admin/addproduct'
+        
     }
     return (
         <ProductForm {...props}/>
     )
 }
 
-export default AddProduct
+export default EditProduct

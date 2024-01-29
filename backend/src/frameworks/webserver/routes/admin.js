@@ -66,7 +66,7 @@ router.get('/getusers', authToken, async (req, res) => {
     }
 })
 
-router.post('/addproduct',authToken, async (req, res) => {
+router.post('/addproduct', async (req, res) => {
     try {
         req.body.categoryId = new ObjectId(req.body.categoryId)
         const proId = await productAdd(req.body)
