@@ -4,6 +4,7 @@ const router = express.Router()
 const { nodemailerEmail, nodemailerPassword } = require('../../config')
 const { ObjectId } = require('mongodb');
 const { getOneVarientPerProduct, getVarientDetail } = require('../../../adapters/controllers/productController');
+const userAuthToken = require('../../middlewares/userAuthToken');
 router.post('/signup', async (req, res) => {
     try {
         const token = await signup(req.body, nodemailerEmail, nodemailerPassword)
@@ -26,7 +27,7 @@ router.post('/otpverify', async (req, res) => {
         const result = await verifyUser(req.body, token)
         if (result) {
             console.log(result);
-            res.json({ success: true, token: result.token,name:result.name})
+            res.json({ success: true, token: result.token, name: result.name })
         }
         else {
             res.json({ "error": "otp is incorrect" })
@@ -40,7 +41,7 @@ router.post('/login', async (req, res) => {
     try {
         const result = await loginUser(req.body)
         if (result) {
-            res.status(200).json({ success: true, token: result.token,name:result.name })
+            res.status(200).json({ success: true, token: result.token, name: result.name })
         } else {
             res.status(401).json({ error: "email or password is incorrect" })
         }
@@ -60,15 +61,19 @@ router.get('/getproducts', async (req, res) => {
     }
 })
 
-router.get('/getproductdetails/:id',async(req,res)=>{
+router.get('/getproductdetails/:id', async (req, res) => {
     try {
-        const id=new ObjectId(req.params.id)
-        const varientDetails=await getVarientDetail(id)
+        const id = new ObjectId(req.params.id)
+        const varientDetails = await getVarientDetail(id)
         res.status(200).json({ success: true, data: varientDetails })
     } catch (error) {
         console.log(error);
         res.status(500).json({ "error": "internal server error" })
     }
+})
+
+router.get('/tokenverify', userAuthToken, (req, res) => {
+    res.status(200).json({ success: true, name: req.user.name })
 })
 
 

@@ -11,10 +11,29 @@ import Signup from './pages/Signup';
 import ProductDetails from './pages/ProductDetails';
 import Landing from './pages/Landing';
 import { store } from './store/store'
-import { Provider } from 'react-redux'
-
+import { Provider, useDispatch } from 'react-redux'
+import { useLayoutEffect } from 'react';
+import Cookies from 'js-cookie';
+import instance from './axios';
+import { verify } from './features/user/userSlice';
 
 function App() {
+    const dispatch = useDispatch()
+    useLayoutEffect(() => {
+        const token = Cookies.get('token')
+        if (token) {
+            instance.get('/user/tokenverify', {
+                headers: {
+                    Authorization: token
+                }
+            }).then((res) => {
+                dispatch(verify({ name: res.data.name }))
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
+
+    }, [])
     const router = createBrowserRouter([
         {
             path: "/login",
@@ -37,9 +56,9 @@ function App() {
     ])
     return (
         <>
-            <Provider store={store}>
-                <RouterProvider router={router} />
-            </Provider>
+
+            <RouterProvider router={router} />
+
         </>
     )
 
