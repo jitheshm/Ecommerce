@@ -66,7 +66,7 @@ router.get('/getusers', authToken, async (req, res) => {
     }
 })
 
-router.post('/addproduct', async (req, res) => {
+router.post('/addproduct',authToken, async (req, res) => {
     try {
         req.body.categoryId = new ObjectId(req.body.categoryId)
         const proId = await productAdd(req.body)
@@ -161,6 +161,7 @@ router.patch('/updateproduct', authToken, async (req, res) => {
 
     try {
         req.body.id = new ObjectId(req.body.id)
+        req.body.categoryId = new ObjectId(req.body.categoryId)
         console.log(req.body);
         const status = await productUpdate(req.body)
         if (status)
