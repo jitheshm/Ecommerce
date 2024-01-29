@@ -7,13 +7,14 @@ function ProductForm() {
     const [brand, setBrand] = useState("")
     const [category, setCategory] = useState("")
     const [aboutProduct, setAboutProduct] = useState("")
+    const [isListed, setIsListed] = useState(true)
     const [waranty, setWaranty] = useState(0)
     const [availableCategory, setAvailableCategory] = useState([])
     const [productNameError, setProductNameError] = useState(false)
     const [brandError, setBrandError] = useState(false)
     const [categoryError, setCategoryError] = useState(false)
     const [aboutError, setAboutError] = useState(false)
-    const [warantyError, setWarantyError] = useState(false)
+   
 
     useEffect(() => {
         instance.get('/admin/getcategories', {
@@ -31,39 +32,40 @@ function ProductForm() {
             setProductNameError(true)
             return;
         } else {
-            setProductNameError(true)
+            setProductNameError(false)
         }
         if (brand.trim() === "") {
             setBrandError(true)
             return;
         } else {
-            setBrandError(true)
+            setBrandError(false)
         }
         if (category.trim() === "") {
             setCategoryError(true)
             return;
         } else {
-            setCategoryError(true)
+            setCategoryError(false)
         }
         if (aboutProduct.trim() === "") {
             setAboutError(true)
             return;
         } else {
-            setAboutError(true)
+            setAboutError(false)
         }
-        instance.post('admin/addproduct',{
+        instance.post('admin/addproduct', {
             productName,
             brand,
             category,
+            isListed,
             aboutProduct,
             waranty
-        } ,{
+        }, {
             headers: {
                 Authorization: Cookies.get('token')
             }
-        }).then(()=>{
+        }).then(() => {
             console.log("success");
-        
+
         })
 
     }
@@ -78,6 +80,7 @@ function ProductForm() {
                     <div className="col ">
                         <div data-mdb-input-init className="form-outline">
                             <label className="form-label" htmlFor="form6Example1">Product name</label>
+                            {productNameError && <p style={{ color: "red" }}>please enter product name</p>}
                             <input type="text" id="form6Example1" className="form-control" value={productName} onChange={(e) => {
                                 setProductName(e.target.value)
                             }} />
@@ -87,6 +90,7 @@ function ProductForm() {
                     <div className="col">
                         <div data-mdb-input-init className="form-outline">
                             <label className="form-label" htmlFor="form6Example2">Brand name</label>
+                            {brandError && <p style={{ color: "red" }}>please enter brand name</p>}
                             <input type="text" id="form6Example2" className="form-control" value={brand} onChange={(e) => {
                                 setBrand(e.target.value)
                             }} />
@@ -97,6 +101,7 @@ function ProductForm() {
                 {/* Text input */}
                 <div data-mdb-input-init className="form-outline mb-4">
                     <label className="form-label" htmlFor="form6Example3">Category</label>
+                    {categoryError && <p style={{ color: "red" }}>please select category</p>}
                     <select className="form-select" aria-label="Default select example" value={category} onChange={(e) => {
                         setCategory(e.target.value)
                     }}>
@@ -123,11 +128,21 @@ function ProductForm() {
                 {/* Message input */}
                 <div data-mdb-input-init className="form-outline mb-4">
                     <label className="form-label" htmlFor="form6Example7">Description</label>
+                    {aboutError && <p style={{ color: "red" }}>please enter description</p>}
                     <textarea className="form-control" id="form6Example7" rows={4} value={aboutProduct} onChange={(e) => {
                         setAboutProduct(e.target.value)
                     }} />
 
                 </div>
+                <select className="form-select mb-3" aria-label="Default select example" value={isListed} onChange={(e) => {
+                    setIsListed(e.target.value)
+                }}>
+
+                    <option selected value={true}>Listed</option>
+                    <option value={false}>Not Listed</option>
+
+                </select>
+
                 <div data-mdb-input-init className="form-outline mb-4">
                     <label className="form-label" htmlFor="form6Example3">Waranty</label>
                     <input type="number" id="form6Example3" className="form-control" value={waranty} onChange={(e) => {

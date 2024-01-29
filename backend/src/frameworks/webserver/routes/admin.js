@@ -66,8 +66,9 @@ router.get('/getusers', authToken, async (req, res) => {
     }
 })
 
-router.post('/addproduct', authToken, async (req, res) => {
+router.post('/addproduct', async (req, res) => {
     try {
+        req.body.categoryId = new ObjectId(req.body.categoryId)
         const proId = await productAdd(req.body)
         res.status(200).json({ success: true })
     } catch (error) {
@@ -231,7 +232,7 @@ router.delete('/deleteCategory', authToken, async (req, res) => {
         res.status(500).json({ "error": "internal server error" })
     }
 })
-router.get('/getcategories', async(req, res) => {
+router.get('/getcategories', async (req, res) => {
     try {
         const result = await getCategory()
         res.status(200).json({ success: true, data: result })
