@@ -46,5 +46,16 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    getAll:async()=>{
+        try {
+            const products=await ProductModel.find()
+            return products
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
+    
+
 }

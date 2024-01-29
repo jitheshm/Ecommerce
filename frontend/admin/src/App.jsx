@@ -9,6 +9,7 @@ import {
 import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
 import AddVarient from './pages/AddVarient';
+import ListProducts from './pages/ListProducts';
 function App() {
   const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ function App() {
     {
       path: "/addvarient/:proId",
       element: <Layout><AddVarient/></Layout>
+    },
+    {
+      path: "/products",
+      element: <Layout><ListProducts/></Layout>
     }
 
 
