@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
+import AddVarient from './pages/AddVarient';
 function App() {
   const router = createBrowserRouter([
     {
@@ -17,6 +18,10 @@ function App() {
     {
       path: "/editproduct/:id",
       element: <Layout><EditProduct/></Layout>
+    },
+    {
+      path: "/addvarient/:proId",
+      element: <Layout><AddVarient/></Layout>
     }
 
 

@@ -77,7 +77,7 @@ router.post('/addproduct', async (req, res) => {
     }
 })
 
-router.post('/addvarient', authToken, fileUpload("products"), async (req, res) => {
+router.post('/addvarient',  fileUpload("products"), async (req, res) => {
 
     try {
         if (req.files) {
@@ -97,7 +97,7 @@ router.post('/addvarient', authToken, fileUpload("products"), async (req, res) =
 
 })
 
-router.patch('/updatevarient', authToken, fileUpload("products"), async (req, res) => {
+router.patch('/updatevarient',  fileUpload("products"), async (req, res) => {
     try {
         if (req.files) {
             const imagesUrl = req.files.map((data) => {
