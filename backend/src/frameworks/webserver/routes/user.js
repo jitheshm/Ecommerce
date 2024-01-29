@@ -23,9 +23,10 @@ router.post('/otpverify', async (req, res) => {
     try {
         const token = req.header('Authorization');
         //userId=new ObjectId(req.body.id)
-        const newToken = await verifyUser(req.body, token)
-        if (newToken) {
-            res.json({ success: true, token: newToken })
+        const result = await verifyUser(req.body, token)
+        if (result) {
+            console.log(result);
+            res.json({ success: true, token: result.token,name:result.name})
         }
         else {
             res.json({ "error": "otp is incorrect" })

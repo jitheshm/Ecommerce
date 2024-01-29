@@ -8,7 +8,7 @@ function Signup() {
         <>
             <Header />
             {
-                verifyOtp ? <OtpVerify /> : <SignupComponent />
+                verifyOtp ? <OtpVerify /> : <SignupComponent setVerifyOtp={setVerifyOtp} />
             }
            
         </>

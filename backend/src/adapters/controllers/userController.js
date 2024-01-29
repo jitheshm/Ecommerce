@@ -58,8 +58,8 @@ module.exports = {
                     role:"user",
                     isVerified:true
                 }
-                const token=authService.createToken(tokenData)
-                return token
+                const token=await authService.createToken(tokenData)
+                return {token,name:userData.name}
             }
             return null
         }

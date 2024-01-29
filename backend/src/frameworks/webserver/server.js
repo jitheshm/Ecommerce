@@ -7,6 +7,9 @@ const adminRouter=require('./routes/admin')
 const app = express()
 app.use(logger('dev'));
 app.use(express.json());
+var cors = require('cors')
+
+app.use(cors()) // Use this after the variable declaration 
 db.connect()
 
 
