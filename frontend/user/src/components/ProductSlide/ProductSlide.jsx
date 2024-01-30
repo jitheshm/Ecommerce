@@ -18,16 +18,22 @@ function ProductSlide({ title }) {
         <>
             <div className='container-fluid mb-5 '> 
                 <div className='ms-4'>
-                    <h3><b style={{color:"black"}}>Flash sale</b></h3>
+                    <h3><b style={{color:"black"}}>{title}</b></h3> 
                     <hr style={{borderColor:"black"}} />
                 </div>
                 <div className=' m-md-5 d-flex gap-md-5 ms-4 slidebar '>
+                   {
+                     
+                     products.map((product)=>{
+                        return <ProductCard product={product}/> 
+                    })
+                   }
                     
+
+                    {/* <ProductCard/> 
                     <ProductCard/> 
                     <ProductCard/> 
-                    <ProductCard/> 
-                    <ProductCard/> 
-                    <ProductCard/> 
+                    <ProductCard/>  */}
                      
                     
                     

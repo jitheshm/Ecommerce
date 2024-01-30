@@ -7,10 +7,10 @@ function Landing() {
    <>
    <Header/>
    
-   <ProductSlide/>
-   <ProductSlide/>
-   <ProductSlide/>
-   <ProductSlide/>
+   <ProductSlide title="Flash sale" />
+   <ProductSlide title="Trending"/>
+   <ProductSlide title="Smart phone"/>
+  
    </>
   )
 }
