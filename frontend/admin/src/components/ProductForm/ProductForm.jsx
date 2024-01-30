@@ -4,14 +4,15 @@ import { useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 function ProductForm({ productName, setProductName, brand,
     setBrand, categoryId, setCategoryId, aboutProduct, setAboutProduct,
-    isListed, setIsListed, waranty, setWaranty, availableCategory,setAvailableCategory ,api,id,method}) {
+    isListed, setIsListed, waranty, setWaranty, availableCategory, setAvailableCategory, api, id, method }) {
     const [productNameError, setProductNameError] = useState(false)
     const [brandError, setBrandError] = useState(false)
     const [categoryError, setCategoryError] = useState(false)
     const [aboutError, setAboutError] = useState(false)
-
+    const navigate = useNavigate()
 
     useEffect(() => {
         instance.get('/admin/getcategories', {
@@ -51,9 +52,9 @@ function ProductForm({ productName, setProductName, brand,
         }
         console.log(categoryId);
         instance.request({
-            method:method,
-            url:api,
-            data:{
+            method: method,
+            url: api,
+            data: {
                 productName,
                 brand,
                 categoryId,
@@ -62,12 +63,13 @@ function ProductForm({ productName, setProductName, brand,
                 waranty,
                 id
             },
-            headers:{
+            headers: {
                 Authorization: Cookies.get('token')
             }
-        
+
         }).then(() => {
             console.log("success");
+            navigate('/products')
 
         })
 

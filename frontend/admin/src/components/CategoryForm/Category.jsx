@@ -4,9 +4,10 @@ import { useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 function CategoryForm({category, setCategory,api,method,id,title,btnName}) { 
     const [categoryNameError, setCategoryNameError] = useState(false)
-    
+    const navigate=useNavigate()
 
 
    
@@ -34,6 +35,7 @@ function CategoryForm({category, setCategory,api,method,id,title,btnName}) {
         
         }).then(() => {
             console.log("success");
+            navigate('/category')
 
         })
 
