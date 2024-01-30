@@ -1,9 +1,9 @@
 class Product{
-    constructor({productName,brand,categoryId,aboutProdut,isListed,waranty}){
+    constructor({productName,brand,categoryId,aboutProduct,isListed,waranty}){
         this.productName=productName
         this.brand=brand
         this.categoryId=categoryId
-        this.aboutProdut=aboutProdut
+        this.aboutProduct=aboutProduct
         this.isListed=isListed
         this.waranty=waranty
             
