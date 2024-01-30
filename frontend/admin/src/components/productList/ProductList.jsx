@@ -40,7 +40,7 @@ function ProductList() {
                         <th scope="col">Name</th>
                         <th scope="col">Brand</th>
                         <th scope="col">Category</th>
-                        <th scope="col">About</th>
+                        <th scope="col-3">About</th>
                         <th scope="col">Islisted</th>
                         <th scope="col">Actions</th>
 
@@ -56,7 +56,7 @@ function ProductList() {
                                     <td>{product.productName}</td>
                                     <td>{product.brand}</td>
                                     <td>{product.categoryId}</td>
-                                    <td>{product.aboutProduct}</td>
+                                    <td className='col-3'>{product.aboutProduct}</td>
                                     <td>{product.isListed ? <p>listed</p> : <p>not listed</p>}</td>
                                     <td>
                                         <Link to={`/editproduct/${product._id}`}>edit</Link>

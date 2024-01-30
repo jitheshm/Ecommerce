@@ -53,7 +53,7 @@ function EditProduct() {
         id
     }
     return (
-        <ProductForm {...props} />
+        <ProductForm {...props} title="Edit product details" btnName="Update Product" />
     )
 }
 

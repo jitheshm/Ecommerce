@@ -3,6 +3,7 @@ import './Sidebar.css'
 import { logout } from '../../features/admin/adminSlice'
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
   
 function Sidebar() {
     const dispatch = useDispatch() 
@@ -76,50 +77,36 @@ function Sidebar() {
                                 <svg className="bi me-2" width={40} height={32}> 
                                     <use xlinkHref="#bootstrap" />
                                 </svg>
-                                <span className="fs-4">Sidebar</span>
+                                <span className="fs-4">Admin panel</span>
                             </a>
                             <hr />
                             <ul className="nav nav-pills flex-column mb-auto">
                                 <li className="nav-item mb-2">
-                                    <a href="#" className="nav-link active" aria-current="page">
+                                    <Link to={'/products'} className="nav-link " aria-current="page">
                                         <svg className="bi me-2" width={16} height={16}>
                                             <use xlinkHref="#home" />
                                         </svg>
-                                        Home
-                                    </a>
+                                        products
+                                    </Link>
                                 </li>
                                 <li className='mb-2'>
-                                    <a href="#" className="nav-link text-white">
+                                    <Link to={'/users'} className="nav-link text-white">
                                         <svg className="bi me-2" width={16} height={16}>
                                             <use xlinkHref="#speedometer2" />
                                         </svg>
-                                        Dashboard
-                                    </a>
+                                       Users
+                                    </Link>
                                 </li>
                                 <li className='mb-2'>
-                                    <a href="#" className="nav-link text-white">
+                                    <Link to={'/category'} className="nav-link text-white">
                                         <svg className="bi me-2" width={16} height={16}>
                                             <use xlinkHref="#table" />
                                         </svg>
-                                        Orders
-                                    </a>
+                                        Category
+                                    </Link>
                                 </li>
-                                <li className='mb-2'>
-                                    <a href="#" className="nav-link text-white">
-                                        <svg className="bi me-2" width={16} height={16}>
-                                            <use xlinkHref="#grid" />
-                                        </svg>
-                                        Products
-                                    </a>
-                                </li>
-                                <li className='mb-2'>
-                                    <a href="#" className="nav-link text-white">
-                                        <svg className="bi me-2" width={16} height={16}>
-                                            <use xlinkHref="#people-circle" />
-                                        </svg>
-                                        Customers
-                                    </a>
-                                </li>
+                                
+                                
                             </ul>
                             <hr />
                             <div className="dropdown">

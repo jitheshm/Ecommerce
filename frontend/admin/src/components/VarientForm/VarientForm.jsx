@@ -2,11 +2,12 @@ import React from 'react'
 import img from '../../assets/No-Image-Placeholder.png'
 import instance from '../../axios';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 function VarientForm({ stock, setStock, price, setPrice, cost, setCost, color, setColor,
   image1, setImage1, image2, setImage2, image3, setImage3, image4, setImage4, method, api,
   imagePre1, setImagePre1, imagePre2, setImagePre2, imagePre3, setImagePre3, imagePre4, setImagePre4, proId,id}) {
-  
+  const navigate=useNavigate()
     const handleImage1Change = (e) => {
     setImage1(e.target.files[0]);
     let file = e.target.files[0]
@@ -101,6 +102,7 @@ function VarientForm({ stock, setStock, price, setPrice, cost, setCost, color, s
   
   }).then(() => {
       console.log("success");
+      navigate('/products')
 
   })
 

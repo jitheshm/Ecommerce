@@ -37,7 +37,7 @@ function AddProduct() {
         api:'/admin/addproduct'
     }
     return (
-        <ProductForm {...props}/>
+        <ProductForm {...props} title="Enter product details" btnName="Add product"/>
     )
 }
 

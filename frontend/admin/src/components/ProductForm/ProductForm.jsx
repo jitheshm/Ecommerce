@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 function ProductForm({ productName, setProductName, brand,
     setBrand, categoryId, setCategoryId, aboutProduct, setAboutProduct,
-    isListed, setIsListed, waranty, setWaranty, availableCategory, setAvailableCategory, api, id, method }) {
+    isListed, setIsListed, waranty, setWaranty, availableCategory, setAvailableCategory, api, id, method ,title,btnName}) {
     const [productNameError, setProductNameError] = useState(false)
     const [brandError, setBrandError] = useState(false)
     const [categoryError, setCategoryError] = useState(false)
@@ -79,7 +79,7 @@ function ProductForm({ productName, setProductName, brand,
 
             <form className='container-fluid mt-5 p-5 col-8 text-white'>
                 {/* 2 column grid layout with text inputs for the first and last names */}
-                <h3 className='mb-5 text-center'>Enter product details</h3>
+                <h3 className='mb-5 text-center'>{title}</h3>
                 <div className="row mb-4">
                     <div className="col ">
                         <div data-mdb-input-init className="form-outline">
@@ -155,7 +155,7 @@ function ProductForm({ productName, setProductName, brand,
 
                 </div>
                 {/* Submit button */}
-                <button data-mdb-ripple-init type="button" className="btn btn-primary btn-block mb-4" onClick={handleSubmit}>Add product </button>
+                <button data-mdb-ripple-init type="button" className="btn btn-primary btn-block mb-4" onClick={handleSubmit}>{btnName} </button>
             </form>
 
         </>

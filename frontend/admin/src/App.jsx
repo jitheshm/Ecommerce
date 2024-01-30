@@ -34,6 +34,7 @@ function App() {
                 setloading(false)
             }).catch((err) => {
                 console.log(err);
+                setloading(false)
             })
         }else{
           setloading(false)
