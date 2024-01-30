@@ -1,16 +1,19 @@
 import React from 'react'
 import Sidebar from '../Sidebar/Sidebar'
 import Navbar from '../Navbar/Navbar'
+import Auth from '../Auth/Auth'
 
-function Layout({children}) {
+function Layout({ children }) {
     return (
-        <div className='d-flex '>
-            <Sidebar />
-            <div className='col-10'>
-                <Navbar />
-                {children}
+        <Auth>
+            <div className='d-flex '>
+                <Sidebar />
+                <div className='col-10'>
+                    <Navbar />
+                    {children}
+                </div>
             </div>
-        </div>
+        </Auth>
     )
 }
 

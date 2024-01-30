@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import Layout from './components/Layout/Layout'
 
 import {
@@ -11,7 +11,30 @@ import EditProduct from './pages/EditProduct';
 import AddVarient from './pages/AddVarient';
 import ListProducts from './pages/ListProducts';
 import ListUsers from './pages/ListUsers';
+import Login from './pages/Login';
+import { useDispatch } from 'react-redux';
+import instance from './axios';
+import { verify } from './features/admin/adminSlice';
+import Cookies from 'js-cookie';
 function App() {
+
+  const dispatch = useDispatch()
+    useLayoutEffect(() => {
+        const token = Cookies.get('token')
+        if (token) {
+            instance.get('/admin/tokenverify', {
+                headers: {
+                    Authorization: token
+                }
+            }).then((res) => {
+                dispatch(verify())
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
+
+    }, [])
+
   const router = createBrowserRouter([
     {
       path: "/addproduct",
@@ -32,6 +55,10 @@ function App() {
     {
       path: "/users",
       element: <Layout><ListUsers/></Layout>
+    },
+    {
+      path:"/login",
+      element:<Login/>
     }
 
 

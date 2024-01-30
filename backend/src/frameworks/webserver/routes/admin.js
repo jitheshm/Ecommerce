@@ -56,7 +56,7 @@ router.get('/unblockuser', authToken, async (req, res) => {
 
 })
 
-router.get('/getusers',  async (req, res) => {
+router.get('/getusers', async (req, res) => {
     try {
         const users = await fetchAllUsers()
         res.status(200).json({ success: true, data: users })
@@ -174,7 +174,7 @@ router.patch('/updateproduct', async (req, res) => {
 
 })
 
-router.delete('/deleteproduct',  async (req, res) => {
+router.delete('/deleteproduct', async (req, res) => {
     try {
         const deleVarients = await productDelete(new ObjectId(req.query.id))
         console.log(deleVarients);
@@ -259,6 +259,14 @@ router.get('/products', async (req, res) => {
     try {
         const result = await getAllProducts()
         res.status(200).json({ success: true, data: result })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+})
+router.get('/tokenverify', authToken, (req, res) => {
+    try {
+        res.status(200).json({ success: true })
     } catch (error) {
         console.log(error);
         res.status(500).json({ "error": "internal server error" })

@@ -1,6 +1,11 @@
 import React from 'react'
 import './Sidebar.css'
+import { logout } from '../../features/admin/adminSlice'
+import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+  
 function Sidebar() {
+    const dispatch = useDispatch() 
     return (
         <>
             <div className='col-2 side '> 
@@ -119,17 +124,18 @@ function Sidebar() {
                             <hr />
                             <div className="dropdown">
                                 <a href="#" className="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://github.com/mdo.png" alt width={32} height={32} className="rounded-circle me-2" />
-                                    <strong>mdo</strong>
+                                   
+                                    <strong>Admin</strong>
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                                    <li><a className="dropdown-item" href="#">New project...</a></li>
-                                    <li><a className="dropdown-item" href="#">Settings</a></li>
-                                    <li><a className="dropdown-item" href="#">Profile</a></li>
+                                   
                                     <li>
                                         <hr className="dropdown-divider" />
                                     </li>
-                                    <li><a className="dropdown-item" href="#">Sign out</a></li>
+                                    <li><button className="dropdown-item" onClick={()=>{
+                                        Cookies.remove('token');
+                                        dispatch(logout())
+                                    }} >Logout</button></li>
                                 </ul>
                             </div>
                         </div>
