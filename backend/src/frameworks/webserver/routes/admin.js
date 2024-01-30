@@ -56,7 +56,7 @@ router.get('/unblockuser', authToken, async (req, res) => {
 
 })
 
-router.get('/getusers', async (req, res) => {
+router.get('/getusers',authToken, async (req, res) => {
     try {
         const users = await fetchAllUsers()
         res.status(200).json({ success: true, data: users })
@@ -66,7 +66,7 @@ router.get('/getusers', async (req, res) => {
     }
 })
 
-router.post('/addproduct', async (req, res) => {
+router.post('/addproduct',authToken, async (req, res) => {
     try {
         req.body.categoryId = new ObjectId(req.body.categoryId)
         const proId = await productAdd(req.body)
@@ -77,7 +77,7 @@ router.post('/addproduct', async (req, res) => {
     }
 })
 
-router.post('/addvarient', fileUpload("products"), async (req, res) => {
+router.post('/addvarient',authToken, fileUpload("products"), async (req, res) => {
 
     try {
         if (req.files) {
@@ -97,7 +97,7 @@ router.post('/addvarient', fileUpload("products"), async (req, res) => {
 
 })
 
-router.patch('/updatevarient', fileUpload("products"), async (req, res) => {
+router.patch('/updatevarient',authToken, fileUpload("products"), async (req, res) => {
     try {
         if (req.files) {
             const imagesUrl = req.files.map((data) => {
@@ -157,7 +157,7 @@ router.delete('/deletevarient', authToken, async (req, res) => {
 })
 
 
-router.patch('/updateproduct', async (req, res) => {
+router.patch('/updateproduct',authToken, async (req, res) => {
 
     try {
         req.body.id = new ObjectId(req.body.id)
@@ -174,7 +174,7 @@ router.patch('/updateproduct', async (req, res) => {
 
 })
 
-router.delete('/deleteproduct', async (req, res) => {
+router.delete('/deleteproduct',authToken, async (req, res) => {
     try {
         const deleVarients = await productDelete(new ObjectId(req.query.id))
         console.log(deleVarients);
@@ -233,7 +233,7 @@ router.delete('/deleteCategory', authToken, async (req, res) => {
         res.status(500).json({ "error": "internal server error" })
     }
 })
-router.get('/getcategories', async (req, res) => {
+router.get('/getcategories',authToken, async (req, res) => {
     try {
         const result = await getCategory()
         res.status(200).json({ success: true, data: result })
@@ -242,7 +242,7 @@ router.get('/getcategories', async (req, res) => {
         res.status(500).json({ "error": "internal server error" })
     }
 })
-router.get('/getcategory/:id', async (req, res) => {
+router.get('/getcategory/:id',authToken, async (req, res) => {
     try {
         const id=new ObjectId(req.params.id)
         const result = await getSpecificCategory(id)
@@ -253,7 +253,7 @@ router.get('/getcategory/:id', async (req, res) => {
     }
 })
 
-router.get('/editProduct/:id', async (req, res) => {
+router.get('/editProduct/:id',authToken, async (req, res) => {
     try {
         const id = new ObjectId(req.params.id)
         const result = await editProduct(id)
@@ -265,7 +265,7 @@ router.get('/editProduct/:id', async (req, res) => {
 
 })
 
-router.get('/products', async (req, res) => {
+router.get('/products',authToken, async (req, res) => {
     try {
         const result = await getAllProducts()
         res.status(200).json({ success: true, data: result })
