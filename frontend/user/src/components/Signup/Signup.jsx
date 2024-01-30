@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
 function Signup({setVerifyOtp}) {
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -123,7 +124,7 @@ function Signup({setVerifyOtp}) {
 
                                     </div>
                                     <div>
-                                        <p className="mb-0">Already have an account? <a href="#!" className="text-white-50 fw-bold">Sign in</a>
+                                        <p className="mb-0">Already have an account? <Link to={'/login'} className="text-white-50 fw-bold">Sign in</Link>
                                         </p>
                                     </div>
                                 </div>

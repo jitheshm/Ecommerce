@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { verify } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
+
 function OtpVerify() {
     const [otp, setOtp] = useState("")
     const [otpError, setOtpError] = useState(false)

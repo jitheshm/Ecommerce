@@ -1,12 +1,15 @@
 import React from 'react'
 import logo from '../../assets/logo.png' 
+import { useSelector} from 'react-redux'
+import { Link } from 'react-router-dom';
 function Header() {  
+    const {verified}=useSelector((state)=>state.user)
     return (  
         <> 
             <header>
                 {/* TOP HEADER */}
                 <div id="top-header" className='d-none d-md-block'>
-                    <div className="container">
+                    <div className="container">  
                         <ul className="header-links pull-left ">
                             <li><a href="#"><i className="fa fa-phone" /> +021-95-51-84</a></li>
                             <li><a href="#"><i className="fa fa-envelope-o" /> email@email.com</a></li>
@@ -14,7 +17,11 @@ function Header() {
                         </ul>
                         <ul className="header-links pull-right ">
                             <li><a href="#"><i className="fa fa-dollar" /> USD</a></li>
-                            <li><a href="#"><i className="fa fa-user-o" /> My Account</a></li>
+                            {
+                                verified?<li><button className='btn text-white'><i className="fa fa-user-o" /> Logout</button></li>: <li><Link to={'/login'} className='btn text-white'><i className="fa fa-user-o" /> LogIn</Link></li>
+                            }
+                           
+                            
                         </ul>
                     </div>
                 </div>
