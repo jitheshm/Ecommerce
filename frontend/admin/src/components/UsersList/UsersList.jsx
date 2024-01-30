@@ -76,7 +76,7 @@ function UsersList() {
                                         }}>block</button>
                                         <button onClick={() => {
                                             handleUnblock(user._id)
-                                        }}>block</button>
+                                        }}>unblock</button>
 
                                        
 

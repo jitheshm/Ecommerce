@@ -11,6 +11,7 @@ function Login() {
     const [password, setPassword] = useState("")
     const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
+    const [loginError, setLoginError] = useState(false)
     const dispatch=useDispatch()
     const navigate=useNavigate()
     const handleSubmit=()=>{
@@ -38,6 +39,7 @@ function Login() {
            
         }).catch((err) => {
             console.log(err);
+            setLoginError(true)
         
         })
     }
@@ -51,6 +53,9 @@ function Login() {
                                 <div className="card-body p-md-5 text-center">
                                     <div className="mb-md-5 mt-md-4 pb-5 px-5">
                                         <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
+                                        {
+                                            loginError && <p style={{ color: "red" }}>Invalid email or password</p>
+                                        }
                                         <p className="text-white-50 mb-5">Please enter your login and password!</p>
                                         <div className="form-outline form-white mb-4 ">
                                             <label className="form-label" htmlFor="typeEmailX">Email</label>
