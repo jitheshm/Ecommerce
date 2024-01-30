@@ -6,7 +6,10 @@ function Landing() {
   return (
    <>
    <Header/>
-   <ProductSlide title="Flash Sale"/>
+   
+   <ProductSlide/>
+   <ProductSlide/>
+   <ProductSlide/>
    <ProductSlide/>
    </>
   )

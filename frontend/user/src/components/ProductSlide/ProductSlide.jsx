@@ -15,42 +15,84 @@ function ProductSlide({ title }) {
     }, [])
 
     return (
-        <div className='container-fluid px-5 my-5 '>
-            <div className="row">
-                <div className="row">
-                    <div className="col-md-9">
-                        <h3>
-                            {title}</h3>
-                    </div>
-                    <div className="col-md-3">
-                        {/* Controls */}
-                        <div className="controls pull-right ">
-                            <a className="left fa fa-chevron-left btn btn-success" href="#carousel-example" data-slide="prev" /><a className="right fa fa-chevron-right btn btn-success" href="#carousel-example" data-slide="next" />
-                        </div>
-                    </div>
+        <>
+            <div className='container-fluid mb-5 '> 
+                <div className='ms-4'>
+                    <h3><b style={{color:"black"}}>Flash sale</b></h3>
+                    <hr style={{borderColor:"black"}} />
                 </div>
-                <div id="carousel-example" className="carousel slide " data-ride="carousel">
-                    {/* Wrapper for slides */}
-                    <div className="">
-
-                        <div className="item">
-
-                            <div className="d-flex productSlide">
-                                
-                                {
-                                    products.map((product) => {
-                                        return <ProductCard key={`${title}_${product._id}`} product={product} />
-                                    })
-                                }
-
-
-
-                            </div>
+                <div className=' m-md-5 d-flex gap-md-5 ms-4 slidebar '>
+                    
+                    <div className="card col-5 col-md-2 mt-5 mt-md-0 mx-2" >
+                        <div className='p-3'>
+                            <img className="card-img-top" src="https://rukminim2.flixcart.com/image/416/416/xif0q/mobile/b/i/x/-original-imagt4qptrkzwmxa.jpeg?q=70&crop=false" alt="Card image cap" />
                         </div>
-                    </div>
+                        <div className="card-body">
+                            <h5 className="card-title "><b>Realme 9 pro plus</b></h5>
+                            
+                            <p className="card-text mt-2"><b>₹ 19,999</b> <b style={{color:"green"}}>20% OFF</b></p>
+                        </div>
+                    </div> 
+                    <div className="card col-5 col-md-2 mt-5 mt-md-0 mx-2" >
+                        <div className='p-3'>
+                            <img className="card-img-top" src="https://rukminim2.flixcart.com/image/416/416/xif0q/mobile/b/i/x/-original-imagt4qptrkzwmxa.jpeg?q=70&crop=false" alt="Card image cap" />
+                        </div>
+                        <div className="card-body">
+                            <h5 className="card-title "><b>Realme 9 pro plus</b></h5>
+                            
+                            <p className="card-text mt-2"><b>₹ 19,999</b> <b style={{color:"green"}}>20% OFF</b></p>
+                        </div>
+                    </div> 
+                    <div className="card col-5 col-md-2 mt-5 mt-md-0 mx-2" >
+                        <div className='p-3'>
+                            <img className="card-img-top" src="https://rukminim2.flixcart.com/image/416/416/xif0q/mobile/b/i/x/-original-imagt4qptrkzwmxa.jpeg?q=70&crop=false" alt="Card image cap" />
+                        </div>
+                        <div className="card-body">
+                            <h5 className="card-title "><b>Realme 9 pro plus</b></h5>
+                            
+                            <p className="card-text mt-2"><b>₹ 19,999</b> <b style={{color:"green"}}>20% OFF</b></p>
+                        </div>
+                    </div> 
+                    <div className="card col-5 col-md-2 mt-5 mt-md-0 mx-2" >
+                        <div className='p-3'>
+                            <img className="card-img-top" src="https://rukminim2.flixcart.com/image/416/416/xif0q/mobile/b/i/x/-original-imagt4qptrkzwmxa.jpeg?q=70&crop=false" alt="Card image cap" />
+                        </div>
+                        <div className="card-body">
+                            <h5 className="card-title "><b>Realme 9 pro plus</b></h5>
+                            
+                            <p className="card-text mt-2"><b>₹ 19,999</b> <b style={{color:"green"}}>20% OFF</b></p>
+                        </div>
+                    </div> 
+                    <div className="card col-5 col-md-2 mt-5 mt-md-0 mx-2" >
+                        <div className='p-3'>
+                            <img className="card-img-top" src="https://rukminim2.flixcart.com/image/416/416/xif0q/mobile/b/i/x/-original-imagt4qptrkzwmxa.jpeg?q=70&crop=false" alt="Card image cap" />
+                        </div>
+                        <div className="card-body">
+                            <h5 className="card-title "><b>Realme 9 pro plus</b></h5>
+                            
+                            <p className="card-text mt-2"><b>₹ 19,999</b> <b style={{color:"green"}}>20% OFF</b></p>
+                        </div>
+                    </div> 
+                    <div className="card col-5 col-md-2 mt-5 mt-md-0 mx-2" >
+                        <div className='p-3'>
+                            <img className="card-img-top" src="https://rukminim2.flixcart.com/image/416/416/xif0q/mobile/b/i/x/-original-imagt4qptrkzwmxa.jpeg?q=70&crop=false" alt="Card image cap" />
+                        </div>
+                        <div className="card-body">
+                            <h5 className="card-title "><b>Realme 9 pro plus</b></h5>
+                            
+                            <p className="card-text mt-2"><b>₹ 19,999</b> <b style={{color:"green"}}>20% OFF</b></p>
+                        </div>
+                    </div> 
+                     
+                    
+                    
+                    
+                    
                 </div>
             </div>
-        </div>
+
+
+        </>
 
     )
 }
