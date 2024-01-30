@@ -24,6 +24,7 @@ function ProductList() {
                 }
             }).then((res) => {
                 console.log(res);
+                setProducts(products.filter((product)=>product._id!==id))
             })
         }
 

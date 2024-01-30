@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import Layout from './components/Layout/Layout'
 
 import {
@@ -17,7 +17,7 @@ import instance from './axios';
 import { verify } from './features/admin/adminSlice';
 import Cookies from 'js-cookie';
 function App() {
-
+  const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
     useLayoutEffect(() => {
         const token = Cookies.get('token')
@@ -28,9 +28,12 @@ function App() {
                 }
             }).then((res) => {
                 dispatch(verify())
+                setloading(false)
             }).catch((err) => {
                 console.log(err);
             })
+        }else{
+          setloading(false)
         }
 
     }, [])
@@ -65,7 +68,13 @@ function App() {
   ])
   return (
 
-    <RouterProvider router={router} />
+    <>   
+   
+      {
+        loading ? <h1>Loading...</h1> : <RouterProvider router={router} />
+      }
+    
+    </>
   )
 }
 
