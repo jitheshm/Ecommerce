@@ -37,5 +37,15 @@ module.exports = {
             console.log("category fetching failed" + error);
             throw error
         }
+    },
+    getSpecificCategory: async(id) => {
+        try {
+            const category=await CategoryModel.findOne({_id:id})
+            
+            return category
+        } catch (error) {
+            console.log("category fetching failed" + error);
+            throw error
+        }
     }
 }

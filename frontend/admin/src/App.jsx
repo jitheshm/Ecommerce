@@ -16,6 +16,9 @@ import { useDispatch } from 'react-redux';
 import instance from './axios';
 import { verify } from './features/admin/adminSlice';
 import Cookies from 'js-cookie';
+import AddCategory from './pages/AddCategory';
+import EditCategory from './pages/EditCategory';
+import CategoryList from './components/CategoryList/CategoryList';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -62,6 +65,18 @@ function App() {
     {
       path:"/login",
       element:<Login/>
+    },
+    {
+      path:"/addcategory",
+      element:<Layout><AddCategory/></Layout>
+    },
+    {
+      path:"/editcategory/:id",
+      element:<Layout><EditCategory/></Layout>
+    },
+    {
+      path:"/category",
+      element:<Layout><CategoryList/></Layout>
     }
 
 
