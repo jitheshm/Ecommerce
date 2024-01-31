@@ -16,6 +16,7 @@ import { useLayoutEffect } from 'react';
 import Cookies from 'js-cookie';
 import instance from './axios';
 import { verify } from './features/user/userSlice';
+import Profile from './pages/Profile';
 
 function App() {
     const dispatch = useDispatch()
@@ -51,6 +52,10 @@ function App() {
             path: "/product/:productId/:varientId",
             element: <ProductDetails />
         },
+        {
+            path:"/profile",
+            element:<Profile />
+        }
 
 
     ])

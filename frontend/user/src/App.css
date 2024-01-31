@@ -278,6 +278,11 @@
     display: block;
   }
   
+
+  .primary{
+    background-color: #15161D;
+    color:#ffffff
+  }
  
  
   /*=========================================================

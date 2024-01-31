@@ -1,0 +1,33 @@
+.left-top{
+    background-color: white;
+    height: 90px;
+    width: 90%;
+}
+
+.left-sidebar{
+    background-color: white;
+    
+    width: 90%;
+}
+
+.right{
+    background-color: white;
+    border-radius: 10px;
+    
+}
+
+.profile{
+    background-color: #dfe1e6;
+}
+.profile .form-control{
+    height: 50px;
+    
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    text-decoration: none;
+}
