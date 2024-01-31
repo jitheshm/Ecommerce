@@ -31,3 +31,18 @@ a{
 a:hover{
     text-decoration: none;
 }
+
+.left-top .dp{
+    /* background-color: green; */
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    display: flex;
+}
+
+.nameContainer{
+    line-height: 9px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
