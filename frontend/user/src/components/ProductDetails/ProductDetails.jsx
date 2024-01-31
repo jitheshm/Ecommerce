@@ -5,6 +5,8 @@ import instance from '../../axios'
 import { useParams } from 'react-router-dom'
 import { BASEURL } from "../../constants/constant.json"
 import noImage from '../../../src/assets/No-Image-Placeholder.png'
+import nowishlist from '../../../src/assets/wishlist (3).png'
+import wishlist from '../../../src/assets/heart.png'
 function ProductDetails() {
     const [product, setProduct] = useState([])
     const { productId, varientId } = useParams()
@@ -22,13 +24,15 @@ function ProductDetails() {
             {
                 loading ? <div>loading...</div> :
                     <div>
-                        <section className="py-5 mt-5">
-                            <div className="container">
-                                <div className="row gx-5">
-                                    <aside className="col-lg-6">
-                                        <div className="border rounded-4 mb-3 d-flex justify-content-center">
+                        <section className="py-5 ">
+                            <div className="container"> 
+                                <div className="row " style={{position:"relative"}}> 
+                                <img src={wishlist} alt="" style={{width:"40px", position:"absolute", top:0,right:0}} /> 
+                                    <aside className="col-11 col-lg-5 ">
+                                        
+                                        <div className="border rounded-1 mb-3 py-4 d-flex justify-content-center">
 
-                                            <img style={{ maxWidth: '100%', maxHeight: '70vh', margin: 'auto' }} className="rounded-4 fit" src={product[0] ? BASEURL + "/" + product[0].imagesUrl[0] : noImage} />
+                                            <img  style={{ maxWidth: '90%', maxHeight: '416px', margin: 'auto' }} className="rounded-4 fit " src={product[0] ? BASEURL + "/" + product[0].imagesUrl[0] : noImage} />
 
                                         </div>
                                         <div className="d-flex justify-content-center mb-3">
@@ -48,9 +52,11 @@ function ProductDetails() {
                                         </div>
                                         {/* thumbs-wrap.// */}
                                         {/* gallery-wrap .end// */}
+                                        
                                     </aside>
                                     <main className="col-lg-6">
-                                        <div className="ps-lg-3">
+                                         
+                                        <div className="">
                                             <h4 className="title text-dark">
                                                 {
                                                     product[0].productDetails[0].productName
@@ -70,26 +76,32 @@ function ProductDetails() {
                                                 </div>
 
                                             </div>
-                                            <div className="mb-3">
-                                                <h3><b>₹{product[0].price}</b></h3>
+                                            <div className="mb-3 row align-items-center p-3">
+                                                <h3><b className='me-2 '>₹{product[0].price}</b></h3>
+                                                <s className='d-flex' style={{ width: "fit-content" }}>₹{product[0].price} </s><b className='d-flex' style={{ color: "green", width: "fit-content" }}>20% OFF</b>
 
                                             </div>
                                             <hr style={{ borderColor: "black" }} />
                                             <div className="row px-4">
                                                 <p>
-                                                {
-                                                    product[0].productDetails[0].aboutProduct
-                                                }
+                                                    {
+                                                        product[0].productDetails[0].aboutProduct
+                                                    }
                                                 </p>
-                                                {/* <ul style={{ listStyle: "disc" }}>
-                                                    <li>8 GB RAM | 128 GB ROM</li>
-                                                    <li>17.22 cm (6.78 inch) Full HD+ Display</li>
-                                                    <li>64MP + 2MP | 16MP Front Camera</li>
-                                                    <li>4600 mAh Battery</li>
-                                                    <li>Dimensity 7200 Processor</li>
-                                                </ul> */}
+
                                             </div>
+
                                             <hr style={{ borderColor: "black" }} />
+                                            <div className="row px-4">
+                                                <h5><b style={{ color: "black" }}>Available offers</b></h5>
+                                                <p>
+                                                    <ul>
+                                                        <li>Bank Offer5% Cashback on Flipkart Axis Bank Card</li>
+                                                        <li>Buy This Product and get ₹500 Off on Next AC Purchase</li>
+                                                    </ul>
+                                                </p>
+
+                                            </div>
                                             <div className="row mb-4">
                                                 <div className="col-md-4 col-6">
                                                     <label className="mb-2">Color</label>
@@ -100,29 +112,11 @@ function ProductDetails() {
                                                     </select>
                                                 </div>
                                                 {/* col.// */}
-                                                <div className="col-md-4 col-6 mb-3">
-                                                    <label className="mb-2 d-block">Quantity</label>
-                                                    <div className=" mb-3" >
-                                                        <div className="input-group">
-                                                            <span className="input-group-btn">
-                                                                <button type="button" className="quantity-left-minus btn btn-danger  btn-number" data-type="minus" data-field>
-                                                                    <span className="glyphicon glyphicon-minus" />
-                                                                </button>
-                                                            </span>
-                                                            <input type="text" id="quantity" name="quantity" className="form-control input-number" defaultValue={10} min={1} max={100} />
-                                                            <span className="input-group-btn">
-                                                                <button type="button" className="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field>
-                                                                    <span className="glyphicon glyphicon-plus" />
-                                                                </button>
-                                                            </span>
-                                                        </div>
 
-                                                    </div>
-                                                </div>
                                             </div>
-                                            <div className='d-flex justify-content-between col-9 col-md-5'>
-                                                <a className='btn btn-danger'>Buy Now</a>
-                                                <a className='btn btn-primary'>Add to cart</a>
+                                            <div className='d-flex justify-content-between col-9 col-md-5 mt-4'>
+                                                <a className='btn text-white' style={{backgroundColor:"#D10024"}}>Buy Now</a>
+                                                <a className='btn text-white ' style={{backgroundColor:"#1E1F29"}}>Add to cart</a>
 
                                             </div>
                                         </div>
