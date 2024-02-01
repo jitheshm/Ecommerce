@@ -1,5 +1,5 @@
 import React from 'react'
-import DashboardComponent from '../components/Profile/Dashboard'
+import DashboardComponent from '../components/Dashboard/Dashboard'
 import Header from '../components/Header/Header'
 
 function Dashboard() {

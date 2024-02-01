@@ -22,9 +22,7 @@ function Orders() {
                                 <p>Deliverd on 21 march</p>
                             </div>
                         </div>
-                        <div className='col-2 text-end pe-4 pt-4'>
-                            <i className="fa-solid fa-trash " style={{ color: '#15161d', fontSize: "19px" }} />
-                        </div>
+                        
                     </div>
 
                 </Link>
@@ -43,9 +41,7 @@ function Orders() {
                                 <p>Deliverd on 21 march</p>
                             </div>
                         </div>
-                        <div className='col-2 text-end pe-4 pt-4'>
-                            <i className="fa-solid fa-trash " style={{ color: '#15161d', fontSize: "19px" }} />
-                        </div>
+                        
                     </div>
 
                 </Link>
