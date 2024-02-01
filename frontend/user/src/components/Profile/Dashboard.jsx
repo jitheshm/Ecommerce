@@ -10,7 +10,7 @@ function Dashboard() {
         <>
 
             <div className='container-fluid profile'>
-                <div className='row my-5'>
+                <div className='row my-4'>
                    
                    <Sidebar/>
                    <Outlet />

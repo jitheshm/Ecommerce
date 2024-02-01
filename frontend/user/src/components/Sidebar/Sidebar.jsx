@@ -5,7 +5,7 @@ function Sidebar() {
     return (
         <>
             <div className='col-md-4'>
-                <div className='left-top m-auto mb-5 row p-4'>
+                <div className='left-top m-auto mb-4 row p-4'>
                     <div className='dp' style={{ backgroundImage: `url(${man})`, backgroundSize: "cover" }}>
                         <input type="file" name='image' title=' ' style={{ opacity: 0 }} />
                     </div>

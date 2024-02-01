@@ -2,22 +2,25 @@
     background-color: white;
     height: 90px;
     width: 90%;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
 }
 
 .left-sidebar{
     background-color: white;
     
     width: 90%;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
 }
 
 .right{
     background-color: white;
     border-radius: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
     
 }
 
 .profile{
-    background-color: #dfe1e6;
+    background-color: #F1F3F6;
     min-height: 100vh;
 }
 .profile .form-control{

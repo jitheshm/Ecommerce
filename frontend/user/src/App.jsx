@@ -20,6 +20,7 @@ import Dashboard from './pages/Dashboard';
 import Personal from './components/Personal/Personal';
 import ManageAddress from './components/ManageAddress/ManageAddress';
 import Wishlist from './components/Wishlist/Wishlist';
+import Orders from './components/Orders/Orders';
 
 function App() {
     const dispatch = useDispatch()
@@ -69,7 +70,7 @@ function App() {
                     },
                     {
                     path: "orders",
-                    element: <Personal/>,
+                    element: <Orders/>,
                     },
                     {
                     path: "wishlist", 

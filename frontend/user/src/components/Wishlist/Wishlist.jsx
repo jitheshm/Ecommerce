@@ -4,17 +4,19 @@ import { Link } from 'react-router-dom'
 function Wishlist() {
     return (
         <>
-            <div className='col-md-7 p-5 address border mt-3'>
+            <div className='col-md-7 p-5 address border '>
 
                 <h4><b>Wishlist</b></h4>
 
-                <Link to={``}  >
+                
+
+                <Link to={``}  > 
                     <div className="card d-flex flex-row mb-3">
-                        <div className='p-3 col-2 '>
+                        <div className='p-5 col-2 '>
                             <img className="card-img-top " src={`https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/j/z/3/-original-imagtc5fqyz8tu4c.jpeg?q=70`} alt="Card image cap" />
                         </div>
-                        <div className="card-body col-6 ms-2">
-                            <h4 className="card-title "><b>svxkbhc</b></h4>
+                        <div className="card-body pt-4 col-6 ms-2 mt-2">
+                            <h4 className="card-title "><>svxkbhc</></h4> 
                             <div className="d-flex flex-row"> 
                                 <div className="text-warning mb-1 me-2">
                                     <i className="fa fa-star" />
@@ -38,13 +40,13 @@ function Wishlist() {
                     
                 </Link>
 
-                <Link to={``}  >
+                <Link to={``}  > 
                     <div className="card d-flex flex-row mb-3">
-                        <div className='p-3 col-2 '>
+                        <div className='p-5 col-2 '>
                             <img className="card-img-top " src={`https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/j/z/3/-original-imagtc5fqyz8tu4c.jpeg?q=70`} alt="Card image cap" />
                         </div>
-                        <div className="card-body col-6 ms-2">
-                            <h4 className="card-title "><b>svxkbhc</b></h4>
+                        <div className="card-body pt-4 col-6 ms-2 mt-2">
+                            <h4 className="card-title "><>svxkbhc</></h4> 
                             <div className="d-flex flex-row"> 
                                 <div className="text-warning mb-1 me-2">
                                     <i className="fa fa-star" />
@@ -68,6 +70,7 @@ function Wishlist() {
                     
                 </Link>
 
+               
 
             </div>
         </>
