@@ -28,6 +28,10 @@ function Sidebar() {
                         <a className='fw-bold' href="">My coupons</a>
                     </div>
                     <div className=' pt-3'>
+                        <i className="fa-solid fa-box-open me-4" style={{ color: '#15161d', fontSize: "19px" }} />
+                        <a className='fw-bold' href="">My Orders</a>
+                    </div>
+                    <div className=' pt-3'>
                         <i className="fa-solid fa-heart me-4" style={{ color: '#15161d', fontSize: "19px" }} />
                         <a className='fw-bold' href="">My Wishlist</a>
                     </div>

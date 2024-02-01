@@ -4,7 +4,8 @@ import AddressForm from '../AddressForm/AddressForm'
 function ManageAddress() {
     return (
         <div className='col-md-7 p-5  right'>
-            <div>
+            <h4><b>Manage Address</b></h4>
+            <div className='mt-5'>
                 <button className='btn primary '>Add new address</button>
             </div>
 
@@ -14,7 +15,7 @@ function ManageAddress() {
                 <div className='border container-fluid'>
                     <div className='row col-12 mt-3 ms-2'>
                         <p className='col-1 bg-secondary rounded'>Home</p>
-                        <p className='col-11 text-end' ><a href="">Edit</a></p>
+                        <p className='col-11 text-end' ><a href="" className='me-4'>Edit</a> <a href="">Delete</a></p>
                     </div>
                     <div className='mt-3' >
                         <div className='d-flex gap-3'>
