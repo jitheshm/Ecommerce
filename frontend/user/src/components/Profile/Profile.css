@@ -46,3 +46,9 @@ a:hover{
     flex-direction: column;
     justify-content: center;
 }
+
+.address{
+    background-color: white;
+    border-radius: 10px;
+    
+}
