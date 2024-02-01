@@ -1,5 +1,6 @@
 import React from 'react'
 import man from '../../assets/man.png'
+import { Link } from 'react-router-dom'
 function Sidebar() {
     return (
         <>
@@ -17,23 +18,23 @@ function Sidebar() {
                     <div className=' pt-3'>
                         <i className="fa-solid fa-user me-4" style={{ color: '#15161d', fontSize: "19px" }} />
 
-                        <a className='fw-bold' href="">Profile Information</a>
+                        <Link className='fw-bold' to={'/profile/personal'}>Profile Information</Link>
                     </div>
                     <div className=' pt-3'>
                         <i className="fa-solid fa-location-arrow me-4" style={{ color: '#15161d', fontSize: "19px" }} />
-                        <a className='fw-bold' href="">Manage Address</a>
+                        <Link className='fw-bold' to={'/profile/address'}>Manage Address</Link>
                     </div>
                     <div className=' pt-3'>
                         <i className="fa-solid fa-ticket me-4" style={{ color: '#15161d', fontSize: "19px" }} />
-                        <a className='fw-bold' href="">My coupons</a>
+                        <Link className='fw-bold' to={'/profile/coupons'}>My coupons</Link>
                     </div>
                     <div className=' pt-3'>
                         <i className="fa-solid fa-box-open me-4" style={{ color: '#15161d', fontSize: "19px" }} />
-                        <a className='fw-bold' href="">My Orders</a>
+                        <Link className='fw-bold' to={'/profile/orders'}>My Orders</Link>
                     </div>
                     <div className=' pt-3'>
                         <i className="fa-solid fa-heart me-4" style={{ color: '#15161d', fontSize: "19px" }} />
-                        <a className='fw-bold' href="">My Wishlist</a>
+                        <Link className='fw-bold' to={'/profile/wishlist'}>My Wishlist</Link>
                     </div>
                 </div>
             </div>

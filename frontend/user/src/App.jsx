@@ -16,7 +16,10 @@ import { useLayoutEffect } from 'react';
 import Cookies from 'js-cookie';
 import instance from './axios';
 import { verify } from './features/user/userSlice';
-import Profile from './pages/Profile';
+import Dashboard from './pages/Dashboard';
+import Personal from './components/Personal/Personal';
+import ManageAddress from './components/ManageAddress/ManageAddress';
+import Wishlist from './components/Wishlist/Wishlist';
 
 function App() {
     const dispatch = useDispatch()
@@ -54,7 +57,25 @@ function App() {
         },
         {
             path:"/profile",
-            element:<Profile />
+            element:<Dashboard />,
+            children: [
+                {
+                  path: "personal",
+                  element: <Personal/>,
+                },
+                {
+                    path: "address",
+                    element: <ManageAddress/>,
+                    },
+                    {
+                    path: "orders",
+                    element: <Personal/>,
+                    },
+                    {
+                    path: "wishlist", 
+                    element: <Wishlist/>,
+                } 
+              ],
         }
 
 

@@ -1,24 +1,23 @@
 import React from 'react'
-import './Profile.css'
+import './Dashboard.css'
 
 import Sidebar from '../Sidebar/Sidebar'
 import Personal from '../Personal/Personal'
 import ManageAddress from '../ManageAddress/ManageAddress'
-function Profile() {
+import { Outlet } from 'react-router-dom'
+function Dashboard() {
     return (
         <>
 
             <div className='container-fluid profile'>
                 <div className='row my-5'>
-                    
+                   
                    <Sidebar/>
-                   {/* <Personal/>  */}
-                   <ManageAddress/>
-
+                   <Outlet />
                 </div>
             </div>
         </>
     )
 }
 
-export default Profile
+export default Dashboard

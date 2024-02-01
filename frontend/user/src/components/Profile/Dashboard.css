@@ -18,6 +18,7 @@
 
 .profile{
     background-color: #dfe1e6;
+    min-height: 100vh;
 }
 .profile .form-control{
     height: 50px;
