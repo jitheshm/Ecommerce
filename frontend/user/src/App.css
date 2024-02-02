@@ -121,11 +121,17 @@
   /*----------------------------*\
       Logo
   \*----------------------------*/
-  
+  header{
+    display: unset!important
+  }
   #header {
     padding-top: 15px;
     padding-bottom: 15px;
     background-color: #15161D;
+    position: sticky;
+   
+    top: 0;
+    z-index: 10;
   }
   
   .header-logo {
@@ -281,6 +287,10 @@
 
   .primary{
     background-color: #15161D;
+    color:#ffffff
+  }
+  .secondary{
+    background-color: #1E1F29;
     color:#ffffff
   }
  

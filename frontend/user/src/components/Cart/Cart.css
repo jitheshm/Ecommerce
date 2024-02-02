@@ -1,0 +1,12 @@
+.cartContainer {
+    background-color: #F1F3F6;
+    min-height: 100vh;
+}
+
+.cart {
+    position: sticky;
+    top: 130px;
+}
+.cartContent{
+    display: unset
+}

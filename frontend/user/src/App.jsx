@@ -21,6 +21,9 @@ import Personal from './components/Personal/Personal';
 import ManageAddress from './components/ManageAddress/ManageAddress';
 import Wishlist from './components/Wishlist/Wishlist';
 import Orders from './components/Orders/Orders';
+import Cart from './pages/Cart';
+import CheckOut from './components/CheckOut/CheckOut';
+import Checkout from './pages/Checkout';
 
 function App() {
     const dispatch = useDispatch()
@@ -77,7 +80,15 @@ function App() {
                     element: <Wishlist/>,
                 } 
               ],
-        }
+        },
+        {
+            path: "/cart",
+            element: <Cart />
+        },
+        {
+            path: "/checkout",
+            element: <Checkout />
+        },
 
 
     ])
