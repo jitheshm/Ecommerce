@@ -1,5 +1,5 @@
 import React from 'react'
-import AddProductForm from '../components/ProductForm/AddProductForm'
+import ProductForm from '../components/ProductForm/ProductForm'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import instance from '../axios'   
@@ -7,7 +7,7 @@ import instance from '../axios'
 function AddProduct() {
    
     return (
-        <AddProductForm />
+        <ProductForm title="Enter product details" method="post" api="/admin/addproduct" btnName="Add product" />
     )
 }
 

@@ -15,21 +15,7 @@ function EditProduct() {
     const [availableCategory, setAvailableCategory] = useState([])
     const {id} = useParams()
 
-    useEffect(() => {
-        instance.get(`/admin/editproduct/${id}`,{
-            headers:{
-                Authorization: Cookies.get('token')
-        }}).then((res)=>{
-            console.log(res.data.data);
-            setProductName(res.data.data.productName)
-            setBrand(res.data.data.brand)
-            setCategoryId(res.data.data.categoryId)
-            setAboutProduct(res.data.data.aboutProduct)
-            setIsListed(res.data.data.isListed)
-            setWaranty(res.data.data.waranty)
-            
-        })
-    },[])
+   
 
 
 

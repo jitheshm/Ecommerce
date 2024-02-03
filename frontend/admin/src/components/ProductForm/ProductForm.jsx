@@ -6,7 +6,7 @@ import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-function AddProductForm() {
+function ProductForm({title,method,api,id,btnName}) {
     const [productNameError, setProductNameError] = useState(false)
     const [brandError, setBrandError] = useState(false)
     const [categoryError, setCategoryError] = useState(false)
@@ -29,6 +29,24 @@ function AddProductForm() {
             console.log(res);
             setAvailableCategory(res.data.data)
         })
+    }, [])
+
+    useEffect(() => {
+        if (id) {
+            instance.get(`/admin/editproduct/${id}`, {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                console.log(res.data.data);
+                setProductName(res.data.data.productName)
+                setBrand(res.data.data.brand)
+                setCategoryId(res.data.data.categoryId)
+                setAboutProduct(res.data.data.aboutProduct)
+                setWaranty(res.data.data.waranty)
+
+            })
+        }
     }, [])
 
     const handleSubmit = () => {
@@ -64,15 +82,16 @@ function AddProductForm() {
         }
         console.log(categoryId);
         instance.request({
-            method: 'post',
-            url: '/admin/addproduct',
+            method: method,
+            url: api,
             data: {
                 productName,
                 brand,
                 categoryId,
                 isListed: true,
                 aboutProduct,
-                waranty
+                waranty,
+                id
 
             },
             headers: {
@@ -93,7 +112,7 @@ function AddProductForm() {
                 <div className="col-11 m-auto mt-5 grid-margin">
                     <div className="card">
                         <div className="card-body mt-3">
-                            <h4 className="card-title ">Add products</h4>
+                            <h4 className="card-title ">{title}</h4>
                             <form className="form-sample mt-5 ">
 
                                 <div className="row mt-1">
@@ -181,7 +200,7 @@ function AddProductForm() {
                                         </div>
                                     </div>
                                 </div>
-                                <button type='button' className='btn-inverse-success mt-4' onClick={handleSubmit}>Add Product</button>
+                                <button type='button' className='btn-inverse-success mt-4' onClick={handleSubmit}>{btnName}</button>
                             </form>
                         </div>
                     </div>
@@ -193,4 +212,4 @@ function AddProductForm() {
     )
 }
 
-export default AddProductForm
+export default ProductForm
