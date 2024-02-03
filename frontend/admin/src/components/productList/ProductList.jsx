@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 function ProductList() {
     const [products, setProducts] = useState([])
+    const [search, setSearch] = useState('')
     useEffect(() => {
         instance.get('/admin/products', {
             headers: {
@@ -24,57 +25,84 @@ function ProductList() {
                 }
             }).then((res) => {
                 console.log(res);
-                setProducts(products.filter((product)=>product._id!==id))
+                setProducts(products.filter((product) => product._id !== id))
             })
         }
 
     }
 
+    const handleSearch=(e)=>{
+            setSearch(e.target.value)
+            
+    }
+
     return (
-        <div className='mt-5 pt-2'>
-            <Link to={'/addproduct'} className='btn btn-primary mt-5 mx-5'>Add product</Link>
-            <table className="table table-dark mt-5 pt-5">
-                <thead className=''>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Brand</th>
-                        <th scope="col">Category</th>
-                        <th scope="col-3">About</th>
-                        <th scope="col">Islisted</th>
-                        <th scope="col">Actions</th>
+        <>
+            <div className='pt-5'>
+                <div className="col-lg-11 mt-5 m-auto grid-margin stretch-card">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className='row align-items-center mb-4'>
+                                <h4 className="card-title col-4 mt-4">All Products</h4>
+                                <form className="nav-link  d-none d-lg-flex search col-6">
+                                    <input type="text" className="form-control" placeholder="Search products" style={{ color: "white" }} onChange={handleSearch} />
+                                </form>
+                            </div>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        products.map((product) => {
-                            return (
-                                // eslint-disable-next-line react/jsx-key
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>{product.productName}</td>
-                                    <td>{product.brand}</td>
-                                    <td>{product.categoryId}</td>
-                                    <td className='col-3'>{product.aboutProduct}</td>
-                                    <td>{product.isListed ? <p>listed</p> : <p>not listed</p>}</td>
-                                    <td>
-                                        <Link to={`/editproduct/${product._id}`}>edit</Link>
-                                        <button onClick={() => {
-                                            handleDelete(product._id)
-                                        }}>delete</button>
 
-                                        <Link to={`/addvarient/${product._id}`}>Add varient</Link>
+                            <div className="table-responsive col-12">
+                                <table className="table" style={{ tableLayout: 'fixed' }}>
+                                    <thead>
+                                        <tr>
+                                            <th>PID</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Category</th>
+                                            <th>Waranty</th>
+                                            <th>Status</th>
+                                            <th style={{ textAlign: "center", width: "300px" }}>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+                                        {
+                                            products.map((product) => {
+                                                if(product.productName.startsWith(search) || search === "" || product._id.includes(search)){
+                                                    return (
+                                                        // eslint-disable-next-line react/jsx-key
+                                                        <tr >
+                                                            <td style={{ color: "#6c7293" }}>{product._id}</td>
+                                                            <td style={{ color: "#6c7293" }}>{product.productName}</td>
+                                                            <td style={{ color: "#6c7293" }}>{product.aboutProduct}</td>
+                                                            <td style={{ color: "#6c7293" }}>{product.categoryId}</td>
+                                                            <td style={{ color: "#6c7293" }}>{product.waranty} years</td>
+                                                            <td style={{ color: "#6c7293" }}>{product.isListed ? <span>Listed</span> : <span>Not listed</span>}</td>
+                                                            <td className='d-flex gap-3 justify-content-center' style={{ width: "300px" }}>
+                                                                <Link to={`/editproduct/${product._id}`}  className='btn btn-outline-warning'>Edit</Link>
+                                                                <button className='btn btn-outline-primary'>View</button>
+                                                                <button className='btn btn-outline-success'>List</button>
+                                                                <button className='btn btn-outline-danger' onClick={() => {
+                                                                    handleDelete(product._id)
+                                                                }}>Delete</button>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                }else{
+                                                    return null
+                                                }
+                                            })
+                                        }
 
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                </tbody>
-            </table>
-        </div>
+        </>
+
+
 
     )
 }

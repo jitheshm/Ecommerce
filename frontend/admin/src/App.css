@@ -20842,3 +20842,9 @@
     background-color: #000000;
     height: 100vh;
   }
+
+  .table td{
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    
+  }
