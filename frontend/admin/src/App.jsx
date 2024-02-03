@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
 import Layout from './components/Layout/Layout'
-
+import './App.css'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -45,7 +45,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/addproduct",
-      element: <Layout><AddProduct/></Layout>
+      element: <Layout></Layout>
     },
     {
       path: "/editproduct/:id",
