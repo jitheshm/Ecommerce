@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 var Schema = mongoose.Schema
 const ProductVarientSchema = new mongoose.Schema({
     productId:{ type: Schema.ObjectId, required: true },
-    colorId:Schema.ObjectId,
+    color:String,
     imagesUrl:Array,
     stock:Number,
     price:Number,
