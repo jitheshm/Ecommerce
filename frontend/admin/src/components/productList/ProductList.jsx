@@ -31,15 +31,15 @@ function ProductList() {
 
     }
 
-    const handleSearch=(e)=>{
-            setSearch(e.target.value)
-            
+    const handleSearch = (e) => {
+        setSearch(e.target.value)
+
     }
 
     return (
         <>
             <div className='pt-5'>
-                <div className="col-lg-11 mt-5 m-auto grid-margin stretch-card">
+                <div className="col-lg-11 mt-5 m-auto grid-margin stretch-card"> 
                     <div className="card">
                         <div className="card-body">
                             <div className='row align-items-center mb-4'>
@@ -57,16 +57,16 @@ function ProductList() {
                                             <th>PID</th>
                                             <th>Name</th>
                                             <th>Description</th>
-                                            <th>Category</th>
+                                            <th>Category</th>  
                                             <th>Waranty</th>
                                             <th>Status</th>
-                                            <th style={{ textAlign: "center", width: "300px" }}>Actions</th>
+                                            <th style={{ textAlign: "center", width: "200px" }}>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody >
                                         {
                                             products.map((product) => {
-                                                if(product.productName.startsWith(search) || search === "" || product._id.includes(search)){
+                                                if (product.productName.startsWith(search) || search === "" || product._id.includes(search)) {
                                                     return (
                                                         // eslint-disable-next-line react/jsx-key
                                                         <tr >
@@ -76,17 +76,57 @@ function ProductList() {
                                                             <td style={{ color: "#6c7293" }}>{product.categoryId}</td>
                                                             <td style={{ color: "#6c7293" }}>{product.waranty} years</td>
                                                             <td style={{ color: "#6c7293" }}>{product.isListed ? <span>Listed</span> : <span>Not listed</span>}</td>
-                                                            <td className='d-flex gap-3 justify-content-center' style={{ width: "300px" }}>
-                                                                <Link to={`/editproduct/${product._id}`}  className='btn btn-outline-warning'>Edit</Link>
-                                                                <button className='btn btn-outline-primary'>View</button>
+                                                            <td className='d-flex gap-3 justify-content-center' style={{ width: "200px" }}>
+                                                                <Link to={`/editproduct/${product._id}`} className='btn btn-outline-warning'>Edit</Link>
                                                                 <button className='btn btn-outline-success'>List</button>
+                                                                {/* <button className='btn btn-outline-success'>List</button>
                                                                 <button className='btn btn-outline-danger' onClick={() => {
                                                                     handleDelete(product._id)
-                                                                }}>Delete</button>
+                                                                }}>Delete</button> */}
+
+                                                                <div className="nav-item dropdown" style={{position:"initial"}}>
+                                                                    <a className='btn btn-outline-primary' id="profileDropdown" href="#" data-bs-toggle="dropdown">
+                                                                        
+                                                                           
+                                                                            <p className="mb-0 d-none d-sm-block navbar-profile-name">More</p>
+                                                                           
+                                                                       
+                                                                    </a>
+                                                                    <div className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"  aria-labelledby="profileDropdown">
+
+
+                                                                        
+                                                                        <a className="dropdown-item preview-item">
+                                                                            
+                                                                            <div className="preview-item-content">
+                                                                                <p className="preview-subject mb-1">View</p>
+                                                                                
+                                                                            </div>
+                                                                            
+                                                                        </a>
+                                                                        <Link to={`/addvarient/${product._id}`} className="dropdown-item preview-item">
+                                                                            
+                                                                            <div className="preview-item-content">
+                                                                                <p className="preview-subject mb-1">Add varient</p>   
+                                                                                
+                                                                            </div>
+                                                                            
+                                                                        </Link>
+                                                                        <a className="dropdown-item preview-item">
+                                                                            
+                                                                            <div className="preview-item-content">
+                                                                                <p className="preview-subject mb-1">Delete</p>   
+                                                                                
+                                                                            </div>
+                                                                            
+                                                                        </a>
+
+                                                                    </div>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     )
-                                                }else{
+                                                } else {
                                                     return null
                                                 }
                                             })

@@ -56,8 +56,8 @@ function Sidebar() {
                         </a>
                         <div className="collapse" id="ui-basic">
                             <ul className="nav flex-column sub-menu">
-                                <li className="nav-item"> <a className="nav-link" href="/">View Products</a></li>
-                                <li className="nav-item"> <a className="nav-link" href="/">Add products</a></li>
+                                <li className="nav-item"> <Link to='/products' className="nav-link" href="/">View Products</Link></li>
+                                <li className="nav-item"> <Link to='/addproduct' className="nav-link">Add products</Link></li>
                                 <li className="nav-item"> <a className="nav-link" href="/">View Varients</a></li>
                             </ul>
                         </div>
@@ -70,9 +70,9 @@ function Sidebar() {
                             </span>
                             <span className="menu-title">Users</span>
                         </a>
-                        <div className="collapse" id="users">
+                        <div className="collapse" id="users"> 
                             <ul className="nav flex-column sub-menu">
-                                <li className="nav-item"> <a className="nav-link" href="/">View Users</a></li>
+                                <li className="nav-item"> <Link to='/users' className="nav-link" href="/">View Users</Link></li>
                                 
                                
                             </ul>
@@ -103,9 +103,9 @@ function Sidebar() {
                             <span className="menu-title">Categories</span>
                         </a>
                         <div className="collapse" id="categories">
-                            <ul className="nav flex-column sub-menu">
-                                <li className="nav-item"> <a className="nav-link" href="/">View Category</a></li>
-                                <li className="nav-item"> <a className="nav-link" href="/">Add Category</a></li>
+                            <ul className="nav flex-column sub-menu"> 
+                                <li className="nav-item"> <Link to='/category' className="nav-link" >View Category</Link></li>
+                                <li className="nav-item"> <Link to='/addcategory' className="nav-link" >Add Category</Link></li>
                                 
                             </ul>
                         </div>
