@@ -19,6 +19,7 @@ import Cookies from 'js-cookie';
 import AddCategory from './pages/AddCategory';
 import EditCategory from './pages/EditCategory';
 import CategoryList from './components/CategoryList/CategoryList';
+import EditVarient from './pages/EditVarient';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -54,6 +55,10 @@ function App() {
     {
       path: "/addvarient/:proId",
       element: <Layout><AddVarient/></Layout>
+    },
+    {
+      path: "/editvarient/:id",
+      element: <Layout><EditVarient/></Layout>
     },
     {
       path: "/products",

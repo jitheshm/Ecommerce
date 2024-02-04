@@ -32,11 +32,13 @@ module.exports = {
             }
 
             if (oldImageUrl) {
-                await ProductVarientModel.findOneAndUpdate(
+                console.log("oldImageUrl", oldImageUrl);
+                const res=await ProductVarientModel.updateOne(
                     { _id: id },
-                    { $pull: { imagesUrl: { $in: oldImageUrl } } },
-                    { new: true }
+                    { $pull: { imagesUrl: { $in: oldImageUrl } } }
+                    
                 );
+                console.log(res);
             }
 
             return true
@@ -122,5 +124,14 @@ module.exports = {
             },
         ]).exec()
         return varientDetail
+    },
+    getVarient:async(id)=>{
+        try {
+            const result=await ProductVarientModel.findOne({_id:id})
+            return result
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }

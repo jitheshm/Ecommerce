@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import img from '../../assets/No-Image-Placeholder.png'
 import instance from '../../axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { BASEURL } from "../../constants/constant.json"
 
 function VarientForm({ api, method, title, btnName, proId, id }) {
 
@@ -23,29 +24,67 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
   const [costError, setCostError] = useState(false)
   const [colorError, setColorError] = useState(false)
   const [imgError, setImgError] = useState(false)
-
+  const [oldImage, setOldImage] = useState([])
 
   const navigate = useNavigate()
 
 
-  const handleImageChange = (setImage,setImgPre ,e) => {
+  useEffect(() => {
+    if (id) {
+      instance.get(`/admin/editvarient/${id}`, {
+        headers: {
+          Authorization: Cookies.get('token')
+        }
+      }).then((res) => {
+        console.log(res.data.data);
+        setStock(res.data.data.stock)
+        setPrice(res.data.data.price)
+        setCost(res.data.data.cost)
+        setColor(res.data.data.color)
+        const images=res.data.data.imagesUrl
+        images[0]?setImagePre1(BASEURL + "/" + images[0]):null
+        images[1]?setImagePre2(BASEURL + "/" + images[1]):null
+        images[2]?setImagePre3(BASEURL + "/" + images[2]):null
+        images[3]?setImagePre4(BASEURL + "/" + images[3]):null
+      })
+    }
+  }, [])
+
+
+  const handleImageChange = (setImage, setImgPre, e) => {
+
     setImgError(false)
     setImage(e.target.files[0]);
+    console.log("hallo");
     let file = e.target.files[0]
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImgPre(reader.result);
+        setImgPre((prev) => {
+          if (id && prev) {
+            console.log("iam here");
+            let newUrl = prev.replace(new RegExp('^' + `${BASEURL}/`), '');
+            console.log(newUrl);
+            setOldImage((prev) => {
+              return [...prev, newUrl]
+            })
+            console.log(oldImage);
+          }
+          return reader.result
+        }
+        );
       };
       reader.readAsDataURL(file);
     } else {
+      console.log("hai");
       setImgPre(null);
     }
   }
 
-  
+
 
   const handleSubmit = () => {
+    //console.log(oldImage);
     const formData = new FormData();
     if (color.trim() === "") {
       setColorError(true)
@@ -70,7 +109,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
     }
 
     if (cost < 0 || !/^[0-9]*\.?[0-9]+$/.test(cost)) {
-      setCostError(true)
+      setCostError(true) 
       return;
     }
     else {
@@ -81,23 +120,25 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
     formData.append('price', price)
     formData.append('cost', cost);
     formData.append('color', color)
-    formData.append('productId', proId)
- 
+    !id ? formData.append('productId', proId) : ""
+
     if (id) {
       formData.append('id', id)
+      oldImage.length > 0 ? formData.append('oldImageUrl', JSON.stringify(oldImage)) : ""
     }
 
-    if (image1 && image2 && image3 && image4) {
-      setImgError(false)
-      formData.append('files', image1);
-      formData.append('files', image2);
-      formData.append('files', image3);
-      formData.append('files', image4);
 
-    } else {
+
+    image1 ? formData.append('files', image1) : ""
+    image2 ? formData.append('files', image2) : ""
+    image3 ? formData.append('files', image3) : ""
+    image4 ? formData.append('files', image4) : ""
+
+    if (!image1 && !image2 && !image3 && !image4 && !id) {
       setImgError(true)
-      return
+      return;
     }
+
     instance.request({
       method: method,
       url: api,
@@ -196,14 +237,14 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                 <div className='row col-8 m-auto mt-2'>
                   <div className='col-3 text-center'>
                     <div className="mb-4 d-flex justify-content-center">
-                      <label htmlFor='file-1' id='file1-label' >
+                      <label htmlFor='file-1' id='file1-label'>
                         <img id="selectedImage1" src={imagePre1 ? imagePre1 : img} style={{ width: "100%", height: "150px" }} />
                       </label>
-                        
+
                     </div>
                     <div className="d-flex justify-content-center">
-                      <input id='file-1' type="file" onChange={(e)=>{
-                        handleImageChange(setImage1,setImagePre1,e)
+                      <input id='file-1' type="file" onChange={(e) => {
+                        handleImageChange(setImage1, setImagePre1, e)
                       }} style={{ display: "none" }} />
                     </div>
                   </div>
@@ -213,9 +254,9 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                         <img id="selectedImage" src={imagePre2 ? imagePre2 : img} style={{ width: "100%", height: "150px" }} />
                       </label>
                     </div>
-                    <input id='file-2' type="file" onChange={(e)=>{
-                      handleImageChange(setImage2,setImagePre2,e)
-                    
+                    <input id='file-2' type="file" onChange={(e) => {
+                      handleImageChange(setImage2, setImagePre2, e)
+
                     }} style={{ display: "none" }} />
                   </div>
                   <div className='col-3'>
@@ -225,9 +266,9 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                       </label>
                     </div>
                     <div className="d-flex justify-content-center">
-                      <input id='file-3' type="file" onChange={(e)=>{
-                        handleImageChange(setImage3,setImagePre3,e)
-                      
+                      <input id='file-3' type="file" onChange={(e) => {
+                        handleImageChange(setImage3, setImagePre3, e)
+
                       }} style={{ display: "none" }} />
                     </div>
                   </div>
@@ -238,10 +279,10 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                       </label>
                     </div>
                     <div className="d-flex justify-content-center">
-                      <input id='file-4' type="file" onChange={(e)=>{
-                        handleImageChange(setImage4,setImagePre4,e)
-                      
-                      
+                      <input id='file-4' type="file" onChange={(e) => {
+                        handleImageChange(setImage4, setImagePre4, e)
+
+
                       }} style={{ display: "none" }} />
                     </div>
                   </div>
