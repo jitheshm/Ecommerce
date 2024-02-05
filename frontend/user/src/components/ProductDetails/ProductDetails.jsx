@@ -77,8 +77,8 @@ function ProductDetails() {
 
                                             </div>
                                             <div className="mb-3 row align-items-center p-3">
-                                                <h3><b className='me-2 '>₹{product[0].price}</b></h3>
-                                                <s className='d-flex' style={{ width: "fit-content" }}>₹{product[0].price} </s><b className='d-flex' style={{ color: "green", width: "fit-content" }}>20% OFF</b>
+                                                <h3><b className='me-2 '>₹{product[0].salePrice}</b></h3>
+                                                <s className='d-flex' style={{ width: "fit-content" }}>₹{product[0].actualPrice} </s><b className='d-flex' style={{ color: "green", width: "fit-content" }}>20% OFF</b>
 
                                             </div>
                                             <hr style={{ borderColor: "black" }} />
