@@ -3,7 +3,7 @@ const { login, blockUser, unblockUser, fetchAllUsers } = require('../../../adapt
 const router = express.Router()
 const { ObjectId } = require('mongodb');
 const authToken = require('../../middlewares/adminAuthToken');
-const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, allVarientDelete, productDelete, editProduct, getAllProducts, getVarient } = require('../../../adapters/controllers/productController');
+const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, allVarientDelete, productDelete, editProduct, getAllProducts, getVarient, productListChange } = require('../../../adapters/controllers/productController');
 const fileUpload = require('../../middlewares/fileUpload');
 const path = require('path');
 const fs = require('fs');
@@ -300,6 +300,23 @@ router.get('/editvarient/:id', authToken, async (req, res) => {
         res.status(500).json({ "error": "internal server error" })
     }
 },)
+
+
+router.patch('/changelistproduct', async (req, res) => {
+    try {
+        const id = new ObjectId(req.body.id)
+        console.log(req.body.id);
+        const status = await productListChange(id)
+        if (status)
+            res.status(200).json({ success: status })
+        else
+            res.status(200).json({ success: status, msg: "product not found" })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+})
 
 
 

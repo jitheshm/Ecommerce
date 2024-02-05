@@ -13,6 +13,7 @@ const getVarientDetails = require("../../usecase/product/getVarientDetail")
 const editProduct = require("../../usecase/product/editProduct")
 const getAllProducts = require("../../usecase/product/getAllProducts")
 const getVarient = require("../../usecase/product/getVarient")
+const productListChange = require("../../usecase/product/productListChange")
 
 module.exports = {
     productAdd: async (prodData) => {
@@ -64,5 +65,9 @@ module.exports = {
     getVarient:async(id)=>{
         const result=await getVarient(id,productVarientRepository)   
         return result
+     },
+     productListChange:async(id)=>{
+        const status=await productListChange(productRepository,id)
+        return status
      }
 }

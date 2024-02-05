@@ -55,6 +55,21 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    productListChange: async (id) => {
+        try {
+            const product = await ProductModel.findOne({ _id: id })
+            if (product) {
+                product.isListed = !product.isListed
+                await product.save()
+                return true
+            } else {
+                return false
+            }
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
     
 
