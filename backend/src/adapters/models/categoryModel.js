@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const CategorySchema = new mongoose.Schema({
     category: { type: String, required: true },
-    offers:{type:Array}
+    offers:{type:Array},
+    isDeleted:{ type: Boolean, required: true }
 
 });
 

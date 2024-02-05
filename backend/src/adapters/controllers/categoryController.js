@@ -14,7 +14,8 @@ module.exports = {
 
     },
     categoryDelete:async(id)=>{
-        await deleteCategory(id,categoryRepository)
+        const status=await deleteCategory(id,categoryRepository)
+        return status
 
     },
     getCategory:async ()=>{

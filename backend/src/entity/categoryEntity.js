@@ -1,6 +1,7 @@
 class Category{
-    constructor({category}){
-        this.category=category
+    constructor({category,isDeleted=false}){
+        this.category=category,
+        this.isDeleted=isDeleted
     }
 }
 

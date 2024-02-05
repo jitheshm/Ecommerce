@@ -21,7 +21,7 @@ module.exports = {
                     filteredUpdateFields[key] = value;
                 }
             }
-            const result = await ProductModel.updateOne({ _id: id }, filteredUpdateFields)
+            const result = await ProductModel.updateOne({ _id: id,isDeleted:false }, filteredUpdateFields)
             if (result.matchedCount === 0)
                 return false
             else
@@ -32,11 +32,19 @@ module.exports = {
         }
     },
     deleteProduct: async (productId) => {
-        const result = await ProductModel.deleteOne({ _id: productId })
-        if (result.matchedCount === 0)
-            return false
-        else
-            return true
+        try {
+            const product= await ProductModel.findOne({ _id: productId })
+            if (product) {
+                product.isDeleted = true
+                await product.save()
+                return true
+            } else {
+                return false
+            }
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     },
     getproduct: async (id) => {
         try {
@@ -49,7 +57,7 @@ module.exports = {
     },
     getAll:async()=>{
         try {
-            const products=await ProductModel.find()
+            const products=await ProductModel.find({isDeleted:false})
             return products
         } catch (error) {
             console.log(error);
@@ -58,7 +66,7 @@ module.exports = {
     },
     productListChange: async (id) => {
         try {
-            const product = await ProductModel.findOne({ _id: id })
+            const product = await ProductModel.findOne({ _id: id, isDeleted: false})
             if (product) {
                 product.isListed = !product.isListed
                 await product.save()

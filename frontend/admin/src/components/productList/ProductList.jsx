@@ -136,14 +136,15 @@ function ProductList() {
                                                                             </div>
 
                                                                         </Link>
-                                                                        <a className="dropdown-item preview-item">
+                                                                        <button className="dropdown-item preview-item" onClick={() => {
+                                                                    handleDelete(product._id)}}>
 
                                                                             <div className="preview-item-content">
                                                                                 <p className="preview-subject mb-1">Delete</p>
 
                                                                             </div>
 
-                                                                        </a>
+                                                                        </button> 
 
                                                                     </div>
                                                                 </div>

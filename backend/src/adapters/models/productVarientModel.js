@@ -8,7 +8,8 @@ const ProductVarientSchema = new mongoose.Schema({
     price:Number,
     cost:Number,
     avgRating:Number,
-    reviewCount:Number
+    reviewCount:Number,
+    isDeleted:{ type: Boolean, required: true }
 });
 
 

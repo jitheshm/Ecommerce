@@ -25,11 +25,12 @@ module.exports = {
         return productVId
     },
     varientUpdate: async (varientData) => {
-        await updatevarient(varientData, productVarientRepository)
+        const status=await updatevarient(varientData, productVarientRepository)
+        return status
     },
     varientDelete: async (varientId) => {
-        const delDoc = await deletevarient(varientId, productVarientRepository)
-        return delDoc
+        const status = await deletevarient(varientId, productVarientRepository)
+        return status
     },
     productUpdate: async (data) => {
         const status = await updateproduct(data, productRepository)
@@ -38,10 +39,10 @@ module.exports = {
     productDelete: async (proId) => {
         const status = await deleteproduct(proId, productRepository)
         if (status) {
-            const deleVarient = await deleteAllVarient(proId, productVarientRepository)
-            return deleVarient
+            const status = await deleteAllVarient(proId, productVarientRepository)
+            return status
         } else
-            return null
+            return status
 
 
 

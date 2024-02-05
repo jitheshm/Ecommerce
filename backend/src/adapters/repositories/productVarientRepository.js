@@ -16,32 +16,47 @@ module.exports = {
     updateProductVarient: async ({ id, imagesUrl, oldImageUrl, ...data }) => {
         try {
 
-            const filteredUpdateFields = {};
-            for (const [key, value] of Object.entries(data)) {
-                if (value !== undefined) {
-                    filteredUpdateFields[key] = value;
-                }
-            }
+            // const filteredUpdateFields = {};
+            // for (const [key, value] of Object.entries(data)) {
+            //     if (value !== undefined) {
+            //         filteredUpdateFields[key] = value;
+            //     }
+            // }
 
-            if (filteredUpdateFields || imagesUrl) {
-                const result = await ProductVarientModel.findOneAndUpdate({ _id: id }, {
-                    $set: filteredUpdateFields, // Update other fields
-                    ...(imagesUrl && { $push: { imagesUrl: { $each: imagesUrl } } }), // Pushing data to the arrayField
-                }, { new: true })
-                console.log(result);
-            }
+            // if (filteredUpdateFields || imagesUrl) {
+            //     const result = await ProductVarientModel.findOneAndUpdate({ _id: id }, {
+            //         $set: filteredUpdateFields, // Update other fields
+            //         ...(imagesUrl && { $push: { imagesUrl: { $each: imagesUrl } } }), // Pushing data to the arrayField
+            //     }, { new: true })
+            //     console.log(result);
+            // }
 
-            if (oldImageUrl) {
-                console.log("oldImageUrl", oldImageUrl);
-                const res=await ProductVarientModel.updateOne(
-                    { _id: id },
-                    { $pull: { imagesUrl: { $in: oldImageUrl } } }
+            // if (oldImageUrl) {
+            //     console.log("oldImageUrl", oldImageUrl);
+            //     const res=await ProductVarientModel.updateOne(
+            //         { _id: id },
+            //         { $pull: { imagesUrl: { $in: oldImageUrl } } }
                     
-                );
-                console.log(res);
-            }
+            //     );
+            //     console.log(res);
+            // }
+            const result=await ProductVarientModel.findOne({_id:id,isDeleted:false})
+            if(result){
+                const existingImages=result.imagesUrl
+                const newImages=existingImages.filter((item)=>!oldImageUrl.includes(item))
+                const finalImages=[...newImages,...imagesUrl]
+                data.imagesUrl=finalImages
+                const res=await ProductVarientModel.updateOne({_id:id,isDeleted:isDeleted},data)
+                if(res.matchedCount===0)
+                    return false
+                else
+                    return true
 
-            return true
+
+            }
+            else{
+                return false
+            }
         } catch (error) {
             console.log(error);
             throw error
@@ -49,8 +64,14 @@ module.exports = {
     },
     deleteVarient: async (varientId) => {
         try {
-            const delDoc = await ProductVarientModel.findOneAndDelete({ _id: varientId })
-            return delDoc
+            const varient = await ProductVarientModel.findOne({ _id: varientId })
+            if (varient) {
+                varient.isDeleted = true
+                await varient.save()
+                return true
+            } else {
+                return false
+            }
         } catch (error) {
             console.log(error);
             throw error
@@ -58,14 +79,16 @@ module.exports = {
     },
     deleteAllVarient: async (productId) => {
         try {
-            const deleVarients = await ProductVarientModel.find({ productId: productId }, { imagesUrl: 1, _id: 0 })
-            const result = await ProductVarientModel.deleteMany({ productId: productId })
-            console.log(deleVarients);
-            console.log(result);
-            if (result.matchedCount === 0)
-                return null
-            else
-                return deleVarients
+            const deleVarients = await ProductVarientModel.find({ productId: productId })
+            if (deleVarients) {
+                deleVarients.forEach(async (element) => {
+                    element.isDeleted = true
+                    await element.save()
+                });
+                return true
+            } else {
+                return false
+            }
 
         } catch (error) {
             console.log(error);
@@ -76,6 +99,12 @@ module.exports = {
         try {
             const result = await ProductVarientModel.aggregate([
                 {
+                    $match: {
+                        "productDetails.isListed": true,
+                        "productDetails.isDeleted": false,
+                    }
+                },
+                {
                     $lookup: {
                         from: "products",
                         localField: "productId",
@@ -84,11 +113,7 @@ module.exports = {
 
                     }
                 },
-                {
-                    $match: {
-                        "productDetails.isListed": true
-                    }
-                },
+                
                 {
                     $group: {
                         _id: "$productId",

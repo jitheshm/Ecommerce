@@ -109,36 +109,10 @@ router.patch('/updatevarient', authToken, fileUpload("products"), async (req, re
         console.log(req.body);
         if (req.body.oldImageUrl)
             req.body.oldImageUrl = JSON.parse(req.body.oldImageUrl)
-        await varientUpdate(req.body)
-        const filesToDelete = req.body.oldImageUrl
-        console.log(filesToDelete);
-        if (filesToDelete)
-            for (const file of filesToDelete) {
-                const filePath = path.join(__dirname, '../../../../', file);
-                console.log(filePath);
-                if (fs.existsSync(filePath)) {
-                    console.log(filePath);
-                    await fs.promises.unlink(filePath);
-                    console.log(`Deleted file: ${file}`);
-                } else {
-                    console.log(`File not found: ${file}`);
-                }
-            }
-        res.status(200).json({ success: true })
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ "error": "internal server error" })
-    }
-
-
-})
-
-router.delete('/deletevarient', authToken, async (req, res) => {
-    try {
-        const delDoc = await varientDelete(new ObjectId(req.query.id))
-        console.log(delDoc);
-        if (delDoc) {
-            const filesToDelete = delDoc.imagesUrl
+        const status = await varientUpdate(req.body)
+        if (status) {
+            const filesToDelete = req.body.oldImageUrl
+            console.log(filesToDelete);
             if (filesToDelete)
                 for (const file of filesToDelete) {
                     const filePath = path.join(__dirname, '../../../../', file);
@@ -152,8 +126,27 @@ router.delete('/deletevarient', authToken, async (req, res) => {
                     }
                 }
             res.status(200).json({ success: true })
-        } else {
-            res.status(200).json({ success: false, msg: "no match found" })
+        }
+        else {
+            res.status(200).json({ success: false, msg: "varient not found" })
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+
+
+})
+
+router.delete('/deletevarient', authToken, async (req, res) => {
+    try {
+        const status = await varientDelete(new ObjectId(req.query.id))
+        if (status) {
+            res.status(200).json({ success: true })
+        }
+        else {
+            res.status(200).json({ success: false, msg: "varient not found" })
         }
     } catch (error) {
         res.status(500).json({ "error": "internal server error" })
@@ -180,23 +173,13 @@ router.patch('/updateproduct', authToken, async (req, res) => {
 
 router.delete('/deleteproduct', authToken, async (req, res) => {
     try {
-        const deleVarients = await productDelete(new ObjectId(req.query.id))
-        console.log(deleVarients);
-        if (deleVarients) {
-            const filesToDelete = deleVarients.flatMap(obj => obj.imagesUrl)
-            if (filesToDelete)
-                for (const file of filesToDelete) {
-                    const filePath = path.join(__dirname, '../../../../', file);
-                    console.log(filePath);
-                    if (fs.existsSync(filePath)) {
-                        console.log(filePath);
-                        await fs.promises.unlink(filePath);
-                        console.log(`Deleted file: ${file}`);
-                    } else {
-                        console.log(`File not found: ${file}`);
-                    }
-                }
+        const status = await productDelete(new ObjectId(req.query.id))
+
+        if (status) {
             res.status(200).json({ success: true })
+        }
+        else {
+            res.status(200).json({ success: false, msg: "product not found" })
         }
     } catch (error) {
         console.log(error);
@@ -230,8 +213,13 @@ router.patch('/updateCategory', authToken, async (req, res) => {
 router.delete('/deleteCategory', authToken, async (req, res) => {
     try {
         const id = new ObjectId(req.query.id)
-        await categoryDelete(id)
-        res.status(200).json({ success: true })
+        const status = await categoryDelete(id)
+        if (status) {
+            res.status(200).json({ success: true })
+        }
+        else {
+            res.status(200).json({ success: false, msg: "category not found" })
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({ "error": "internal server error" })

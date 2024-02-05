@@ -6,7 +6,8 @@ const ProductSchema = new mongoose.Schema({
     categoryId:Schema.ObjectId,
     aboutProduct:String,   
     isListed:{ type: Boolean, required: true },
-    waranty:Number
+    waranty:Number,
+    isDeleted:{ type: Boolean, required: true }
 });
 
 

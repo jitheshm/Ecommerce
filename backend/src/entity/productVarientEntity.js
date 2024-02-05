@@ -1,5 +1,5 @@
 class ProductVarient {
-    constructor({productId, color, imagesUrl, stock, price, cost,avgRating,reviewCount}) {
+    constructor({productId, color, imagesUrl, stock, price, cost,avgRating,reviewCount,isDeleted=false}) {
         this.productId=productId
         this.color=color
         this.imagesUrl=imagesUrl
@@ -7,7 +7,8 @@ class ProductVarient {
         this.price=price
         this.cost=cost
         this.avgRating=avgRating
-        this.reviewCount=reviewCount
+        this.reviewCount=reviewCount,
+        this.isDeleted=isDeleted
 
 
     }

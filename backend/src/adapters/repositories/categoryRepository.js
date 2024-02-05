@@ -14,7 +14,11 @@ module.exports = {
     },
     update: async (data, id) => {
         try {
-            await CategoryModel.updateOne({ _id: id }, data)
+            const res=await CategoryModel.updateOne({ _id: id,isDeleted:false }, data)
+            if (res.matchedCount === 0)
+                return false
+            else
+                return true
         } catch (error) {
             console.log("category insertion failed" + error);
             throw error
@@ -22,7 +26,14 @@ module.exports = {
     },
     delete: async (id) => {
         try {
-            await CategoryModel.deleteOne({ _id: id })
+            const status=await CategoryModel.findOne({ _id: id })
+            if (status) {
+                status.isDeleted = true
+                await status.save()
+                return true
+            } else {
+                return false
+            }
         } catch (error) {
             console.log("category deletion failed" + error);
             throw error
@@ -30,7 +41,7 @@ module.exports = {
     },
     getCategory: async() => {
         try {
-            const categories=await CategoryModel.find()
+            const categories=await CategoryModel.find({isDeleted:false})
             console.log(categories);
             return categories
         } catch (error) {
