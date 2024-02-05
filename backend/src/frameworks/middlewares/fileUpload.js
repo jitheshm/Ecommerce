@@ -1,6 +1,7 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid'); // Import UUID v4 generator
 const fileUpload = (folder) => {
     const uploadDirectory=`public/uploads/${folder}`
     if (!fs.existsSync(uploadDirectory)) {
@@ -12,7 +13,8 @@ const fileUpload = (folder) => {
           cb(null,uploadDirectory );
         },
         filename: function (req, file, cb) {
-          cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+          
+          cb(null, file.fieldname + '-' + uuidv4() + path.extname(file.originalname));
         }
       })
     }).array('files', 5);

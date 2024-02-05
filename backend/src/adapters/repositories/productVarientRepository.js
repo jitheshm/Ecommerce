@@ -98,12 +98,7 @@ module.exports = {
     getOneVarientPerProduct: async () => {
         try {
             const result = await ProductVarientModel.aggregate([
-                {
-                    $match: {
-                        "productDetails.isListed": true,
-                        "productDetails.isDeleted": false,
-                    }
-                },
+                
                 {
                     $lookup: {
                         from: "products",
@@ -111,6 +106,12 @@ module.exports = {
                         foreignField: "_id",
                         as: "productDetails"
 
+                    }
+                },
+                {
+                    $match: {
+                        "productDetails.isListed": true,
+                        "productDetails.isDeleted": false,
                     }
                 },
                 

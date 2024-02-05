@@ -5,8 +5,8 @@ const ProductVarientSchema = new mongoose.Schema({
     color:String,
     imagesUrl:Array,
     stock:Number,
-    price:Number,
-    cost:Number,
+    salePrice:Number,
+    actualPrice:Number,
     avgRating:Number,
     reviewCount:Number,
     isDeleted:{ type: Boolean, required: true }

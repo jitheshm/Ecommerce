@@ -8,8 +8,8 @@ import { BASEURL } from "../../constants/constant.json"
 function VarientForm({ api, method, title, btnName, proId, id }) {
 
   const [stock, setStock] = useState(0)
-  const [price, setPrice] = useState(0)
-  const [cost, setCost] = useState(0)
+  const [actualPrice, setActualPrice] = useState(0)
+  const [salePrice, setSalePrice] = useState(0)
   const [color, setColor] = useState("")
   const [image1, setImage1] = useState(null)
   const [image2, setImage2] = useState(null)
@@ -20,8 +20,8 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
   const [imagePre3, setImagePre3] = useState(null)
   const [imagePre4, setImagePre4] = useState(null)
   const [stockError, setStockError] = useState(false)
-  const [priceError, setPriceError] = useState(false)
-  const [costError, setCostError] = useState(false)
+  const [actualPriceError, setActualPriceError] = useState(false)
+  const [salePriceError, setSalePriceError] = useState(false)
   const [colorError, setColorError] = useState(false)
   const [imgError, setImgError] = useState(false)
   const [oldImage, setOldImage] = useState([])
@@ -38,8 +38,8 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
       }).then((res) => {
         console.log(res.data.data);
         setStock(res.data.data.stock)
-        setPrice(res.data.data.price)
-        setCost(res.data.data.cost)
+        setActualPrice(res.data.data.price)
+        setSalePrice(res.data.data.cost)
         setColor(res.data.data.color)
         const images=res.data.data.imagesUrl
         images[0]?setImagePre1(BASEURL + "/" + images[0]):null
@@ -100,25 +100,25 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
       setStockError(false)
     }
 
-    if (price < 0 || !/^[0-9]*\.?[0-9]+$/.test(price)) {
-      setPriceError(true)
+    if (actualPrice < 0 || !/^[0-9]*\.?[0-9]+$/.test(actualPrice)) {
+      setActualPriceError(true)
       return;
     }
     else {
-      setPriceError(false)
+      setActualPriceError(false)
     }
 
-    if (cost < 0 || !/^[0-9]*\.?[0-9]+$/.test(cost)) {
-      setCostError(true) 
+    if (salePrice < 0 || !/^[0-9]*\.?[0-9]+$/.test(salePrice)) {
+      setSalePriceError(true) 
       return;
     }
     else {
-      setCostError(false)
+      setSalePriceError(false)
     }
 
     formData.append('stock', stock);
-    formData.append('price', price)
-    formData.append('cost', cost);
+    formData.append('actualPrice', actualPrice)
+    formData.append('salePrice', salePrice);
     formData.append('color', color)
     !id ? formData.append('productId', proId) : ""
 
@@ -129,10 +129,10 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
 
 
 
-    image1 ? formData.append('files', image1) : ""
-    image2 ? formData.append('files', image2) : ""
-    image3 ? formData.append('files', image3) : ""
-    image4 ? formData.append('files', image4) : ""
+    image1 ? formData.append('files', image1) : console.log("image1");
+    image2 ? formData.append('files', image2) :console.log("image2");
+    image3 ? formData.append('files', image3) : console.log("image3");
+    image4 ? formData.append('files', image4) : console.log("image4");
 
     if (!image1 && !image2 && !image3 && !image4 && !id) {
       setImgError(true)
@@ -202,28 +202,28 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
 
                   <div className="col-md-6">
                     <div className="form-group row">
-                      <label className="col-sm-3 col-form-label">Price</label>
+                      <label className="col-sm-3 col-form-label">Actual Price</label>
                       <div className="col-sm-9">
-                        <input type="number" className="form-control text-white" value={price} min={0} onChange={(e) => {
-                          setPrice(e.target.value)
-                          setPriceError(false)
+                        <input type="number" className="form-control text-white" value={actualPrice} min={0} onChange={(e) => {
+                          setActualPrice(e.target.value)
+                          setActualPriceError(false)
                         }} />
                         <div style={{ height: "30px" }}>
-                          {priceError && <p className='text-danger'>Price must be a positive number</p>}
+                          {actualPriceError && <p className='text-danger'>Actual Price must be a positive number</p>}
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group row">
-                      <label className="col-sm-3 col-form-label">Cost</label>
+                      <label className="col-sm-3 col-form-label">Sale Price</label>
                       <div className="col-sm-9">
-                        <input type="number" className="form-control text-white" value={cost} min={0} onChange={(e) => {
-                          setCost(e.target.value)
-                          setCostError(false)
+                        <input type="number" className="form-control text-white" value={salePrice} min={0} onChange={(e) => {
+                          setSalePrice(e.target.value)
+                          setSalePriceError(false)
                         }} />
                         <div style={{ height: "30px" }}>
-                          {costError && <p className='text-danger'>Cost is required</p>}
+                          {salePriceError && <p className='text-danger'>sale price is required</p>}
                         </div>
                       </div>
                     </div>
