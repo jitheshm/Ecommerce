@@ -38,8 +38,8 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
       }).then((res) => {
         console.log(res.data.data);
         setStock(res.data.data.stock)
-        setActualPrice(res.data.data.price)
-        setSalePrice(res.data.data.cost)
+        setActualPrice(res.data.data.actualPrice)
+        setSalePrice(res.data.data.salePrice)
         setColor(res.data.data.color)
         const images=res.data.data.imagesUrl
         images[0]?setImagePre1(BASEURL + "/" + images[0]):null

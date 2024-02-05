@@ -46,7 +46,7 @@ module.exports = {
                 const newImages=existingImages.filter((item)=>!oldImageUrl.includes(item))
                 const finalImages=[...newImages,...imagesUrl]
                 data.imagesUrl=finalImages
-                const res=await ProductVarientModel.updateOne({_id:id,isDeleted:isDeleted},data)
+                const res=await ProductVarientModel.updateOne({_id:id,isDeleted:false},data)
                 if(res.matchedCount===0)
                     return false
                 else
