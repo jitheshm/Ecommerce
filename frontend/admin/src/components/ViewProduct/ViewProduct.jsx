@@ -43,7 +43,7 @@ function ViewProduct() {
             console.log(res.data.data);
             setVarients(res.data.data)
         })
-    })
+    },[])
   
 
     const handleDelete = (id) => {

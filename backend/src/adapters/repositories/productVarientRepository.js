@@ -36,25 +36,29 @@ module.exports = {
             //     const res=await ProductVarientModel.updateOne(
             //         { _id: id },
             //         { $pull: { imagesUrl: { $in: oldImageUrl } } }
-                    
+
             //     );
             //     console.log(res);
             // }
-            const result=await ProductVarientModel.findOne({_id:id,isDeleted:false})
-            if(result){
-                const existingImages=result.imagesUrl
-                const newImages=existingImages.filter((item)=>!oldImageUrl.includes(item))
-                const finalImages=[...newImages,...imagesUrl]
-                data.imagesUrl=finalImages
-                const res=await ProductVarientModel.updateOne({_id:id,isDeleted:false},data)
-                if(res.matchedCount===0)
+            const result = await ProductVarientModel.findOne({ _id: id, isDeleted: false })
+            if (result) {
+                const existingImages = result.imagesUrl
+                if (oldImageUrl) {
+                    const newImages = existingImages.filter((item) => !oldImageUrl.includes(item))
+                    const finalImages = [...newImages, ...imagesUrl]
+                    data.imagesUrl = finalImages
+                }
+
+
+                const res = await ProductVarientModel.updateOne({ _id: id, isDeleted: false }, data)
+                if (res.matchedCount === 0)
                     return false
                 else
                     return true
 
 
             }
-            else{
+            else {
                 return false
             }
         } catch (error) {
@@ -98,7 +102,7 @@ module.exports = {
     getOneVarientPerProduct: async () => {
         try {
             const result = await ProductVarientModel.aggregate([
-                
+
                 {
                     $lookup: {
                         from: "products",
@@ -114,7 +118,7 @@ module.exports = {
                         "productDetails.isDeleted": false,
                     }
                 },
-                
+
                 {
                     $group: {
                         _id: "$productId",
@@ -151,34 +155,35 @@ module.exports = {
         ]).exec()
         return varientDetail
     },
-    getVarient:async(id)=>{
+    getVarient: async (id) => {
         try {
-            const result=await ProductVarientModel.findOne({_id:id})
+            const result = await ProductVarientModel.findOne({ _id: id })
             return result
         } catch (error) {
             console.log(error);
             throw error
         }
     },
-    getColorList:async(id)=>{
+    getColorList: async (id) => {
         try {
-            const colorList=await ProductVarientModel.aggregate([
+            const colorList = await ProductVarientModel.aggregate([
                 {
-                    $match:{
-                        productId:id
+                    $match: {
+                        productId: id
                     }
                 },
                 {
-                    $group:{
-                        _id:"$color"
+                    $group: {
+                        _id: "$color"
                     }
                 },
-                { $project: {  
-                    _id:0,
-                    color: "$_id",
-                   
-                 }
-              }
+                {
+                    $project: {
+                        _id: 0,
+                        color: "$_id",
+
+                    }
+                }
             ]).exec()
             console.log(colorList);
             return colorList
@@ -188,10 +193,10 @@ module.exports = {
         }
     },
 
-    
-    getProductAllVarient:async(id)=>{
+
+    getProductAllVarient: async (id) => {
         try {
-            const result=await ProductVarientModel.find({productId:id,isDeleted:false})
+            const result = await ProductVarientModel.find({ productId: id, isDeleted: false })
             return result
         } catch (error) {
             console.log(error);
