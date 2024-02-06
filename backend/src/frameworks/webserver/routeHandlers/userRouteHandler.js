@@ -2,7 +2,7 @@ const { nodemailerEmail, nodemailerPassword } = require('../../config')
 const { ObjectId } = require('mongodb');
 const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../../../adapters/controllers/productController');
 
-const { signup, verifyUser, loginUser } = require('../../../adapters/controllers/userController')
+const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/controllers/userController')
 
 
 module.exports = {
@@ -76,6 +76,22 @@ module.exports = {
             const id = new ObjectId(req.params.id)
             const result = await getcolorlist(id)
             res.status(200).json({ success: true, data: result })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    resendOtpHandler:async(req,res)=>{
+        try {
+            const status=await resendOtp(req.user,nodemailerEmail, nodemailerPassword)
+            console.log(status);
+            if(status){
+                res.status(200).json({success:true})
+            }
+            else{
+                res.status(200).json({success:false,msg:"otp not resent"})
+            }
+
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

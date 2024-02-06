@@ -71,5 +71,13 @@ module.exports = {
             throw error
         }
 
+    },
+    findUser:async(id)=>{
+        try {
+            const user=await UserModel.findOne({_id:id})
+            return user
+        } catch (error) {
+            throw error
+        }
     }
 }
