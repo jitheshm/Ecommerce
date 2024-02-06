@@ -21,6 +21,7 @@ import EditCategory from './pages/EditCategory';
 import CategoryList from './components/CategoryList/CategoryList';
 import EditVarient from './pages/EditVarient';
 import ViewProduct from './pages/ViewProduct';
+import VarientList from './pages/VarientList';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -88,6 +89,10 @@ function App() {
     {
       path:"/viewproduct/:id",
       element:<Layout><ViewProduct/></Layout>
+    },
+    {
+      path:"/products/:id/varients",
+      element:<Layout><VarientList/></Layout>
     }
 
 

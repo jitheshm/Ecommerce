@@ -58,7 +58,7 @@ function Sidebar() {
                             <ul className="nav flex-column sub-menu">
                                 <li className="nav-item"> <Link to='/products' className="nav-link" href="/">View Products</Link></li>
                                 <li className="nav-item"> <Link to='/addproduct' className="nav-link">Add products</Link></li>
-                                <li className="nav-item"> <a className="nav-link" href="/">View Varients</a></li>
+                                
                             </ul>
                         </div>
                     </li>

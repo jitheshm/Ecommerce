@@ -123,7 +123,16 @@ function ProductList() {
                                                                         <Link to={`/viewproduct/${product._id}`} className="dropdown-item preview-item">
 
                                                                             <div className="preview-item-content">
-                                                                                <p className="preview-subject mb-1">View</p>
+                                                                                <p className="preview-subject mb-1">View Products</p>
+
+                                                                            </div>
+
+                                                                        </Link>
+
+                                                                        <Link to={`/products/${product._id}/varients`} className="dropdown-item preview-item">
+
+                                                                            <div className="preview-item-content">
+                                                                                <p className="preview-subject mb-1">View Varients</p>
 
                                                                             </div>
 
