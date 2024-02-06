@@ -43,8 +43,8 @@ function ViewProduct() {
             console.log(res.data.data);
             setVarients(res.data.data)
         })
-    },[])
-  
+    }, [])
+
 
     const handleDelete = (id) => {
         if (confirm('Are you sure you want to delete this user?')) {
@@ -54,7 +54,7 @@ function ViewProduct() {
                 }
             }).then((res) => {
                 console.log(res);
-                setVarients(varients.filter((varientObj) =>varientObj._id !== id))
+                setVarients(varients.filter((varientObj) => varientObj._id !== id))
             })
         }
 
@@ -70,10 +70,14 @@ function ViewProduct() {
         <>
 
             <div className='pt-5'>
-                <div className="col-11 m-auto mt-5 grid-margin">
+                <div className="col-11 m-auto mt-5 grid-margin">  
                     <div className="card">
-                        <div className="card-body mt-3">
+                        <div className="card-body mt-3"> 
+                            <div className='row justify-content-end'>
+                                <Link to={`/editproduct/${id}`} className="btn btn-outline-warning mt-4" style={{width:"120px"}}>Edit Details</Link>
+                            </div>
                             <h4 className="card-title ">Product Details</h4>
+
                             <form className="form-sample mt-5 ">
 
                                 <div className="row mt-1">
@@ -158,15 +162,15 @@ function ViewProduct() {
                                             <th>Stock</th>
                                             <th>Actual price</th>
                                             <th>Sale Price</th>
-                                            <th>Color</th> 
-                                           
+                                            <th>Color</th>
+
                                             <th style={{ textAlign: "center", width: "250px" }}>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody >
                                         {
                                             varients.map((varientObj) => {
-                                                if (varientObj.color.startsWith(search) || search === "" ) {
+                                                if (varientObj.color.startsWith(search) || search === "") {
                                                     return (
                                                         // eslint-disable-next-line react/jsx-key
                                                         <tr >
@@ -175,16 +179,16 @@ function ViewProduct() {
                                                             <td style={{ color: "#6c7293" }}>{varientObj.actualPrice}</td>
                                                             <td style={{ color: "#6c7293" }}>{varientObj.salePrice}</td>
                                                             <td style={{ color: "#6c7293" }}>{varientObj.color}</td>
-                                                            
+
                                                             <td className='d-flex gap-3 justify-content-center' style={{ width: "250px" }}>
                                                                 <Link to={`/editvarient/${varientObj._id}`} className='btn btn-outline-warning'>Edit</Link>
-                                                                
-                                                                
+
+
                                                                 <button className='btn btn-outline-danger' onClick={() => {
                                                                     handleDelete(varientObj._id)
                                                                 }}>Delete</button>
 
-                                                                
+
                                                             </td>
                                                         </tr>
                                                     )
