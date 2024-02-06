@@ -47,6 +47,8 @@ module.exports = {
                     const newImages = existingImages.filter((item) => !oldImageUrl.includes(item))
                     const finalImages = [...newImages, ...imagesUrl]
                     data.imagesUrl = finalImages
+                }else if(imagesUrl){
+                    data.imagesUrl = [...existingImages, ...imagesUrl]
                 }
 
 

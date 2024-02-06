@@ -41,11 +41,11 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
         setActualPrice(res.data.data.actualPrice)
         setSalePrice(res.data.data.salePrice)
         setColor(res.data.data.color)
-        const images=res.data.data.imagesUrl
-        images[0]?setImagePre1(BASEURL + "/" + images[0]):null
-        images[1]?setImagePre2(BASEURL + "/" + images[1]):null
-        images[2]?setImagePre3(BASEURL + "/" + images[2]):null
-        images[3]?setImagePre4(BASEURL + "/" + images[3]):null
+        const images = res.data.data.imagesUrl
+        images[0] ? setImagePre1(BASEURL + "/" + images[0]) : null
+        images[1] ? setImagePre2(BASEURL + "/" + images[1]) : null
+        images[2] ? setImagePre3(BASEURL + "/" + images[2]) : null
+        images[3] ? setImagePre4(BASEURL + "/" + images[3]) : null
       })
     }
   }, [])
@@ -82,6 +82,19 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
   }
 
 
+  const handleRemove = (imgPrev, setImgPrev, img, setImg) => {
+
+    if (id && imgPrev && !img) {
+      let newUrl = imgPrev.replace(new RegExp('^' + `${BASEURL}/`), '');
+      console.log(newUrl);
+      setOldImage((prev) => {
+        return [...prev, newUrl]
+      })
+    }
+    setImg(null)
+    setImgPrev(null)
+  }
+
 
   const handleSubmit = () => {
     //console.log(oldImage);
@@ -109,7 +122,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
     }
 
     if (salePrice < 0 || !/^[0-9]*\.?[0-9]+$/.test(salePrice)) {
-      setSalePriceError(true) 
+      setSalePriceError(true)
       return;
     }
     else {
@@ -130,7 +143,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
 
 
     image1 ? formData.append('files', image1) : console.log("image1");
-    image2 ? formData.append('files', image2) :console.log("image2");
+    image2 ? formData.append('files', image2) : console.log("image2");
     image3 ? formData.append('files', image3) : console.log("image3");
     image4 ? formData.append('files', image4) : console.log("image4");
 
@@ -237,10 +250,16 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                 <div className='row col-8 m-auto mt-2'>
                   <div className='col-3 text-center'>
                     <div className="mb-4 d-flex justify-content-center">
-                      <label htmlFor='file-1' id='file1-label'>
-                        <img id="selectedImage1" src={imagePre1 ? imagePre1 : img} style={{ width: "100%", height: "150px" }} />
-                      </label>
-
+                      <div>
+                        <label htmlFor='file-1' id='file1-label'>
+                          <img id="selectedImage1" src={imagePre1 ? imagePre1 : img} style={{ width: "100%", height: "150px" }} />
+                        </label>
+                        <div>
+                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={()=>{
+                            handleRemove(imagePre1, setImagePre1, image1, setImage1)
+                          }}>Remove</button>
+                        </div>
+                      </div>
                     </div>
                     <div className="d-flex justify-content-center">
                       <input id='file-1' type="file" onChange={(e) => {
@@ -250,9 +269,16 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                   </div>
                   <div className='col-3'>
                     <div className="mb-4 d-flex justify-content-center">
-                      <label htmlFor='file-2' id='file2-label' >
-                        <img id="selectedImage" src={imagePre2 ? imagePre2 : img} style={{ width: "100%", height: "150px" }} />
-                      </label>
+                      <div>
+                        <label htmlFor='file-2' id='file2-label' >
+                          <img id="selectedImage" src={imagePre2 ? imagePre2 : img} style={{ width: "100%", height: "150px" }} />
+                        </label>
+                        <div className='text-center'>
+                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={()=>{
+                            handleRemove(imagePre2, setImagePre2, image2, setImage2)
+                          }}>Remove</button>
+                        </div>
+                      </div>
                     </div>
                     <input id='file-2' type="file" onChange={(e) => {
                       handleImageChange(setImage2, setImagePre2, e)
@@ -261,9 +287,16 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                   </div>
                   <div className='col-3'>
                     <div className="mb-4 d-flex justify-content-center">
-                      <label htmlFor='file-3' id='file3-label' >
-                        <img id="selectedImage" src={imagePre3 ? imagePre3 : img} style={{ width: "100%", height: "150px" }} />
-                      </label>
+                      <div>
+                        <label htmlFor='file-3' id='file3-label' >
+                          <img id="selectedImage" src={imagePre3 ? imagePre3 : img} style={{ width: "100%", height: "150px" }} />
+                        </label>
+                        <div className='text-center'>
+                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={()=>{
+                            handleRemove(imagePre3, setImagePre3, image3, setImage3)
+                          }}>Remove</button>
+                        </div>
+                      </div>
                     </div>
                     <div className="d-flex justify-content-center">
                       <input id='file-3' type="file" onChange={(e) => {
@@ -274,9 +307,16 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                   </div>
                   <div className='col-3'>
                     <div className="mb-4 d-flex justify-content-center">
-                      <label htmlFor='file-4' id='file4-label' >
-                        <img id="selectedImage" src={imagePre4 ? imagePre4 : img} alt="example placeholder" style={{ width: "100%", height: "150px" }} />
-                      </label>
+                      <div>
+                        <label htmlFor='file-4' id='file4-label' >
+                          <img id="selectedImage" src={imagePre4 ? imagePre4 : img} alt="example placeholder" style={{ width: "100%", height: "150px" }} />
+                        </label>
+                        <div className='text-center'>
+                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={()=>{
+                            handleRemove(imagePre4, setImagePre4, image4, setImage4)
+                          }}>Remove</button>
+                        </div>
+                      </div>
                     </div>
                     <div className="d-flex justify-content-center">
                       <input id='file-4' type="file" onChange={(e) => {
@@ -287,7 +327,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                     </div>
                   </div>
                 </div>
-                {imgError && <p className='text-danger text-center'>All images are required</p>}
+                {imgError && <p className='text-danger text-center'>Atleast  one image is required</p>}
 
 
                 <button type='button' className='btn-inverse-success mt-4' onClick={handleSubmit}>{btnName}</button>

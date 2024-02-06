@@ -131,9 +131,9 @@ function ViewProduct() {
                                 </div>
                                 <div className='col-12 mt-1'>
                                     <div className="form-group row">
-                                        <label className="col-sm-2 col-form-label">Description</label>
+                                        <label className="col-sm-2 col-form-label">Description</label>   
                                         <div className="col-sm-12">
-                                            <div className="form-control text-white" style={{ height: "150px", lineHeight: "20px" }}  >
+                                            <div className="form-control text-white" style={{ height: "150px", lineHeight: "25px" }}  >
                                                 {aboutProduct}
                                             </div>
 
@@ -147,7 +147,7 @@ function ViewProduct() {
 
                         <div className="card-body">
                             <div className='row align-items-center mb-4'>
-                                <h4 className="card-title col-4 mt-4">All Varients</h4>
+                                <h4 className="card-title col-4 mt-4"><b>All Varients</b></h4>
                                 <form className="nav-link  d-none d-lg-flex search col-6">
                                     <input type="text" className="form-control" placeholder="Search products" style={{ color: "white" }} onChange={handleSearch} />
                                 </form>
