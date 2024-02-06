@@ -56,7 +56,7 @@ function App() {
             element: <Landing />
         },
         {
-            path: "/product/:productId/:varientId",
+            path: "/product/:productId/:prodColor",
             element: <ProductDetails />
         },
         {

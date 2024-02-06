@@ -1,5 +1,5 @@
-const getVarientDetails=async(id,productVarientRepository)=>{
-const varientDetail=await productVarientRepository.getVarientDetails(id)
+const getVarientDetails=async(color,productVarientRepository)=>{
+const varientDetail=await productVarientRepository.getVarientDetails(color)
 return varientDetail
 }
 

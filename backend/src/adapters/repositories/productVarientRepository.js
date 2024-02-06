@@ -132,11 +132,11 @@ module.exports = {
             throw error
         }
     },
-    getVarientDetails: async (id) => {
+    getVarientDetails: async (color) => {
         const varientDetail = await ProductVarientModel.aggregate([
             {
                 $match: {
-                    _id: id
+                    color: color
                 }
             },
             {
@@ -155,6 +155,33 @@ module.exports = {
         try {
             const result=await ProductVarientModel.findOne({_id:id})
             return result
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
+    },
+    getColorList:async(id)=>{
+        try {
+            const colorList=await ProductVarientModel.aggregate([
+                {
+                    $match:{
+                        productId:id
+                    }
+                },
+                {
+                    $group:{
+                        _id:"$color"
+                    }
+                },
+                { $project: {  
+                    _id:0,
+                    color: "$_id",
+                   
+                 }
+              }
+            ]).exec()
+            console.log(colorList);
+            return colorList
         } catch (error) {
             console.log(error);
             throw error

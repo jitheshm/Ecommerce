@@ -3,7 +3,7 @@ const { signup, verifyUser, loginUser } = require('../../../adapters/controllers
 const router = express.Router()
 const { nodemailerEmail, nodemailerPassword } = require('../../config')
 const { ObjectId } = require('mongodb');
-const { getOneVarientPerProduct, getVarientDetail } = require('../../../adapters/controllers/productController');
+const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../../../adapters/controllers/productController');
 const userAuthToken = require('../../middlewares/userAuthToken');
 router.post('/signup', async (req, res) => {
     try {
@@ -61,10 +61,10 @@ router.get('/getproducts', async (req, res) => {
     }
 })
 
-router.get('/getproductdetails/:id', async (req, res) => {
+router.get('/getproductdetails/:color', async (req, res) => {
     try {
-        const id = new ObjectId(req.params.id)
-        const varientDetails = await getVarientDetail(id)
+        const color = req.params.color
+        const varientDetails = await getVarientDetail(color)
         res.status(200).json({ success: true, data: varientDetails })
     } catch (error) {
         console.log(error);
@@ -76,6 +76,16 @@ router.get('/tokenverify', userAuthToken, (req, res) => {
     res.status(200).json({ success: true, name: req.user.name })
 })
 
+router.get('/getcolorlist/:id',async(req,res)=>{
+    try {
+        const id=new ObjectId(req.params.id)
+        const result=await getcolorlist(id)
+        res.status(200).json({success:true,data:result})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+})
 
 
 
