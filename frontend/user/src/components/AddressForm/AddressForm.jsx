@@ -4,10 +4,10 @@ function AddressForm() {
     return (
         <>
 
-            <div className='col-md-12 p-5 address border mt-3'>
+            <div className='col-md-12 p-5 address border mt-3' style={{float:"none"}}>
 
                 <h4><b>Add new Address</b></h4>
-                <form className='col-md-10 mt-3'>
+                <form className='col-md-10 mt-3' style={{float:"none"}}>
                     <div className="row">
                         <div className="form-group col-md-6">
                             <label htmlFor="inputEmail4">Name</label>
