@@ -186,5 +186,16 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+
+    
+    getProductAllVarient:async(id)=>{
+        try {
+            const result=await ProductVarientModel.find({productId:id,isDeleted:false})
+            return result
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }

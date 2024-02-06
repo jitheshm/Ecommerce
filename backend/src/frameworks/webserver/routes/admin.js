@@ -3,7 +3,7 @@ const { login, blockUser, unblockUser, fetchAllUsers } = require('../../../adapt
 const router = express.Router()
 const { ObjectId } = require('mongodb');
 const authToken = require('../../middlewares/adminAuthToken');
-const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, allVarientDelete, productDelete, editProduct, getAllProducts, getVarient, productListChange } = require('../../../adapters/controllers/productController');
+const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, allVarientDelete, productDelete, editProduct, getAllProducts, getVarient, productListChange, viewProduct, getProductAllVarient } = require('../../../adapters/controllers/productController');
 const fileUpload = require('../../middlewares/fileUpload');
 const path = require('path');
 const fs = require('fs');
@@ -306,6 +306,27 @@ router.patch('/changelistproduct', async (req, res) => {
     }
 })
 
+router.get('/product/:id', async(req,res) => {
+    try {
+        const id = new ObjectId(req.params.id)
+        const product=await viewProduct(id)
+        res.status(200).json({ success: true, data: product })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+})
+
+router.get('/getallvarient/:proId',async(req,res)=>{
+    try {
+        const id = new ObjectId(req.params.proId)
+        const result=await getProductAllVarient(id)
+        res.status(200).json({ success: true, data: result })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": "internal server error" })
+    }
+})
 
 
 module.exports = router

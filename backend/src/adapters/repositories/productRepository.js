@@ -21,7 +21,7 @@ module.exports = {
                     filteredUpdateFields[key] = value;
                 }
             }
-            const result = await ProductModel.updateOne({ _id: id,isDeleted:false }, filteredUpdateFields)
+            const result = await ProductModel.updateOne({ _id: id, isDeleted: false }, filteredUpdateFields)
             if (result.matchedCount === 0)
                 return false
             else
@@ -33,7 +33,7 @@ module.exports = {
     },
     deleteProduct: async (productId) => {
         try {
-            const product= await ProductModel.findOne({ _id: productId })
+            const product = await ProductModel.findOne({ _id: productId })
             if (product) {
                 product.isDeleted = true
                 await product.save()
@@ -48,16 +48,32 @@ module.exports = {
     },
     getproduct: async (id) => {
         try {
-            const product = await ProductModel.findOne({ _id: id })
-            return product
+            const product = await ProductModel.aggregate([
+                {
+                    $match: {
+                        _id: id,
+                        isDeleted: false
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "categories",
+                        localField: "categoryId",
+                        foreignField: "_id",
+                        as: "categoryName"
+                    }
+                }
+
+            ])
+            return product[0]
         } catch (error) {
             console.log(error);
             throw error
         }
     },
-    getAll:async()=>{
+    getAll: async () => {
         try {
-            const products=await ProductModel.find({isDeleted:false})
+            const products = await ProductModel.find({ isDeleted: false })
             return products
         } catch (error) {
             console.log(error);
@@ -66,7 +82,7 @@ module.exports = {
     },
     productListChange: async (id) => {
         try {
-            const product = await ProductModel.findOne({ _id: id, isDeleted: false})
+            const product = await ProductModel.findOne({ _id: id, isDeleted: false })
             if (product) {
                 product.isListed = !product.isListed
                 await product.save()
@@ -79,6 +95,6 @@ module.exports = {
             throw error
         }
     }
-    
+
 
 }
