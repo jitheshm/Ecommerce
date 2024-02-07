@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 function OtpVerify() {
     const [otp, setOtp] = useState("")
     const [otpError, setOtpError] = useState(false)
-    
+    const [timer, setTimer] = useState(30)
+    const [timerEnd, setTimerEnd] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const handleSubmit = () => {
@@ -34,6 +35,38 @@ function OtpVerify() {
 
         })
     }
+
+    useEffect(() => {
+        let id
+        if (!timerEnd) {
+            id = setInterval(() => {
+                setTimer((pre) => {
+                    if (pre === 1) {
+                        setTimerEnd(true)
+                    }
+                    return pre - 1
+                })
+
+            }, 1000);
+        }
+        return () => {
+            clearInterval(id)
+        }
+    }, [timerEnd])
+
+
+    const handleResendOtp=()=>{
+        instance.get("/user/resendOtp",{
+            headers:{
+                Authorization:Cookies.get('token')
+            }
+        }).then((res)=>{
+            console.log(res);
+            setTimer(30)
+            setTimerEnd(false)
+        })
+    }
+
     return (
         <>
             <section className="vh-100 gradient-custom">
@@ -56,7 +89,7 @@ function OtpVerify() {
 
                                         <button className="btn primary btn-lg px-5 text-white verifyBtn" type="button" onClick={handleSubmit}>Verify me</button>
                                         <div className='mt-5'>
-                                            <p className="mb-0">Not received otp? <a  className="text-dark-50 fw-bold">Resend code</a>
+                                            <p className="mb-0">Not received otp? {timerEnd ? <button className="text-dark-50 fw-bold btn" onClick={handleResendOtp}>Resend code</button>: <span className="text-dark-50 fw-bold">{timer}</span>}
                                             </p>
                                         </div>
 
