@@ -1,28 +1,28 @@
 const { verifyToken } = require("../../adapters/services/authService")
 
-const userAuthToken = async(req, res, next) => {
+const userAuthToken = async (req, res, next) => {
     try {
         const token = req.header('Authorization');
-        if(token){
+        if (token) {
             const decode = await verifyToken(token)
             console.log(decode);
-            if (decode && decode.role==='user') {
+            if (decode && decode.role === 'user' && decode.isVerified === true) {
                 req.user = decode
                 next()
-            }else{
-                res.status(401).json({error:"unauthorised"})
+            } else {
+                res.status(401).json({ error: "unauthorised" })
             }
-        }else{
-            res.status(401).json({error:"unauthorised"})
+        } else {
+            res.status(401).json({ error: "unauthorised" })
         }
-        
+
     }
     catch (error) {
         console.log(error.message);
-        if(error.message==="jwt expired"){
-            res.status(401).json({error:"unauthorised"})
+        if (error.message === "jwt expired") {
+            res.status(401).json({ error: "unauthorised" })
         }
-        else{
+        else {
             res.status(500).json({ "error": "internal server error" })
         }
     }
