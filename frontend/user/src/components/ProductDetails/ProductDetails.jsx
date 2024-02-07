@@ -47,7 +47,7 @@ function ProductDetails() {
         <>
             {
                 loading ? <div>loading...</div> :
-                    <div>
+                    <div style={{backgroundColor:"white"}}>
                         <section className="py-5 ">
                             <div className="container">
                                 <div className="row " style={{ position: "relative" }}>

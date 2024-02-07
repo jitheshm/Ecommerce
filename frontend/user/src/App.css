@@ -352,3 +352,20 @@
       margin-top: 10px;
     }
   }
+
+  .verifyBtn:hover{
+   
+    background-color: #15161D;
+    
+  }
+  .otpCard{
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
+  }
+
+  body{
+    background-color: #F1F3F6!important;
+  }
+
+  .landing{
+    background-color: #ffffff!important;
+  }

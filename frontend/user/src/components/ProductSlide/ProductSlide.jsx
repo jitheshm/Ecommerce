@@ -16,7 +16,7 @@ function ProductSlide({ title }) {
 
     return (
         <>
-            <div className='container-fluid mb-5 '> 
+            <div className='container-fluid mb-0 landing '> 
                 <div className='ms-4'>
                     <h3><b style={{color:"black"}}>{title}</b></h3> 
                     <hr style={{borderColor:"black"}} />
