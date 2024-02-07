@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../../../adapters/controllers/productController');
 
 const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/controllers/userController');
-const { addAddress, updateAddress } = require('../../../adapters/controllers/addressController');
+const { addAddress, updateAddress, deleteAddress } = require('../../../adapters/controllers/addressController');
 
 
 module.exports = {
@@ -124,6 +124,21 @@ module.exports = {
             }
             else {
                 res.status(200).json({ success: false, msg: "address not updated" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    deleteAddressHandler: async (req, res) => {
+        try {
+            const status = await deleteAddress(req.query.id)
+            console.log(status);
+            if (status) {
+                res.status(200).json({ success: true })
+            }
+            else {
+                res.status(200).json({ success: false, msg: "address not deleted" })
             }
         } catch (error) {
             console.log(error);

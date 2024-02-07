@@ -21,5 +21,18 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    deleteAddress: async (id) => {
+        try {
+            const res = await AddressModal.deleteOne({ _id: id })
+            console.log(res);
+            if (res.deletedCount === 0)
+                return false
+            else
+                return true
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }
