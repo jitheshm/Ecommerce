@@ -1,4 +1,6 @@
-const { verifyToken } = require("../../adapters/services/authService")
+const userRepository = require("../../adapters/repositories/userRepository");
+const { verifyToken } = require("../../adapters/services/authService");
+const isBlocked = require("../../usecase/user/isBlocked");
 
 const userAuthToken = async (req, res, next) => {
     try {
@@ -7,8 +9,13 @@ const userAuthToken = async (req, res, next) => {
             const decode = await verifyToken(token)
             console.log(decode);
             if (decode && decode.role === 'user' && decode.isVerified === true) {
-                req.user = decode
-                next()
+                const blocked = await isBlocked(userRepository, decode.id)
+                if (!blocked) {
+                    req.user = decode
+                    next()
+                } else {
+                    res.status(401).json({ error: "unauthorised" })
+                }
             } else {
                 res.status(401).json({ error: "unauthorised" })
             }

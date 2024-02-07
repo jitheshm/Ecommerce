@@ -72,10 +72,18 @@ module.exports = {
         }
 
     },
-    findUser:async(id)=>{
+    findUser: async (id) => {
         try {
-            const user=await UserModel.findOne({_id:id})
+            const user = await UserModel.findOne({ _id: id })
             return user
+        } catch (error) {
+            throw error
+        }
+    },
+    isBlocked: async (id) => {
+        try {
+            const user = await UserModel.findOne({ _id: id })
+            return user.isBlocked
         } catch (error) {
             throw error
         }
