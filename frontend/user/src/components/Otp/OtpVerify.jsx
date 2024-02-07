@@ -29,9 +29,15 @@ function OtpVerify() {
             }
         }).then((res) => {
             console.log(res);
-            Cookies.set('token', res.data.token, { expires: 365 })
-            dispatch(verify({ name: res.data.name }))
-            navigate("/")
+            if (res.data.success) {
+                Cookies.set('token', res.data.token, { expires: 365 })
+                dispatch(verify({ name: res.data.name }))
+                navigate("/")
+            }
+            else{
+                setOtpError(true)
+            }
+
 
         })
     }
@@ -55,12 +61,12 @@ function OtpVerify() {
     }, [timerEnd])
 
 
-    const handleResendOtp=()=>{
-        instance.get("/user/resendOtp",{
-            headers:{
-                Authorization:Cookies.get('token')
+    const handleResendOtp = () => {
+        instance.get("/user/resendOtp", {
+            headers: {
+                Authorization: Cookies.get('token')
             }
-        }).then((res)=>{
+        }).then((res) => {
             console.log(res);
             setTimer(30)
             setTimerEnd(false)
@@ -79,7 +85,7 @@ function OtpVerify() {
                                         <h2 className="fw-bold mb-2 text-uppercase">Otp</h2>
                                         <p className="text-dark-50 mb-5">Please enter your verification code</p>
                                         <div className="form-outline form-white mb-4 ">
-                                            {otpError && <p className="text-danger">Please enter otp</p>}
+                                            {otpError && <p className="text-danger">Please enter valid otp</p>}
                                             <input type="text" className="form-control form-control-lg " value={otp} onChange={(e) => {
                                                 setOtp(e.target.value)
                                             }} />
@@ -89,7 +95,7 @@ function OtpVerify() {
 
                                         <button className="btn primary btn-lg px-5 text-white verifyBtn" type="button" onClick={handleSubmit}>Verify me</button>
                                         <div className='mt-5'>
-                                            <p className="mb-0">Not received otp? {timerEnd ? <button className="text-dark-50 fw-bold btn" onClick={handleResendOtp}>Resend code</button>: <span className="text-dark-50 fw-bold">{timer}</span>}
+                                            <p className="mb-0">Not received otp? {timerEnd ? <button className="text-dark-50 fw-bold btn" onClick={handleResendOtp}>Resend code</button> : <span className="text-dark-50 fw-bold">{timer}</span>}
                                             </p>
                                         </div>
 

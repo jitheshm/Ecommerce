@@ -3,7 +3,7 @@ import { useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
-function Signup({setVerifyOtp}) {
+function Signup({ setVerifyOtp }) {
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
@@ -14,6 +14,7 @@ function Signup({setVerifyOtp}) {
     const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
     const [confirmError, setConfirmError] = useState(false)
+    const [errorMsg, setErrorMsg] = useState("")
 
 
     const handleSubmit = () => {
@@ -48,19 +49,23 @@ function Signup({setVerifyOtp}) {
             return;
         } else {
             setConfirmError(false)
-        }  
+        }
         instance.post("/user/signup", {
             firstName,
             lastName,
             email,
             password,
         }).then((res) => {
-            console.log(res);
-            Cookies.set('token', res.data.token, { expires: 365 })
-            setVerifyOtp(true)
+            if (res.data.success) {
+                console.log(res);
+                Cookies.set('token', res.data.token, { expires: 365 })
+                setVerifyOtp(true)
+            } else {
+                setErrorMsg(res.data.error)
+            }
         }).catch((err) => {
             console.log(err);
-        
+
         })
 
 
@@ -77,6 +82,9 @@ function Signup({setVerifyOtp}) {
                                     <div className="mb-md-5 mt-md-4 pb-5 px-5">
                                         <h2 className="fw-bold mb-2 text-uppercase">Signup</h2>
                                         <p className="text-dark-50 mb-5">Please enter your details</p>
+                                        <div style={{ height: "30px" }}>
+                                            {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+                                        </div>
                                         <div className="form-outline form-white mb-4 ">
                                             <label className="form-label" htmlFor="typeEmailX">First Name</label>
                                             {firstNameError && <p style={{ color: "red" }}>please enter your first name</p>}

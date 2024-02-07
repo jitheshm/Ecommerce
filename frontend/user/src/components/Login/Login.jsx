@@ -12,9 +12,9 @@ function Login() {
     const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
     const [loginError, setLoginError] = useState(false)
-    const dispatch=useDispatch()
-    const navigate=useNavigate()
-    const handleSubmit=()=>{
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const handleSubmit = () => {
         if (!/^\S+@\S+\.\S+$/.test(email)) {
             setEmailError(true)
             return;
@@ -28,7 +28,7 @@ function Login() {
             setPasswordError(false)
         }
         instance.post("/user/login", {
-           
+
             email,
             password,
         }).then((res) => {
@@ -36,11 +36,11 @@ function Login() {
             Cookies.set('token', res.data.token, { expires: 365 })
             dispatch(verify({ name: res.data.name }))
             navigate("/")
-           
+
         }).catch((err) => {
             console.log(err);
             setLoginError(true)
-        
+
         })
     }
     return (
@@ -53,9 +53,11 @@ function Login() {
                                 <div className="card-body p-md-5 text-center">
                                     <div className="mb-md-5 mt-md-4 pb-5 px-5">
                                         <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
-                                        {
-                                            loginError && <p style={{ color: "red" }}>Invalid email or password</p>
-                                        }
+                                        <div style={{ height: "30px" }}>
+                                            {
+                                                loginError && <p style={{ color: "red" }}>Invalid email or password</p>
+                                            }
+                                        </div>
                                         <p className="text-dark-50 mb-5">Please enter your login and password!</p>
                                         <div className="form-outline form-white mb-4 ">
                                             <label className="form-label" htmlFor="typeEmailX">Email</label>
@@ -83,7 +85,7 @@ function Login() {
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="mb-0">Don't have an account? <Link to={'/signup'}  className="text-dark-50  fw-bold">Sign Up</Link>
+                                        <p className="mb-0">Don't have an account? <Link to={'/signup'} className="text-dark-50  fw-bold">Sign Up</Link>
                                         </p>
                                     </div>
                                 </div>

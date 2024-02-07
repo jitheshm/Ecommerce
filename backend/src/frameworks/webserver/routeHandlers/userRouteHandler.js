@@ -10,9 +10,9 @@ module.exports = {
         try {
             const token = await signup(req.body, nodemailerEmail, nodemailerPassword)
             if (token) {
-                res.status(200).json({ "success": true, token: token })
+                res.status(200).json({ success: true, token: token })
             } else {
-                res.status(200).json({ "error": "user already exist" })
+                res.status(200).json({ success: false, "error": "user already exist" })
             }
 
         } catch (error) {
@@ -30,10 +30,11 @@ module.exports = {
                 res.json({ success: true, token: result.token, name: result.name })
             }
             else {
-                res.json({ "error": "otp is incorrect" })
+                res.json({ success: false, "error": "otp is incorrect" })
             }
         } catch (error) {
             console.log("error" + error);
+            res.status(500).json({ "error": "internal server error" })
         }
     },
     loginHandler: async (req, res) => {
@@ -81,15 +82,15 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    resendOtpHandler:async(req,res)=>{
+    resendOtpHandler: async (req, res) => {
         try {
-            const status=await resendOtp(req.user,nodemailerEmail, nodemailerPassword)
+            const status = await resendOtp(req.user, nodemailerEmail, nodemailerPassword)
             console.log(status);
-            if(status){
-                res.status(200).json({success:true})
+            if (status) {
+                res.status(200).json({ success: true })
             }
-            else{
-                res.status(200).json({success:false,msg:"otp not resent"})
+            else {
+                res.status(200).json({ success: false, msg: "otp not resent" })
             }
 
         } catch (error) {
