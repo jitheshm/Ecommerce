@@ -34,5 +34,14 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    getUserAllAddress: async (userId) => {
+        try {
+            const res = await AddressModal.find({ userId: userId })
+            return res
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }
