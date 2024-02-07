@@ -1,5 +1,5 @@
 class Address{
-    constructor({name,phone,userId,pincode,locality,street,city,state,home,work,defaultAddress}){
+    constructor({name,phone,userId,pincode,locality,street,city,state,addressType}){
         this.name = name;
         this.phone = phone;
         this.userId = userId;
@@ -8,9 +8,8 @@ class Address{
         this.street = street;
         this.city = city;
         this.state = state;
-        this.home = home;
-        this.work = work;
-        this.default = defaultAddress;
+        this.addressType = addressType;
+       
     }
 }
 

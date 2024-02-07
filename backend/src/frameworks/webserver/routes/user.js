@@ -1,5 +1,5 @@
 const express = require('express');
-const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler } = require('../routeHandlers/userRouteHandler');
+const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler } = require('../routeHandlers/userRouteHandler');
 const userAuthToken = require('../../middlewares/userAuthToken');
 const router = express.Router()
 
@@ -26,6 +26,8 @@ router.patch('/updateaddress', userAuthToken, updateAddressHandler)
 router.delete('/deleteaddress', userAuthToken, deleteAddressHandler)
 
 router.get('/address', userAuthToken, getUserAllAddressHandler)
+
+router.get('/address/:id', userAuthToken, fetchAddressHandler)
 
 
 

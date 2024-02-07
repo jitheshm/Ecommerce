@@ -1,5 +1,6 @@
 const addAddress = require("../../usecase/address/addAddress");
 const deleteAddress = require("../../usecase/address/deleteAddress");
+const findAddress = require("../../usecase/address/findAddress");
 const getUserAllAddress = require("../../usecase/address/getUserAllAddress");
 const updateAddress = require("../../usecase/address/updateAddress");
 const addressRepository = require("../repositories/addressRepository");
@@ -20,6 +21,10 @@ module.exports = {
     },
     getUserAllAddress:async(userId)=>{
         const result=await getUserAllAddress(addressRepository,userId)
+        return result
+    },
+    findAddress:async(id)=>{
+        const result=await findAddress(addressRepository,id)
         return result
     }
 

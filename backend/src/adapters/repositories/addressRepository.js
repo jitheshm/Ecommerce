@@ -43,5 +43,15 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    findAddress: async (id) => {
+        try {
+            console.log(id);
+            const res = await AddressModal.findOne({ _id: id })
+            return res
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }

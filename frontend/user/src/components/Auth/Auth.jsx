@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-function auth({ children }) {
+function Auth({ children }) {
     const [loading, setloading] = useState(true)
     const { name, verified } = useSelector((state) => state.user)
     const dispatch = useDispatch()
@@ -18,8 +18,12 @@ function auth({ children }) {
     }, [verified])
 
     return (
-        loading ? <div>loading...</div> : { children }
+        <>
+            {
+                loading ? <div>loading...</div> : children
+            }
+        </>
     )
 }
 
-export default auth
+export default Auth

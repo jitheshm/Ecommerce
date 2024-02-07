@@ -3,7 +3,8 @@ const { ObjectId } = require('mongodb');
 const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../../../adapters/controllers/productController');
 
 const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/controllers/userController');
-const { addAddress, updateAddress, deleteAddress, getUserAllAddress } = require('../../../adapters/controllers/addressController');
+const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
+
 
 
 module.exports = {
@@ -155,5 +156,14 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
 
+    },
+    fetchAddressHandler: async (req, res) => {
+        try {
+            const address = await findAddress(req.params.id)
+            res.status(200).json({ success: true, data: address })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
     }
 }

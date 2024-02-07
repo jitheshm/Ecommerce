@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import './assets/bootstrap.min.css'
 import {
@@ -24,8 +24,10 @@ import Orders from './components/Orders/Orders';
 import Cart from './pages/Cart';
 import CheckOut from './components/CheckOut/CheckOut';
 import Checkout from './pages/Checkout';
+import Auth from './components/Auth/Auth';
 
 function App() {
+    const [loading, setloading] = useState(true)
     const dispatch = useDispatch()
     useLayoutEffect(() => {
         const token = Cookies.get('token')
@@ -36,9 +38,13 @@ function App() {
                 }
             }).then((res) => {
                 dispatch(verify({ name: res.data.name }))
+                setloading(false)
             }).catch((err) => {
                 console.log(err);
+                setloading(false)
             })
+        }else{
+            setloading(false)
         }
 
     }, [])
@@ -60,26 +66,26 @@ function App() {
             element: <ProductDetails />
         },
         {
-            path:"/profile",
-            element:<Dashboard />,
+            path: "/profile",
+            element: <Auth><Dashboard /></Auth>,
             children: [
                 {
-                  path: "personal",
-                  element: <Personal/>,
+                    path: "personal",
+                    element: <Personal />,
                 },
                 {
                     path: "address",
-                    element: <ManageAddress/>,
-                    },
-                    {
+                    element: <ManageAddress />,
+                },
+                {
                     path: "orders",
-                    element: <Orders/>,
-                    },
-                    {
-                    path: "wishlist", 
-                    element: <Wishlist/>,
-                } 
-              ],
+                    element: <Orders />,
+                },
+                {
+                    path: "wishlist",
+                    element: <Wishlist />,
+                }
+            ],
         },
         {
             path: "/cart",
@@ -95,7 +101,9 @@ function App() {
     return (
         <>
 
-            <RouterProvider router={router} />
+            {
+                loading? <h1>Loading...</h1> :<RouterProvider router={router} />
+            }
 
         </>
     )
