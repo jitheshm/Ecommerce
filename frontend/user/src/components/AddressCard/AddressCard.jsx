@@ -40,10 +40,10 @@ function AddressCard({ addrObj, setEdit, setAddress }) {
     return (
         <div className=' col-12 ps-0 pe-0  pt-5'>
             <div className='border container-fluid'>
-                <div className='row col-12 mt-3 ms-2'>
+                <div className='row col-12 mt-3 ms-2 '>
 
 
-                    <p className='col-1 bg-secondary rounded'>{addrObj.addressType}</p>
+                    <p className='col-1 bg-secondary rounded d-flex align-items-center text-white justify-content-center'>{addrObj.addressType}</p>
 
                     <p className='col-11 text-end' ><button type='button' className='btn me-4' onClick={handleEdit}>Edit</button> <button type='button' className='btn' onClick={handleDelete}>Delete</button></p>
                 </div>
