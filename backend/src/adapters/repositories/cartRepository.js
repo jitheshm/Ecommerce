@@ -70,7 +70,7 @@ module.exports = {
                 { $project: { quantity: "$products.quantity" } }
             ])
             console.log(cart);
-            if(cart[0].quantity+quantity>stockCount && quantity>0||cart[0].quantity+quantity<1){
+            if (cart[0].quantity + quantity > stockCount && quantity > 0 || cart[0].quantity + quantity < 1) {
                 return false
             }
 
@@ -88,5 +88,25 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    removeCartProduct: async (userId, productId) => {
+        try {
+            const res = await CartModel.updateOne({ userId: userId }, {
+                $pull: { products: { productId: productId } }
+
+            })
+            console.log(res);
+            if (res.modifiedCount != 0) {
+                return true
+            }
+            else {
+                return false
+            }
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
+
     }
+
 }
