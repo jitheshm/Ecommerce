@@ -5,7 +5,7 @@ module.exports = {
     addToCart: async (userId, productId) => {
 
         try {
-            
+
             const existCart = await CartModel.findOne({ userId: userId })
             const data = new Cart(userId, productId)
             if (!existCart) {
@@ -15,8 +15,8 @@ module.exports = {
                 return true
             }
             else {
-                
-                if (existCart.products.find(product =>productId.equals(product.productId))) {
+
+                if (existCart.products.find(product => productId.equals(product.productId))) {
                     return false
                 }
                 console.log(productId);
@@ -59,5 +59,34 @@ module.exports = {
             throw error
         }
 
+    },
+    changeQuantity: async (userId, productId, quantity, stockCount) => {
+        try {
+            console.log(userId, productId, quantity, stockCount);
+            const cart = await CartModel.aggregate([
+                { $match: { userId: userId } },
+                { $unwind: "$products" },
+                { $match: { "products.productId": productId } },
+                { $project: { quantity: "$products.quantity" } }
+            ])
+            console.log(cart);
+            if(cart[0].quantity+quantity>stockCount && quantity>0||cart[0].quantity+quantity<1){
+                return false
+            }
+
+            const res = await CartModel.updateOne({ userId: userId }, {
+                $inc: { "products.$[elem].quantity": quantity }
+            },
+                { arrayFilters: [{ "elem.productId": productId }] })
+            if (res.modifiedCount != 0) {
+                return true
+            }
+            else {
+                return false
+            }
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }

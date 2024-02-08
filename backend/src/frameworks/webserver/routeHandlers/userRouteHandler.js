@@ -4,7 +4,8 @@ const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../
 
 const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/controllers/userController');
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
-const { addToCart } = require('../../../adapters/controllers/cartController');
+const { addToCart, changeQuantity } = require('../../../adapters/controllers/cartController');
+
 
 
 
@@ -175,6 +176,34 @@ module.exports = {
             }
             else {
                 res.status(200).json({ success: false, msg: "product not added to cart" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    incrementQuantityHandler: async (req, res) => {
+        try {
+            const status = await changeQuantity(new ObjectId(req.user.id), new ObjectId(req.body.productId), 1)
+            if (status) {
+                res.status(200).json({ success: true })
+            }
+            else {
+                res.status(200).json({ success: false, msg: "quantity not updated" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    decrementQuantityHandler: async (req, res) => {
+        try {
+            const status = await changeQuantity(new ObjectId(req.user.id), new ObjectId(req.body.productId),-1)
+            if (status) {
+                res.status(200).json({ success: true })
+            }
+            else {
+                res.status(200).json({ success: false, msg: "quantity not updated" })
             }
         } catch (error) {
             console.log(error);

@@ -205,10 +205,10 @@ module.exports = {
             throw error
         }
     },
-    stockCount: async (varientId) => {
+    countStock: async (varientId) => {
         try {
-            const count = await ProductVarientModel.findOne({ _id: varientId })
-            return count
+            const product = await ProductVarientModel.findOne({ _id: varientId })
+            return product.stock
         } catch (error) {
             console.log(error);
             throw error
