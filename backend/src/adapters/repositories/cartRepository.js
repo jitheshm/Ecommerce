@@ -5,6 +5,7 @@ module.exports = {
     addToCart: async (userId, productId) => {
 
         try {
+            
             const existCart = await CartModel.findOne({ userId: userId })
             const data = new Cart(userId, productId)
             if (!existCart) {

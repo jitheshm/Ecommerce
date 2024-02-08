@@ -47,7 +47,7 @@ module.exports = {
                     const newImages = existingImages.filter((item) => !oldImageUrl.includes(item))
                     const finalImages = [...newImages, ...imagesUrl]
                     data.imagesUrl = finalImages
-                }else if(imagesUrl){
+                } else if (imagesUrl) {
                     data.imagesUrl = [...existingImages, ...imagesUrl]
                 }
 
@@ -200,6 +200,15 @@ module.exports = {
         try {
             const result = await ProductVarientModel.find({ productId: id, isDeleted: false })
             return result
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
+    },
+    stockCount: async (varientId) => {
+        try {
+            const count = await ProductVarientModel.findOne({ _id: varientId })
+            return count
         } catch (error) {
             console.log(error);
             throw error
