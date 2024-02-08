@@ -107,6 +107,16 @@ module.exports = {
             throw error
         }
 
+    },
+    getCart: async (userId) => {
+        try {
+            const cart = await CartModel.findOne({ userId: userId })
+            console.log(cart);
+            return cart
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 
 }
