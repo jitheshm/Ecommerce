@@ -226,7 +226,7 @@ module.exports = {
     },
     findCartHandler: async(req,res) => {
         try {
-            const cart = await findCart(req.user.id)
+            const cart = await findCart(new ObjectId(req.user.id))
             res.status(200).json({ success: true, data: cart })
 
         } catch (error) {

@@ -110,7 +110,27 @@ module.exports = {
     },
     getCart: async (userId) => {
         try {
-            const cart = await CartModel.findOne({ userId: userId })
+            const cart = await CartModel.aggregate([
+                { $match: { userId: userId } },
+                { $unwind: "$products" },
+                {
+                    $lookup: {
+                        from: "productvarients",
+                        localField: "products.productId",
+                        foreignField: "_id",
+                        as: "varient"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "products",
+                        localField: "varient.productId",
+                        foreignField: "_id",
+                        as: "productDetails"
+                    }
+                }
+
+            ]).exec()
             console.log(cart);
             return cart
         } catch (error) {
