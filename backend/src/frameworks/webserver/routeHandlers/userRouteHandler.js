@@ -4,6 +4,7 @@ const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../
 
 const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/controllers/userController');
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
+const { addToCart } = require('../../../adapters/controllers/cartController');
 
 
 
@@ -161,6 +162,20 @@ module.exports = {
         try {
             const address = await findAddress(req.params.id)
             res.status(200).json({ success: true, data: address })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    addToCartHandler: async (req, res) => {
+        try {
+            const status = await addToCart(req.user.id, new ObjectId(req.body.productId))
+            if (status) {
+                res.status(200).json({ success: true })
+            }
+            else {
+                res.status(200).json({ success: false, msg: "product not added to cart" })
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

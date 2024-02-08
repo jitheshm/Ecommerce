@@ -12,7 +12,6 @@ const UserSchema = new mongoose.Schema({
   isVerified: { type: Boolean, required: true },
   password: { type: String, required: true },
   dateOfJoin: { type: String, required: true },
-  cart: { type: Array },
   wishlist: { type: Array }
 
 });
