@@ -50,7 +50,7 @@ function ManageAddress() {
                     if(addrObj._id===edit){
                         return <AddressForm key={addrObj._id} setAddressForm={setAddressForm} id={addrObj._id} setEdit={setEdit} method={"patch"} api={`/user/updateaddress`}/>
                     }
-                    return <AddressCard key={addrObj._id} addrObj={addrObj} setEdit={setEdit} />
+                    return <AddressCard key={addrObj._id} addrObj={addrObj} setEdit={setEdit} setAddress={setAddress}/>
                 })
             }
         </div>
