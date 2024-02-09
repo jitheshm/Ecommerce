@@ -121,6 +121,7 @@ module.exports = {
                         as: "varient"
                     }
                 },
+                { $unwind: "$varient" },
                 {
                     $lookup: {
                         from: "products",
@@ -128,6 +129,14 @@ module.exports = {
                         foreignField: "_id",
                         as: "productDetails"
                     }
+                },{
+                    $project:{
+                        "products":1,
+                        "varient":1,
+                        "productDetails":1,
+                        "totalPrice":{$multiply:["$products.quantity","$varient.salePrice"]}
+                    }
+                
                 }
 
             ]).exec()

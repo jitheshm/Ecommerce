@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PriceDetails() {
+function PriceDetails({ discount, total ,itemsCount}) {
     return (
         <>
             <div className='col-md-4 pt-4  mt-5 ms-5 mb-5 address border cart'>
@@ -8,10 +8,10 @@ function PriceDetails() {
                 <div className='col-10 m-auto mt-5'>
                     <div className='row'>
                         <div className='col-6'>
-                            Price (1 item)
+                            Price ({itemsCount} item)
                         </div>
                         <div className='text-end col-6'>
-                            ₹79,900
+                            ₹{total}
                         </div>
                     </div>
                 </div>
@@ -22,18 +22,18 @@ function PriceDetails() {
                             Discount
                         </div>
                         <div className='text-end col-6'>
-                            − ₹7,901
+                            − ₹{discount}
                         </div>
                     </div>
                 </div>
-                <hr style={{ borderColor: "black" }} />
+                <hr style={{ borderColor: "black" }} />  
                 <div className='col-10 m-auto my-5'>
                     <div className='row'>
                         <div className='col-6'>
                             <b>Total Amount</b>
                         </div>
                         <div className='text-end col-6'>
-                            <b> ₹72,098</b>
+                            <b> ₹{total - discount}</b>
                         </div>
                     </div>
                 </div>

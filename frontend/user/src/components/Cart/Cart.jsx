@@ -9,6 +9,9 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../../features/user/userSlice'
 function Cart() {
   const [cartItems, setCartItems] = useState([])
+  const [total, setTotal] = useState(0)
+  const [discount, setDiscount] = useState(0)
+
   const dispatch = useDispatch()
   useEffect(() => {
     instance.get('/user/cart', {
@@ -18,6 +21,7 @@ function Cart() {
     }).then((res) => {
       console.log(res);
       setCartItems(res.data.data)
+      setTotal(res.data.data.reduce((acc, item) => acc + item.totalPrice, 0))
     }).catch((error) => {
       console.log(error);
       if (error.response.status === 401) {
@@ -38,7 +42,7 @@ function Cart() {
               cartItems.map((item) => {
                 return (
                   <>
-                    <CartCard item={item} setCartItems={setCartItems}/>
+                    <CartCard item={item} setCartItems={setCartItems} setTotal={setTotal} />
                   </>
                 )
               })
@@ -46,7 +50,7 @@ function Cart() {
 
 
           </div>
-          <PriceDetails />
+          <PriceDetails itemsCount={cartItems.length} total={total} discount={discount} />
         </div>
       </div>
     </>

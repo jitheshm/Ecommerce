@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { logout } from '../../features/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { BASEURL } from "../../constants/constant.json"
-function CartCard({ item, setCartItems }) {
+function CartCard({ item, setCartItems, setTotal }) {
     const [quantity, setQuantity] = useState(item.products.quantity)
     const dispatch = useDispatch()
     const handleincrement = () => {
@@ -18,6 +18,10 @@ function CartCard({ item, setCartItems }) {
             if (res.data.success) {
                 setQuantity((prev) => {
                     return prev + 1
+                })
+
+                setTotal((prev) => {
+                    return prev + item.varient.salePrice
                 })
             }
 
@@ -45,6 +49,9 @@ function CartCard({ item, setCartItems }) {
             if (res.data.success) {
                 setQuantity((prev) => {
                     return prev - 1
+                })
+                setTotal((prev) => {
+                    return prev - item.varient.salePrice
                 })
             }
 
@@ -77,6 +84,9 @@ function CartCard({ item, setCartItems }) {
                             return product.products.productId !== item.products.productId
                         })
                     })
+                    setTotal((prev) => {
+                        return prev - (item.varient.salePrice * item.products.quantity)
+                    })
                 }
 
             }).catch((error) => {
@@ -95,7 +105,7 @@ function CartCard({ item, setCartItems }) {
 
             <div className=" d-flex flex-row  ">
                 <div className='p-5 col-2 '>
-                    <img className="card-img-top " src={BASEURL + "/" + item.varient[0].imagesUrl[0]} alt="Card image cap" style={{ height: "80px", width: "50px" }} />
+                    <img className="card-img-top " src={BASEURL + "/" + item.varient.imagesUrl[0]} alt="Card image cap" style={{ height: "80px", width: "50px" }} />
                 </div>
                 <div className="card-body pt-4 col-6 ms-2 mt-2">
                     <h4 className="card-title "><>{item.productDetails[0].productName}</></h4>
@@ -113,7 +123,7 @@ function CartCard({ item, setCartItems }) {
 
                     </div>
 
-                    <p className="card-text mt-2 row"><h4 className='col-3'><b>₹ {item.varient[0].salePrice}</b></h4> <b className='col-3' style={{ color: "green" }}>20% OFF</b></p>
+                    <p className="card-text mt-2 row"><h4 className='col-3'><b>₹ {item.varient.salePrice}</b></h4> <b className='col-3' style={{ color: "green" }}>20% OFF</b></p>
                 </div>
                 <div className='col-2 text-end pe-4 pt-4'>
                     <button className=' pt-0 px-0' onClick={handleRemove} style={{ outline: "none", border: "none", background: "none" }}>
