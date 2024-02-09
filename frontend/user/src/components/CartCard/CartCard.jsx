@@ -4,10 +4,12 @@ import Cookies from 'js-cookie';
 import { logout } from '../../features/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { BASEURL } from "../../constants/constant.json"
-function CartCard({ item, setCartItems, setTotal, stockError, setStockError }) {
+function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
     const [quantity, setQuantity] = useState(item.products.quantity)
 
-    const dispatch = useDispatch()  
+
+    const dispatch = useDispatch()
+
 
     useEffect(() => {
         instance.get(`user/checkstockavailable?varientId=${item.products.productId}&&quantity=${quantity}`, {
@@ -96,14 +98,11 @@ function CartCard({ item, setCartItems, setTotal, stockError, setStockError }) {
             }).then((res) => {
                 console.log(res);
                 if (res.data.success) {
-                    setCartItems((prev) => {
-                        return prev.filter((product) => {
-                            return product.products.productId !== item.products.productId
-                        })
+                   
+                    setRefetch((prev) => {
+                        return !prev
                     })
-                    setTotal((prev) => {
-                        return prev - (item.varient.salePrice * item.products.quantity)
-                    })
+
                 }
 
             }).catch((error) => {

@@ -12,6 +12,8 @@ function Cart() {
   const [total, setTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
   const [stockError, setStockError] = useState(false)
+  const [refetch, setRefetch] = useState(false)
+  
   const dispatch = useDispatch()
   useEffect(() => {
     instance.get('/user/cart', {
@@ -31,7 +33,7 @@ function Cart() {
 
       }
     })
-  }, [])
+  }, [refetch])
 
   return (
     <>
@@ -42,7 +44,7 @@ function Cart() {
               cartItems.map((item) => {
                 return (
                   <>
-                    <CartCard item={item} setCartItems={setCartItems} setTotal={setTotal} stockError={stockError} setStockError={setStockError} />
+                    <CartCard key={item.products.productId} item={item} setTotal={setTotal} stockError={stockError} setStockError={setStockError} setRefetch={setRefetch}/>
                   </>
                 )
               })
