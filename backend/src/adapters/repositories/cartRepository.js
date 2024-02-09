@@ -70,7 +70,7 @@ module.exports = {
                 { $project: { quantity: "$products.quantity" } }
             ])
             console.log(cart);
-            if (cart[0].quantity + quantity > stockCount && quantity > 0 || cart[0].quantity + quantity < 1) {
+            if (cart[0].quantity + quantity > stockCount && quantity > 0 || cart[0].quantity + quantity > 5 || cart[0].quantity + quantity < 1) {
                 return false
             }
 
@@ -129,14 +129,14 @@ module.exports = {
                         foreignField: "_id",
                         as: "productDetails"
                     }
-                },{
-                    $project:{
-                        "products":1,
-                        "varient":1,
-                        "productDetails":1,
-                        "totalPrice":{$multiply:["$products.quantity","$varient.salePrice"]}
+                }, {
+                    $project: {
+                        "products": 1,
+                        "varient": 1,
+                        "productDetails": 1,
+                        "totalPrice": { $multiply: ["$products.quantity", "$varient.salePrice"] }
                     }
-                
+
                 }
 
             ]).exec()
@@ -147,17 +147,17 @@ module.exports = {
             throw error
         }
     },
-    checkProductExist:async (productId,userId)=>{
+    checkProductExist: async (productId, userId) => {
         try {
-            console.log(productId,userId);
-            const cart =  await CartModel.findOne({userId:userId,products:{$elemMatch:{productId:productId}}})
+            console.log(productId, userId);
+            const cart = await CartModel.findOne({ userId: userId, products: { $elemMatch: { productId: productId } } })
             console.log(cart);
-            if(cart){
+            if (cart) {
                 return true
             }
-            else{
+            else {
                 return false
-            }  
+            }
 
         } catch (error) {
             console.log(error);
