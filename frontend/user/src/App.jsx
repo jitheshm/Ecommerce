@@ -43,7 +43,7 @@ function App() {
                 console.log(err);
                 setloading(false)
             })
-        }else{
+        } else {
             setloading(false)
         }
 
@@ -89,7 +89,7 @@ function App() {
         },
         {
             path: "/cart",
-            element: <Cart />
+            element: <Auth><Cart /></Auth>
         },
         {
             path: "/checkout",
@@ -102,7 +102,7 @@ function App() {
         <>
 
             {
-                loading? <h1>Loading...</h1> :<RouterProvider router={router} />
+                loading ? <h1>Loading...</h1> : <RouterProvider router={router} />
             }
 
         </>
