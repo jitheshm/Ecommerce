@@ -4,7 +4,7 @@ const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../
 
 const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/controllers/userController');
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
-const { addToCart, changeQuantity, removeCartProduct, findCart } = require('../../../adapters/controllers/cartController');
+const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist } = require('../../../adapters/controllers/cartController');
 
 
 
@@ -224,11 +224,24 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    findCartHandler: async(req,res) => {
+    findCartHandler: async (req, res) => {
         try {
             const cart = await findCart(new ObjectId(req.user.id))
             res.status(200).json({ success: true, data: cart })
 
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    checkProductExistHandler: async (req, res) => {
+        try {
+            const status = await checkProductExist(new ObjectId(req.query.varientId),new ObjectId(req.user.id))
+            if (status) {
+                res.status(200).json({ success: true })
+            } else {
+                res.status(200).json({ success: false, msg: "product not found" })
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

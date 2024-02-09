@@ -1,5 +1,6 @@
 const addToCart = require("../../usecase/cart/addToCart")
 const changeQuantity = require("../../usecase/cart/changeQuantity")
+const checkProductExist = require("../../usecase/cart/checkProductExist")
 const deleteCartProduct = require("../../usecase/cart/deleteCartProduct")
 const findCart = require("../../usecase/cart/findCart")
 const cartRepository = require("../repositories/cartRepository")
@@ -19,5 +20,8 @@ module.exports = {
     },
     findCart: async (userId) => {
         return await findCart(cartRepository, userId)
+    },
+    checkProductExist: async(productId,userId) => {
+        return await checkProductExist(cartRepository, productId, userId)
     }
 }

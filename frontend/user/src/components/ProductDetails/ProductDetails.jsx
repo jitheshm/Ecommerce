@@ -3,11 +3,13 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import instance from '../../axios'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { BASEURL } from "../../constants/constant.json"
 import noImage from '../../../src/assets/No-Image-Placeholder.png'
 import nowishlist from '../../../src/assets/wishlist (3).png'
 import wishlist from '../../../src/assets/heart.png'
+import Cookies from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux'
 function ProductDetails() {
     const [product, setProduct] = useState([])
     const [showImg, setShowImg] = useState(0)
@@ -15,12 +17,32 @@ function ProductDetails() {
     const [colorList, setColorList] = useState([])
     const { productId, prodColor } = useParams()
     const [loading, setloading] = useState(true)
+    const [cartStatus, setcartStatus] = useState(false)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { verified } = useSelector((state) => state.user)
     useEffect(() => {
         console.log(prodColor);
         instance.get(`/user/getproductdetails/${prodColor}`).then((res) => {
             console.log(res.data.data);
             setProduct(res.data.data)
+            return instance.get(`user/checkproductexist?varientId=${res.data.data[0]._id}`, {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            })
+
+        }).then((res) => {
+            console.log(res.data);
+            if (res.data.success) {
+                setcartStatus(true)
+
+            } else {
+                setcartStatus(false)
+            }
+            setloading(false)
+        }).catch((error) => {
+            console.log(error);
             setloading(false)
         })
     }, [prodColor])
@@ -39,15 +61,45 @@ function ProductDetails() {
 
 
 
-    const handleImgChange = (no) => { 
+    const handleImgChange = (no) => {
         setShowImg(no)
+    }
+
+    const handleAddToCart = () => {
+        if (verified) {
+
+
+            instance.patch('/user/addtocart', {
+                productId: product[0]._id
+            }, {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                console.log(res.data);
+                if (res.data.success) {
+                    setcartStatus(true)
+                }
+            }).catch((error) => {
+                console.log(error);
+                if (error.response.status === 401) {
+                    Cookies.remove('token')
+                    dispatch(logout())
+
+
+                }
+
+            })
+        } else {
+            navigate('/login')
+        }
     }
 
     return (
         <>
             {
                 loading ? <div>loading...</div> :
-                    <div style={{backgroundColor:"white"}}>
+                    <div style={{ backgroundColor: "white" }}>
                         <section className="py-5 ">
                             <div className="container">
                                 <div className="row " style={{ position: "relative" }}>
@@ -148,12 +200,14 @@ function ProductDetails() {
                                                         }
                                                     </select>
                                                 </div>
-                                                {/* col.// */} 
+                                                {/* col.// */}
 
                                             </div>
                                             <div className='d-flex justify-content-between col-9 col-md-5 mt-4'>
                                                 <a className='btn text-white' style={{ backgroundColor: "#D10024" }}>Buy Now</a>
-                                                <a className='btn text-white ' style={{ backgroundColor: "#1E1F29" }}>Add to cart</a>
+                                                {
+                                                    cartStatus ? <Link to={'/cart'} className='btn text-white ' style={{ backgroundColor: "#1E1F29" }}>Go to cart</Link> : <button className='btn text-white ' style={{ backgroundColor: "#1E1F29" }} onClick={handleAddToCart}>Add to cart</button>
+                                                }
 
                                             </div>
                                         </div>

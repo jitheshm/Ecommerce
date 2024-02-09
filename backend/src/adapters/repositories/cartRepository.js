@@ -146,6 +146,23 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    checkProductExist:async (productId,userId)=>{
+        try {
+            console.log(productId,userId);
+            const cart =  await CartModel.findOne({userId:userId,products:{$elemMatch:{productId:productId}}})
+            console.log(cart);
+            if(cart){
+                return true
+            }
+            else{
+                return false
+            }  
+
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 
 }
