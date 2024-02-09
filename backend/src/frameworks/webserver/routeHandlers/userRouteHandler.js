@@ -4,7 +4,8 @@ const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../
 
 const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/controllers/userController');
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
-const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist } = require('../../../adapters/controllers/cartController');
+const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
+const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
 
 
 
@@ -236,11 +237,24 @@ module.exports = {
     },
     checkProductExistHandler: async (req, res) => {
         try {
-            const status = await checkProductExist(new ObjectId(req.query.varientId),new ObjectId(req.user.id))
+            const status = await checkProductExist(new ObjectId(req.query.varientId), new ObjectId(req.user.id))
             if (status) {
                 res.status(200).json({ success: true })
             } else {
                 res.status(200).json({ success: false, msg: "product not found" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    checkStockAvailableHandler: async (req, res) => {
+        try {
+            const status = await stockAvailable(new ObjectId(req.query.varientId), req.query.quantity)
+            if (status) {
+                res.status(200).json({ success: true })
+            } else {
+                res.status(200).json({ success: false, msg: "stock not available" })
             }
         } catch (error) {
             console.log(error);

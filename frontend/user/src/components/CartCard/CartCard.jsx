@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { logout } from '../../features/user/userSlice';
@@ -6,7 +6,24 @@ import { useDispatch } from 'react-redux';
 import { BASEURL } from "../../constants/constant.json"
 function CartCard({ item, setCartItems, setTotal }) {
     const [quantity, setQuantity] = useState(item.products.quantity)
+    const [stockError, setStockError] = useState(true)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        instance.get(`user/checkstockavailable?varientId=${item.products.productId}&&quantity=${quantity}`, {
+            headers: {
+                Authorization: Cookies.get('token')
+            }
+        }).then((res) => {
+            console.log(res);
+            if (res.data.success) {
+                setStockError(false)
+            } else {
+                setStockError(true)
+            }
+        })
+    }, [quantity])
+
     const handleincrement = () => {
         instance.patch('user/incrementquantity', {
             productId: item.products.productId
@@ -124,7 +141,9 @@ function CartCard({ item, setCartItems, setTotal }) {
                     </div>
 
                     <p className="card-text mt-2 row"><h4 className='col-3'><b>₹ {item.varient.salePrice}</b></h4> <b className='col-3' style={{ color: "green" }}>20% OFF</b></p>
+                    <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div>
                 </div>
+
                 <div className='col-2 text-end pe-4 pt-4'>
                     <button className=' pt-0 px-0' onClick={handleRemove} style={{ outline: "none", border: "none", background: "none" }}>
                         <i className="fa-solid fa-trash " style={{ color: '#15161d', fontSize: "19px" }} />
@@ -132,6 +151,7 @@ function CartCard({ item, setCartItems, setTotal }) {
                 </div>
 
             </div>
+
             <div className='px-5 mb-4'>
                 <div className='row col-6'>
                     <div className='col-1 d-flex justify-content-center'>

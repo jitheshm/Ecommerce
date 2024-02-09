@@ -10,6 +10,7 @@ import nowishlist from '../../../src/assets/wishlist (3).png'
 import wishlist from '../../../src/assets/heart.png'
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../features/user/userSlice'
 function ProductDetails() {
     const [product, setProduct] = useState([])
     const [showImg, setShowImg] = useState(0)
@@ -18,8 +19,10 @@ function ProductDetails() {
     const { productId, prodColor } = useParams()
     const [loading, setloading] = useState(true)
     const [cartStatus, setcartStatus] = useState(false)
+    const [stockError, setStockError] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
     const { verified } = useSelector((state) => state.user)
     useEffect(() => {
         console.log(prodColor);
@@ -79,6 +82,9 @@ function ProductDetails() {
                 console.log(res.data);
                 if (res.data.success) {
                     setcartStatus(true)
+                } else {
+                    setStockError(true)
+
                 }
             }).catch((error) => {
                 console.log(error);
@@ -203,6 +209,7 @@ function ProductDetails() {
                                                 {/* col.// */}
 
                                             </div>
+                                            <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div>
                                             <div className='d-flex justify-content-between col-9 col-md-5 mt-4'>
                                                 <a className='btn text-white' style={{ backgroundColor: "#D10024" }}>Buy Now</a>
                                                 {
