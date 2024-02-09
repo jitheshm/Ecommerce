@@ -11,7 +11,7 @@ function Cart() {
   const [cartItems, setCartItems] = useState([])
   const [total, setTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
-
+  const [stockError, setStockError] = useState(false)
   const dispatch = useDispatch()
   useEffect(() => {
     instance.get('/user/cart', {
@@ -42,7 +42,7 @@ function Cart() {
               cartItems.map((item) => {
                 return (
                   <>
-                    <CartCard item={item} setCartItems={setCartItems} setTotal={setTotal} />
+                    <CartCard item={item} setCartItems={setCartItems} setTotal={setTotal} stockError={stockError} setStockError={setStockError} />
                   </>
                 )
               })
@@ -50,7 +50,7 @@ function Cart() {
 
 
           </div>
-          <PriceDetails itemsCount={cartItems.length} total={total} discount={discount} />
+          <PriceDetails itemsCount={cartItems.length} total={total} discount={discount} stockError={stockError} />
         </div>
       </div>
     </>

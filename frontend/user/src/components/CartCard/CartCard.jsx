@@ -4,10 +4,10 @@ import Cookies from 'js-cookie';
 import { logout } from '../../features/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { BASEURL } from "../../constants/constant.json"
-function CartCard({ item, setCartItems, setTotal }) {
+function CartCard({ item, setCartItems, setTotal, stockError, setStockError }) {
     const [quantity, setQuantity] = useState(item.products.quantity)
-    const [stockError, setStockError] = useState(true)
-    const dispatch = useDispatch()
+
+    const dispatch = useDispatch()  
 
     useEffect(() => {
         instance.get(`user/checkstockavailable?varientId=${item.products.productId}&&quantity=${quantity}`, {
@@ -125,10 +125,10 @@ function CartCard({ item, setCartItems, setTotal }) {
                     <img className="card-img-top " src={BASEURL + "/" + item.varient.imagesUrl[0]} alt="Card image cap" style={{ height: "65px", width: "50px" }} />
                 </div>
                 <div className="card-body pt-4 col-6 ms-2 mt-2">
-                    <h4 className="card-title "><>{item.productDetails[0].productName}</></h4>   
+                    <h4 className="card-title "><>{item.productDetails[0].productName}</></h4>
                     <div className="d-flex flex-row">
                         <div className="text-warning mb-1 me-2">
-                            <i className="fa fa-star" />     
+                            <i className="fa fa-star" />
                             <i className="fa fa-star" />
                             <i className="fa fa-star" />
                             <i className="fa fa-star" />
