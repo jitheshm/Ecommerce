@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PriceDetails({ discount, total, itemsCount, stockError }) {
+function PriceDetails({ discount, total, itemsCount, stockError, checkOut = false }) {
     return (
         <>
             <div className='col-md-4 pt-4  mt-5 ms-5 mb-5 address border cart'>
@@ -38,7 +38,10 @@ function PriceDetails({ discount, total, itemsCount, stockError }) {
                     </div>
                 </div>
                 <div className='text-center my-5'>
-                    {!stockError && <button className='btn secondary w-50'> Place Order</button>}
+                    {!stockError && total > 0 && !checkOut && <button className='btn secondary w-50'> Place Order</button>}
+                    {
+                        checkOut && <button className='btn secondary w-50'> Continue</button>
+                    }
                 </div>
 
             </div>

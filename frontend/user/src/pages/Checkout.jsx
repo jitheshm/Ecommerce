@@ -7,8 +7,8 @@ function Checkout() {
     return (
         <>
         <Header/>
-        {/* <CheckOut/> */}
-        <Success/>
+        <CheckOut/>
+        {/* <Success/> */}
         </>
     )
 }

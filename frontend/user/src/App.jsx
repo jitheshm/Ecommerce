@@ -93,7 +93,7 @@ function App() {
         },
         {
             path: "/checkout",
-            element: <Checkout />
+            element: <Auth><Checkout /></Auth>
         },
 
 
