@@ -38,7 +38,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                 dispatch(logout())
             }
         })
-    }, [addressForm])
+    }, [addressForm,edit])
 
     useEffect(() => {
         instance.get('/user/cart', {
