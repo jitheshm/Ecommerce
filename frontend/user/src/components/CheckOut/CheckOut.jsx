@@ -7,7 +7,8 @@ import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux'
 import { logout } from '../../features/user/userSlice'
-function CheckOut() {
+import { useNavigate } from 'react-router-dom'
+function CheckOut({ setOrderPlaced, setOrderReciept }) {
     const [address, setAddress] = useState([])
     const [orderAddress, setOrderAddress] = useState()
     const [addressForm, setAddressForm] = useState(false)
@@ -18,6 +19,7 @@ function CheckOut() {
     const [cartItems, setCartItems] = useState([])
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         instance.get('/user/address', {
@@ -45,7 +47,11 @@ function CheckOut() {
             }
         }).then((res) => {
             console.log(res);
+            if (res.data.data.length === 0) {
+                navigate('/cart')
+            }
             setCartItems(res.data.data)
+
             setTotal(res.data.data.reduce((acc, item) => acc + item.totalPrice, 0))
         }).catch((error) => {
             console.log(error);
@@ -62,6 +68,40 @@ function CheckOut() {
         setOrderAddress(e.target.value)
     }
 
+    const handleConfirm = () => {
+        if (payment === 'COD') {
+            instance.post('/user/placeorder', {
+                deliveryAddress: orderAddress,
+                paymentMethod: payment,
+                orderAmount: total,
+                orderedItems: cartItems.map((item) => {
+                    return {
+                        productId: item.products.productId,
+                        quantity: item.products.quantity,
+                        price: item.varient.salePrice,
+
+                    }
+                })
+            }, {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                console.log(res);
+                setOrderReciept(res.data.data)
+                setOrderPlaced(true)
+
+            }).catch((error) => {
+                console.log(error);
+                if (error.response.status === 401) {
+                    Cookies.remove('token')
+                    dispatch(logout())
+
+
+                }
+            })
+        }
+    }
     return (
         <div className='container-fluid pt-5 checkOut'>
             <div className='row ms-4 checkOutContent'>
@@ -131,7 +171,7 @@ function CheckOut() {
 
                     </div>
                 </div>
-                <PriceDetails checkOut={true} itemsCount={cartItems.length} total={total} discount={discount} />
+                <PriceDetails checkOut={true} itemsCount={cartItems.length} total={total} discount={discount} handleConfirm={handleConfirm} />
             </div>
         </div>
     )

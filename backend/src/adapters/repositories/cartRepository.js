@@ -163,6 +163,20 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    clearUserCart: async(userId)=>{
+    try {
+        const res = await CartModel.deleteOne({ userId: userId })
+        if (res.deletedCount != 0) {
+            return true
+        }
+        else {
+            return false
+        }
+    } catch (error) {
+        console.log(error);
+        throw error
     }
+}
 
 }

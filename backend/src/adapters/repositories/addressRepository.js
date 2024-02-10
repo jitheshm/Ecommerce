@@ -48,6 +48,7 @@ module.exports = {
         try {
             console.log(id);
             const res = await AddressModal.findOne({ _id: id })
+            console.log("res"+res);
             return res
         } catch (error) {
             console.log(error);

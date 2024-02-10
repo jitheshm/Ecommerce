@@ -1,6 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-function PriceDetails({ discount, total, itemsCount, stockError, checkOut = false }) {
+function PriceDetails({ discount, total, itemsCount, stockError, checkOut = false , handleConfirm }) {
     return (
         <>
             <div className='col-md-4 pt-4  mt-5 ms-5 mb-5 address border cart'>
@@ -38,9 +39,9 @@ function PriceDetails({ discount, total, itemsCount, stockError, checkOut = fals
                     </div>
                 </div>
                 <div className='text-center my-5'>
-                    {!stockError && total > 0 && !checkOut && <button className='btn secondary w-50'> Place Order</button>}
+                    {!stockError && total > 0 && !checkOut && <Link to={'/checkout'} className='btn secondary w-50'> Place Order</Link>}
                     {
-                        checkOut && <button className='btn secondary w-50'> Continue</button>
+                        checkOut && <button className='btn secondary w-50' onClick={handleConfirm}> Continue</button>
                     }
                 </div>
 

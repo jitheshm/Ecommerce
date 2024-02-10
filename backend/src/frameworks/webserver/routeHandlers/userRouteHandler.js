@@ -6,6 +6,7 @@ const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
+const { placeOrder } = require('../../../adapters/controllers/orderController');
 
 
 
@@ -255,6 +256,28 @@ module.exports = {
                 res.status(200).json({ success: true })
             } else {
                 res.status(200).json({ success: false, msg: "stock not available" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    orderPlaceHandler: async (req, res) => {
+        try {
+
+            req.body.deliveryAddress = new ObjectId(req.body.deliveryAddress)
+            req.body.orderedItems = req.body.orderedItems.map((item) => {
+                return {
+                    productId: new ObjectId(item.productId),
+                    quantity: item.quantity,
+                    price: item.price
+                }
+            })
+            const result = await placeOrder(new ObjectId(req.user.id), req.body)
+            if (result) {
+                res.status(200).json({ success: true, data: result })
+            } else {
+                res.status(200).json({ success: false, msg: "order place failed" })
             }
         } catch (error) {
             console.log(error);

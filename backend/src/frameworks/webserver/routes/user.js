@@ -1,5 +1,5 @@
 const express = require('express');
-const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler } = require('../routeHandlers/userRouteHandler');
+const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler } = require('../routeHandlers/userRouteHandler');
 const userAuthToken = require('../../middlewares/userAuthToken');
 const router = express.Router()
 
@@ -29,19 +29,21 @@ router.get('/address', userAuthToken, getUserAllAddressHandler)
 
 router.get('/address/:id', userAuthToken, fetchAddressHandler)
 
-router.patch('/addtocart',userAuthToken,addToCartHandler)
+router.patch('/addtocart', userAuthToken, addToCartHandler)
 
-router.patch('/incrementquantity',userAuthToken,incrementQuantityHandler)
+router.patch('/incrementquantity', userAuthToken, incrementQuantityHandler)
 
-router.patch('/decrementquantity',userAuthToken,decrementQuantityHandler)
+router.patch('/decrementquantity', userAuthToken, decrementQuantityHandler)
 
-router.patch('/deletefromcart',userAuthToken,removeCartProductHandler)
+router.patch('/deletefromcart', userAuthToken, removeCartProductHandler)
 
-router.get('/cart',userAuthToken,findCartHandler)
+router.get('/cart', userAuthToken, findCartHandler)
 
-router.get('/checkproductexist',userAuthToken,checkProductExistHandler)
+router.get('/checkproductexist', userAuthToken, checkProductExistHandler)
 
-router.get('/checkstockavailable',userAuthToken,checkStockAvailableHandler)
+router.get('/checkstockavailable', userAuthToken, checkStockAvailableHandler)
+
+router.post('/placeorder', userAuthToken, orderPlaceHandler)
 
 
 
