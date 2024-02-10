@@ -7,7 +7,7 @@ const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
 const { placeOrder } = require('../../../adapters/controllers/orderController');
-
+const moment = require('moment');
 
 
 
@@ -273,6 +273,8 @@ module.exports = {
                     price: item.price
                 }
             })
+            req.body.deliveryDate = moment().add(10, 'days').format('DD-MM-yyyy')
+            req.body.orderDate=moment().format('DD-MM-yyyy')
             const result = await placeOrder(new ObjectId(req.user.id), req.body)
             if (result) {
                 res.status(200).json({ success: true, data: result })
