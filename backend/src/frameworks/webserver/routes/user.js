@@ -1,5 +1,5 @@
 const express = require('express');
-const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler } = require('../routeHandlers/userRouteHandler');
+const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler } = require('../routeHandlers/userRouteHandler');
 const userAuthToken = require('../../middlewares/userAuthToken');
 const router = express.Router()
 
@@ -46,6 +46,8 @@ router.get('/checkstockavailable', userAuthToken, checkStockAvailableHandler)
 router.post('/placeorder', userAuthToken, orderPlaceHandler)
 
 router.get('/order', userAuthToken, getOrderHandler)
+
+router.get('/order/:id', userAuthToken, getOrderSpecificHandler)
 
 
 

@@ -6,7 +6,7 @@ const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
-const { placeOrder, getOrders } = require('../../../adapters/controllers/orderController');
+const { placeOrder, getOrders, getSpecificOrder } = require('../../../adapters/controllers/orderController');
 const moment = require('moment');
 
 
@@ -291,6 +291,19 @@ module.exports = {
             const result = await getOrders(new ObjectId(req.user.id))
             console.log(result);
             res.status(200).json({ success: true, data: result })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    getOrderSpecificHandler: async (req, res) => {
+        try {
+            const result = await getSpecificOrder(new ObjectId(req.params.id))
+            if (result) {
+                res.status(200).json({ success: true, data: result })
+            } else {
+                res.status(200).json({ success: false, msg: "order not found" })
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

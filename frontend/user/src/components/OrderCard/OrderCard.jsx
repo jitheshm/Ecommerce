@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { BASEURL } from "../../constants/constant.json"
 function OrderCard({ order }) {
     return (
-        <Link to={``}  >
+        <Link to={`/profile/orders/${order._id}`}  >
             <div className="card d-flex flex-row align-items-center mb-3">
                 <div className='p-3 col-1 '>
                     <img className="card-img-top " src={order ? BASEURL + "/" + order.variants.imagesUrl[0] : ""} alt="Card image cap" style={{ maxHeight: "50px" }} />

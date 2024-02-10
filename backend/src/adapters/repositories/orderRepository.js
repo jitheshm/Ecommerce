@@ -51,7 +51,7 @@ module.exports = {
                 {
                     $unwind: '$productDetails'
                 }
-               
+
                 // {
                 //     $lookup: {
                 //         from: 'products',
@@ -67,4 +67,47 @@ module.exports = {
             throw error
         }
     },
+
+    getSpecificOrder: async (orderId) => {
+        try {
+            console.log(orderId);
+            const order = await OrderModel.aggregate([
+                {
+                    $match: {
+                       _id: orderId
+                    }
+                },
+                {
+                    $unwind: '$orderedItems'
+                }
+                ,
+                {
+                    $lookup: {
+                        from: 'productvarients',
+                        localField: 'orderedItems.productId',
+                        foreignField: '_id',
+                        as: 'variants'
+                    }
+                },
+                {
+                    $unwind: '$variants'
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: 'variants.productId',
+                        foreignField: '_id',
+                        as: 'productDetails'
+                    }
+                },
+                {
+                    $unwind: '$productDetails'
+                }
+
+            ]).exec()
+            return order
+        } catch (error) {
+            throw error
+        }
+    }
 }

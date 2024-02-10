@@ -25,6 +25,7 @@ import Cart from './pages/Cart';
 import CheckOut from './components/CheckOut/CheckOut';
 import Checkout from './pages/Checkout';
 import Auth from './components/Auth/Auth';
+import OrderDetails from './components/OrderDetails/OrderDetails';
 
 function App() {
     const [loading, setloading] = useState(true)
@@ -80,6 +81,10 @@ function App() {
                 {
                     path: "orders",
                     element: <Orders />,
+                },
+                {
+                    path:"orders/:orderId",
+                    element:<OrderDetails/>
                 },
                 {
                     path: "wishlist",

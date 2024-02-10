@@ -1,5 +1,5 @@
 class Order {
-    constructor({ userId, orderDate, paymentMethod, orderAmount, deliveryAddress, orderStatus = 'pending', deliveryDate, shippingDate, orderedItems, coupon, offer, transactionId = 'COD' }) {
+    constructor({ userId, orderDate, paymentMethod, orderAmount, deliveryAddress, orderStatus = 'Confirmed', deliveryDate, shippingDate, orderedItems, coupon, offer, transactionId = 'COD' }) {
         this.userId = userId;
         this.orderAmount = orderAmount;
         this.deliveryAddress = deliveryAddress;
