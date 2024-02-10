@@ -15,5 +15,56 @@ module.exports = {
 
             throw error
         }
-    }
+    },
+    getOrders: async (userId) => {
+        try {
+            // const orders = await OrderModel.find({ userId: userId })
+            const orders = await OrderModel.aggregate([
+                {
+                    $match: {
+                        userId: userId
+                    }
+                },
+                {
+                    $unwind: '$orderedItems'
+                }
+                ,
+                {
+                    $lookup: {
+                        from: 'productvarients',
+                        localField: 'orderedItems.productId',
+                        foreignField: '_id',
+                        as: 'variants'
+                    }
+                },
+                {
+                    $unwind: '$variants'
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: 'variants.productId',
+                        foreignField: '_id',
+                        as: 'productDetails'
+                    }
+                },
+                {
+                    $unwind: '$productDetails'
+                }
+               
+                // {
+                //     $lookup: {
+                //         from: 'products',
+                //         localField: 'variants.productId',
+                //         foreignField: '_id',
+                //         as: 'productDetails'
+                //     }
+                // },
+
+            ]).exec()
+            return orders
+        } catch (error) {
+            throw error
+        }
+    },
 }

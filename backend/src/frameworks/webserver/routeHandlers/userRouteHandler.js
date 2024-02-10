@@ -6,7 +6,7 @@ const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
-const { placeOrder } = require('../../../adapters/controllers/orderController');
+const { placeOrder, getOrders } = require('../../../adapters/controllers/orderController');
 const moment = require('moment');
 
 
@@ -274,13 +274,23 @@ module.exports = {
                 }
             })
             req.body.deliveryDate = moment().add(10, 'days').format('DD-MM-yyyy')
-            req.body.orderDate=moment().format('DD-MM-yyyy')
+            req.body.orderDate = moment().format('DD-MM-yyyy')
             const result = await placeOrder(new ObjectId(req.user.id), req.body)
             if (result) {
                 res.status(200).json({ success: true, data: result })
             } else {
                 res.status(200).json({ success: false, msg: "order place failed" })
             }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    getOrderHandler: async (req, res) => {
+        try {
+            const result = await getOrders(new ObjectId(req.user.id))
+            console.log(result);
+            res.status(200).json({ success: true, data: result })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
