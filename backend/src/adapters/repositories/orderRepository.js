@@ -117,9 +117,18 @@ module.exports = {
             await order.save()
             if (order) {
                 return true
-            }else{
+            } else {
                 return false
             }
+        } catch (error) {
+            throw error
+        }
+    },
+    getOrdersList: async () => {
+        try {
+            const orders=await OrderModel.find({})
+            console.log(orders);
+            return orders
         } catch (error) {
             throw error
         }

@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const authToken = require('../../middlewares/adminAuthToken');
 const fileUpload = require('../../middlewares/fileUpload');
-const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler } = require('../routeHandlers/adminRouteHandler');
+const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler } = require('../routeHandlers/adminRouteHandler');
 
 
 //admin routes
@@ -55,5 +55,7 @@ router.get('/product/:id', viewProductHandler)
 
 router.get('/getallvarient/:proId', getProductAllVarientHandler)
 
+router.get('/orders',authToken, ordersListHandler)
 
+router.patch('/changeorderstatus',authToken, orderStatusHandler)
 module.exports = router

@@ -88,7 +88,7 @@ function Sidebar() {
                         </a>
                         <div className="collapse" id="orders">
                             <ul className="nav flex-column sub-menu">
-                                <li className="nav-item"> <a className="nav-link" href="/">View Orders</a></li>
+                                <li className="nav-item"> <Link to={'/orders'} className="nav-link" >View Orders</Link></li>
                                 <li className="nav-item"> <a className="nav-link" href="/">Return Requests</a></li>
                                 
                             </ul>

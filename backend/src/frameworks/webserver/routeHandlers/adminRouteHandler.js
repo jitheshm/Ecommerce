@@ -6,6 +6,7 @@ const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, all
 const path = require('path');
 const fs = require('fs');
 const { categoryAdd, categoryUpdate, categoryDelete, getCategory, getSpecificCategory } = require('../../../adapters/controllers/categoryController');
+const { ordersList, changeStatus } = require('../../../adapters/controllers/orderController');
 
 module.exports = {
     loginHandler: async (req, res) => {
@@ -260,18 +261,18 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    editVarientHandler:async (req, res) => {
+    editVarientHandler: async (req, res) => {
         try {
             const id = new ObjectId(req.params.id)
             const result = await getVarient(id)
             res.status(200).json({ success: true, data: result })
-    
+
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    productListChangeHandler:async (req, res) => {
+    productListChangeHandler: async (req, res) => {
         try {
             const id = new ObjectId(req.body.id)
             console.log(req.body.id);
@@ -280,27 +281,46 @@ module.exports = {
                 res.status(200).json({ success: status })
             else
                 res.status(200).json({ success: status, msg: "product not found" })
-    
+
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    viewProductHandler:async(req,res) => {
+    viewProductHandler: async (req, res) => {
         try {
             const id = new ObjectId(req.params.id)
-            const product=await viewProduct(id)
+            const product = await viewProduct(id)
             res.status(200).json({ success: true, data: product })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    getProductAllVarientHandler:async(req,res)=>{
+    getProductAllVarientHandler: async (req, res) => {
         try {
             const id = new ObjectId(req.params.proId)
-            const result=await getProductAllVarient(id)
+            const result = await getProductAllVarient(id)
             res.status(200).json({ success: true, data: result })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    ordersListHandler: async (req, res) => {
+        try {
+            const orders = await ordersList()
+            res.status(200).json({ success: true, data: orders })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    orderStatusHandler: async(req, res) => {
+        try {
+            const status = await changeStatus(new ObjectId(req.body.orderId), new ObjectId(req.body.userId), req.body.status)
+            console.log(status);
+            res.status(200).json({ success: true })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

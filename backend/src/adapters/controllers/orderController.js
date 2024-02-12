@@ -1,6 +1,7 @@
 const changeStatus = require("../../usecase/order/changeStatus")
 const getOrders = require("../../usecase/order/getOrders")
 const getSpecificOrder = require("../../usecase/order/getSpecificOrder")
+const orderList = require("../../usecase/order/orderList")
 const placeOrder = require("../../usecase/order/placeOrder")
 const addressRepository = require("../repositories/addressRepository")
 const cartRepository = require("../repositories/cartRepository")
@@ -19,5 +20,8 @@ module.exports = {
     },
     changeStatus: async (orderId, userId, orderStatus) => {
         return await changeStatus(orderRepository, orderId, userId, orderStatus)
+    },
+    ordersList: async () => {
+        return await orderList(orderRepository)
     }
 }

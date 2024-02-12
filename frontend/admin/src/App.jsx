@@ -22,6 +22,7 @@ import CategoryList from './components/CategoryList/CategoryList';
 import EditVarient from './pages/EditVarient';
 import ViewProduct from './pages/ViewProduct';
 import VarientList from './pages/VarientList';
+import OrdersList from './components/OrdersList/OrdersList';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -93,6 +94,10 @@ function App() {
     {
       path:"/products/:id/varients",
       element:<Layout><VarientList/></Layout>
+    },
+    {
+      path:"/orders",
+      element:<Layout><OrdersList/></Layout>
     }
 
 
