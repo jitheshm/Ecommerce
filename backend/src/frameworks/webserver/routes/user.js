@@ -1,5 +1,5 @@
 const express = require('express');
-const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler } = require('../routeHandlers/userRouteHandler');
+const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler } = require('../routeHandlers/userRouteHandler');
 const userAuthToken = require('../../middlewares/userAuthToken');
 const router = express.Router()
 
@@ -54,6 +54,9 @@ router.patch('/cancelorder/:orderId', userAuthToken, cancelOrderHandler)
 router.patch('/personal', userAuthToken, personalDetailsChangeHandler)
 
 router.get('/personaldetails', userAuthToken, getPersonalDataHandler)
+
+router.post('/forgetotpsend', forgetPasswordOtpHandler)
+router.patch('/passwordupdate', newPasswordHandler)
 
 
 module.exports = router

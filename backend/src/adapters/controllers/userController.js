@@ -11,6 +11,8 @@ const authUser = require("../../usecase/user/authUser")
 const findUser = require("../../usecase/user/findUser")
 const updatePersonalData = require("../../usecase/user/updatePersonalData")
 const getPersonalData = require("../../usecase/user/getPersonalData")
+const forgetPasswordOtp = require("../../usecase/user/forgetPasswordOtp")
+const passwordUpdate = require("../../usecase/user/passwordUpdate")
 module.exports = {
     signup: async (data, nodemailerEmail, nodemailerPassword) => {
 
@@ -104,7 +106,16 @@ module.exports = {
         return await updatePersonalData(userRepository, userId, data)
     },
     getPersonalData: async (userId) => {
-        return await getPersonalData(userRepository,userId)
+        return await getPersonalData(userRepository, userId)
+    },
+    forgetPasswordOtp: async (nodemailerEmail,
+        nodemailerPassword, data) => {
+        return await forgetPasswordOtp(userRepository, otpRepository, otpService, authService, sendOtp, data, nodemailerEmail,
+            nodemailerPassword)
+    },
+    newPasswordUpdate: async (token, { password }) => {
+        const userData = await authService.verifyToken(token)
+        return await passwordUpdate(userData.id, password, passwordService, userRepository)
     }
 
 }

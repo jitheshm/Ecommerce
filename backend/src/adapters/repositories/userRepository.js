@@ -92,8 +92,9 @@ module.exports = {
     updatePersonalData: async (userId, data) => {
         try {
             const userData = new User(data)
+            console.log("haiii");
             console.log(userData);
-            const { dateOfJoin, ...newData } = userData
+            const { dateOfJoin, isVerified, isBlocked, ...newData } = userData
             const status = await UserModel.updateOne({ _id: userId }, newData)
             if (status.modifiedCount != 1) {
                 return false

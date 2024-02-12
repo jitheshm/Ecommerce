@@ -1,5 +1,5 @@
 class User {
-    constructor({ firstName, lastName, email, password, age, gender, phone, action }) {
+    constructor({ firstName, lastName, email, password, age, gender, phone }) {
         this.firstName = firstName
         this.lastName = lastName
         this.email = email

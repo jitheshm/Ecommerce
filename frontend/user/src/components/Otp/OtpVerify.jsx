@@ -7,7 +7,7 @@ import { verify } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 
-function OtpVerify() {
+function OtpVerify({ forgetOtp, setNewPasswordToogle }) {
     const [otp, setOtp] = useState("")
     const [otpError, setOtpError] = useState(false)
     const [timer, setTimer] = useState(30)
@@ -31,10 +31,15 @@ function OtpVerify() {
             console.log(res);
             if (res.data.success) {
                 Cookies.set('token', res.data.token, { expires: 365 })
-                dispatch(verify({ name: res.data.name }))
-                navigate("/")
+
+                if (forgetOtp) {
+                    setNewPasswordToogle(true)
+                } else {
+                    dispatch(verify({ name: res.data.name }))
+                    navigate("/")
+                }
             }
-            else{
+            else {
                 setOtpError(true)
             }
 

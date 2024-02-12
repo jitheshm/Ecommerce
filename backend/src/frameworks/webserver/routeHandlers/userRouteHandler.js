@@ -2,7 +2,7 @@ const { nodemailerEmail, nodemailerPassword } = require('../../config')
 const { ObjectId } = require('mongodb');
 const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../../../adapters/controllers/productController');
 
-const { signup, verifyUser, loginUser, resendOtp, changePersonaldata, getPersonalData } = require('../../../adapters/controllers/userController');
+const { signup, verifyUser, loginUser, resendOtp, changePersonaldata, getPersonalData, forgetPasswordOtp, newPasswordUpdate } = require('../../../adapters/controllers/userController');
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
@@ -348,5 +348,32 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
 
+    },
+    forgetPasswordOtpHandler: async (req, res) => {
+        try {
+            const token = await forgetPasswordOtp(nodemailerEmail,
+                nodemailerPassword, req.body)
+            if (token) {
+                res.status(200).json({ success: true, token: token })
+            } else {
+                res.status(200).json({ success: false, msg: "user  not found" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    newPasswordHandler: (req, res) => {
+        try {
+            const status = newPasswordUpdate(req.header('Authorization'), req.body)
+            if (status) {
+                res.status(200).json({ success: true })
+            } else {
+                res.status(200).json({ success: false, msg: "password not update" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
     }
 }

@@ -6,14 +6,14 @@ import { useDispatch } from 'react-redux';
 import { verify } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-function Login() {
+function Login({ setForget }) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
     const [loginError, setLoginError] = useState(false)
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const navigate = useNavigate()   
     const handleSubmit = () => {
         if (!/^\S+@\S+\.\S+$/.test(email)) {
             setEmailError(true)
@@ -76,7 +76,9 @@ function Login() {
                                             }} />
 
                                         </div>
-                                        <p className="small mb-5 pb-lg-2"><a className="text-dark-50" href="#!">Forgot password?</a></p>
+                                        <p className="small mb-5 pb-lg-2"><button className="text-dark-50" onClick={() => {
+                                            setForget(true)
+                                        }}>Forgot password?</button></p>
                                         <button className="btn primary verifyBtn btn-lg px-5" type="submit" onClick={handleSubmit}>Login</button>
                                         <div className="d-flex justify-content-center text-center mt-4 pt-1">
                                             <a href="#!" className="text-dark"><i className="fab fa-facebook-f fa-lg" /></a>
