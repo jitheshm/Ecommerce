@@ -9,6 +9,8 @@ const verifyUser = require("../../usecase/user/verifyUser")
 const authService = require("../services/authService")
 const authUser = require("../../usecase/user/authUser")
 const findUser = require("../../usecase/user/findUser")
+const updatePersonalData = require("../../usecase/user/updatePersonalData")
+const getPersonalData = require("../../usecase/user/getPersonalData")
 module.exports = {
     signup: async (data, nodemailerEmail, nodemailerPassword) => {
 
@@ -71,7 +73,7 @@ module.exports = {
         const result = await authUser(data, userRepository, passwordService, authService)
         return result
     },
-    resendOtp: async (tokenData,nodemailerEmail, nodemailerPassword) => {
+    resendOtp: async (tokenData, nodemailerEmail, nodemailerPassword) => {
         const { iat } = tokenData
         const currentTime = Math.floor(Date.now() / 1000);
 
@@ -94,9 +96,15 @@ module.exports = {
 
             await sendOtp(otpOptions)
             return true
-        }else{
+        } else {
             return false
         }
+    },
+    changePersonaldata: async (userId, data) => {
+        return await updatePersonalData(userRepository, userId, data)
+    },
+    getPersonalData: async (userId) => {
+        return await getPersonalData(userRepository,userId)
     }
 
 }

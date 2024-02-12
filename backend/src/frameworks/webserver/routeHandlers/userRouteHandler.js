@@ -2,7 +2,7 @@ const { nodemailerEmail, nodemailerPassword } = require('../../config')
 const { ObjectId } = require('mongodb');
 const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../../../adapters/controllers/productController');
 
-const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/controllers/userController');
+const { signup, verifyUser, loginUser, resendOtp, changePersonaldata, getPersonalData } = require('../../../adapters/controllers/userController');
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
@@ -309,7 +309,7 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    cancelOrderHandler: async (req,res) => {
+    cancelOrderHandler: async (req, res) => {
         try {
             const status = await changeStatus(new ObjectId(req.params.orderId), new ObjectId(req.user.id), "Cancelled")
             if (status) {
@@ -321,5 +321,32 @@ module.exports = {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
         }
+    },
+    personalDetailsChangeHandler: async (req, res) => {
+        try {
+            const status = await changePersonaldata(new ObjectId(req.user.id), req.body)
+            if (status) {
+                res.status(200).json({ success: true })
+            } else {
+                res.status(200).json({ success: false, msg: "data not updated" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    getPersonalDataHandler: async (req, res) => {
+        try {
+            const user = await getPersonalData(new ObjectId(req.user.id))
+            if (user) {
+                res.status(200).json({ success: true, data: user })
+            } else {
+                res.status(200).json({ success: false, msg: "user  not found" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+
     }
 }

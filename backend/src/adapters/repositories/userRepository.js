@@ -1,3 +1,4 @@
+const User = require('../../entity/userEntity');
 const UserModel = require('../models/userModel')
 module.exports = {
     create: async (data) => {
@@ -84,6 +85,29 @@ module.exports = {
         try {
             const user = await UserModel.findOne({ _id: id })
             return user.isBlocked
+        } catch (error) {
+            throw error
+        }
+    },
+    updatePersonalData: async (userId, data) => {
+        try {
+            const userData = new User(data)
+            console.log(userData);
+            const { dateOfJoin, ...newData } = userData
+            const status = await UserModel.updateOne({ _id: userId }, newData)
+            if (status.modifiedCount != 1) {
+                return false
+            } else {
+                return true
+            }
+        } catch (error) {
+            throw error
+        }
+    },
+    getPersonalData: async (userId) => {
+        try {
+            return UserModel.findOne({ _id: userId }, { password: 0 })
+
         } catch (error) {
             throw error
         }
