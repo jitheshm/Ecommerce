@@ -213,5 +213,17 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    stockUpdate: (items) => {
+        try {
+            Promise.all(items.map(async (item) => {
+                const product = await ProductVarientModel.findOne({ _id: item.productId })
+                product.stock = product.stock - item.quantity
+                await product.save()
+            }))
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }

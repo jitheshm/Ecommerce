@@ -1,6 +1,6 @@
 const Order = require("../../entity/orderEntity")
 
-module.exports = async (orderRepository, addressRepository, cartRepository, data) => {
+module.exports = async (orderRepository, addressRepository, cartRepository, productVarientRepository, data) => {
 
 
     const deliveryAddress = await addressRepository.findAddress(data.deliveryAddress)
@@ -11,6 +11,7 @@ module.exports = async (orderRepository, addressRepository, cartRepository, data
     const order = new Order(data)
 
     const reciept = await orderRepository.placeOrder(order)
+    await productVarientRepository.stockUpdate(data.orderedItems)
 
     if (!data.directPurchase) {
         const status = await cartRepository.clearUserCart(data.userId)

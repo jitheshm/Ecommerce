@@ -6,11 +6,12 @@ const placeOrder = require("../../usecase/order/placeOrder")
 const addressRepository = require("../repositories/addressRepository")
 const cartRepository = require("../repositories/cartRepository")
 const orderRepository = require("../repositories/orderRepository")
+const productVarientRepository = require("../repositories/productVarientRepository")
 
 module.exports = {
     placeOrder: async (userId, data) => {
         data.userId = userId
-        return await placeOrder(orderRepository, addressRepository, cartRepository, data)
+        return await placeOrder(orderRepository, addressRepository, cartRepository,productVarientRepository, data)
     },
     getOrders: async (userId) => {
         return await getOrders(orderRepository, userId)
