@@ -76,7 +76,7 @@ function Login({ setForget }) {
                                             }} />
 
                                         </div>
-                                        <p className="small mb-5 pb-lg-2"><button className="text-dark-50" onClick={() => {
+                                        <p className="small mb-5 pb-lg-2"><button className="text-dark-50 btn" onClick={() => {
                                             setForget(true)
                                         }}>Forgot password?</button></p>
                                         <button className="btn primary verifyBtn btn-lg px-5" type="submit" onClick={handleSubmit}>Login</button>

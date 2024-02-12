@@ -90,7 +90,8 @@ module.exports = {
     },
     resendOtpHandler: async (req, res) => {
         try {
-            const status = await resendOtp(req.user, nodemailerEmail, nodemailerPassword)
+
+            const status = await resendOtp(req.header('Authorization'),nodemailerEmail, nodemailerPassword)
             console.log(status);
             if (status) {
                 res.status(200).json({ success: true })

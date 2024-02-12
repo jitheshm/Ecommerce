@@ -17,7 +17,7 @@ router.get('/tokenverify', userAuthToken, tokenVerifyHandler)
 
 router.get('/getcolorlist/:id', getColorListHandler)
 
-router.get('/resendotp', userAuthToken, resendOtpHandler)
+router.get('/resendotp', resendOtpHandler)
 
 router.post('/newaddress', userAuthToken, addAddressHandler)
 

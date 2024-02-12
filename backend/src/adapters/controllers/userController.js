@@ -75,8 +75,10 @@ module.exports = {
         const result = await authUser(data, userRepository, passwordService, authService)
         return result
     },
-    resendOtp: async (tokenData, nodemailerEmail, nodemailerPassword) => {
+    resendOtp: async (token, nodemailerEmail, nodemailerPassword) => {
+        const tokenData = await authService.verifyToken(token)
         const { iat } = tokenData
+        console.log(tokenData);
         const currentTime = Math.floor(Date.now() / 1000);
 
 
