@@ -74,7 +74,7 @@ module.exports = {
             const order = await OrderModel.aggregate([
                 {
                     $match: {
-                       _id: orderId
+                        _id: orderId
                     }
                 },
                 {
@@ -106,6 +106,20 @@ module.exports = {
 
             ]).exec()
             return order
+        } catch (error) {
+            throw error
+        }
+    },
+    changeOrderStatus: async (orderId, userId, status) => {
+        try {
+            const order = await OrderModel.findOne({ _id: orderId, userId: userId })
+            order.orderStatus = status
+            await order.save()
+            if (order) {
+                return true
+            }else{
+                return false
+            }
         } catch (error) {
             throw error
         }

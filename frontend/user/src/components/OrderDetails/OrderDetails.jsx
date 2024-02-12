@@ -8,6 +8,7 @@ import { BASEURL } from "../../constants/constant.json"
 
 function OrderDetails() {
     const [orderDetails, setOrderDetails] = useState({})
+    const [toogle, setToogle] = useState(false)
 
     const { orderId } = useParams()
     const dispatch = useDispatch()
@@ -26,8 +27,30 @@ function OrderDetails() {
                 dispatch(logout())
             }
         })
-    }, [])
+    }, [toogle])
 
+
+    const handleCancel = () => {
+        if (confirm('Are you sure you want to cancel this order?')) {
+            instance.patch(`/user/cancelorder/${orderId}`, {
+                orderStatus: "Cancelled"
+            }, {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                console.log(res.data);
+                setToogle(!toogle)
+                //setOrderDetails(res.data.data[0])
+            }).catch((error) => {
+                console.log(error.response.status);
+                if (error.response.status === 401) {
+                    Cookies.remove('token')
+                    dispatch(logout())
+                }
+            })
+        }
+    }
     return (
         <>
             <div className='col-md-7 '>
@@ -50,10 +73,19 @@ function OrderDetails() {
                             <p><b>phone</b> {orderDetails.deliveryAddress ? orderDetails.deliveryAddress.phone : ''}</p>
 
                         </div>
+                    </div>   
+                    <div className='col-6 d-flex align-items-center flex-column justify-content-center'>
+                        {
+                            orderDetails.orderStatus != "Cancelled" &&
+                            <button className='btn primary '>Download invoice</button>
+                        }
+                        {
+                            orderDetails.orderStatus != "Cancelled" &&orderDetails.orderStatus != "Delivered" &&
+                            <button className='btn btn-danger mt-4' onClick={handleCancel}>Cancel Order</button>
+                        }
+
                     </div>
-                    <div className='col-6 d-flex align-items-center  justify-content-center'>
-                        <button className='btn primary'>Download invoice</button>
-                    </div>
+
 
 
                 </div>
@@ -84,50 +116,72 @@ function OrderDetails() {
 
                                             <p className="py-1  rounded" style={{ color: "#26A541" }}>Ordered</p>
                                         </li>
-                                        <li className="list-inline-item items-list col-3" style={orderDetails.orderStatus === "Shipped" || orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
+                                        {
+                                            orderDetails.orderStatus === "Cancelled" &&
+                                            <li className="list-inline-item items-list col-3" >
 
-                                            {
-                                                orderDetails.orderStatus === "Shipped" || orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ?
-                                                    <>
-                                                        <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
-                                                        <p className="py-1 rounded " style={{ color: "#26A541" }}>Shipped</p>
-                                                    </>
-                                                    :
-                                                    <>
-                                                        <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#ddd', top: 0, marginTop: '-5px', left: 0 }} />
 
-                                                    </>
-                                            }
+                                                <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#e12222', top: 0, marginTop: '-5px', left: 0 }} />
+                                                <p className="py-1 rounded " style={{ color: '#e12222' }}>Cancelled</p>
 
-                                        </li>
-                                        <li className="list-inline-item items-list  col-3" style={orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
-                                            {
-                                                orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ?
-                                                    <>
-                                                        <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
-                                                        <p className="py-1  rounded " style={{ color: "#26A541" }}>Out for delivery</p>
-                                                    </>
-                                                    :
-                                                    <>
-                                                        <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#ddd', top: 0, marginTop: '-5px', left: 0 }} />
 
-                                                    </>
-                                            }
-                                        </li>
-                                        <li className="list-inline-item items-list text-end col-3" style={orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid", marginRight: 8} : { borderTop: "2px #ddd solid", marginRight: 8}}>
-                                            {
-                                                orderDetails.orderStatus === "Delivered" ?
-                                                    <>
-                                                        <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
-                                                        <p className="py-1  rounded " style={{ color: "#26A541" }}>Delivered</p>
-                                                    </>
-                                                    :
-                                                    <>
-                                                        <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#ddd', top: 0, marginTop: '-5px', left: 0 }} />
 
-                                                    </>
-                                            }
-                                        </li>
+                                            </li>
+                                        }
+                                        {
+                                            orderDetails.orderStatus != "Cancelled" &&
+                                            <>
+                                                <li className="list-inline-item items-list col-3" style={orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Shipped" || orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
+
+
+
+
+                                                    {
+
+
+                                                        orderDetails.orderStatus === "Shipped" || orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ?
+                                                            <>
+                                                                <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
+                                                                <p className="py-1 rounded " style={{ color: "#26A541" }}>Shipped</p>
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#ddd', top: 0, marginTop: '-5px', left: 0 }} />
+
+                                                            </>
+                                                    }
+
+                                                </li>
+                                                <li className="list-inline-item items-list  col-3" style={orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
+                                                    {
+                                                        orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ?
+                                                            <>
+                                                                <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
+                                                                <p className="py-1  rounded " style={{ color: "#26A541" }}>Out for delivery</p>
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#ddd', top: 0, marginTop: '-5px', left: 0 }} />
+
+                                                            </>
+                                                    }
+                                                </li>
+                                                <li className="list-inline-item items-list text-end col-3" style={orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid", marginRight: 8 } : { borderTop: "2px #ddd solid", marginRight: 8 }}>
+                                                    {
+                                                        orderDetails.orderStatus === "Delivered" ?
+                                                            <>
+                                                                <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
+                                                                <p className="py-1  rounded " style={{ color: "#26A541" }}>Delivered</p>
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#ddd', top: 0, marginTop: '-5px', left: 0 }} />
+
+                                                            </>
+                                                    }
+                                                </li>
+                                            </>
+                                        }
                                     </ul>
                                 </div>
                             </div>

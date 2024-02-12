@@ -6,7 +6,7 @@ const { signup, verifyUser, loginUser, resendOtp } = require('../../../adapters/
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
-const { placeOrder, getOrders, getSpecificOrder } = require('../../../adapters/controllers/orderController');
+const { placeOrder, getOrders, getSpecificOrder, changeStatus } = require('../../../adapters/controllers/orderController');
 const moment = require('moment');
 
 
@@ -303,6 +303,19 @@ module.exports = {
                 res.status(200).json({ success: true, data: result })
             } else {
                 res.status(200).json({ success: false, msg: "order not found" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    cancelOrderHandler: async (req,res) => {
+        try {
+            const status = await changeStatus(new ObjectId(req.params.orderId), new ObjectId(req.user.id), "Cancelled")
+            if (status) {
+                res.status(200).json({ success: true })
+            } else {
+                res.status(200).json({ success: false, msg: "order not cancelled" })
             }
         } catch (error) {
             console.log(error);

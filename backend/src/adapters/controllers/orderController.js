@@ -1,3 +1,4 @@
+const changeStatus = require("../../usecase/order/changeStatus")
 const getOrders = require("../../usecase/order/getOrders")
 const getSpecificOrder = require("../../usecase/order/getSpecificOrder")
 const placeOrder = require("../../usecase/order/placeOrder")
@@ -15,5 +16,8 @@ module.exports = {
     },
     getSpecificOrder: async (orderId) => {
         return await getSpecificOrder(orderRepository, orderId)
+    },
+    changeStatus: async (orderId, userId, orderStatus) => {
+        return await changeStatus(orderRepository, orderId, userId, orderStatus)
     }
 }
