@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie';
 import instance from '../../axios';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../features/user/userSlice';
 function Personal() {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -14,7 +16,7 @@ function Personal() {
     const [ageError, setAgeError] = useState(false)
     const [phoneError, setPhoneError] = useState(false)
     const [successMsg, setSuccessMsg] = useState(false)
-
+    const dispatch = useDispatch()
 
     useEffect(() => {
         instance.get('/user/personaldetails', {
@@ -39,7 +41,7 @@ function Personal() {
     }
 
     const handleSubmit = () => {
-        if (firstName.trim() === "") {
+        if (!/^[^\s]{3}[\s\S]*$/.test(firstName)) {
             setFirstNameError(true)
             return;
         } else {
@@ -58,13 +60,14 @@ function Personal() {
         } else {
             setEmailError(false)
         }
-        if (age < 0 || !/^[0-9\b]+$/.test(age) && age > 100) {
+        if (age < 0 || !/^\d+$/.test(age) || isNaN(age) || age > 100) {
             setAgeError(true)
             return;
         } else {
             setAgeError(false)
         }
-        if (phone < 0 || !/^[0-9\b]+$/.test(phone) || phone.length != 10) {
+        if (phone < 0 || !/^[0-9\b]+$/.test(phone) || String(phone).length != 10) {
+            console.log(String(phone).length);
             setPhoneError(true)
             return;
 
@@ -86,10 +89,16 @@ function Personal() {
             }
         }).then((res) => {
             console.log(res);
-            setSuccessMsg(true)
+            if (res.data.success)
+                setSuccessMsg(true)
 
-        }).catch((err) => {
-            console.log(err);
+        }).catch((error) => {
+            if (error.response.status === 401) {
+                Cookies.remove('token')
+                dispatch(logout())
+
+
+            }
         })
     }
 

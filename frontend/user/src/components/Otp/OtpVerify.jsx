@@ -15,7 +15,7 @@ function OtpVerify({ forgetOtp, setNewPasswordToogle }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const handleSubmit = () => {
-        if (otp.trim() === "") {
+        if (otp.trim() === "" || otp.length != 6) {
             setOtpError(true)
             return;
         } else {
@@ -90,11 +90,11 @@ function OtpVerify({ forgetOtp, setNewPasswordToogle }) {
                                         <h2 className="fw-bold mb-2 text-uppercase">Otp</h2>
                                         <p className="text-dark-50 mb-5">Please enter your verification code</p>
                                         <div className="form-outline form-white mb-4 ">
-                                            {otpError && <p className="text-danger">Please enter valid otp</p>}
+
                                             <input type="text" className="form-control form-control-lg " value={otp} onChange={(e) => {
                                                 setOtp(e.target.value)
                                             }} />
-
+                                            {otpError && <p className="text-danger">Please enter valid otp</p>}
                                         </div>
 
 
@@ -105,7 +105,7 @@ function OtpVerify({ forgetOtp, setNewPasswordToogle }) {
                                         </div>
 
                                     </div>
-
+  
                                 </div>
                             </div>
                         </div>

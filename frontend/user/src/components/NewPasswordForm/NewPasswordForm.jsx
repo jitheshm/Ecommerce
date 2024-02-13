@@ -57,22 +57,22 @@ function NewPasswordForm() {
 
                                         <div className="form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typePasswordX">Password</label>
-                                            {passwordError && <p style={{ color: "red" }}>please enter your password</p>}
+
                                             <input type="password" id="typePasswordX1" className="form-control form-control-lg" value={password} onChange={(e) => {
                                                 setPassword(e.target.value)
                                             }} />
-
+                                            {passwordError && <p style={{ color: "red" }}>please enter your password</p>}
                                         </div>
                                         <div className="form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typePasswordX2">Confirm Password</label>
-                                            {confirmError && <p style={{ color: "red" }}>password not match</p>}
+
                                             <input type="password" id="typePasswordX" className="form-control form-control-lg" value={confirmPassword} onChange={(e) => {
                                                 setconfirmPassword(e.target.value)
                                             }} />
-
+                                            {confirmError && <p style={{ color: "red" }}>password not match</p>}
                                         </div>
 
-                                        <button className="btn primary btn-lg px-5 mt-4 text-white verifyBtn" type="submit" onClick={handleSubmit}>Create an account</button>
+                                        <button className="btn primary btn-lg px-5 mt-4 text-white verifyBtn" type="submit" onClick={handleSubmit}>Change Password</button>
 
                                     </div>
 

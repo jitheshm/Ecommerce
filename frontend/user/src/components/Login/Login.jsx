@@ -13,7 +13,7 @@ function Login({ setForget }) {
     const [passwordError, setPasswordError] = useState(false)
     const [loginError, setLoginError] = useState(false)
     const dispatch = useDispatch()
-    const navigate = useNavigate()   
+    const navigate = useNavigate()
     const handleSubmit = () => {
         if (!/^\S+@\S+\.\S+$/.test(email)) {
             setEmailError(true)
@@ -61,20 +61,20 @@ function Login({ setForget }) {
                                         <p className="text-dark-50 mb-5">Please enter your login and password!</p>
                                         <div className="form-outline form-white mb-4 ">
                                             <label className="form-label" htmlFor="typeEmailX">Email</label>
-                                            {emailError && <p style={{ color: "red" }}>Please enter a valid email address</p>}
+
                                             <input type="email" id="typeEmailX" className="form-control form-control-lg " value={email} onChange={(e) => {
                                                 setEmail(e.target.value)
 
                                             }} />
-
+                                            {emailError && <p style={{ color: "red" }}>Please enter a valid email address</p>}
                                         </div>
                                         <div className="form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typePasswordX">Password</label>
-                                            {passwordError && <p style={{ color: "red" }}>please enter your password</p>}
+
                                             <input type="password" id="typePasswordX" className="form-control form-control-lg" value={password} onChange={(e) => {
                                                 setPassword(e.target.value)
                                             }} />
-
+                                            {passwordError && <p style={{ color: "red" }}>please enter your password</p>}
                                         </div>
                                         <p className="small mb-5 pb-lg-2"><button className="text-dark-50 btn" onClick={() => {
                                             setForget(true)

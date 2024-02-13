@@ -18,7 +18,7 @@ function Signup({ setVerifyOtp }) {
 
 
     const handleSubmit = () => {
-        if (firstName.trim() === "") {
+        if (!/^[^\s]{3,}$/.test(firstName)) {
             setFirstNameError(true)
             return;
         } else {
@@ -87,46 +87,46 @@ function Signup({ setVerifyOtp }) {
                                         </div>
                                         <div className="form-outline form-white mb-4 ">
                                             <label className="form-label" htmlFor="typeEmailX">First Name</label>
-                                            {firstNameError && <p style={{ color: "red" }}>please enter your first name</p>}
+
                                             <input type="text" className="form-control form-control-lg " value={firstName} onChange={(e) => {
                                                 setFirstName(e.target.value)
                                             }} />
-
+                                            {firstNameError && <p style={{ color: "red" }}>please enter your first name</p>}
                                         </div>
 
                                         <div className="form-outline form-white mb-4 ">
                                             <label className="form-label" htmlFor="typeEmailX">Last Name</label>
-                                            {lastNameError && <p style={{ color: "red" }}>please enter your last name</p>}
+
                                             <input type="text" className="form-control form-control-lg " value={lastName} onChange={(e) => {
                                                 setLastName(e.target.value)
                                             }} />
-
+                                            {lastNameError && <p style={{ color: "red" }}>please enter your last name</p>}
                                         </div>
                                         <div className="form-outline form-white mb-4 ">
                                             <label className="form-label" htmlFor="typeEmailX">Email</label>
-                                            {emailError && <p style={{ color: "red" }}>Please enter a valid email address</p>}
+
                                             <input type="email" id="typeEmailX" className="form-control form-control-lg " value={email} onChange={(e) => {
                                                 setEmail(e.target.value)
 
                                             }} />
-
+                                            {emailError && <p style={{ color: "red" }}>Please enter a valid email address</p>}
                                         </div>
                                         <div className="form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typePasswordX">Password</label>
-                                            {passwordError && <p style={{ color: "red" }}>please enter your password</p>}
+
                                             <input type="password" id="typePasswordX1" className="form-control form-control-lg" value={password} onChange={(e) => {
                                                 setPassword(e.target.value)
                                             }} />
-
+                                            {passwordError && <p style={{ color: "red" }}>please enter your password</p>}
                                         </div>
                                         <div className="form-outline form-white mb-4">
                                             <label className="form-label" htmlFor="typePasswordX2">Confirm Password</label>
-                                            {confirmError && <p style={{ color: "red" }}>password not match</p>}
+
                                             <input type="password" id="typePasswordX" className="form-control form-control-lg" value={confirmPassword} onChange={(e) => {
                                                 setconfirmPassword(e.target.value)
                                             }} />
-
-                                        </div>
+                                            {confirmError && <p style={{ color: "red" }}>password not match</p>}
+                                        </div>       
 
                                         <button className="btn primary btn-lg px-5 mt-4 text-white verifyBtn" type="submit" onClick={handleSubmit}>Create an account</button>
 
