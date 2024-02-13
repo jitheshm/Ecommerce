@@ -229,7 +229,7 @@ module.exports = {
     searchProducts: async (searchQuery, sort) => {
         try {
             console.log(sort);
-            return await ProductVarientModel.aggregate([
+            const pipeLine = [
                 {
                     $lookup: {
                         from: "products",
@@ -259,10 +259,14 @@ module.exports = {
                         ]
                     }
                 },
-                {
+               
+            ]
+            if(sort.key!=null){
+                pipeLine.push({
                     $sort: sort
-                }
-            ]).exec()
+                })
+            }
+            return await ProductVarientModel.aggregate(pipeLine).exec()
         } catch (error) {
             console.log(error);
             throw error
