@@ -1,7 +1,11 @@
 import React from 'react'
 import man from '../../assets/man.png'
 import { Link } from 'react-router-dom'
+import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../features/user/userSlice';
 function Sidebar() {
+    const dispatch = useDispatch()
     return (
         <>
             <div className='col-md-4'>
@@ -35,6 +39,13 @@ function Sidebar() {
                     <div className=' pt-3'>
                         <i className="fa-solid fa-heart me-4" style={{ color: '#15161d', fontSize: "19px" }} />
                         <Link className='fw-bold' to={'/profile/wishlist'}>My Wishlist</Link>
+                    </div>
+                    <div className=' pt-3'>
+                        <i className="fa-solid fa-arrow-right-from-bracket me-1" style={{ color: '#15161d', fontSize: "19px" }} />
+                        <button className='fw-bold btn' onClick={() => {
+                            Cookies.remove('token');
+                            dispatch(logout())
+                        }}>Logout</button>
                     </div>
                 </div>
             </div>

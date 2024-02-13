@@ -22,10 +22,7 @@ function Header() {
                         <ul className="header-links pull-right ">
                             <li><a href="#"><i className="fa fa-dollar" /> USD</a></li>
                             {
-                                verified?<li><button className='btn text-white' onClick={()=>{
-                                    Cookies.remove('token');
-                                        dispatch(logout())
-                                }}><i className="fa fa-user-o" /> Logout</button></li>: <li><Link to={'/login'} className='btn text-white'><i className="fa fa-user-o" /> LogIn</Link></li>
+                                verified?<li><Link to={`/profile/personal`} className='btn text-white' ><i className="fa fa-user-o" /> My account</Link></li>: <li><Link to={'/login'} className='btn text-white'><i className="fa fa-user-o" /> LogIn</Link></li>
                             }
                            
                             
