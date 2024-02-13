@@ -17,6 +17,7 @@ const productListChange = require("../../usecase/product/productListChange")
 const getColorList = require("../../usecase/product/getColorList")
 const viewProduct = require("../../usecase/product/viewProduct")
 const getProductAllVarient = require("../../usecase/product/getProductAllVarient")
+const searchProducts = require("../../usecase/product/searchProducts")
 
 module.exports = {
     productAdd: async (prodData) => {
@@ -28,7 +29,7 @@ module.exports = {
         return productVId
     },
     varientUpdate: async (varientData) => {
-        const status=await updatevarient(varientData, productVarientRepository)
+        const status = await updatevarient(varientData, productVarientRepository)
         return status
     },
     varientDelete: async (varientId) => {
@@ -55,35 +56,39 @@ module.exports = {
         return products
     },
     getVarientDetail: async (color) => {
-       const varientDetail=await getVarientDetails(color,productVarientRepository)
-       return varientDetail
+        const varientDetail = await getVarientDetails(color, productVarientRepository)
+        return varientDetail
     },
-    editProduct:async(id)=>{
-        const result =await editProduct(id,productRepository)
+    editProduct: async (id) => {
+        const result = await editProduct(id, productRepository)
         return result
     },
-    getAllProducts:async()=>{
-        const result=await getAllProducts(productRepository)
+    getAllProducts: async () => {
+        const result = await getAllProducts(productRepository)
         return result
     },
-    getVarient:async(id)=>{
-        const result=await getVarient(id,productVarientRepository)   
+    getVarient: async (id) => {
+        const result = await getVarient(id, productVarientRepository)
         return result
-     },
-     productListChange:async(id)=>{
-        const status=await productListChange(productRepository,id)
+    },
+    productListChange: async (id) => {
+        const status = await productListChange(productRepository, id)
         return status
-     },
-     getcolorlist:async(id)=>{
-        const result=await getColorList(productVarientRepository,id)
+    },
+    getcolorlist: async (id) => {
+        const result = await getColorList(productVarientRepository, id)
         return result
-     },
-     viewProduct:async(id)=>{
-        const result=await viewProduct(productRepository,id)
+    },
+    viewProduct: async (id) => {
+        const result = await viewProduct(productRepository, id)
         return result
-     },
-     getProductAllVarient:async(id)=>{
-        const result=await getProductAllVarient(productVarientRepository,id)
+    },
+    getProductAllVarient: async (id) => {
+        const result = await getProductAllVarient(productVarientRepository, id)
         return result
-     }
+    },
+    searchProducts: async(searchQuery,sort) => {
+        const result=await searchProducts(productVarientRepository,searchQuery,sort)
+        return result
+    }
 }

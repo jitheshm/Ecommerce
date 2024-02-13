@@ -1,6 +1,6 @@
 const { nodemailerEmail, nodemailerPassword } = require('../../config')
 const { ObjectId } = require('mongodb');
-const { getOneVarientPerProduct, getVarientDetail, getcolorlist } = require('../../../adapters/controllers/productController');
+const { getOneVarientPerProduct, getVarientDetail, getcolorlist, searchProducts } = require('../../../adapters/controllers/productController');
 
 const { signup, verifyUser, loginUser, resendOtp, changePersonaldata, getPersonalData, forgetPasswordOtp, newPasswordUpdate } = require('../../../adapters/controllers/userController');
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
@@ -91,7 +91,7 @@ module.exports = {
     resendOtpHandler: async (req, res) => {
         try {
 
-            const status = await resendOtp(req.header('Authorization'),nodemailerEmail, nodemailerPassword)
+            const status = await resendOtp(req.header('Authorization'), nodemailerEmail, nodemailerPassword)
             console.log(status);
             if (status) {
                 res.status(200).json({ success: true })
@@ -376,5 +376,19 @@ module.exports = {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
         }
+    },
+    searchHandler: async (req, res) => {
+        try {
+            const sort = {
+                [req.query.sort]: Number(req.query.order)
+            }
+            console.log(req.params.search, sort);
+            const result = await searchProducts(req.params.search, sort)
+            res.status(200).json({ success: true, data: result })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+
     }
 }

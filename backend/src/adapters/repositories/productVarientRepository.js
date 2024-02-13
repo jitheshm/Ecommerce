@@ -225,5 +225,47 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    searchProducts: async (searchQuery, sort) => {
+        try {
+            console.log(sort);
+            return await ProductVarientModel.aggregate([
+                {
+                    $lookup: {
+                        from: "products",
+                        localField: "productId",
+                        foreignField: "_id",
+                        as: "productDetails"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "categories",
+                        localField: "productDetails.categoryId",
+                        foreignField: "_id",
+                        as: "category"
+                    }
+                },
+                {
+                    $match: {
+                        "productDetails.isListed": true,
+                        "productDetails.isDeleted": false,
+                        $or: [
+                            { "productDetails.name": { $regex: searchQuery, $options: 'i' } },
+                            { "productDetails.brand": { $regex: searchQuery, $options: 'i' } },
+                            { "category.category": { $regex: searchQuery, $options: 'i' } },
+
+
+                        ]
+                    }
+                },
+                {
+                    $sort: sort
+                }
+            ]).exec()
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 }

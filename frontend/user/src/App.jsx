@@ -26,6 +26,8 @@ import CheckOut from './components/CheckOut/CheckOut';
 import Checkout from './pages/Checkout';
 import Auth from './components/Auth/Auth';
 import OrderDetails from './components/OrderDetails/OrderDetails';
+import SearchResults from './components/SearchResults/SearchResults';
+import SearchResult from './pages/SearchResult';
 
 function App() {
     const [loading, setloading] = useState(true)
@@ -83,8 +85,8 @@ function App() {
                     element: <Orders />,
                 },
                 {
-                    path:"orders/:orderId",
-                    element:<OrderDetails/>
+                    path: "orders/:orderId",
+                    element: <OrderDetails />
                 },
                 {
                     path: "wishlist",
@@ -99,6 +101,10 @@ function App() {
         {
             path: "/checkout",
             element: <Auth><Checkout /></Auth>
+        },
+        {
+            path: "/search/:searchQuery",
+            element: <SearchResult />
         }
 
 
