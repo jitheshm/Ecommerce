@@ -32,7 +32,7 @@ function SearchCard({product}) {
                         </ul>
 
                     </div>
-                    {/* <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div> */}
+                    <div style={{ height: "30px" }}>{product.stock===0 && <p style={{ color: "red" }}>Out of stock</p>}</div>
                 </div>
 
                 <div className='col-2'>   

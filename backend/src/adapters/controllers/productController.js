@@ -87,8 +87,8 @@ module.exports = {
         const result = await getProductAllVarient(productVarientRepository, id)
         return result
     },
-    searchProducts: async(searchQuery,sort) => {
-        const result=await searchProducts(productVarientRepository,searchQuery,sort)
+    searchProducts: async(searchQuery,sort,filter) => {
+        const result=await searchProducts(productVarientRepository,searchQuery,sort,filter)
         return result
     }
 }

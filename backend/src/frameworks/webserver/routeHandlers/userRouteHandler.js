@@ -379,11 +379,15 @@ module.exports = {
     },
     searchHandler: async (req, res) => {
         try {
-            const sort = {
+
+            const { sort, order, ...filter } = req.query
+            const sortObj = {
                 [req.query.sort]: Number(req.query.order)
             }
+            console.log(filter);
+            filter.in
             console.log(req.params.search, sort);
-            const result = await searchProducts(req.params.search, sort)
+            const result = await searchProducts(req.params.search, sortObj, filter)
             res.status(200).json({ success: true, data: result })
         } catch (error) {
             console.log(error);

@@ -226,7 +226,7 @@ module.exports = {
             throw error
         }
     },
-    searchProducts: async (searchQuery, sort) => {
+    searchProducts: async (searchQuery, sort, filter) => {
         try {
             console.log(sort);
             const pipeLine = [
@@ -250,6 +250,8 @@ module.exports = {
                     $match: {
                         "productDetails.isListed": true,
                         "productDetails.isDeleted": false,
+
+
                         $or: [
                             { "productDetails.name": { $regex: searchQuery, $options: 'i' } },
                             { "productDetails.brand": { $regex: searchQuery, $options: 'i' } },
@@ -261,7 +263,14 @@ module.exports = {
                 },
 
             ]
-            if (!sort.hasOwnProperty(null)) {
+            if (filter.instock==='true') {
+                pipeLine.push({
+                    $match: {
+                        stock: { $gt: 0 }
+                    }
+                })
+            }
+            if (!sort.hasOwnProperty(null) && !sort.hasOwnProperty(undefined)) {
                 pipeLine.push({
                     $sort: sort
                 })

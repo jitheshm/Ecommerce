@@ -15,20 +15,33 @@ function SearchResults() {
 
     const sort = new URLSearchParams(location.search).get('sort')
     const order = new URLSearchParams(location.search).get('order')
+    const [filter, setFilter] = useState({
+        instock: false
+    })
 
-
-    useEffect(() => {
-
-        instance.get(`user/product/search/${searchQuery}?sort=${sort}&&order=${order}`).then((res) => {
+    useEffect(() => {   
+        console.log("searching");
+        instance.get(`user/product/search/${searchQuery}`, {
+            params: {
+                sort,
+                order,
+                ...filter
+            }
+        }).then((res) => {
             console.log(res.data);
             setSearchResult(res.data.data)
         }).catch((err) => {
             console.log(err)
         })
-    }, [searchParams])
+    }, [searchParams,filter])
 
     const handleSort = (sort, order) => {
         setSearchParams({ sort: sort, order: order });
+    }
+
+    const handleFilter= (filterData) => {
+        console.log(filterData);
+        setFilter({...filter, ...filterData})
     }
 
     return (
@@ -36,7 +49,19 @@ function SearchResults() {
             <div className=''>
                 <div className='row container-fluid m-auto gap-2'>
                     <div className=' col-md-2 p-5 mt-5  address border '>
-
+                        <div>
+                            <h4><b>Filters</b></h4>
+                        </div>
+                        <hr style={{ border: "1px black solid" }} />
+                        <div>
+                            <h5><b>Stock</b></h5>
+                            <div>
+                                <input type="checkbox" id="stock" name="stock" value="inStock" onChange={() => {
+                                    handleFilter({ instock: !filter.instock })
+                                }} />
+                                <label className='ms-3' for="stock"> In Stock</label>
+                            </div>
+                        </div>
                     </div>
                     <div className='col-md-9 p-5 mt-5  address border '>
                         <div>
