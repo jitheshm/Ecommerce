@@ -2,7 +2,7 @@ import React from 'react'
 import { BASEURL } from "../../constants/constant.json"
 function SearchCard({product}) {
     return (
-        <div className='card mb-3 mt-3'>
+        <div className='card col-12 mb-3 mt-3'>
 
 
             <div className=" d-flex flex-row  ">
