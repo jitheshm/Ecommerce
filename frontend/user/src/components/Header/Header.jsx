@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../../assets/logo.png' 
 import { useSelector} from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../../features/user/userSlice'
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 function Header() {  
     const {verified}=useSelector((state)=>state.user)
     const dispatch=useDispatch()
+    const [search, setSearch] = useState('')
+    const navigate=useNavigate()
+    const handleSearch=()=>{
+        navigate(`/search/${search}`)
+    }
     return (  
         <> 
             <header>
@@ -54,8 +59,10 @@ function Header() {
                                             <option value={1}>Category 01</option>
                                             <option value={1}>Category 02</option>
                                         </select>
-                                        <input className="input" placeholder="Search here" />
-                                        <button className="search-btn">Search</button>
+                                        <input className="input" placeholder="Search here" value={search} onChange={(e)=>{
+                                            setSearch(e.target.value)
+                                        }} />
+                                        <button className="search-btn" onClick={handleSearch}>Search</button>
                                     </form>
                                 </div>
                             </div>
