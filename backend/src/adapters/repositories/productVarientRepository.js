@@ -259,9 +259,9 @@ module.exports = {
                         ]
                     }
                 },
-               
+
             ]
-            if(sort.key!=null){
+            if (!sort.hasOwnProperty(null)) {
                 pipeLine.push({
                     $sort: sort
                 })
