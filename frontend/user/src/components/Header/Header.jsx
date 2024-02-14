@@ -1,24 +1,24 @@
 import React, { useState } from 'react'
-import logo from '../../assets/logo.png' 
-import { useSelector} from 'react-redux'
+import logo from '../../assets/logo.png'
+import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../../features/user/userSlice'
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
-function Header() {  
-    const {verified}=useSelector((state)=>state.user)
-    const dispatch=useDispatch()
+function Header() {
+    const { verified } = useSelector((state) => state.user)
+    const dispatch = useDispatch()
     const [search, setSearch] = useState('')
-    const navigate=useNavigate()
-    const handleSearch=()=>{
+    const navigate = useNavigate()
+    const handleSearch = () => {
         navigate(`/search/${search}`)
     }
-    return (  
-        <> 
+    return (
+        <>
             <header>
                 {/* TOP HEADER */}
                 <div id="top-header" className='d-none d-md-block'>
-                    <div className="container">  
+                    <div className="container">
                         <ul className="header-links pull-left ">
                             <li><a href="#"><i className="fa fa-phone" /> +021-95-51-84</a></li>
                             <li><a href="#"><i className="fa fa-envelope-o" /> email@email.com</a></li>
@@ -27,10 +27,10 @@ function Header() {
                         <ul className="header-links pull-right ">
                             <li><a href="#"><i className="fa fa-dollar" /> USD</a></li>
                             {
-                                verified?<li><Link to={`/profile/personal`} className='btn text-white' ><i className="fa fa-user-o" /> My account</Link></li>: <li><Link to={'/login'} className='btn text-white'><i className="fa fa-user-o" /> LogIn</Link></li>
+                                verified ? <li><Link to={`/profile/personal`} className='btn text-white' ><i className="fa fa-user-o" /> My account</Link></li> : <li><Link to={'/login'} className='btn text-white'><i className="fa fa-user-o" /> LogIn</Link></li>
                             }
-                           
-                            
+
+
                         </ul>
                     </div>
                 </div>
@@ -44,9 +44,9 @@ function Header() {
                             {/* LOGO */}
                             <div className="col-md-3">
                                 <div className="header-logo">
-                                    <a href="#" className="logo">
+                                    <Link to={'/'} className="logo">
                                         <img src={logo} alt />
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             {/* /LOGO */}
@@ -59,7 +59,7 @@ function Header() {
                                             <option value={1}>Category 01</option>
                                             <option value={1}>Category 02</option>
                                         </select>
-                                        <input className="input" placeholder="Search here" value={search} onChange={(e)=>{
+                                        <input className="input" placeholder="Search here" value={search} onChange={(e) => {
                                             setSearch(e.target.value)
                                         }} />
                                         <button className="search-btn" onClick={handleSearch}>Search</button>
@@ -83,11 +83,11 @@ function Header() {
                                     {/* /Wishlist */}
                                     {/* Cart */}
                                     <div>
-                                        <a href="#">
-                                        <i className="fa-regular fa-heart" style={{ color: '#ffffff' }} />
-                                            <span>Your Wishlist</span>
-                                            <div className="qty">2</div>
-                                        </a>
+                                        <Link to={'/cart'}>
+                                            <i className="fa-solid fa-cart-shopping" style={{ color: '#ffffff' }} />
+                                            <span>Your Cart</span>
+                                            {/* <div className="qty">2</div> */}
+                                        </Link>
                                     </div>
                                     {/* /Cart */}
 
