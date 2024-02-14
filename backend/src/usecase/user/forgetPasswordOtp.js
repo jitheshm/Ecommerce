@@ -1,7 +1,7 @@
 module.exports = async (userRepository, otpRepository, otpService, authService, sendOtp, data, nodemailerEmail,
     nodemailerPassword) => {
     const user = await userRepository.checkUser(data)
-    if (user) {
+    if (user && user.isVerified) {
         const tokenData = {
             id: user._id,
             isVerified: false,
