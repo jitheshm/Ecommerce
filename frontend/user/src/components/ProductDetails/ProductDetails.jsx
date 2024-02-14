@@ -26,7 +26,7 @@ function ProductDetails() {
     const { verified } = useSelector((state) => state.user)
     useEffect(() => {
         console.log(prodColor);
-        instance.get(`/user/getproductdetails/${prodColor}`).then((res) => {
+        instance.get(`/user/getproductdetails/${productId}/${prodColor}`).then((res) => {
             console.log(res.data.data);
             setProduct(res.data.data)
             return instance.get(`user/checkproductexist?varientId=${res.data.data[0]._id}`, {

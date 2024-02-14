@@ -55,8 +55,8 @@ module.exports = {
         const products = await getOneVarientPerProduct(productVarientRepository)
         return products
     },
-    getVarientDetail: async (color) => {
-        const varientDetail = await getVarientDetails(color, productVarientRepository)
+    getVarientDetail: async (color,id) => {
+        const varientDetail = await getVarientDetails(color,id, productVarientRepository)
         return varientDetail
     },
     editProduct: async (id) => {

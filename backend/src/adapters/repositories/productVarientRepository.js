@@ -138,10 +138,11 @@ module.exports = {
             throw error
         }
     },
-    getVarientDetails: async (color) => {
+    getVarientDetails: async (color,id) => {
         const varientDetail = await ProductVarientModel.aggregate([
             {
                 $match: {
+                    productId: id,
                     color: color
                 }
             },

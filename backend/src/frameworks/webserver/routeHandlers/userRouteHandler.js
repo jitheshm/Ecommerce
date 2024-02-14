@@ -68,7 +68,8 @@ module.exports = {
     getProductDetailHandler: async (req, res) => {
         try {
             const color = req.params.color
-            const varientDetails = await getVarientDetail(color)
+            const id = new ObjectId(req.params.id)
+            const varientDetails = await getVarientDetail(color, id)
             res.status(200).json({ success: true, data: varientDetails })
         } catch (error) {
             console.log(error);
@@ -117,7 +118,11 @@ module.exports = {
             }
         } catch (error) {
             console.log(error);
-            res.status(500).json({ "error": "internal server error" })
+            if (error.statusCode === 400) {
+                res.status(400).json({ "error": error.message })
+            }
+            else
+                res.status(500).json({ "error": "internal server error" })
         }
     },
     updateAddressHandler: async (req, res) => {
@@ -133,7 +138,11 @@ module.exports = {
             }
         } catch (error) {
             console.log(error);
-            res.status(500).json({ "error": "internal server error" })
+            if (error.statusCode === 400) {
+                res.status(400).json({ "error": error.message })
+            }
+            else
+                res.status(500).json({ "error": "internal server error" })
         }
     },
     deleteAddressHandler: async (req, res) => {

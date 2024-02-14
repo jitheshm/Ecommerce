@@ -11,7 +11,7 @@ router.post('/login', loginHandler)
 
 router.get('/getproducts', getProductHandler)
 
-router.get('/getproductdetails/:color', getProductDetailHandler)
+router.get('/getproductdetails/:id/:color', getProductDetailHandler)
 
 router.get('/tokenverify', userAuthToken, tokenVerifyHandler)
 
