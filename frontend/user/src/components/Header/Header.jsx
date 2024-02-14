@@ -11,6 +11,9 @@ function Header() {
     const [search, setSearch] = useState('')
     const navigate = useNavigate()
     const handleSearch = () => {
+        if (search === '') {
+            return
+        }else
         navigate(`/search/${search}`)
     }
     return (
@@ -52,17 +55,17 @@ function Header() {
                             {/* /LOGO */}
                             {/* SEARCH BAR */}
                             <div className="col-md-6 ">
-                                <div className="header-search">
+                                <div className="header-search">  
                                     <form>
                                         <select className="input-select">
                                             <option value={0}>All Categories</option>
                                             <option value={1}>Category 01</option>
                                             <option value={1}>Category 02</option>
                                         </select>
-                                        <input className="input" placeholder="Search here" value={search} onChange={(e) => {
+                                        <input type='text' className="input" placeholder="Search here" value={search} onChange={(e) => {
                                             setSearch(e.target.value)
                                         }} />
-                                        <button className="search-btn" onClick={handleSearch}>Search</button>
+                                        <button type='button' className="search-btn" onClick={handleSearch}>Search</button>
                                     </form>
                                 </div>
                             </div>

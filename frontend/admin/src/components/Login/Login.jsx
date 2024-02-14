@@ -69,7 +69,7 @@ function Login() {
 
                                         </div>
                                         
-                                        <button className="btn btn-outline-dark btn-lg px-5" type="submit" onClick={handleSubmit}>Login</button>
+                                        <button className="btn btn-outline-dark text-white btn-lg px-5" type="submit" onClick={handleSubmit}>Login</button>
                                        
                                     </div>
                                     

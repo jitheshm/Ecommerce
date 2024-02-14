@@ -7,7 +7,7 @@ import NewPasswordForm from '../NewPasswordForm/NewPasswordForm';
 function ForgetForm() {
     const [email, setEmail] = useState('')
     const [emailError, setEmailError] = useState(false)
-    const [loginError, setLoginError] = useState(false)
+    const [notFoundError, setNotfoundError] = useState(false)
     const [otpToogle, setOtpToogle] = useState(false)
     const [newPasswordToogle, setNewPasswordToogle] = useState(false)
     const navigate = useNavigate()
@@ -28,6 +28,7 @@ function ForgetForm() {
                 setOtpToogle(true)
             } else {
                 console.log("fail");
+                setNotfoundError(true)
             }
         })
     }
@@ -41,10 +42,11 @@ function ForgetForm() {
                                 <div className="card login-card otpCard " style={{ borderRadius: '1rem' }}>
                                     <div className="card-body p-md-5 text-center">
                                         <div className="mb-md-5 mt-md-4 pb-5 px-5">
+
                                             <h2 className="fw-bold mb-2 text-uppercase">Enter your Email </h2>
                                             <div style={{ height: "30px" }}>
                                                 {
-                                                    loginError && <p style={{ color: "red" }}>Invalid email </p>
+                                                    notFoundError && <p style={{ color: "red" }}>User not found </p>
                                                 }
                                             </div>
                                             <p className="text-dark-50 mb-5">Please enter your email</p>
@@ -72,7 +74,7 @@ function ForgetForm() {
 
             {otpToogle && !newPasswordToogle && <OtpVerify forgetOtp={true} setNewPasswordToogle={setNewPasswordToogle} />}
             {
-                newPasswordToogle && <NewPasswordForm/>
+                newPasswordToogle && <NewPasswordForm />
             }
         </>
     )

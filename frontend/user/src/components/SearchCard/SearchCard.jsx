@@ -1,8 +1,9 @@
 import React from 'react'
 import { BASEURL } from "../../constants/constant.json"
+import { Link } from 'react-router-dom'
 function SearchCard({product}) {
     return (
-        <div className='card col-12 mb-3 mt-3'>
+        <Link to={`/product/${product.productId}/${product.color}`} className='card col-12 mb-3 mt-3'>
 
 
             <div className=" d-flex flex-row  ">
@@ -44,7 +45,7 @@ function SearchCard({product}) {
 
 
 
-        </div>
+        </Link>
     )
 }
 
