@@ -6,13 +6,13 @@ import { logout } from '../../features/user/userSlice';
 function Personal() {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
+    
     const [age, setAge] = useState()
     const [gender, setGender] = useState('Male')
     const [phone, setPhone] = useState()
     const [firstNameError, setFirstNameError] = useState(false)
     const [lastNameError, setLastNameError] = useState(false)
-    const [emailError, setEmailError] = useState(false)
+    
     const [ageError, setAgeError] = useState(false)
     const [phoneError, setPhoneError] = useState(false)
     const [successMsg, setSuccessMsg] = useState(false)
@@ -26,7 +26,7 @@ function Personal() {
         }).then((res) => {
             setFirstName(res.data.data.firstName)
             setLastName(res.data.data.lastName)
-            setEmail(res.data.data.email)
+          
             setAge(res.data.data.age)
             setGender(res.data.data.gender)
             setPhone(res.data.data.phone)
@@ -54,12 +54,7 @@ function Personal() {
             setLastNameError(false)
         }
 
-        if (!/^\S+@\S+\.\S+$/.test(email)) {
-            setEmailError(true)
-            return;
-        } else {
-            setEmailError(false)
-        }
+        
         if (age < 0 || !/^\d+$/.test(age) || isNaN(age) || age > 100) {
             setAgeError(true)
             return;
@@ -79,7 +74,6 @@ function Personal() {
         instance.patch('/user/personal', {
             firstName,
             lastName,
-            email,
             gender,
             age,
             phone
@@ -129,14 +123,7 @@ function Personal() {
                             {lastNameError && <p style={{ color: "red" }}>please enter your last name</p>}
                         </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="inputAddress">Email Address</label>
-                        <input type="email" className="form-control" id="" placeholder="Email" value={email} onChange={(e) => {
-                            setEmail(e.target.value)
-
-                        }} />
-                        {emailError && <p style={{ color: "red" }}>Please enter a valid email address</p>}
-                    </div>
+                    
                     <div className="row">
                         <div className="form-group col-md-6">
                             <label htmlFor="inputEmail4">Age</label>

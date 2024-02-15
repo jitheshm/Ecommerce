@@ -1,7 +1,7 @@
 const express = require('express');
 const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler, searchHandler } = require('../routeHandlers/userRouteHandler');
 const userAuthToken = require('../../middlewares/userAuthToken');
-const { checkSchema } = require('express-validator');
+const { checkSchema, checkExact } = require('express-validator');
 const signupValidator = require('../validators/user/signupValidator');
 const loginValidator = require('../validators/user/loginValidator');
 const addressValidator = require('../validators/user/addressValidator');
@@ -56,7 +56,7 @@ router.get('/order/:id', userAuthToken, getOrderSpecificHandler)
 
 router.patch('/cancelorder/:orderId', userAuthToken, cancelOrderHandler)
 
-router.patch('/personal', userAuthToken, checkSchema(profileValidator()), personalDetailsChangeHandler)
+router.patch('/personal', userAuthToken, checkExact(checkSchema(profileValidator())), personalDetailsChangeHandler)
 
 router.get('/personaldetails', userAuthToken, getPersonalDataHandler)
 
