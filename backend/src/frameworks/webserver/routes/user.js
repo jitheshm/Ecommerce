@@ -1,13 +1,18 @@
 const express = require('express');
 const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler, searchHandler } = require('../routeHandlers/userRouteHandler');
 const userAuthToken = require('../../middlewares/userAuthToken');
+const { checkSchema } = require('express-validator');
+const signupValidator = require('../validators/user/signupValidator');
+const loginValidator = require('../validators/user/loginValidator');
+const addressValidator = require('../validators/user/addressValidator');
+const profileValidator = require('../validators/user/profileValidator');
 const router = express.Router()
 
-router.post('/signup', signupHandler)
+router.post('/signup', checkSchema(signupValidator()), signupHandler)
 
 router.post('/otpverify', otpverifyHandler)
 
-router.post('/login', loginHandler)
+router.post('/login', checkSchema(loginValidator()), loginHandler)
 
 router.get('/getproducts', getProductHandler)
 
@@ -19,9 +24,9 @@ router.get('/getcolorlist/:id', getColorListHandler)
 
 router.get('/resendotp', resendOtpHandler)
 
-router.post('/newaddress', userAuthToken, addAddressHandler)
+router.post('/newaddress', userAuthToken, checkSchema(addressValidator()), addAddressHandler)
 
-router.patch('/updateaddress', userAuthToken, updateAddressHandler)
+router.patch('/updateaddress', userAuthToken, checkSchema(addressValidator()), updateAddressHandler)
 
 router.delete('/deleteaddress', userAuthToken, deleteAddressHandler)
 
@@ -51,14 +56,14 @@ router.get('/order/:id', userAuthToken, getOrderSpecificHandler)
 
 router.patch('/cancelorder/:orderId', userAuthToken, cancelOrderHandler)
 
-router.patch('/personal', userAuthToken, personalDetailsChangeHandler)
+router.patch('/personal', userAuthToken, checkSchema(profileValidator()), personalDetailsChangeHandler)
 
 router.get('/personaldetails', userAuthToken, getPersonalDataHandler)
 
 router.post('/forgetotpsend', forgetPasswordOtpHandler)
 router.patch('/passwordupdate', newPasswordHandler)
 
-router.get('/product/search/:search',searchHandler)
+router.get('/product/search/:search', searchHandler)
 
 
 module.exports = router

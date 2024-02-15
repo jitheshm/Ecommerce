@@ -8,18 +8,26 @@ const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExis
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
 const { placeOrder, getOrders, getSpecificOrder, changeStatus } = require('../../../adapters/controllers/orderController');
 const moment = require('moment');
+const { validationResult } = require('express-validator');
 
 
 
 module.exports = {
     signupHandler: async (req, res) => {
         try {
-            const token = await signup(req.body, nodemailerEmail, nodemailerPassword)
-            if (token) {
-                res.status(200).json({ success: true, token: token })
+            const result = validationResult(req);
+            console.log(result);
+            if (result.isEmpty()) {
+                const token = await signup(req.body, nodemailerEmail, nodemailerPassword)
+                if (token) {
+                    res.status(200).json({ success: true, token: token })
+                } else {
+                    res.status(200).json({ success: false, "error": "user already exist" })
+                }
             } else {
-                res.status(200).json({ success: false, "error": "user already exist" })
+                res.status(400).json({ "error": result.array() })
             }
+
 
         } catch (error) {
             console.log(error);
@@ -45,11 +53,16 @@ module.exports = {
     },
     loginHandler: async (req, res) => {
         try {
-            const result = await loginUser(req.body)
-            if (result) {
-                res.status(200).json({ success: true, token: result.token, name: result.name })
+            const valResult = validationResult(req);
+            if (valResult.isEmpty()) {
+                const result = await loginUser(req.body)
+                if (result) {
+                    res.status(200).json({ success: true, token: result.token, name: result.name })
+                } else {
+                    res.status(401).json({ error: "email or password is incorrect" })
+                }
             } else {
-                res.status(401).json({ error: "email or password is incorrect" })
+                res.status(400).json({ "error": valResult.array() })
             }
         } catch (error) {
             console.log(error);
@@ -108,41 +121,44 @@ module.exports = {
     },
     addAddressHandler: async (req, res) => {
         try {
-            const status = await addAddress(req.body, req.user.id)
-            console.log(status);
-            if (status) {
-                res.status(200).json({ success: true })
-            }
-            else {
-                res.status(200).json({ success: false, msg: "address not added" })
+            const result = validationResult(req);
+            if (result.isEmpty()) {
+                const status = await addAddress(req.body, req.user.id)
+                console.log(status);
+                if (status) {
+                    res.status(200).json({ success: true })
+                }
+                else {
+                    res.status(200).json({ success: false, msg: "address not added" })
+                }
+            } else {
+                res.status(400).json({ "error": result.array() })
             }
         } catch (error) {
-            console.log(error);
-            if (error.statusCode === 400) {
-                res.status(400).json({ "error": error.message })
-            }
-            else
-                res.status(500).json({ "error": "internal server error" })
+
+            res.status(500).json({ "error": "internal server error" })
         }
     },
     updateAddressHandler: async (req, res) => {
         try {
             // const id = new ObjectId(req.body.id)
-            const status = await updateAddress(req.body)
-            console.log(status);
-            if (status) {
-                res.status(200).json({ success: true })
-            }
-            else {
-                res.status(200).json({ success: false, msg: "address not updated" })
+            const result = validationResult(req);
+            if (result.isEmpty()) {
+                const status = await updateAddress(req.body)
+                console.log(status);
+                if (status) {
+                    res.status(200).json({ success: true })
+                }
+                else {
+                    res.status(200).json({ success: false, msg: "address not updated" })
+                }
+            } else {
+                res.status(400).json({ "error": result.array() })
             }
         } catch (error) {
             console.log(error);
-            if (error.statusCode === 400) {
-                res.status(400).json({ "error": error.message })
-            }
-            else
-                res.status(500).json({ "error": "internal server error" })
+
+            res.status(500).json({ "error": "internal server error" })
         }
     },
     deleteAddressHandler: async (req, res) => {
@@ -334,11 +350,16 @@ module.exports = {
     },
     personalDetailsChangeHandler: async (req, res) => {
         try {
-            const status = await changePersonaldata(new ObjectId(req.user.id), req.body)
-            if (status) {
-                res.status(200).json({ success: true })
+            const result = validationResult(req);
+            if (result.isEmpty()) {
+                const status = await changePersonaldata(new ObjectId(req.user.id), req.body)
+                if (status) {
+                    res.status(200).json({ success: true })
+                } else {
+                    res.status(200).json({ success: false, msg: "data not updated" })
+                }
             } else {
-                res.status(200).json({ success: false, msg: "data not updated" })
+                res.status(400).json({ "error": result.array() })
             }
         } catch (error) {
             console.log(error);

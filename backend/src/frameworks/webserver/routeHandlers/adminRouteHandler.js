@@ -11,11 +11,16 @@ const { ordersList, changeStatus } = require('../../../adapters/controllers/orde
 module.exports = {
     loginHandler: async (req, res) => {
         try {
-            const token = await login(req.body)
-            if (token) {
-                res.status(200).json({ success: true, token: token })
+            const valResult = validationResult(req);
+            if (valResult.isEmpty()) {
+                const token = await login(req.body)
+                if (token) {
+                    res.status(200).json({ success: true, token: token })
+                } else {
+                    res.status(401).json({ error: "email or password is incorrect" })
+                }
             } else {
-                res.status(401).json({ error: "email or password is incorrect" })
+                res.status(400).json({ error: valResult.array() })
             }
         } catch (error) {
             console.log(error);
@@ -65,9 +70,14 @@ module.exports = {
     },
     productAddHandler: async (req, res) => {
         try {
-            req.body.categoryId = new ObjectId(req.body.categoryId)
-            const proId = await productAdd(req.body)
-            res.status(200).json({ success: true })
+            // req.body.categoryId = new ObjectId(req.body.categoryId)
+            const valResult = validationResult(req);
+            if (valResult.isEmpty()) {
+                const proId = await productAdd(req.body)
+                res.status(200).json({ success: true })
+            } else {
+                res.status(400).json({ error: valResult.array() })
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
@@ -76,15 +86,20 @@ module.exports = {
     varientAddHandler: async (req, res) => {
 
         try {
-            if (req.files) {
-                const imagesUrl = req.files.map((data) => {
-                    return data.path
-                })
-                req.body.imagesUrl = imagesUrl
+            const valResult = validationResult(req);
+            if (valResult.isEmpty()) {
+                if (req.files) {
+                    const imagesUrl = req.files.map((data) => {
+                        return data.path
+                    })
+                    req.body.imagesUrl = imagesUrl
+                }
+                //req.body.productId =new ObjectId(req.body.productId)
+                const proVId = await varientAdd(req.body)
+                res.status(200).json({ success: true })
+            } else {
+                res.status(400).json({ error: valResult.array() })
             }
-            //req.body.productId =new ObjectId(req.body.productId)
-            const proVId = await varientAdd(req.body)
-            res.status(200).json({ success: true })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
@@ -94,38 +109,42 @@ module.exports = {
     },
     varientUpdateHandler: async (req, res) => {
         try {
-            if (req.files) {
-                const imagesUrl = req.files.map((data) => {
-                    return data.path
-                })
-                req.body.imagesUrl = imagesUrl
+            const valResult = validationResult(req);
+            if (valResult.isEmpty()) {
+                if (req.files) {
+                    const imagesUrl = req.files.map((data) => {
+                        return data.path
+                    })
+                    req.body.imagesUrl = imagesUrl
 
-            }
-            console.log(req.body);
-            if (req.body.oldImageUrl)
-                req.body.oldImageUrl = JSON.parse(req.body.oldImageUrl)
-            const status = await varientUpdate(req.body)
-            if (status) {
-                const filesToDelete = req.body.oldImageUrl
-                console.log(filesToDelete);
-                if (filesToDelete)
-                    for (const file of filesToDelete) {
-                        const filePath = path.join(__dirname, '../../../../', file);
-                        console.log(filePath);
-                        if (fs.existsSync(filePath)) {
+                }
+                console.log(req.body);
+                if (req.body.oldImageUrl)
+                    req.body.oldImageUrl = JSON.parse(req.body.oldImageUrl)
+                const status = await varientUpdate(req.body)
+                if (status) {
+                    const filesToDelete = req.body.oldImageUrl
+                    console.log(filesToDelete);
+                    if (filesToDelete)
+                        for (const file of filesToDelete) {
+                            const filePath = path.join(__dirname, '../../../../', file);
                             console.log(filePath);
-                            await fs.promises.unlink(filePath);
-                            console.log(`Deleted file: ${file}`);
-                        } else {
-                            console.log(`File not found: ${file}`);
+                            if (fs.existsSync(filePath)) {
+                                console.log(filePath);
+                                await fs.promises.unlink(filePath);
+                                console.log(`Deleted file: ${file}`);
+                            } else {
+                                console.log(`File not found: ${file}`);
+                            }
                         }
-                    }
-                res.status(200).json({ success: true })
+                    res.status(200).json({ success: true })
+                }
+                else {
+                    res.status(200).json({ success: false, msg: "varient not found" })
+                }
+            } else {
+                res.status(400).json({ error: valResult.array() })
             }
-            else {
-                res.status(200).json({ success: false, msg: "varient not found" })
-            }
-
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
@@ -149,14 +168,19 @@ module.exports = {
     productUpdateHandler: async (req, res) => {
 
         try {
-            req.body.id = new ObjectId(req.body.id)
-            req.body.categoryId = new ObjectId(req.body.categoryId)
-            console.log(req.body);
-            const status = await productUpdate(req.body)
-            if (status)
-                res.status(200).json({ success: true })
-            else
-                res.status(200).json({ success: false, msg: "product not found" })
+            const valResult = validationResult(req);
+            if (valResult.isEmpty()) {
+                // req.body.id = new ObjectId(req.body.id)
+                req.body.categoryId = new ObjectId(req.body.categoryId)
+                console.log(req.body);
+                const status = await productUpdate(req.body)
+                if (status)
+                    res.status(200).json({ success: true })
+                else
+                    res.status(200).json({ success: false, msg: "product not found" })
+            } else {
+                res.status(400).json({ error: valResult.array() })
+            }
         } catch (error) {
             res.status(500).json({ "error": "internal server error" })
         }
@@ -182,8 +206,13 @@ module.exports = {
     },
     addCategoryHandler: async (req, res) => {
         try {
-            await categoryAdd(req.body)
-            res.status(200).json({ success: true })
+            const valResult = validationResult(req);
+            if (valResult.isEmpty()) {
+                await categoryAdd(req.body)
+                res.status(200).json({ success: true })
+            } else {
+                res.status(400).json({ error: valResult.array() })
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
@@ -191,9 +220,14 @@ module.exports = {
     },
     updateCategoryHandler: async (req, res) => {
         try {
-            req.body.id = new ObjectId(req.body.id)
-            await categoryUpdate(req.body)
-            res.status(200).json({ success: true })
+            const valResult = validationResult(req);
+            if (valResult.isEmpty()) {
+                req.body.id = new ObjectId(req.body.id)
+                await categoryUpdate(req.body)
+                res.status(200).json({ success: true })
+            } else {
+                res.status(400).json({ error: valResult.array() })
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
@@ -316,7 +350,7 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    orderStatusHandler: async(req, res) => {
+    orderStatusHandler: async (req, res) => {
         try {
             const status = await changeStatus(new ObjectId(req.body.orderId), new ObjectId(req.body.userId), req.body.status)
             console.log(status);
