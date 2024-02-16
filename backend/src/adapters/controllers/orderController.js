@@ -34,7 +34,7 @@ module.exports = {
     verifyPayment: async (data, secret) => {
         console.log("verify payment");
         console.log(data);
-        return verifyPayment(data, secret, razorpayGateway,orderRepository,productVarientRepository)
+        return verifyPayment(data, secret, razorpayGateway,orderRepository,productVarientRepository,cartRepository)
 
 
     }

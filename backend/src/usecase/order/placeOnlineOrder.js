@@ -10,11 +10,9 @@ module.exports = async (orderRepository, addressRepository, cartRepository, prod
     const order = new Order(data)
 
     const reciept = await orderRepository.placeOrder(order)
-    if (!data.directPurchase) {
-        const status = await cartRepository.clearUserCart(data.userId)
-        if (!status)
-            console.log("error in clearing cart after placing order");
-    }
+   
+        
+   
     console.log(reciept);
     const razOrder = await razorpayGateway.createOrder(razorpaykey_id, razorpaykey_secret, data.orderAmount, reciept._id,);
     return razOrder;
