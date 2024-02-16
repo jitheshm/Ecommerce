@@ -69,9 +69,10 @@ module.exports = {
         }
     },
 
-    getSpecificOrder: async (orderId) => {
+    getSpecificOrder: async (orderId, productId) => {
         try {
             console.log(orderId);
+            // console.log("hai");
             const order = await OrderModel.aggregate([
                 {
                     $match: {
@@ -80,6 +81,12 @@ module.exports = {
                 },
                 {
                     $unwind: '$orderedItems'
+                }
+                ,
+                {
+                    $match: {
+                        "orderedItems.productId": productId
+                    }
                 }
                 ,
                 {
@@ -106,6 +113,7 @@ module.exports = {
                 }
 
             ]).exec()
+            console.log(order);
             return order
         } catch (error) {
             throw error
@@ -142,5 +150,23 @@ module.exports = {
         } catch (error) {
             throw error
         }
+    },
+    returnProduct: async (orderId, userId, productId) => {
+
+        try {
+            const order = await OrderModel.findOneAndUpdate(
+                { _id: orderId, userId: userId, "orderedItems.productId": productId },
+                { $set: { "orderedItems.$[elem].returnStatus": "pending" } },
+                { new: true, arrayFilters: [{ "elem.productId": productId }] }
+            );
+            if (order) {
+                return true
+            }
+            else
+                return false
+        } catch (error) {
+            throw error
+        }
+
     }
 }

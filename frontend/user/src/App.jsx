@@ -85,7 +85,7 @@ function App() {
                     element: <Orders />,
                 },
                 {
-                    path: "orders/:orderId",
+                    path: "orders/:orderId/:productId",
                     element: <OrderDetails />
                 },
                 {

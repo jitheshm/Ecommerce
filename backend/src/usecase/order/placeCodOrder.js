@@ -4,6 +4,7 @@ module.exports = async (orderRepository, addressRepository, cartRepository, prod
 
 
     const deliveryAddress = await addressRepository.findAddress(data.deliveryAddress)
+    console.log(data);
     const { _id, userId, __v, ...address } = deliveryAddress._doc
 
     data.deliveryAddress = address

@@ -1,5 +1,5 @@
 
 
-module.exports=async(orderRepository,orderId)=>{
-    return await orderRepository.getSpecificOrder(orderId)
+module.exports=async(orderRepository,orderId,productId)=>{
+    return await orderRepository.getSpecificOrder(orderId,productId)
 }

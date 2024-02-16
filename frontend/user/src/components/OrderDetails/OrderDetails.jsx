@@ -5,15 +5,16 @@ import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
 import { BASEURL } from "../../constants/constant.json"
+import moment from 'moment'
 
 function OrderDetails() {
     const [orderDetails, setOrderDetails] = useState({})
     const [toogle, setToogle] = useState(false)
 
-    const { orderId } = useParams()
+    const { orderId, productId } = useParams()
     const dispatch = useDispatch()
     useEffect(() => {
-        instance.get(`/user/order/${orderId}`, {
+        instance.get(`/user/order/${orderId}/${productId}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -35,6 +36,26 @@ function OrderDetails() {
             instance.patch(`/user/cancelorder/${orderId}`, {
                 orderStatus: "Cancelled"
             }, {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                console.log(res.data);
+                setToogle(!toogle)
+                //setOrderDetails(res.data.data[0])
+            }).catch((error) => {
+                console.log(error.response.status);
+                if (error.response.status === 401) {
+                    Cookies.remove('token')
+                    dispatch(logout())
+                }
+            })
+        }
+    }
+
+    const handleReturn = () => {
+        if (confirm('Are you sure you want to return this order?')) {
+            instance.patch(`/user/returnproduct/${orderId}/${productId}`, {}, {
                 headers: {
                     Authorization: Cookies.get('token')
                 }
@@ -73,15 +94,20 @@ function OrderDetails() {
                             <p><b>phone</b> {orderDetails.deliveryAddress ? orderDetails.deliveryAddress.phone : ''}</p>
 
                         </div>
-                    </div>   
+                    </div>
                     <div className='col-6 d-flex align-items-center flex-column justify-content-center'>
                         {
                             orderDetails.orderStatus != "Cancelled" &&
                             <button className='btn primary '>Download invoice</button>
                         }
                         {
-                            orderDetails.orderStatus != "Cancelled" &&orderDetails.orderStatus != "Delivered" &&
+                            orderDetails.orderStatus != "Cancelled" && orderDetails.orderStatus != "Delivered" &&
                             <button className='btn btn-danger mt-4' onClick={handleCancel}>Cancel Order</button>
+                        }
+                        {
+                            orderDetails.orderStatus === "Delivered" && orderDetails.orderedItems.returnStatus === 'Not Requested' && moment(orderDetails.deliveryDate, 'DD-MM-YYYY').add(7, 'days').isAfter(moment()) &&
+
+                            <button className='btn btn-danger mt-4' onClick={handleReturn}>Return</button>
                         }
 
                     </div>
