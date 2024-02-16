@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const { categoryAdd, categoryUpdate, categoryDelete, getCategory, getSpecificCategory } = require('../../../adapters/controllers/categoryController');
 const { ordersList, changeStatus } = require('../../../adapters/controllers/orderController');
+const { validationResult } = require('express-validator');
 
 module.exports = {
     loginHandler: async (req, res) => {
