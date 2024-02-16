@@ -41,8 +41,8 @@ function OrdersList() {
 
     return (
         <>
-            <div className='pt-5'>
-                <div className="col-lg-11 mt-5 m-auto grid-margin stretch-card">
+            <div className='pt-5 px-2'>
+                <div className="col-lg-12 mt-5 m-auto grid-margin stretch-card">
                     <div className="card">
                         <div className="card-body">
                             <div className='row align-items-center mb-4'>
@@ -55,13 +55,13 @@ function OrdersList() {
 
                             <div className="table-responsive col-12">
                                 <table className="table" style={{ tableLayout: 'fixed' }}>
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Date</th>
-                                            <th>Customer Id</th>
-                                            <th>Total Price</th>
-                                            <th>Status</th>
+                                    <thead>   
+                                        <tr>   
+                                            <th style={{ textAlign: "center",width: "230px" }}>Order ID</th>
+                                            <th style={{ textAlign: "center", width: "100px" }}>Date</th>
+                                            <th style={{ textAlign: "center", width: "230px" }}>Customer Id</th>
+                                            <th style={{ textAlign: "center", width: "100px" }}>Total Price</th>
+                                            <th style={{ textAlign: "center", width: "100px" }}>Status</th>
 
                                             <th style={{ textAlign: "center", width: "250px" }}>Actions</th>
                                         </tr>
@@ -73,11 +73,11 @@ function OrdersList() {
                                                     return (
                                                         // eslint-disable-next-line react/jsx-key
                                                         <tr >
-                                                            <td style={{ color: "#6c7293" }}>{order._id}</td>
-                                                            <td style={{ color: "#6c7293" }}>{order.orderDate}</td>
-                                                            <td style={{ color: "#6c7293" }}>{order.userId}</td>
-                                                            <td style={{ color: "#6c7293" }}>{order.orderAmount}</td>
-                                                            <td style={{ color: "#6c7293" }}>{order.orderStatus}</td>
+                                                            <td style={{ color: "#6c7293" ,textAlign: "center"}}>{order._id}</td>
+                                                            <td style={{ color: "#6c7293" ,textAlign: "center"}}>{order.orderDate}</td>
+                                                            <td style={{ color: "#6c7293" ,textAlign: "center"}}>{order.userId}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center", width: "100px"  }}>{order.orderAmount}</td>
+                                                            <td style={{ color: "#6c7293" ,textAlign: "center"}}>{order.orderStatus}</td>
 
                                                             <td className='d-flex gap-3 ' style={{ width: "250px" }}>
 
