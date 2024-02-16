@@ -432,6 +432,7 @@ module.exports = {
         try {
 
             console.log(req.body);
+            req.body.userId = req.user.id
             const result = await verifyPayment(req.body, razorpaykey_secret)
             if (result) {
                 res.status(200).json({ success: true, data: result })

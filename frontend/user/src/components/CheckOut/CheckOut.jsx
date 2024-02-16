@@ -150,15 +150,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
 
 
         const paymentObject = new window.Razorpay(options);
-        paymentObject.on('payment.failed', function (response) {
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
-        })
+
         paymentObject.open();
     }
 
