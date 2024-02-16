@@ -22,7 +22,8 @@ module.exports = {
             const orders = await OrderModel.aggregate([
                 {
                     $match: {
-                        userId: userId
+                        userId: userId,
+                        orderStatus: { $ne: 'pending' }
                     }
                 },
                 {
