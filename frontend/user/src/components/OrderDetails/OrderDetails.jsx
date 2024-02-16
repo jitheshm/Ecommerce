@@ -137,14 +137,14 @@ function OrderDetails() {
                             <div className="col-lg-12">
                                 <div className="horizontal-timeline">
                                     <ul className="list-inline items d-flex ">
-                                        <li className="list-inline-item items-list col-3" style={{ borderTop: "2px #26A541 solid" }}>
+                                        <li className="list-inline-item items-list col-2" style={{ borderTop: "2px #26A541 solid" }}>
                                             <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
 
                                             <p className="py-1  rounded" style={{ color: "#26A541" }}>Ordered</p>
                                         </li>
                                         {
                                             orderDetails.orderStatus === "Cancelled" &&
-                                            <li className="list-inline-item items-list col-3" >
+                                            <li className="list-inline-item items-list col-2" >
 
 
                                                 <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#e12222', top: 0, marginTop: '-5px', left: 0 }} />
@@ -157,7 +157,7 @@ function OrderDetails() {
                                         {
                                             orderDetails.orderStatus != "Cancelled" &&
                                             <>
-                                                <li className="list-inline-item items-list col-3" style={orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Shipped" || orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
+                                                <li className="list-inline-item items-list col-2" style={orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Shipped" || orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
 
 
 
@@ -178,7 +178,7 @@ function OrderDetails() {
                                                     }
 
                                                 </li>
-                                                <li className="list-inline-item items-list  col-3" style={orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
+                                                <li className="list-inline-item items-list  col-2" style={orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
                                                     {
                                                         orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ?
                                                             <>
@@ -192,7 +192,7 @@ function OrderDetails() {
                                                             </>
                                                     }
                                                 </li>
-                                                <li className="list-inline-item items-list text-end col-3" style={orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid", marginRight: 8 } : { borderTop: "2px #ddd solid", marginRight: 8 }}>
+                                                <li className="list-inline-item items-list text-end col-2" style={orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid", } : { borderTop: "2px #ddd solid", marginRight: 8 }}>
                                                     {
                                                         orderDetails.orderStatus === "Delivered" ?
                                                             <>
@@ -206,6 +206,19 @@ function OrderDetails() {
                                                             </>
                                                     }
                                                 </li>
+                                                {
+                                                    orderDetails.orderedItems && orderDetails.orderedItems.returnStatus != 'Not Requested' &&
+                                                    <li className="list-inline-item items-list text-end col-2" style={{ borderTop: "2px #e12222 solid", marginRight: 8 } }>
+
+
+                                                        <>
+                                                            <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#e12222', top: 0, marginTop: '-5px', left: 0 }} />
+                                                            <p className="py-1  rounded " style={{ color: '#e12222' }}>Returned</p>
+                                                        </>
+
+
+                                                    </li>
+                                                }
                                             </>
                                         }
                                     </ul>
