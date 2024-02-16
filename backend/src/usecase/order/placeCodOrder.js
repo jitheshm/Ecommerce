@@ -7,10 +7,11 @@ module.exports = async (orderRepository, addressRepository, cartRepository, prod
     const { _id, userId, __v, ...address } = deliveryAddress._doc
 
     data.deliveryAddress = address
-
+    
     const order = new Order(data)
 
     const reciept = await orderRepository.placeOrder(order)
+
     await productVarientRepository.stockUpdate(data.orderedItems)
 
     if (!data.directPurchase) {

@@ -38,7 +38,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                 dispatch(logout())
             }
         })
-    }, [addressForm,edit])
+    }, [addressForm, edit])
 
     useEffect(() => {
         instance.get('/user/cart', {
@@ -68,39 +68,138 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
         setOrderAddress(e.target.value)
     }
 
-    const handleConfirm = () => {
-        if (payment === 'COD') {
-            instance.post('/user/placeorder', {
-                deliveryAddress: orderAddress,
-                paymentMethod: payment,
-                orderAmount: total,
-                orderedItems: cartItems.map((item) => {
-                    return {
-                        productId: item.products.productId,
-                        quantity: item.products.quantity,
-                        price: item.varient.salePrice,
+    function loadScript(src) {
+        return new Promise((resolve) => {
+            const script = document.createElement('script')
+            script.src = src
+            script.onload = () => {
+                resolve(true)
+            }
+            script.onerror = () => {
+                resolve(false)
+            }
+            document.body.appendChild(script)
+        })
+    }
 
-                    }
-                })
-            }, {
-                headers: {
-                    Authorization: Cookies.get('token')
+    const initiatePayment = async (data, total) => {
+
+        const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+
+        if (!res) {
+            alert('Razropay failed to load!!')
+            return
+        }
+
+        const options = {
+            key: 'api_key',
+            // amount: 10 * 100, // Amount in paise
+            currency: 'INR',
+            name: 'Your Company Name',
+            description: 'Test Payment',
+            order_id: data.id,
+            handler: async function (response) {
+                try {
+                    console.log(data);
+                    const paymentId = response.razorpay_payment_id;
+                    const orderId = response.razorpay_order_id
+                    const signature = response.razorpay_signature;
+
+                    // setPaymentStatus('Payment successful!');
+
+                    // You can handle payment confirmation with your backend here if required
+                    instance.patch('/user/verifypayment', {
+                        paymentId: paymentId,
+                        orderId: orderId,
+                        signature: signature,
+                        receiptId: data.receipt
+
+                    }, {
+                        headers: {
+                            Authorization: Cookies.get('token')
+                        }
+                    }).then((res) => {
+                        if (res.data.success) {
+                            console.log("Payment successfull");
+                            console.log(res.data.data);
+                            setOrderReciept(res.data.data)
+                            setOrderPlaced(true)
+                        } else {
+                            alert('Payment failed')
+                        }
+                    })
+
+                } catch (error) {
+                    console.error('Error capturing payment:', error);
+                    // setPaymentStatus('Payment failed!');
+                    alert('Payment failed')
                 }
-            }).then((res) => {
-                console.log(res);
-                setOrderReciept(res.data.data)
-                setOrderPlaced(true)
+            },
+            prefill: {
+                name: 'User Name',
+                email: 'user@example.com'
+            },
+            theme: {
+                color: '#F37254'
+            }
+        };
 
-            }).catch((error) => {
-                console.log(error);
-                if (error.response.status === 401) {
-                    Cookies.remove('token')
-                    dispatch(logout())
 
+
+
+
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+        })
+        paymentObject.open();
+    }
+
+    const handleConfirm = () => {
+
+        instance.post('/user/placeorder', {
+            deliveryAddress: orderAddress,
+            paymentMethod: payment,
+            orderAmount: total,
+            orderedItems: cartItems.map((item) => {
+                return {
+                    productId: item.products.productId,
+                    quantity: item.products.quantity,
+                    price: item.varient.salePrice,
 
                 }
             })
-        }
+        }, {
+            headers: {
+                Authorization: Cookies.get('token')
+            }
+        }).then((res) => {
+            if (payment === 'COD') {
+                console.log(res);
+                setOrderReciept(res.data.data)
+                setOrderPlaced(true)
+            } else {
+                console.log(res.data.data.id);
+                initiatePayment(res.data.data);
+
+            }
+
+        }).catch((error) => {
+            console.log(error);
+            if (error.response.status === 401) {
+                Cookies.remove('token')
+                dispatch(logout())
+
+
+            }
+        })
     }
     return (
         <div className='container-fluid pt-5 checkOut'>

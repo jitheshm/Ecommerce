@@ -6,7 +6,7 @@ module.exports = {
             const order = new OrderModel(data)
             await order.save()
             return {
-                orderId: order._id,
+                _id: order._id,
                 orderAmount: order.orderAmount,
                 orderDate: order.orderDate,
                 transactionId: order.transactionId
@@ -126,9 +126,18 @@ module.exports = {
     },
     getOrdersList: async () => {
         try {
-            const orders=await OrderModel.find({})
+            const orders = await OrderModel.find({})
             console.log(orders);
             return orders
+        } catch (error) {
+            throw error
+        }
+    },
+    updateOrder: async (orderId, paymentId, status) => {
+        try {
+            const order = await OrderModel.findOneAndUpdate({ _id: orderId }, { orderStatus: status, transactionId: paymentId }, { new: true })
+
+            return order
         } catch (error) {
             throw error
         }
