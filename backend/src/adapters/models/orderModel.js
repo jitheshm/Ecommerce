@@ -8,9 +8,17 @@ const OrderSchema = new mongoose.Schema({
     orderStatus: { type: String, required: true },
     deliveryDate: { type: String },
     shippingDate: { type: String },
-    orderedItems: { type: Array, required: true },
+    orderedItems: {
+        type: [{
+            productId: { type: Schema.ObjectId, required: true },
+            quantity: { type: Number, required: true },
+            price: { type: Number, required: true },
+            returnStatus: { type: String, default: "Not Requested" },
+        }], required: true
+    },
     coupon: { type: String },
     offer: { type: String },
+
     transactionId: { type: String },
 
 

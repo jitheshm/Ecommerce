@@ -1,11 +1,12 @@
 const express = require('express');
-const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler, searchHandler, verifyPaymentHandler } = require('../routeHandlers/userRouteHandler');
+const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler, searchHandler, verifyPaymentHandler, returnProductHandler } = require('../routeHandlers/userRouteHandler');
 const userAuthToken = require('../../middlewares/userAuthToken');
 const { checkSchema, checkExact } = require('express-validator');
 const signupValidator = require('../validators/user/signupValidator');
 const loginValidator = require('../validators/user/loginValidator');
 const addressValidator = require('../validators/user/addressValidator');
 const profileValidator = require('../validators/user/profileValidator');
+const ReturnProductValidator = require('../validators/user/ReturnProductValidator');
 const router = express.Router()
 
 router.post('/signup', checkSchema(signupValidator()), signupHandler)
@@ -52,7 +53,7 @@ router.post('/placeorder', userAuthToken, orderPlaceHandler)
 
 router.get('/order', userAuthToken, getOrderHandler)
 
-router.get('/order/:id', userAuthToken, getOrderSpecificHandler)
+router.get('/order/:id/:productId', userAuthToken, getOrderSpecificHandler)
 
 router.patch('/cancelorder/:orderId', userAuthToken, cancelOrderHandler)
 
@@ -66,6 +67,7 @@ router.patch('/passwordupdate', newPasswordHandler)
 router.get('/product/search/:search', searchHandler)
 
 router.patch('/verifypayment', userAuthToken, verifyPaymentHandler)
+router.patch('/returnproduct/:orderId/:productId', userAuthToken, checkSchema(ReturnProductValidator()), returnProductHandler)
 
 
 module.exports = router

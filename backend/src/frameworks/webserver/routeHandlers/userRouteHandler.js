@@ -6,7 +6,7 @@ const { signup, verifyUser, loginUser, resendOtp, changePersonaldata, getPersona
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
-const { placeOrder, getOrders, getSpecificOrder, changeStatus, verifyPayment } = require('../../../adapters/controllers/orderController');
+const { placeOrder, getOrders, getSpecificOrder, changeStatus, verifyPayment, returnProduct } = require('../../../adapters/controllers/orderController');
 const moment = require('moment');
 const { validationResult } = require('express-validator');
 const razorpayUtils = require('razorpay/dist/utils/razorpay-utils')
@@ -327,7 +327,7 @@ module.exports = {
     },
     getOrderSpecificHandler: async (req, res) => {
         try {
-            const result = await getSpecificOrder(new ObjectId(req.params.id))
+            const result = await getSpecificOrder(new ObjectId(req.params.id), new ObjectId(req.params.productId))
             if (result) {
                 res.status(200).json({ success: true, data: result })
             } else {
@@ -445,6 +445,29 @@ module.exports = {
 
         } catch (err) {
             console.log(err);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    returnProductHandler: async (req, res) => {
+        try {
+            const result = validationResult(req)
+            console.log(result.array());
+            if (result.isEmpty()) {
+
+
+                const status = await returnProduct(new ObjectId(req.params.orderId), new ObjectId(req.user.id), new ObjectId(req.params.productId))
+                if (status) {
+                    res.status(200).json({ success: true })
+                } else {
+                    res.status(200).json({ success: false, msg: "order not returned" })
+                }
+            }else{
+                res.status(400).json({ "error": result.array() })
+            
+            }
+
+        } catch (error) {
+            console.log(error);
             res.status(500).json({ "error": "internal server error" })
         }
     }
