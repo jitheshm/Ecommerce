@@ -1,4 +1,4 @@
-const { nodemailerEmail, nodemailerPassword } = require('../../config')
+const { nodemailerEmail, nodemailerPassword, razorpaykey_id, razorpaykey_secret } = require('../../config')
 const { ObjectId } = require('mongodb');
 const { getOneVarientPerProduct, getVarientDetail, getcolorlist, searchProducts } = require('../../../adapters/controllers/productController');
 
@@ -6,9 +6,11 @@ const { signup, verifyUser, loginUser, resendOtp, changePersonaldata, getPersona
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
-const { placeOrder, getOrders, getSpecificOrder, changeStatus } = require('../../../adapters/controllers/orderController');
+const { placeOrder, getOrders, getSpecificOrder, changeStatus, verifyPayment } = require('../../../adapters/controllers/orderController');
 const moment = require('moment');
 const { validationResult } = require('express-validator');
+const razorpayUtils = require('razorpay/dist/utils/razorpay-utils')
+
 
 
 
@@ -301,7 +303,8 @@ module.exports = {
             })
             req.body.deliveryDate = moment().add(10, 'days').format('DD-MM-yyyy')
             req.body.orderDate = moment().format('DD-MM-yyyy')
-            const result = await placeOrder(new ObjectId(req.user.id), req.body)
+            console.log(razorpaykey_id, razorpaykey_secret);
+            const result = await placeOrder(new ObjectId(req.user.id), req.body, razorpaykey_id, razorpaykey_secret)
             if (result) {
                 res.status(200).json({ success: true, data: result })
             } else {
@@ -424,5 +427,24 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
 
+    },
+    verifyPaymentHandler: async (req, res) => {
+        try {
+
+            console.log(req.body);
+            const result = await verifyPayment(req.body, razorpaykey_secret)
+            if (result) {
+                res.status(200).json({ success: true, data: result })
+            } else {
+                res.status(200).json({ success: false, msg: "payment not verified" })
+            }
+
+            //const result = validatePaymentVerification(req.body, razorpaykey_secret)
+
+
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ "error": "internal server error" })
+        }
     }
 }
