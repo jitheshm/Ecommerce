@@ -55,7 +55,7 @@ router.get('/order', userAuthToken, getOrderHandler)
 
 router.get('/order/:id/:productId', userAuthToken, getOrderSpecificHandler)
 
-router.patch('/cancelorder/:orderId', userAuthToken, cancelOrderHandler)
+router.patch('/cancelorder/:orderId/:productId', userAuthToken, cancelOrderHandler)
 
 router.patch('/personal', userAuthToken, checkExact(checkSchema(profileValidator())), personalDetailsChangeHandler)
 

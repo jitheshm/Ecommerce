@@ -331,7 +331,8 @@ module.exports = {
     },
     cancelOrderHandler: async (req, res) => {
         try {
-            const status = await changeStatus(new ObjectId(req.params.orderId), new ObjectId(req.user.id), "Cancelled")
+            
+            const status = await changeStatus(new ObjectId(req.params.orderId), new ObjectId(req.user.id),new ObjectId(req.params.productId), "Cancelled")
             if (status) {
                 res.status(200).json({ success: true })
             } else {

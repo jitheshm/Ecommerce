@@ -30,10 +30,10 @@ function OrderDetails() {
         })
     }, [toogle])
 
-
+   
     const handleCancel = () => {
         if (confirm('Are you sure you want to cancel this order?')) {
-            instance.patch(`/user/cancelorder/${orderId}`, {
+            instance.patch(`/user/cancelorder/${orderId}/${productId}`, {
                 orderStatus: "Cancelled"
             }, {
                 headers: {

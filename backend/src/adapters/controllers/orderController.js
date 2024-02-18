@@ -17,7 +17,7 @@ module.exports = {
         if (data.paymentMethod === "COD")
             return await placeCodOrder(orderRepository, addressRepository, cartRepository, productVarientRepository, data)
         else
-            return await placeOnlineOrder(orderRepository, addressRepository,  razorpayGateway, data, razorpaykey_id, razorpaykey_secret)
+            return await placeOnlineOrder(orderRepository, addressRepository, razorpayGateway, data, razorpaykey_id, razorpaykey_secret)
     },
 
     getOrders: async (userId) => {
@@ -26,8 +26,8 @@ module.exports = {
     getSpecificOrder: async (orderId, productId) => {
         return await getSpecificOrder(orderRepository, orderId, productId)
     },
-    changeStatus: async (orderId, userId, orderStatus) => {
-        return await changeStatus(orderRepository, orderId, userId, orderStatus)
+    changeStatus: async (orderId, userId, productId, orderStatus) => {
+        return await changeStatus(orderRepository, orderId, userId, productId, orderStatus)
     },
     ordersList: async () => {
         return await orderList(orderRepository)
@@ -39,7 +39,7 @@ module.exports = {
 
 
     },
-    returnProduct: async(orderId, userId, productId) => {
+    returnProduct: async (orderId, userId, productId) => {
 
         return await returnProduct(orderRepository, orderId, userId, productId)
     }
