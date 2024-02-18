@@ -118,12 +118,14 @@ module.exports = {
             throw error
         }
     },
-    changeOrderStatus: async (orderId, userId, status) => {
+    changeOrderStatus: async (orderId, userId,productId, status) => {
         try {
             const order = await OrderModel.updateMany(
                 { _id: orderId, userId: userId },
-                { $set: { "orderedItems.$[].orderStatus": status } }
+                { $set: { "orderedItems.$[elem].deliveryStatus": status } },
+                {arrayFilters: [{ "elem.productId": productId }]}
             );
+            console.log(order);
             if (order.modifiedCount > 0) {
                 return true;
             } else {
