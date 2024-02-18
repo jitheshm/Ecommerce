@@ -20,10 +20,11 @@ function OrdersList() {
             setOrders(res.data.data)
         })
     }, [toogle])
-    const handleChangeStatus = (status, orderId, userId) => {
+    const handleChangeStatus = (status, orderId, userId,productId) => {
         instance.patch('/admin/changeorderstatus', {
             orderId: orderId,
             userId: userId,
+            productId: productId,
             status: status
         }, {
 
@@ -55,11 +56,11 @@ function OrdersList() {
 
                             <div className="table-responsive col-12">
                                 <table className="table" style={{ tableLayout: 'fixed' }}>
-                                    <thead>   
-                                        <tr>   
-                                            <th style={{ textAlign: "center",width: "230px" }}>Order ID</th>
+                                    <thead>
+                                        <tr>
+                                            <th style={{ textAlign: "center", width: "230px" }}>Order ID</th>
                                             <th style={{ textAlign: "center", width: "100px" }}>Date</th>
-                                            <th style={{ textAlign: "center", width: "230px" }}>Customer Id</th>
+                                            <th style={{ textAlign: "center", width: "230px" }}>Product Id</th>
                                             <th style={{ textAlign: "center", width: "100px" }}>Total Price</th>
                                             <th style={{ textAlign: "center", width: "100px" }}>Status</th>
 
@@ -69,15 +70,15 @@ function OrdersList() {
                                     <tbody >
                                         {
                                             orders.map((order) => {
-                                                if (order.userId.startsWith(search) || search === "" || order._id.includes(search)) {
+                                                if (order.orderedItems.productId.startsWith(search) || search === "" || order._id.includes(search)) {
                                                     return (
                                                         // eslint-disable-next-line react/jsx-key
                                                         <tr >
-                                                            <td style={{ color: "#6c7293" ,textAlign: "center"}}>{order._id}</td>
-                                                            <td style={{ color: "#6c7293" ,textAlign: "center"}}>{order.orderDate}</td>
-                                                            <td style={{ color: "#6c7293" ,textAlign: "center"}}>{order.userId}</td>
-                                                            <td style={{ color: "#6c7293", textAlign: "center", width: "100px"  }}>{order.orderAmount}</td>
-                                                            <td style={{ color: "#6c7293" ,textAlign: "center"}}>{order.orderStatus}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order._id}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderDate}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.productId}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center", width: "100px" }}>{order.orderedItems.price}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.deliveryStatus}</td>
 
                                                             <td className='d-flex gap-3 ' style={{ width: "250px" }}>
 
@@ -90,7 +91,7 @@ function OrdersList() {
 
 
                                                                     </a>
-                                                                    {order.orderStatus != 'Cancelled' &&
+                                                                    {order.orderedItems.deliveryStatus != 'Cancelled' &&
                                                                         <div className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
 
 
@@ -100,7 +101,7 @@ function OrdersList() {
 
 
                                                                             <button className="dropdown-item preview-item" onClick={() => {
-                                                                                handleChangeStatus('Shipped', order._id, order.userId)
+                                                                                handleChangeStatus('Shipped', order._id, order.userId,order.orderedItems.productId)
                                                                             }}>
 
                                                                                 <div className="preview-item-content">
@@ -110,7 +111,7 @@ function OrdersList() {
 
                                                                             </button>
                                                                             <button className="dropdown-item preview-item" onClick={() => {
-                                                                                handleChangeStatus('Out for delivery', order._id, order.userId)
+                                                                                handleChangeStatus('Out for delivery', order._id, order.userId,order.orderedItems.productId)
                                                                             }}>
 
                                                                                 <div className="preview-item-content">
@@ -120,7 +121,7 @@ function OrdersList() {
 
                                                                             </button>
                                                                             <button className="dropdown-item preview-item" onClick={() => {
-                                                                                handleChangeStatus('Delivered', order._id, order.userId)
+                                                                                handleChangeStatus('Delivered', order._id, order.userId,order.orderedItems.productId)
                                                                             }}>
 
                                                                                 <div className="preview-item-content">
@@ -133,8 +134,8 @@ function OrdersList() {
                                                                     }
                                                                 </div>
                                                                 {
-                                                                    order.orderStatus != 'Cancelled' && order.orderStatus != 'Delivered'&& <button className='btn btn-outline-danger' onClick={() => {
-                                                                        handleChangeStatus('Cancelled', order._id, order.userId)
+                                                                    order.orderedItems.deliveryStatus != 'Cancelled' && order.orderedItems.deliveryStatus != 'Delivered' && <button className='btn btn-outline-danger' onClick={() => {
+                                                                        handleChangeStatus('Cancelled', order._id, order.userId,order.orderedItems.productId)
                                                                     }}>
                                                                         Cancel
                                                                     </button>

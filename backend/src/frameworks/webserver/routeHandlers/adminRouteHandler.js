@@ -353,7 +353,8 @@ module.exports = {
     },
     orderStatusHandler: async (req, res) => {
         try {
-            const status = await changeStatus(new ObjectId(req.body.orderId), new ObjectId(req.body.userId), req.body.status)
+            console.log("hee");
+            const status = await changeStatus(new ObjectId(req.body.orderId), new ObjectId(req.body.userId), new ObjectId(req.body.productId), req.body.status)
             console.log(status);
             res.status(200).json({ success: true })
         } catch (error) {
