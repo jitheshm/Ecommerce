@@ -331,8 +331,8 @@ module.exports = {
     },
     cancelOrderHandler: async (req, res) => {
         try {
-            
-            const status = await changeStatus(new ObjectId(req.params.orderId), new ObjectId(req.user.id),new ObjectId(req.params.productId), "Cancelled")
+
+            const status = await changeStatus(new ObjectId(req.params.orderId), new ObjectId(req.user.id), new ObjectId(req.params.productId), "Cancelled")
             if (status) {
                 res.status(200).json({ success: true })
             } else {
@@ -442,25 +442,25 @@ module.exports = {
     },
     returnProductHandler: async (req, res) => {
         try {
-            const result = validationResult(req)
-            console.log(result.array());
-            if (result.isEmpty()) {
 
 
-                const status = await returnProduct(new ObjectId(req.params.orderId), new ObjectId(req.user.id), new ObjectId(req.params.productId))
-                if (status) {
-                    res.status(200).json({ success: true })
-                } else {
-                    res.status(200).json({ success: false, msg: "order not returned" })
-                }
+
+            const status = await returnProduct(new ObjectId(req.params.orderId), new ObjectId(req.user.id), new ObjectId(req.params.productId))
+            if (status) {
+                res.status(200).json({ success: true })
             } else {
-                res.status(400).json({ "error": result.array() })
-
+                res.status(200).json({ success: false, msg: "order not returned" })
             }
 
+
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ "error": "internal server error" })
+            console.log(error.message);
+            if (error.statusCode == 400) {
+                res.status(400).json({ "error": error.message})
+            } else {
+                res.status(500).json({ "error": "internal server error" })
+            }
+           
         }
     }
 }
