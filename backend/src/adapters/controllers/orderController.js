@@ -17,7 +17,7 @@ module.exports = {
         if (data.paymentMethod === "COD")
             return await placeCodOrder(orderRepository, addressRepository, cartRepository, productVarientRepository, data)
         else
-            return await placeOnlineOrder(orderRepository, addressRepository, cartRepository, productVarientRepository, razorpayGateway, data, razorpaykey_id, razorpaykey_secret)
+            return await placeOnlineOrder(orderRepository, addressRepository,  razorpayGateway, data, razorpaykey_id, razorpaykey_secret)
     },
 
     getOrders: async (userId) => {
