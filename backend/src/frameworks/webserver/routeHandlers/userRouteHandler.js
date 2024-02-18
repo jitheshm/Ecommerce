@@ -292,19 +292,10 @@ module.exports = {
     },
     orderPlaceHandler: async (req, res) => {
         try {
-
-            req.body.deliveryAddress = new ObjectId(req.body.deliveryAddress)
-            req.body.orderedItems = req.body.orderedItems.map((item) => {
-                return {
-                    productId: new ObjectId(item.productId),
-                    quantity: item.quantity,
-                    price: item.price
-                }
-            })
-            req.body.deliveryDate = moment().add(10, 'days').format('DD-MM-yyyy')
-            req.body.orderDate = moment().format('DD-MM-yyyy')
-            console.log(razorpaykey_id, razorpaykey_secret);
-            const result = await placeOrder(new ObjectId(req.user.id), req.body, razorpaykey_id, razorpaykey_secret)
+            const data = req.body
+            data.deliveryDate = moment().add(10, 'days').format('DD-MM-yyyy')
+            data.orderDate = moment().format('DD-MM-yyyy')
+            const result = await placeOrder(req.user.id, data, razorpaykey_id, razorpaykey_secret)
             if (result) {
                 res.status(200).json({ success: true, data: result })
             } else {
@@ -461,9 +452,9 @@ module.exports = {
                 } else {
                     res.status(200).json({ success: false, msg: "order not returned" })
                 }
-            }else{
+            } else {
                 res.status(400).json({ "error": result.array() })
-            
+
             }
 
         } catch (error) {

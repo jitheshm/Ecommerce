@@ -8,8 +8,14 @@ module.exports = async (orderRepository, addressRepository, cartRepository, prod
     const { _id, userId, __v, ...address } = deliveryAddress._doc
 
     data.deliveryAddress = address
-
+    data.orderedItems = data.orderedItems.map((product) => {
+        return {
+            ...product,
+            deliveryStatus: 'Confirmed',
+        }
+    })
     const order = new Order(data)
+
 
     const reciept = await orderRepository.placeOrder(order)
 

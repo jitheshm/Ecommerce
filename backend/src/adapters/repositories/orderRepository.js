@@ -18,7 +18,6 @@ module.exports = {
     },
     getOrders: async (userId) => {
         try {
-            // const orders = await OrderModel.find({ userId: userId })
             const orders = await OrderModel.aggregate([
                 {
                     $match: {
@@ -121,16 +120,17 @@ module.exports = {
     },
     changeOrderStatus: async (orderId, userId, status) => {
         try {
-            const order = await OrderModel.findOne({ _id: orderId, userId: userId })
-            order.orderStatus = status
-            await order.save()
-            if (order) {
-                return true
+            const order = await OrderModel.updateMany(
+                { _id: orderId, userId: userId },
+                { $set: { "orderedItems.$[].orderStatus": status } }
+            );
+            if (order.modifiedCount > 0) {
+                return true;
             } else {
-                return false
+                return false;
             }
         } catch (error) {
-            throw error
+            throw error;
         }
     },
     getOrdersList: async () => {
@@ -144,11 +144,15 @@ module.exports = {
     },
     updateOrder: async (orderId, paymentId, status) => {
         try {
-            const order = await OrderModel.findOneAndUpdate({ _id: orderId }, { orderStatus: status, transactionId: paymentId }, { new: true })
+            const order = await OrderModel.findOneAndUpdate(
+                { _id: orderId },
+                { $set: { "orderedItems.$[].deliveryStatus": status }, transactionId: paymentId },
+                { new: true }
+            );
 
-            return order
+            return order;
         } catch (error) {
-            throw error
+            throw error;
         }
     },
     returnProduct: async (orderId, userId, productId) => {
