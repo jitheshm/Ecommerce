@@ -67,7 +67,7 @@ router.patch('/passwordupdate', newPasswordHandler)
 router.get('/product/search/:search', searchHandler)
 
 router.patch('/verifypayment', userAuthToken, verifyPaymentHandler)
-router.patch('/returnproduct/:orderId/:productId', userAuthToken, checkSchema(ReturnProductValidator()), returnProductHandler)
+router.patch('/returnproduct/:orderId/:productId', userAuthToken, returnProductHandler)
 
 
 module.exports = router
