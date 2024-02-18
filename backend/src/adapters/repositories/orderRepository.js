@@ -137,7 +137,11 @@ module.exports = {
     },
     getOrdersList: async () => {
         try {
-            const orders = await OrderModel.find({})
+            const orders = await OrderModel.aggregate([
+                {
+                    $unwind: '$orderedItems'
+                }
+            ])
             console.log(orders);
             return orders
         } catch (error) {
