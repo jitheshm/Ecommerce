@@ -15,10 +15,10 @@ function OrderCard({ order }) {
                     <p className="card-text  col-2">₹ {order.orderedItems.price * order.orderedItems.quantity}</p>
                     <div className='col-4'>
                         {
-                            order.orderStatus === 'Cancelled' && <p className="text-danger">{order.orderStatus}</p>
+                            order.orderedItems.deliveryStatus === 'Cancelled' && <p className="text-danger">{order.orderedItems.deliveryStatus}</p>
                         }
                         {
-                            order.orderStatus != 'Cancelled' && <p>{order.orderStatus === 'Delivered' ? <span>Deliverd on</span> : <span>Expect to delivery on</span>} {order.deliveryDate} </p>
+                            order.orderedItems.deliveryStatus != 'Cancelled' && <p>{order.orderedItems.deliveryStatus === 'Delivered' ? <span>Deliverd on</span> : <span>Expect to delivery on</span>} {order.deliveryDate} </p>
                         }
 
                     </div>
