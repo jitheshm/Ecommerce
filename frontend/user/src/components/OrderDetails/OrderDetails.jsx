@@ -97,15 +97,15 @@ function OrderDetails() {
                     </div>
                     <div className='col-6 d-flex align-items-center flex-column justify-content-center'>
                         {
-                            orderDetails.orderStatus != "Cancelled" &&
+                            orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Cancelled" &&
                             <button className='btn primary '>Download invoice</button>
                         }
                         {
-                            orderDetails.orderStatus != "Cancelled" && orderDetails.orderStatus != "Delivered" &&
+                            orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Cancelled" && orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Delivered" &&
                             <button className='btn btn-danger mt-4' onClick={handleCancel}>Cancel Order</button>
                         }
                         {
-                            orderDetails.orderStatus === "Delivered" && orderDetails.orderedItems.returnStatus === 'Not Requested' && moment(orderDetails.deliveryDate, 'DD-MM-YYYY').add(7, 'days').isAfter(moment()) &&
+                            orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Delivered" && orderDetails.orderedItems.returnStatus === 'Not Requested' && moment(orderDetails.deliveryDate, 'DD-MM-YYYY').add(7, 'days').isAfter(moment()) &&
 
                             <button className='btn btn-danger mt-4' onClick={handleReturn}>Return</button>
                         }
@@ -143,7 +143,7 @@ function OrderDetails() {
                                             <p className="py-1  rounded" style={{ color: "#26A541" }}>Ordered</p>
                                         </li>
                                         {
-                                            orderDetails.orderStatus === "Cancelled" &&
+                                            orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Cancelled" &&
                                             <li className="list-inline-item items-list col-2" >
 
 
@@ -155,9 +155,9 @@ function OrderDetails() {
                                             </li>
                                         }
                                         {
-                                            orderDetails.orderStatus != "Cancelled" &&
+                                            orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Cancelled" &&
                                             <>
-                                                <li className="list-inline-item items-list col-2" style={orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Shipped" || orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
+                                                <li className="list-inline-item items-list col-2" style={orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Out for delivery" || orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Shipped" || orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
 
 
 
@@ -165,7 +165,7 @@ function OrderDetails() {
                                                     {
 
 
-                                                        orderDetails.orderStatus === "Shipped" || orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ?
+                                                        orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Shipped" || orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Out for delivery" || orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Delivered" ?
                                                             <>
                                                                 <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
                                                                 <p className="py-1 rounded " style={{ color: "#26A541" }}>Shipped</p>
@@ -178,9 +178,9 @@ function OrderDetails() {
                                                     }
 
                                                 </li>
-                                                <li className="list-inline-item items-list  col-2" style={orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
+                                                <li className="list-inline-item items-list  col-2" style={orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Out for delivery" || orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Delivered" ? { borderTop: "2px #26A541 solid" } : { borderTop: "2px #ddd solid" }}>
                                                     {
-                                                        orderDetails.orderStatus === "Out for delivery" || orderDetails.orderStatus === "Delivered" ?
+                                                        orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Out for delivery" || orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Delivered" ?
                                                             <>
                                                                 <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
                                                                 <p className="py-1  rounded " style={{ color: "#26A541" }}>Out for delivery</p>
@@ -192,9 +192,9 @@ function OrderDetails() {
                                                             </>
                                                     }
                                                 </li>
-                                                <li className="list-inline-item items-list text-end col-2" style={orderDetails.orderStatus === "Delivered" ? { borderTop: "2px #26A541 solid", } : { borderTop: "2px #ddd solid", marginRight: 8 }}>
+                                                <li className="list-inline-item items-list text-end col-2" style={orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Delivered" ? { borderTop: "2px #26A541 solid", } : { borderTop: "2px #ddd solid", marginRight: 8 }}>
                                                     {
-                                                        orderDetails.orderStatus === "Delivered" ?
+                                                        orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Delivered" ?
                                                             <>
                                                                 <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
                                                                 <p className="py-1  rounded " style={{ color: "#26A541" }}>Delivered</p>
@@ -208,7 +208,7 @@ function OrderDetails() {
                                                 </li>
                                                 {
                                                     orderDetails.orderedItems && orderDetails.orderedItems.returnStatus != 'Not Requested' &&
-                                                    <li className="list-inline-item items-list text-end col-2" style={{ borderTop: "2px #e12222 solid", marginRight: 8 } }>
+                                                    <li className="list-inline-item items-list text-end col-2" style={{ borderTop: "2px #e12222 solid", marginRight: 8 }}>
 
 
                                                         <>
