@@ -20,7 +20,7 @@ function OrdersList() {
             setOrders(res.data.data)
         })
     }, [toogle])
-    const handleChangeStatus = (status, orderId, userId,productId) => {
+    const handleChangeStatus = (status, orderId, userId, productId) => {
         instance.patch('/admin/changeorderstatus', {
             orderId: orderId,
             userId: userId,
@@ -55,16 +55,16 @@ function OrdersList() {
 
 
                             <div className="table-responsive col-12">
-                                <table className="table" style={{ tableLayout: 'fixed' }}>
+                                <table className="table" >
                                     <thead>
                                         <tr>
-                                            <th style={{ textAlign: "center", width: "230px" }}>Order ID</th>
-                                            <th style={{ textAlign: "center", width: "100px" }}>Date</th>
-                                            <th style={{ textAlign: "center", width: "230px" }}>Product Id</th>
-                                            <th style={{ textAlign: "center", width: "100px" }}>Total Price</th>
-                                            <th style={{ textAlign: "center", width: "100px" }}>Status</th>
+                                            <th style={{ textAlign: "center" }}>Order ID</th>
+                                            <th style={{ textAlign: "center" }}>Date</th>
+                                            <th style={{ textAlign: "center" }}>Product Id</th>
+                                            <th style={{ textAlign: "center" }}>Total Price</th>
+                                            <th style={{ textAlign: "center" }}>Status</th>
 
-                                            <th style={{ textAlign: "center", width: "250px" }}>Actions</th>
+                                            <th style={{ textAlign: "center" }}>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody >
@@ -77,21 +77,21 @@ function OrdersList() {
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order._id}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderDate}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.productId}</td>
-                                                            <td style={{ color: "#6c7293", textAlign: "center", width: "100px" }}>{order.orderedItems.price}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.price}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.deliveryStatus}</td>
 
-                                                            <td className='d-flex gap-3 ' style={{ width: "250px" }}>
+                                                            <td className='d-flex gap-3 align-items-center justify-content-center ' >
+
+                                                                {order.orderedItems.deliveryStatus != 'Cancelled' && order.orderedItems.deliveryStatus != 'Delivered' ?
+                                                                    <div className="nav-item dropdown" style={{ position: "initial" }}>
+                                                                        <a className='btn btn-outline-success' id="profileDropdown" href="#" data-bs-toggle="dropdown">
 
 
-                                                                <div className="nav-item dropdown" style={{ position: "initial" }}>
-                                                                    <a className='btn btn-outline-success' id="profileDropdown" href="#" data-bs-toggle="dropdown">
+                                                                            <p className="mb-0 d-none d-sm-block navbar-profile-name">Change Status</p>
 
 
-                                                                        <p className="mb-0 d-none d-sm-block navbar-profile-name">Change Status</p>
+                                                                        </a>
 
-
-                                                                    </a>
-                                                                    {order.orderedItems.deliveryStatus != 'Cancelled' &&
                                                                         <div className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
 
 
@@ -101,7 +101,7 @@ function OrdersList() {
 
 
                                                                             <button className="dropdown-item preview-item" onClick={() => {
-                                                                                handleChangeStatus('Shipped', order._id, order.userId,order.orderedItems.productId)
+                                                                                handleChangeStatus('Shipped', order._id, order.userId, order.orderedItems.productId)
                                                                             }}>
 
                                                                                 <div className="preview-item-content">
@@ -111,7 +111,7 @@ function OrdersList() {
 
                                                                             </button>
                                                                             <button className="dropdown-item preview-item" onClick={() => {
-                                                                                handleChangeStatus('Out for delivery', order._id, order.userId,order.orderedItems.productId)
+                                                                                handleChangeStatus('Out for delivery', order._id, order.userId, order.orderedItems.productId)
                                                                             }}>
 
                                                                                 <div className="preview-item-content">
@@ -121,7 +121,7 @@ function OrdersList() {
 
                                                                             </button>
                                                                             <button className="dropdown-item preview-item" onClick={() => {
-                                                                                handleChangeStatus('Delivered', order._id, order.userId,order.orderedItems.productId)
+                                                                                handleChangeStatus('Delivered', order._id, order.userId, order.orderedItems.productId)
                                                                             }}>
 
                                                                                 <div className="preview-item-content">
@@ -131,11 +131,13 @@ function OrdersList() {
 
                                                                             </button>
                                                                         </div>
-                                                                    }
-                                                                </div>
+
+                                                                    </div> :
+                                                                    order.orderedItems.returnStatus === 'Not Requested' ? <p className='text-success text-center'>product {order.orderedItems.deliveryStatus}</p> : <p className='text-danger text-center'> {order.orderedItems.returnStatus === 'pending' || order.orderedItems.returnStatus === 'Confirmed' ? <>Return Request {order.orderedItems.returnStatus}</>: <>Order {order.orderedItems.returnStatus}</>}</p>
+                                                                }
                                                                 {
                                                                     order.orderedItems.deliveryStatus != 'Cancelled' && order.orderedItems.deliveryStatus != 'Delivered' && <button className='btn btn-outline-danger' onClick={() => {
-                                                                        handleChangeStatus('Cancelled', order._id, order.userId,order.orderedItems.productId)
+                                                                        handleChangeStatus('Cancelled', order._id, order.userId, order.orderedItems.productId)
                                                                     }}>
                                                                         Cancel
                                                                     </button>

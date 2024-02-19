@@ -11,6 +11,8 @@ const razorpayGateway = require("../gateways/razorpayGateway")
 const placeOnlineOrder = require("../../usecase/order/placeOnlineOrder")
 const verifyPayment = require("../../usecase/order/verifyPayment")
 const returnProduct = require("../../usecase/order/returnProduct")
+const returnOrdersList = require("../../usecase/order/returnOrdersList")
+const changeReturnStatus = require("../../usecase/order/changeReturnStatus")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
@@ -42,5 +44,11 @@ module.exports = {
     returnProduct: async (orderId, userId, productId) => {
 
         return await returnProduct(orderRepository, orderId, userId, productId)
+    },
+    returnOrdersList: async () => {
+        return await returnOrdersList(orderRepository)
+    },
+    changeReturnStatus: async (orderId, productId, status) => {
+        return await changeReturnStatus(orderRepository, orderId, productId, status)
     }
 }

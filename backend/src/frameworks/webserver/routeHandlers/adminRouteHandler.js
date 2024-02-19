@@ -6,7 +6,7 @@ const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, all
 const path = require('path');
 const fs = require('fs');
 const { categoryAdd, categoryUpdate, categoryDelete, getCategory, getSpecificCategory } = require('../../../adapters/controllers/categoryController');
-const { ordersList, changeStatus } = require('../../../adapters/controllers/orderController');
+const { ordersList, changeStatus, returnOrdersList, changeReturnStatus } = require('../../../adapters/controllers/orderController');
 const { validationResult } = require('express-validator');
 
 module.exports = {
@@ -355,6 +355,26 @@ module.exports = {
         try {
             console.log("hee");
             const status = await changeStatus(new ObjectId(req.body.orderId), new ObjectId(req.body.userId), new ObjectId(req.body.productId), req.body.status)
+            console.log(status);
+            res.status(200).json({ success: true })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    returnordersListHandler: async (req, res) => {
+        try {
+            const orders = await returnOrdersList()
+            res.status(200).json({ success: true, data: orders })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    orderReturnStatusHandler:async(req,res)=>{
+        try {
+            
+            const status = await changeReturnStatus(new ObjectId(req.body.orderId), new ObjectId(req.body.productId), req.body.status)
             console.log(status);
             res.status(200).json({ success: true })
         } catch (error) {
