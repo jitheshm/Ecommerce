@@ -118,12 +118,12 @@ module.exports = {
             throw error
         }
     },
-    changeOrderStatus: async (orderId, userId,productId, status) => {
+    changeOrderStatus: async (orderId, userId, productId, status) => {
         try {
             const order = await OrderModel.updateMany(
                 { _id: orderId, userId: userId },
                 { $set: { "orderedItems.$[elem].deliveryStatus": status } },
-                {arrayFilters: [{ "elem.productId": productId }]}
+                { arrayFilters: [{ "elem.productId": productId }] }
             );
             console.log(order);
             if (order.modifiedCount > 0) {
@@ -178,5 +178,40 @@ module.exports = {
             throw error
         }
 
+    },
+    getReturnOrdersList: async () => {
+        try {
+            const orders = await OrderModel.aggregate([
+                {
+                    $unwind: '$orderedItems'
+                },
+                {
+                    $match: {
+                        "orderedItems.returnStatus": { $in: ["pending", "Confirmed", "Returned"] }
+                    }
+                }
+            ])
+            console.log(orders);
+            return orders
+        } catch (error) {
+            throw error
+        }
+    },
+    changeReturnStatus: async (orderId, productId, status) => {
+        try {
+            const order = await OrderModel.updateOne(
+                { _id: orderId },
+                { $set: { "orderedItems.$[elem].returnStatus": status } },
+                { arrayFilters: [{ "elem.productId": productId }] }
+            );
+            console.log(order);
+            if (order.modifiedCount > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            throw error;
+        }
     }
 }
