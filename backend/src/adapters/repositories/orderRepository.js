@@ -213,5 +213,30 @@ module.exports = {
         } catch (error) {
             throw error;
         }
+    },
+    getOrderSpecificProduct: async (orderId, productId) => {
+        try {
+            const order = await OrderModel.aggregate([
+                {
+                    $match: {
+                        _id: orderId
+                    }
+                },
+                {
+                    $unwind: '$orderedItems'
+                }
+                ,
+                {
+                    $match: {
+                        "orderedItems.productId": productId
+                    }
+                }
+
+
+            ]).exec()
+            return order
+        } catch (error) {
+            throw error;
+        }
     }
 }

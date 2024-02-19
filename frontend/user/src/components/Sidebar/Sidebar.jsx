@@ -41,6 +41,10 @@ function Sidebar() {
                         <Link className='fw-bold' to={'/profile/wishlist'}>My Wishlist</Link>
                     </div>
                     <div className=' pt-3'>
+                        <i className="fa-solid fa-wallet me-4" style={{ color: '#15161d', fontSize: "19px" }} />
+                        <Link className='fw-bold' to={'/profile/wallet'}>My Wallet</Link>
+                    </div>
+                    <div className=' pt-3'>
                         <i className="fa-solid fa-arrow-right-from-bracket me-1" style={{ color: '#15161d', fontSize: "19px" }} />
                         <button className='fw-bold btn' onClick={() => {
                             Cookies.remove('token');
