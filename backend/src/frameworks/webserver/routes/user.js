@@ -6,7 +6,7 @@ const signupValidator = require('../validators/user/signupValidator');
 const loginValidator = require('../validators/user/loginValidator');
 const addressValidator = require('../validators/user/addressValidator');
 const profileValidator = require('../validators/user/profileValidator');
-const ReturnProductValidator = require('../validators/user/ReturnProductValidator');
+
 const router = express.Router()
 
 router.post('/signup', checkSchema(signupValidator()), signupHandler)

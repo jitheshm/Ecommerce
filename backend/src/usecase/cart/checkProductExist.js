@@ -1,3 +1,7 @@
 module.exports = async (cartRepository, productId, userId) => {
-    return await cartRepository.checkProductExist(productId, userId)
+    const cart = await cartRepository.checkProductExist(productId, userId)
+    if (cart.length > 0) {
+        return true
+    }
+    return false
 }

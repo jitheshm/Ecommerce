@@ -2,12 +2,12 @@ const Cart = require("../../entity/cartEntity")
 const CartModel = require("../models/cartModel")
 
 module.exports = {
-    addToCart: async (userId, productId) => {
+    addToCart: async (data) => {
 
         try {
 
-            const existCart = await CartModel.findOne({ userId: userId })
-            const data = new Cart(userId, productId)
+            const existCart = await CartModel.findOne({ userId: data.userId })
+
             if (!existCart) {
 
                 const cart = new CartModel(data)
@@ -16,13 +16,13 @@ module.exports = {
             }
             else {
 
-                if (existCart.products.find(product => productId.equals(product.productId))) {
+                if (existCart.products.find(product => data.products.productId.equals(product.productId))) {
                     return false
                 }
-                console.log(productId);
-                const result = await CartModel.updateOne({ userId: userId }, {
+
+                const result = await CartModel.updateOne({ userId: data.userId }, {
                     $push: {
-                        products: data.products[0]
+                        products: data.products
                     }
                 })
                 console.log(result);
@@ -33,51 +33,22 @@ module.exports = {
             }
 
 
-            // const existCart = await CartModel.findOne({ userId: userId })
-            // if (existCart && existCart.products.find(product => product.productId === data.productId)) {
-            //     return false
-            // }
-            // if (existCart) {
-            //     var cart = Cart(existCart.userId, existCart.products)
-            //     cart.addProduct(data)
 
-            // } else {
-            //     var cart = Cart(userId, [data])
-            // }
-
-            // const res = await CartModel.updateOne({ userId: cart.userId }, { products: cart.products }, {
-            //     upsert: true
-
-            // })
-            // console.log(res);
-            // return true
-            // const result=await CartModel.updateOne({userId:userId},{$push:{products:data}},{
-            //     upsert:true
-            // })
         } catch (error) {
             console.log(error);
             throw error
         }
 
     },
-    changeQuantity: async (userId, productId, quantity, stockCount) => {
+    changeQuantity: async (existCart, quantity, stockCount) => {
         try {
-            console.log(userId, productId, quantity, stockCount);
-            const cart = await CartModel.aggregate([
-                { $match: { userId: userId } },
-                { $unwind: "$products" },
-                { $match: { "products.productId": productId } },
-                { $project: { quantity: "$products.quantity" } }
-            ])
-            console.log(cart);
-            if (cart[0].quantity + quantity > stockCount && quantity > 0 || cart[0].quantity + quantity > 5 || cart[0].quantity + quantity < 1) {
-                return false
-            }
 
-            const res = await CartModel.updateOne({ userId: userId }, {
+          
+
+            const res = await CartModel.updateOne({ userId: existCart.userId }, {
                 $inc: { "products.$[elem].quantity": quantity }
             },
-                { arrayFilters: [{ "elem.productId": productId }] })
+                { arrayFilters: [{ "elem.productId": existCart.products.productId }] })
             if (res.modifiedCount != 0) {
                 return true
             }
@@ -150,13 +121,17 @@ module.exports = {
     checkProductExist: async (productId, userId) => {
         try {
             console.log(productId, userId);
-            const cart = await CartModel.findOne({ userId: userId, products: { $elemMatch: { productId: productId } } })
+            const cart = await CartModel.aggregate([
+                { $match: { userId: userId } },
+                { $unwind: "$products" },
+                { $match: { "products.productId": productId } }
+            ])
             console.log(cart);
             if (cart) {
-                return true
+                return cart
             }
             else {
-                return false
+                return null
             }
 
         } catch (error) {
@@ -164,19 +139,19 @@ module.exports = {
             throw error
         }
     },
-    clearUserCart: async(userId)=>{
-    try {
-        const res = await CartModel.deleteOne({ userId: userId })
-        if (res.deletedCount != 0) {
-            return true
+    clearUserCart: async (userId) => {
+        try {
+            const res = await CartModel.deleteOne({ userId: userId })
+            if (res.deletedCount != 0) {
+                return true
+            }
+            else {
+                return false
+            }
+        } catch (error) {
+            console.log(error);
+            throw error
         }
-        else {
-            return false
-        }
-    } catch (error) {
-        console.log(error);
-        throw error
     }
-}
 
 }
