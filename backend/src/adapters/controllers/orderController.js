@@ -14,6 +14,7 @@ const returnProduct = require("../../usecase/order/returnProduct")
 const returnOrdersList = require("../../usecase/order/returnOrdersList")
 const changeReturnStatus = require("../../usecase/order/changeReturnStatus")
 const walletRepository = require("../repositories/walletRepository")
+const refund = require("../../usecase/order/refund")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
@@ -50,6 +51,10 @@ module.exports = {
         return await returnOrdersList(orderRepository)
     },
     changeReturnStatus: async (orderId, productId, status) => {
-        return await changeReturnStatus(orderRepository, walletRepository, orderId, productId, status)
+        await changeReturnStatus(orderRepository, orderId, productId, status)
+        if (status === 'Refund')
+            return await refund(orderId, productId, status, orderRepository, walletRepository,)
+        else
+            return true
     }
 }
