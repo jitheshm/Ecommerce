@@ -445,7 +445,7 @@ module.exports = {
 
 
 
-            const status = await returnProduct(new ObjectId(req.params.orderId), new ObjectId(req.user.id), new ObjectId(req.params.productId))
+            const status = await returnProduct(new ObjectId(req.params.orderId), new ObjectId(req.user.id), new ObjectId(req.params.productId),req.body.reason)
             if (status) {
                 res.status(200).json({ success: true })
             } else {
