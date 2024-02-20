@@ -16,6 +16,7 @@ const OrderSchema = new mongoose.Schema({
             price: { type: Number, required: true },
             deliveryStatus: { type: String, default: "pending", required: true },
             returnStatus: { type: String, default: "Not Requested" },
+            returnReason: { type: String, default: "Not Requested" }
         }], required: true
     },
     coupon: { type: String },

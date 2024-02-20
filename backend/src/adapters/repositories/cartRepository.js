@@ -42,9 +42,6 @@ module.exports = {
     },
     changeQuantity: async (existCart, quantity, stockCount) => {
         try {
-
-          
-
             const res = await CartModel.updateOne({ userId: existCart.userId }, {
                 $inc: { "products.$[elem].quantity": quantity }
             },

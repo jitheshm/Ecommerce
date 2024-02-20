@@ -43,9 +43,9 @@ module.exports = {
 
 
     },
-    returnProduct: async (orderId, userId, productId) => {
+    returnProduct: async (orderId, userId, productId, reason) => {
 
-        return await returnProduct(orderRepository, orderId, userId, productId)
+        return await returnProduct(orderRepository, orderId, userId, productId, reason)
     },
     returnOrdersList: async () => {
         return await returnOrdersList(orderRepository)

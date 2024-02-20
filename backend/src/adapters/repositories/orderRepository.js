@@ -161,12 +161,12 @@ module.exports = {
             throw error;
         }
     },
-    returnProduct: async (orderId, userId, productId) => {
+    returnProduct: async (orderId, userId, productId, reason) => {
 
         try {
             const order = await OrderModel.findOneAndUpdate(
                 { _id: orderId, userId: userId, "orderedItems.productId": productId },
-                { $set: { "orderedItems.$[elem].returnStatus": "pending" } },
+                { $set: { "orderedItems.$[elem].returnStatus": "pending", "orderedItems.$[elem].returnReason": reason } },
                 { new: true, arrayFilters: [{ "elem.productId": productId }] }
             );
             if (order) {

@@ -13,15 +13,21 @@ function OrderCard({ order }) {
 
 
                     <p className="card-text  col-2">₹ {order.orderedItems.price * order.orderedItems.quantity}</p>
-                    <div className='col-4'>
-                        {
-                            order.orderedItems.deliveryStatus === 'Cancelled' && <p className="text-danger">{order.orderedItems.deliveryStatus}</p>
-                        }
-                        {
-                            order.orderedItems.deliveryStatus != 'Cancelled' && <p>{order.orderedItems.deliveryStatus === 'Delivered' ? <span>Deliverd on</span> : <span>Expect to delivery on</span>} {order.deliveryDate} </p>
-                        }
+                    {
+                        order.orderedItems.returnStatus === 'Not Requested' ?
+                            <div className='col-4'>
+                                {
+                                    order.orderedItems.deliveryStatus === 'Cancelled' && <p className="text-danger">{order.orderedItems.deliveryStatus}</p>
+                                }
+                                {
+                                    order.orderedItems.deliveryStatus != 'Cancelled' && <p>{order.orderedItems.deliveryStatus === 'Delivered' ? <span>Deliverd on</span> : <span>Expect to delivery on</span>} {order.deliveryDate} </p>
+                                }
 
-                    </div>
+                            </div> :
+                            <div className='col-4'>
+                                <p className='text-danger'>Return request {order.orderedItems.returnStatus}</p>
+                            </div>
+                    }
                 </div>
 
             </div>
