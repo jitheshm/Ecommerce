@@ -9,7 +9,8 @@ const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
 const { placeOrder, getOrders, getSpecificOrder, changeStatus, verifyPayment, returnProduct } = require('../../../adapters/controllers/orderController');
 const moment = require('moment');
 const { validationResult } = require('express-validator');
-const razorpayUtils = require('razorpay/dist/utils/razorpay-utils')
+const razorpayUtils = require('razorpay/dist/utils/razorpay-utils');
+const { getWallet } = require('../../../adapters/controllers/walletController');
 
 
 
@@ -445,7 +446,7 @@ module.exports = {
 
 
 
-            const status = await returnProduct(new ObjectId(req.params.orderId), new ObjectId(req.user.id), new ObjectId(req.params.productId),req.body.reason)
+            const status = await returnProduct(new ObjectId(req.params.orderId), new ObjectId(req.user.id), new ObjectId(req.params.productId), req.body.reason)
             if (status) {
                 res.status(200).json({ success: true })
             } else {
@@ -456,11 +457,21 @@ module.exports = {
         } catch (error) {
             console.log(error.message);
             if (error.statusCode == 400) {
-                res.status(400).json({ "error": error.message})
+                res.status(400).json({ "error": error.message })
             } else {
                 res.status(500).json({ "error": "internal server error" })
             }
-           
+
+        }
+    },
+    walletHandler: async (req,res) => {
+        try {
+            const wallet = await getWallet(new ObjectId(req.user.id))
+            console.log(wallet);
+            res.status(200).json({ success: true, data: wallet })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
         }
     }
 }

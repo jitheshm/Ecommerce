@@ -13,5 +13,24 @@ module.exports = {
                 }
             }
         }, { upsert: true })
+    },
+    findWallet: async (userId) => {
+        const wallet = await WalletModel.aggregate([
+            {
+                $match: {
+                    userId: userId
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    balance: 1,
+                    transactions: {
+                        $sortArray: { input: "$transactions", sortBy: { date: -1 } }
+                    }
+                }
+            }
+        ]).exec()
+        return wallet[0]
     }
 }

@@ -1,5 +1,5 @@
 const express = require('express');
-const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler, searchHandler, verifyPaymentHandler, returnProductHandler } = require('../routeHandlers/userRouteHandler');
+const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler, searchHandler, verifyPaymentHandler, returnProductHandler, walletHandler } = require('../routeHandlers/userRouteHandler');
 const userAuthToken = require('../../middlewares/userAuthToken');
 const { checkSchema, checkExact } = require('express-validator');
 const signupValidator = require('../validators/user/signupValidator');
@@ -68,6 +68,8 @@ router.get('/product/search/:search', searchHandler)
 
 router.patch('/verifypayment', userAuthToken, verifyPaymentHandler)
 router.patch('/returnproduct/:orderId/:productId', userAuthToken, returnProductHandler)
+
+router.get('/wallet',userAuthToken,walletHandler)
 
 
 module.exports = router
