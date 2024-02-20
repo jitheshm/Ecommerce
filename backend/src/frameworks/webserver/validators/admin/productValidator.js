@@ -37,7 +37,7 @@ module.exports = () => {
                 negated: true
             }
         },
-        warranty: {
+        waranty: {
             isInt: {
                 errorMessage: 'Warranty should be a valid integer'
             }

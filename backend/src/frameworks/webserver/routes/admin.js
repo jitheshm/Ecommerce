@@ -23,9 +23,9 @@ router.get('/getusers', authToken, fetchAllUsersHandler)
 
 router.post('/addproduct', authToken, checkSchema(productValidator()), productAddHandler)
 
-router.post('/addvarient', authToken, checkSchema(varientValidator()), fileUpload("products"), varientAddHandler)
+router.post('/addvarient', authToken,  fileUpload("products"),checkSchema(varientValidator()), varientAddHandler)
 
-router.patch('/updatevarient', authToken,checkSchema(varientValidator()), fileUpload("products"), varientUpdateHandler)
+router.patch('/updatevarient', authToken, fileUpload("products"),checkSchema(varientValidator()), varientUpdateHandler)
 
 router.delete('/deletevarient', authToken, varientDeleteHandler)
 

@@ -4,6 +4,7 @@ module.exports = () => {
 
         productId: {
             trim: true,
+            optional: true,
             isEmpty: {
                 errorMessage: 'Product ID cannot be empty',
                 negated: true
@@ -11,6 +12,27 @@ module.exports = () => {
             customSanitizer: {
                 options: value => new ObjectId(value)
             },
+        },
+        id: {
+            trim: true,
+            optional: true,
+            isEmpty: {
+                errorMessage: 'varient ID cannot be empty',
+                negated: true
+            },
+            customSanitizer: {
+                options: value => new ObjectId(value)
+            },
+        },
+
+
+        custom: {
+            options: (value, { req }) => {
+                if (!req.body.productId && !req.body.id) {
+                    throw new Error('Either productId or id is required')
+                }
+                return true
+            }
         },
         color: {
             trim: true,
