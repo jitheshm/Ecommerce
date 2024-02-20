@@ -27,11 +27,13 @@ module.exports = () => {
 
 
         custom: {
-            options: (value, { req }) => {
-                if (!req.body.productId && !req.body.id) {
-                    throw new Error('Either productId or id is required')
+            custom: {
+                options: (value, { req }) => {
+                    if (!req.body.productId && !req.body.id) {
+                        throw new Error('Either productId or id is required')
+                    }
+                    return true
                 }
-                return true
             }
         },
         color: {
