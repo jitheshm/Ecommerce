@@ -4,6 +4,7 @@ import instance from '../../axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { BASEURL } from "../../constants/constant.json"
+import Resizer from "react-image-file-resizer";
 
 function VarientForm({ api, method, title, btnName, proId, id }) {
 
@@ -29,6 +30,22 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
   const navigate = useNavigate()
 
 
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        353,
+        416,
+        "JPEG",
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        'blob'
+      );
+    });
+
   useEffect(() => {
     if (id) {
       instance.get(`/admin/editvarient/${id}`, {
@@ -51,12 +68,13 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
   }, [])
 
 
-  const handleImageChange = (setImage, setImgPre, e) => {
+  const handleImageChange = async (setImage, setImgPre, e) => {
 
     setImgError(false)
-    setImage(e.target.files[0]);
+    const image = await resizeFile(e.target.files[0]);
+    setImage(image);
     console.log("hallo");
-    let file = e.target.files[0]
+    let file = image
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -169,6 +187,9 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
     })
 
   }
+
+
+
   return (
     <>
       <div className='pt-5'>
@@ -255,7 +276,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                           <img id="selectedImage1" src={imagePre1 ? imagePre1 : img} style={{ width: "100%", height: "150px" }} />
                         </label>
                         <div>
-                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={()=>{
+                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={() => {
                             handleRemove(imagePre1, setImagePre1, image1, setImage1)
                           }}>Remove</button>
                         </div>
@@ -274,7 +295,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                           <img id="selectedImage" src={imagePre2 ? imagePre2 : img} style={{ width: "100%", height: "150px" }} />
                         </label>
                         <div className='text-center'>
-                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={()=>{
+                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={() => {
                             handleRemove(imagePre2, setImagePre2, image2, setImage2)
                           }}>Remove</button>
                         </div>
@@ -292,7 +313,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                           <img id="selectedImage" src={imagePre3 ? imagePre3 : img} style={{ width: "100%", height: "150px" }} />
                         </label>
                         <div className='text-center'>
-                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={()=>{
+                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={() => {
                             handleRemove(imagePre3, setImagePre3, image3, setImage3)
                           }}>Remove</button>
                         </div>
@@ -312,7 +333,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                           <img id="selectedImage" src={imagePre4 ? imagePre4 : img} alt="example placeholder" style={{ width: "100%", height: "150px" }} />
                         </label>
                         <div className='text-center'>
-                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={()=>{
+                          <button type='button' className='btn btn-outline-secondary mt-3' onClick={() => {
                             handleRemove(imagePre4, setImagePre4, image4, setImage4)
                           }}>Remove</button>
                         </div>
