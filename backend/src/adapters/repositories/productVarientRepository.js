@@ -104,6 +104,11 @@ module.exports = {
     getOneVarientPerProduct: async () => {
         try {
             const result = await ProductVarientModel.aggregate([
+                {
+                    $match: {
+                        isDeleted: false
+                    }
+                },
 
                 {
                     $lookup: {
