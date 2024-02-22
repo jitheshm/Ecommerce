@@ -11,6 +11,8 @@ import wishlist from '../../../src/assets/heart.png'
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../features/user/userSlice'
+import ReactImageMagnify from 'react-image-magnify';
+
 function ProductDetails() {
     const [product, setProduct] = useState([])
     const [showImg, setShowImg] = useState(0)
@@ -113,8 +115,27 @@ function ProductDetails() {
                                     <aside className="col-11 col-lg-5 ">
 
                                         <div className="border rounded-1 mb-3 py-4 d-flex justify-content-center">
+                                            <ReactImageMagnify {...{
+                                                smallImage: {
 
-                                            <img style={{ maxWidth: '90%', height: '416px', margin: 'auto' }} className="rounded-4 fit " src={product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage} />
+
+                                                    isFluidWidth: true,
+                                                    src: `${product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage}`
+                                                },
+                                                largeImage: {
+                                                    src: `${product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage}`,
+                                                    width: 800,
+                                                    height: 1000,
+
+                                                },
+                                                shouldUsePositiveSpaceLens: true,
+                                               
+
+                                                enlargedImagePosition: "over",
+
+
+                                            }} />
+                                            {/* <img style={{ maxWidth: '90%', height: '416px', margin: 'auto' }} className="rounded-4 fit " src={product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage} /> */}
 
                                         </div>
                                         <div className="d-flex justify-content-center mb-3">
