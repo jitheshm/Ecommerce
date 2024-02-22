@@ -33,7 +33,7 @@ function SearchResults() {
         }).catch((err) => {
             console.log(err)
         })
-    }, [searchQuery,filter])
+    }, [searchQuery,filter,sort,order])
 
     const handleSort = (sort, order) => {
         setSearchParams({ sort: sort, order: order });
