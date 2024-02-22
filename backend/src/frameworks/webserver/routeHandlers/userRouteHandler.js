@@ -414,6 +414,7 @@ module.exports = {
             filter.in
             console.log(req.params.search, sort);
             const result = await searchProducts(req.params.search, sortObj, filter)
+            console.log(result);
             res.status(200).json({ success: true, data: result })
         } catch (error) {
             console.log(error);
