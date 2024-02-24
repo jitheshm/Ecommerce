@@ -174,10 +174,12 @@ module.exports = {
     },
     getColorList: async (id) => {
         try {
+            console.log(id);
             const colorList = await ProductVarientModel.aggregate([
                 {
                     $match: {
-                        productId: id
+                        productId: id,
+                        isDeleted: false
                     }
                 },
                 {
