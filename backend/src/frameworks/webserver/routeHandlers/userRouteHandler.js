@@ -11,6 +11,7 @@ const moment = require('moment');
 const { validationResult } = require('express-validator');
 const razorpayUtils = require('razorpay/dist/utils/razorpay-utils');
 const { getWallet } = require('../../../adapters/controllers/walletController');
+const { addToWishlist, checkWishlist, removeFromWishlist, getWishlist } = require('../../../adapters/controllers/wishlistController');
 
 
 
@@ -465,11 +466,66 @@ module.exports = {
 
         }
     },
-    walletHandler: async (req,res) => {
+    walletHandler: async (req, res) => {
         try {
             const wallet = await getWallet(new ObjectId(req.user.id))
             console.log(wallet);
             res.status(200).json({ success: true, data: wallet })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    addWishlistHandler: async (req, res) => {
+        try {
+            console.log(req.body.productId, req.user.id, "hh");
+            const status = await addToWishlist(new ObjectId(req.user.id), new ObjectId(req.body.productId))
+            if (status) {
+                res.status(200).json({ success: true })
+            }
+            else {
+                res.status(200).json({ success: false, msg: "product not added to wishlist" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    removeWishlistHandler: async (req, res) => {
+        try {
+            console.log(req.body.productId, req.user.id, "hh");
+            const status = await removeFromWishlist(new ObjectId(req.user.id), new ObjectId(req.body.productId))
+            if (status) {
+                res.status(200).json({ success: true })
+            }
+            else {
+                res.status(200).json({ success: false, msg: "product not added to wishlist" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    checkWishlistHandler: async (req, res) => {
+        try {
+            console.log(req.query.productId, req.user.id, "ll");
+            const status = await checkWishlist(new ObjectId(req.user.id), new ObjectId(req.query.productId))
+            console.log("status", status);
+            if (status) {
+                res.status(200).json({ success: true })
+            }
+            else {
+                res.status(200).json({ success: false, msg: "product not found in wishlist" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    WishlistHandler:async(req,res)=>{
+        try {
+            const wishlist=await getWishlist(new ObjectId(req.user.id))
+            res.status(200).json({ success: true, data: wishlist })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
