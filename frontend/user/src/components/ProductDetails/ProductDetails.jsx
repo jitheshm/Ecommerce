@@ -22,6 +22,7 @@ function ProductDetails() {
     const [loading, setloading] = useState(true)
     const [cartStatus, setcartStatus] = useState(false)
     const [stockError, setStockError] = useState(false)
+    const [wishlistStatus, setwishlistStatus] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -58,6 +59,32 @@ function ProductDetails() {
             setColorList(res.data.data)
         })
     }, [])
+
+    useEffect(() => {
+        if (verified && product[0]) {
+            console.log(product[0], "kk");
+            instance.get(`/user/checkwishlist?productId=${product[0]._id}`, {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                console.log(res.data, "kk");
+                if (res.data.success) {
+                    setwishlistStatus(true)
+                } else {
+                    console.log("hai");
+                    setwishlistStatus(false)
+                }
+            }).catch((error) => {
+                console.log(error);
+                if (error.response.status === 401) {
+                    Cookies.remove('token')
+                    dispatch(logout())
+                }
+            })
+        }
+
+    }, [product])
 
 
     const handleColorChange = (e) => {
@@ -102,6 +129,54 @@ function ProductDetails() {
             navigate('/login')
         }
     }
+    const handleWishList = () => {
+        if (verified) {
+            if (!wishlistStatus) {
+                instance.patch('/user/addtowishlist', {
+                    productId: product[0]._id
+                }, {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then((res) => {
+                    console.log(res.data);
+                    if (res.data.success) {
+                        setwishlistStatus(true)
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    if (error.response.status === 401) {
+                        Cookies.remove('token')
+                        dispatch(logout())
+                    }
+                }
+                )
+            } else {
+                instance.patch('/user/removefromwishlist', {
+                    productId: product[0]._id
+                }, {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then((res) => {
+                    console.log(res.data);
+                    if (res.data.success) {
+                        setwishlistStatus(false)
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    if (error.response.status === 401) {
+                        Cookies.remove('token')
+                        dispatch(logout())
+                    }
+                }
+                )
+            }
+
+        } else {
+            navigate('/login')
+        }
+    }
 
     return (
         <>
@@ -111,7 +186,18 @@ function ProductDetails() {
                         <section className="py-5 ">
                             <div className="container">
                                 <div className="row " style={{ position: "relative" }}>
-                                    <img src={wishlist} alt="" style={{ width: "40px", position: "absolute", top: 0, right: 0 }} />
+                                    {
+
+                                        wishlistStatus ?
+                                            <div onClick={handleWishList} style={{ width: "40px", position: "absolute", top: 0, right: 0 }}>
+                                                <img src={wishlist} alt="" style={{ width: "27px" }} />
+                                            </div>
+                                            :
+                                            <div onClick={handleWishList} style={{ width: "40px", position: "absolute", top: 0, right: 0 }}>
+                                                <img src={nowishlist} alt="" style={{ width: "27px" }} />
+                                            </div>
+                                    }
+
                                     <aside className="col-11 col-lg-5 ">
 
                                         <div className="border rounded-1 mb-3 py-4 d-flex justify-content-center">
@@ -129,7 +215,7 @@ function ProductDetails() {
 
                                                 },
                                                 shouldUsePositiveSpaceLens: true,
-                                               
+
 
                                                 enlargedImagePosition: "over",
 

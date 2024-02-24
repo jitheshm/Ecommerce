@@ -12,7 +12,13 @@ const UserSchema = new mongoose.Schema({
   isVerified: { type: Boolean, required: true },
   password: { type: String, required: true },
   dateOfJoin: { type: String, required: true },
-  wishlist: { type: Array }
+  wishlist: {
+    type: [{
+
+      productVarientId: { type: mongoose.Schema.Types.ObjectId }
+
+    }]
+  }
 
 });
 
