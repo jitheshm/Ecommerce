@@ -1,20 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import logo from '../../assets/logo.png'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../../features/user/userSlice'
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
+import instance from '../../axios';
 function Header() {
     const { verified } = useSelector((state) => state.user)
     const dispatch = useDispatch()
     const [search, setSearch] = useState('')
+    const [categories, setcategories] = useState([])
     const navigate = useNavigate()
+
+    useEffect(() => {
+        instance.get('/user/categories').then((res) => {
+            setcategories(res.data.data)
+
+        })
+    }, [])
+
     const handleSearch = () => {
         if (search === '') {
             return
-        }else
-        navigate(`/search/${search}`)
+        } else
+            navigate(`/search/${search}`)
+    }
+
+    const handleCategoryChange=(category)=>{
+        navigate(`/search/${category.target.value}`)
     }
     return (
         <>
@@ -55,12 +69,15 @@ function Header() {
                             {/* /LOGO */}
                             {/* SEARCH BAR */}
                             <div className="col-md-6 ">
-                                <div className="header-search">  
+                                <div className="header-search">
                                     <form>
-                                        <select className="input-select">
-                                            <option value={0}>All Categories</option>
-                                            <option value={1}>Category 01</option>
-                                            <option value={1}>Category 02</option>
+                                        <select className="input-select" onChange={handleCategoryChange}>
+                                            <option value="" selected disabled hidden>Categories</option>
+                                            {
+                                                categories.map((category) => {
+                                                    return <option key={category.category} value={category.id}>{category.category}</option>
+                                                })
+                                            }
                                         </select>
                                         <input type='text' className="input" placeholder="Search here" value={search} onChange={(e) => {
                                             setSearch(e.target.value)

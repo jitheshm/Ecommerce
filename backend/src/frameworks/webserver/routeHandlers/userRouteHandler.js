@@ -12,6 +12,7 @@ const { validationResult } = require('express-validator');
 const razorpayUtils = require('razorpay/dist/utils/razorpay-utils');
 const { getWallet } = require('../../../adapters/controllers/walletController');
 const { addToWishlist, checkWishlist, removeFromWishlist, getWishlist } = require('../../../adapters/controllers/wishlistController');
+const { getCategory } = require('../../../adapters/controllers/categoryController');
 
 
 
@@ -522,10 +523,19 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    WishlistHandler:async(req,res)=>{
+    WishlistHandler: async (req, res) => {
         try {
-            const wishlist=await getWishlist(new ObjectId(req.user.id))
+            const wishlist = await getWishlist(new ObjectId(req.user.id))
             res.status(200).json({ success: true, data: wishlist })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    fetchCategoryHandler: async (req, res) => {
+        try {
+            const categories = await getCategory()
+            res.status(200).json({ success: true, data: categories })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
