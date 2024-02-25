@@ -24,6 +24,7 @@ import ViewProduct from './pages/ViewProduct';
 import VarientList from './pages/VarientList';
 import OrdersList from './components/OrdersList/OrdersList';
 import ReturnList from './pages/ReturnList';
+import AddCoupon from './pages/AddCoupon';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -103,7 +104,12 @@ function App() {
     {
       path: "/returnorders",
       element: <Layout><ReturnList /></Layout>
+    },
+    {
+      path: "/addcoupon",
+      element: <Layout><AddCoupon /></Layout>
     }
+
 
 
   ])
