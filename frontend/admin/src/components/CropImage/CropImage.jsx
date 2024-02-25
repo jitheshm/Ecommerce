@@ -36,9 +36,9 @@ function CropImage({ src, setImage, setImgPrev, setCropWindow, id, setOldImage }
 
         return {
             width:
-                Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
+                rotation === 0 ? 353 : Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
             height:
-                Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
+                rotation === 0 ? 416 : Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
         }
     }
 
@@ -85,38 +85,38 @@ function CropImage({ src, setImage, setImgPrev, setCropWindow, id, setOldImage }
         // draw rotated image
         ctx.drawImage(image, 0, 0)
 
-        const croppedCanvas = document.createElement('canvas')
+        // const croppedCanvas = document.createElement('canvas')
 
-        const croppedCtx = croppedCanvas.getContext('2d')
+        // const croppedCtx = croppedCanvas.getContext('2d')
 
-        if (!croppedCtx) {
-            return null
-        }
+        // if (!croppedCtx) {
+        //     return null
+        // }
 
-        // Set the size of the cropped canvas
-        croppedCanvas.width = pixelCrop.width
-        croppedCanvas.height = pixelCrop.height
-        console.log(canvas.width, canvas.height);
+        // // Set the size of the cropped canvas
+        // croppedCanvas.width = pixelCrop.width
+        // croppedCanvas.height = pixelCrop.height
+        // console.log(canvas.width, canvas.height);
 
-        // Draw the cropped image onto the new canvas
-        croppedCtx.drawImage(
-            canvas,
-            pixelCrop.x,
-            pixelCrop.y,
-            pixelCrop.width,
-            pixelCrop.height,
-            0,
-            0,
-            pixelCrop.width,
-            pixelCrop.height
-        )
+        // // Draw the cropped image onto the new canvas
+        // croppedCtx.drawImage(
+        //     canvas,
+        //     pixelCrop.x,
+        //     pixelCrop.y,
+        //     pixelCrop.width,
+        //     pixelCrop.height,
+        //     0,
+        //     0,
+        //     pixelCrop.width,
+        //     pixelCrop.height
+        // )
 
         // As Base64 string
         // return croppedCanvas.toDataURL('image/jpeg');
 
         // As a blob
 
-        croppedCanvas.toBlob(async (file) => {
+        canvas.toBlob(async (file) => {
 
             const url = URL.createObjectURL(file)
             setImage(file)
@@ -165,7 +165,7 @@ function CropImage({ src, setImage, setImgPrev, setCropWindow, id, setOldImage }
 
     return (
         <>
-            <div className='cropParent col-10 '>
+            <div className='cropParent col-5 '>
 
 
                 <div className='cropContainer'>
@@ -182,6 +182,8 @@ function CropImage({ src, setImage, setImgPrev, setCropWindow, id, setOldImage }
                         objectFit='contain'
                         restrictPosition={false}
                         cropSize={{ width: 353, height: 416 }}
+                        style={{ containerStyle: { background: 'white' } }}
+
                     />
                 </div>
                 <div className='controls'>

@@ -4,7 +4,7 @@ import instance from '../../axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { BASEURL } from "../../constants/constant.json"
-
+import Resizer from "react-image-file-resizer";
 import CropImage from '../CropImage/CropImage';
 
 function VarientForm({ api, method, title, btnName, proId, id }) {
@@ -32,7 +32,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
   const navigate = useNavigate()
 
 
-  
+
 
   useEffect(() => {
     if (id) {
@@ -55,12 +55,26 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
     }
   }, [])
 
-
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        353,
+        416,
+        "JPEG",
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        'blob'
+      );
+    });
   const handleImageChange = async (setImage, setImgPre, e) => {
 
     setImgError(false)
-    //const image = await resizeFile(e.target.files[0]);
-    const image = e.target.files[0]
+    const image = await resizeFile(e.target.files[0]);
+    // const image = e.target.files[0]
     //setImage(image);
     console.log("hallo");
     let file = image

@@ -1,9 +1,10 @@
 .cropContainer {
     position: absolute;
-    top: 50px;
-    left: 50px;
-    right: 50px;
+    top: 0;
+    left: 0;
+    right: 0;
     bottom: 100px;
+    
 }
 
 .controls {
@@ -21,7 +22,7 @@
 
 .cropParent {
     background-color: #191C24;
-    height: 80vh;
+    height: 70vh;
     margin-top: 92px !important;
     margin: auto;
     position: relative;
