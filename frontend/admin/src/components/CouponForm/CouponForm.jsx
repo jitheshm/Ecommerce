@@ -63,7 +63,7 @@ function CouponForm({ api, method, id, title, btnName }) {
             url: api,
             data: {
                 id,
-                data
+                ...data
 
             },
             headers: {

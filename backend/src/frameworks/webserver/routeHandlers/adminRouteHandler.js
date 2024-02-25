@@ -8,6 +8,7 @@ const fs = require('fs');
 const { categoryAdd, categoryUpdate, categoryDelete, getCategory, getSpecificCategory } = require('../../../adapters/controllers/categoryController');
 const { ordersList, changeStatus, returnOrdersList, changeReturnStatus } = require('../../../adapters/controllers/orderController');
 const { validationResult } = require('express-validator');
+const { addCoupon } = require('../../../adapters/controllers/couponController');
 
 module.exports = {
     loginHandler: async (req, res) => {
@@ -371,12 +372,27 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    orderReturnStatusHandler:async(req,res)=>{
+    orderReturnStatusHandler: async (req, res) => {
         try {
-            
+
             const status = await changeReturnStatus(new ObjectId(req.body.orderId), new ObjectId(req.body.productId), req.body.status)
             console.log(status);
             res.status(200).json({ success: true })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    addCouponHandler: async (req, res) => {
+        try {
+            const valResult = validationResult(req)
+            console.log(valResult.array());
+            if (valResult.isEmpty()) {
+                await addCoupon(req.body)
+                res.status(200).json({ success: true })
+            } else {
+                res.status(400).json({ error: valResult.array() })
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
