@@ -2,12 +2,13 @@ const express = require('express')
 const router = express.Router()
 const authToken = require('../../middlewares/adminAuthToken');
 const fileUpload = require('../../middlewares/fileUpload');
-const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler } = require('../routeHandlers/adminRouteHandler');
+const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler } = require('../routeHandlers/adminRouteHandler');
 const { checkSchema } = require('express-validator');
 const loginValidator = require('../validators/admin/loginValidator');
 const productValidator = require('../validators/admin/productValidator');
 const categoryValidator = require('../validators/admin/categoryValidator');
 const varientValidator = require('../validators/admin/varientValidator');
+const couponValidator = require('../validators/admin/couponValidator');
 
 
 //admin routes
@@ -65,4 +66,7 @@ router.get('/returnorders', authToken, returnordersListHandler)
 
 router.patch('/changeorderstatus', authToken, orderStatusHandler)
 router.patch('/changereturnstatus', authToken, orderReturnStatusHandler)
+
+router.post('/addcoupon',authToken,checkSchema(couponValidator()),addCouponHandler)
+
 module.exports = router
