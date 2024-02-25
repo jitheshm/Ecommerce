@@ -9017,7 +9017,7 @@
     .jsgrid .jsgrid-table .jsgrid-filter-row select[readonly], .jsgrid .jsgrid-table .jsgrid-filter-row input[readonly][type=number], .select2-container--default .select2-selection--single[readonly], .select2-container--default .select2-selection--single .select2-search__field[readonly], .typeahead[readonly],
     .tt-query[readonly],
     .tt-hint[readonly] {
-      background-color: #e9ecef;
+      background-color: #666768;
       opacity: 1; }
     .form-control::file-selector-button, .asColorPicker-input::file-selector-button, .dataTables_wrapper select::file-selector-button, .jsgrid .jsgrid-table .jsgrid-filter-row input[type=text]::file-selector-button,
     .jsgrid .jsgrid-table .jsgrid-filter-row select::file-selector-button, .jsgrid .jsgrid-table .jsgrid-filter-row input[type=number]::file-selector-button, .select2-container--default .select2-selection--single::file-selector-button, .select2-container--default .select2-selection--single .select2-search__field::file-selector-button, .typeahead::file-selector-button,
