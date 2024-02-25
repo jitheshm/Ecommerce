@@ -85,38 +85,39 @@ function CropImage({ src, setImage, setImgPrev, setCropWindow, id, setOldImage }
         // draw rotated image
         ctx.drawImage(image, 0, 0)
 
-        // const croppedCanvas = document.createElement('canvas')
+        const croppedCanvas = document.createElement('canvas')
 
-        // const croppedCtx = croppedCanvas.getContext('2d')
+        const croppedCtx = croppedCanvas.getContext('2d')
 
-        // if (!croppedCtx) {
-        //     return null
-        // }
+        if (!croppedCtx) {
+            return null
+        }
 
-        // // Set the size of the cropped canvas
-        // croppedCanvas.width = pixelCrop.width
-        // croppedCanvas.height = pixelCrop.height
-        // console.log(canvas.width, canvas.height);
-
-        // // Draw the cropped image onto the new canvas
-        // croppedCtx.drawImage(
-        //     canvas,
-        //     pixelCrop.x,
-        //     pixelCrop.y,
-        //     pixelCrop.width,
-        //     pixelCrop.height,
-        //     0,
-        //     0,
-        //     pixelCrop.width,
-        //     pixelCrop.height
-        // )
+        // Set the size of the cropped canvas
+        croppedCanvas.width = pixelCrop.width
+        croppedCanvas.height = pixelCrop.height
+        console.log(canvas.width, canvas.height);
+        croppedCtx.fillStyle = 'white';
+        croppedCtx.fillRect(0, 0, croppedCanvas.width, croppedCanvas.height);
+        // Draw the cropped image onto the new canvas
+        croppedCtx.drawImage(
+            canvas,
+            pixelCrop.x,
+            pixelCrop.y,
+            pixelCrop.width,
+            pixelCrop.height,
+            0,
+            0,
+            pixelCrop.width,
+            pixelCrop.height
+        )
 
         // As Base64 string
         // return croppedCanvas.toDataURL('image/jpeg');
 
         // As a blob
 
-        canvas.toBlob(async (file) => {
+         croppedCanvas.toBlob(async (file) => {
 
             const url = URL.createObjectURL(file)
             setImage(file)
