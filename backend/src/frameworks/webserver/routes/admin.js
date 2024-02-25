@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const authToken = require('../../middlewares/adminAuthToken');
 const fileUpload = require('../../middlewares/fileUpload');
-const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler } = require('../routeHandlers/adminRouteHandler');
+const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler } = require('../routeHandlers/adminRouteHandler');
 const { checkSchema } = require('express-validator');
 const loginValidator = require('../validators/admin/loginValidator');
 const productValidator = require('../validators/admin/productValidator');
@@ -24,9 +24,9 @@ router.get('/getusers', authToken, fetchAllUsersHandler)
 
 router.post('/addproduct', authToken, checkSchema(productValidator()), productAddHandler)
 
-router.post('/addvarient', authToken,  fileUpload("products"),checkSchema(varientValidator()), varientAddHandler)
+router.post('/addvarient', authToken, fileUpload("products"), checkSchema(varientValidator()), varientAddHandler)
 
-router.patch('/updatevarient', authToken, fileUpload("products"),checkSchema(varientValidator()), varientUpdateHandler)
+router.patch('/updatevarient', authToken, fileUpload("products"), checkSchema(varientValidator()), varientUpdateHandler)
 
 router.delete('/deletevarient', authToken, varientDeleteHandler)
 
@@ -67,6 +67,10 @@ router.get('/returnorders', authToken, returnordersListHandler)
 router.patch('/changeorderstatus', authToken, orderStatusHandler)
 router.patch('/changereturnstatus', authToken, orderReturnStatusHandler)
 
-router.post('/addcoupon',authToken,checkSchema(couponValidator()),addCouponHandler)
+router.post('/addcoupon', authToken, checkSchema(couponValidator()), addCouponHandler)
+router.get('/getcoupon/:id', authToken, getCouponHandler)
+router.patch('/updatecoupon', authToken, checkSchema(couponValidator()), updateCouponHandler)
+router.get('/getallcoupons', authToken, getallCouponHandler)
+
 
 module.exports = router
