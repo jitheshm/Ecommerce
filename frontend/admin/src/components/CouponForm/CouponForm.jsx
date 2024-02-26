@@ -5,10 +5,13 @@ import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import generateUniqueId from '../../utils/generateUniqueId';
+import DatePicker, { registerLocale } from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const schema = yup
     .object({
@@ -21,10 +24,13 @@ const schema = yup
         description: yup.string().trim().required()
     })
     .required()
+
+
 function CouponForm({ api, method, id, title, btnName }) {
     const {
         register,
         handleSubmit,
+        control,
         watch,
         formState: { errors },
         setValue
@@ -38,18 +44,24 @@ function CouponForm({ api, method, id, title, btnName }) {
     )
     const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     if (id) {
-    //         instance.get(`/admin/getcoupon/${id}`, {
-    //             headers: {
-    //                 Authorization: Cookies.get('token')
-    //             }
-    //         }).then((res) => {
-    //             console.log(res.data.data);
-    //             setCoupon(res.data.data.coupon)
-    //         })
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (id) {
+            instance.get(`/admin/getcoupon/${id}`, {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                console.log(res.data.data);
+                setValue('couponId', res.data.data.couponId)
+                setValue('expireDate', new Date(res.data.data.expireDate))
+                setValue('maxUsers', res.data.data.maxUsers)
+                setValue('discountType', res.data.data.discountType)
+                setValue('discount', res.data.data.discount)
+                setValue('minPurchase', res.data.data.minPurchase)
+                setValue('description', res.data.data.description)
+            })
+        }
+    }, [])
 
     const generateId = () => {
         const id = generateUniqueId()
@@ -72,7 +84,7 @@ function CouponForm({ api, method, id, title, btnName }) {
 
         }).then(() => {
             console.log("success");
-            navigate('/coupon')
+            navigate('/coupons')
 
         })
 
@@ -97,15 +109,35 @@ function CouponForm({ api, method, id, title, btnName }) {
                                                         <p className='text-danger'>{errors.couponId ? 'Invalid coupon id' : ""}</p>
                                                     </div>
                                                 </div>
-                                                <div className='col-3'>
-                                                    <button type='button' className='btn-inverse-primary' onClick={generateId}>Generate New Id</button>
-                                                </div>
+                                                {
+                                                    !id ? <div className='col-3'>
+                                                        <button type='button' className='btn-inverse-primary' onClick={generateId}>Generate New Id</button>
+                                                    </div> : ""
+                                               }
                                             </div>
 
                                             <div className='col-6 row'>
                                                 <label className="col-sm-3 col-md-6 col-form-label">Expire Date</label>
-                                                <div className="col-sm-6">
-                                                    <input type="date" className="form-control text-white"  {...register("expireDate")} />
+                                                <div className="col-md-6">
+                                                    <Controller
+                                                        name="expireDate"
+                                                        control={control}
+                                                        rules={{ required: 'Date is required' }}
+                                                        render={({ field, }) => (
+                                                            <DatePicker
+                                                                onChange={(date) => {
+                                                                    console.log(date);
+                                                                    return field.onChange(date)
+                                                                }}
+                                                                selected={field.value}
+                                                                dateFormat="MM/dd/yyyy h:mm aa"
+                                                                timeInputLabel="Time:"
+                                                                showTimeSelect
+                                                                className="form-control text-white"
+
+                                                            />
+                                                        )}
+                                                    />
                                                     <div style={{ height: "30px" }}>
                                                         <p className='text-danger'>{errors.expireDate ? 'Invalid expire date ' : ""}</p>
                                                     </div>

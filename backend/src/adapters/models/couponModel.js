@@ -13,7 +13,13 @@ const CouponSchema = new mongoose.Schema({
     maxUsers: {
         type: Number,
         required: true,
-       
+
+    },
+    usedUsers: {
+        type: Number,
+        required: true,
+        default: 0
+
     },
     discountType: {
         type: String,
@@ -23,12 +29,12 @@ const CouponSchema = new mongoose.Schema({
     discount: {
         type: Number,
         required: true,
-       
+
     },
     minPurchase: {
         type: Number,
         required: true,
-        
+
     },
     description: {
         type: String,

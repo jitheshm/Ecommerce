@@ -8,7 +8,7 @@ const fs = require('fs');
 const { categoryAdd, categoryUpdate, categoryDelete, getCategory, getSpecificCategory } = require('../../../adapters/controllers/categoryController');
 const { ordersList, changeStatus, returnOrdersList, changeReturnStatus } = require('../../../adapters/controllers/orderController');
 const { validationResult } = require('express-validator');
-const { addCoupon, getCoupon, updateCoupon, getAllCoupon } = require('../../../adapters/controllers/couponController');
+const { addCoupon, getCoupon, updateCoupon, getAllCoupon, deleteCoupon } = require('../../../adapters/controllers/couponController');
 
 module.exports = {
     loginHandler: async (req, res) => {
@@ -388,6 +388,7 @@ module.exports = {
             const valResult = validationResult(req)
             console.log(valResult.array());
             if (valResult.isEmpty()) {
+                console.log(req.body);
                 await addCoupon(req.body)
                 res.status(200).json({ success: true })
             } else {
@@ -400,7 +401,7 @@ module.exports = {
     },
     getCouponHandler: async (req, res) => {
         try {
-            const id = new ObjectId(req.params.id)
+            const id = req.params.id
             const result = await getCoupon(id)
             res.status(200).json({ success: true, data: result })
         } catch (error) {
@@ -425,7 +426,7 @@ module.exports = {
     },
     getallCouponHandler: async (req, res) => {
         try {
-            
+
             const result = await getAllCoupon()
             res.status(200).json({ success: true, data: result })
         } catch (error) {
@@ -433,5 +434,19 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
+    handleDeleteCouponHandler: async(req, res) => {
+        try {
+            const status =  await deleteCoupon(req.params.id)
+            if (status) {
+                res.status(200).json({ success: true })
+            }
+            else {
+                res.status(200).json({ success: false, msg: "coupon not found" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    }
 
 }
