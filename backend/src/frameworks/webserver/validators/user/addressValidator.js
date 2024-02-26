@@ -31,7 +31,8 @@ module.exports = () => {
             },
             isMongoId: {
                 errorMessage: 'User ID should be a valid MongoID'
-            }
+            },
+            optional: true
         },
         pincode: {
             trim: true,
