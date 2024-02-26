@@ -120,8 +120,8 @@ function Sidebar() {
                         </a>
                         <div className="collapse" id="coupons">
                             <ul className="nav flex-column sub-menu">
-                                <li className="nav-item"> <a className="nav-link" href="/">View Coupons</a></li>
-                                <li className="nav-item"> <a className="nav-link" href="/">Add Coupons</a></li>
+                                <li className="nav-item"> <Link to={'/coupons'} className="nav-link" >View Coupons</Link></li>
+                                <li className="nav-item"> <Link to={'/addcoupon'} className="nav-link" >Add Coupons</Link></li>
                                 
                             </ul>
                         </div>
