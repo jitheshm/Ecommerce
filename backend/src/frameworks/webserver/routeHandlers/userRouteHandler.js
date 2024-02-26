@@ -127,6 +127,7 @@ module.exports = {
     addAddressHandler: async (req, res) => {
         try {
             const result = validationResult(req);
+            console.log(result.array());
             if (result.isEmpty()) {
                 const status = await addAddress(req.body, req.user.id)
                 console.log(status);
