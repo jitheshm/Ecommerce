@@ -1,5 +1,5 @@
 class Coupon {
-    constructor({ couponId, expireDate, maxUsers, discountType, discount, minPurchase, description }) {
+    constructor({ couponId, expireDate, maxUsers, discountType, discount, minPurchase, description, usedUsers}) {
         this.couponId = couponId;
         this.expireDate = expireDate;
         this.maxUsers = maxUsers;
@@ -7,6 +7,7 @@ class Coupon {
         this.discount = discount;
         this.minPurchase = minPurchase;
         this.description = description;
+        this.usedUsers = usedUsers;
     }
 
 

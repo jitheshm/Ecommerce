@@ -1,4 +1,5 @@
 const addCoupon = require("../../usecase/coupon/addCoupon")
+const deleteCoupon = require("../../usecase/coupon/deleteCoupon")
 const getAllCoupon = require("../../usecase/coupon/getAllCoupon")
 const getCoupon = require("../../usecase/coupon/getCoupon")
 const updateCoupon = require("../../usecase/coupon/updateCoupon")
@@ -16,5 +17,8 @@ module.exports={
     },
     getAllCoupon:async()=>{
         return await getAllCoupon(couponRepository)
+    },
+    deleteCoupon:async(id)=>{
+        return await deleteCoupon(id,couponRepository)
     }
 }

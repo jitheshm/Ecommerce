@@ -25,6 +25,9 @@ import VarientList from './pages/VarientList';
 import OrdersList from './components/OrdersList/OrdersList';
 import ReturnList from './pages/ReturnList';
 import AddCoupon from './pages/AddCoupon';
+import ListCoupon from './pages/ListCoupon';
+import CouponForm from './components/CouponForm/CouponForm';
+import EditCoupon from './pages/EditCoupon';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -108,6 +111,14 @@ function App() {
     {
       path: "/addcoupon",
       element: <Layout><AddCoupon /></Layout>
+    },
+    {
+      path: "/coupons",
+      element: <Layout><ListCoupon /></Layout>
+    },
+    {
+      path: '/editcoupon/:id',
+      element: <Layout><EditCoupon /></Layout>
     }
 
 

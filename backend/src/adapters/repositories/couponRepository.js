@@ -34,5 +34,16 @@ module.exports = {
         } catch (err) {
             throw new Error(err);
         }
+    },
+    deleteCoupon: async (id) => {
+        try {
+            const status = await CouponModel.deleteOne({ couponId: id })
+            if (status.deletedCount === 0) {
+                return false
+            }
+            return true
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }
