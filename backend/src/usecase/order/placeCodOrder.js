@@ -1,8 +1,7 @@
 const Order = require("../../entity/orderEntity")
 
 module.exports = async (orderRepository, addressRepository, cartRepository, productVarientRepository, data) => {
-
-
+    
     const deliveryAddress = await addressRepository.findAddress(data.deliveryAddress)
     console.log(data);
     const { _id, userId, __v, ...address } = deliveryAddress._doc

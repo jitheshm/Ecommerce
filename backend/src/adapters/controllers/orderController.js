@@ -15,13 +15,32 @@ const returnOrdersList = require("../../usecase/order/returnOrdersList")
 const changeReturnStatus = require("../../usecase/order/changeReturnStatus")
 const walletRepository = require("../repositories/walletRepository")
 const refund = require("../../usecase/order/refund")
+const getCoupon = require("../../usecase/coupon/getCoupon")
+const couponRepository = require("../repositories/couponRepository")
+const applyCoupon = require("../../usecase/coupon/applyCoupon")
+const couponClaim = require("../../usecase/coupon/couponClaim")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
-        if (data.paymentMethod === "COD")
-            return await placeCodOrder(orderRepository, addressRepository, cartRepository, productVarientRepository, data)
+        if (data.coupon) {
+            const res = await applyCoupon(data.coupon, couponRepository)
+
+            if (!res)
+                return null
+            else
+                await couponClaim(data.coupon.couponId, userId, couponRepository)
+
+        }
+        let receipt
+        if (data.paymentMethod === "COD") {
+            receipt = await placeCodOrder(orderRepository, addressRepository, cartRepository, productVarientRepository, data)
+
+        }
+
         else
-            return await placeOnlineOrder(orderRepository, addressRepository, razorpayGateway, data, razorpaykey_id, razorpaykey_secret)
+            receipt = await placeOnlineOrder(orderRepository, addressRepository, razorpayGateway, data, razorpaykey_id, razorpaykey_secret)
+
+        return receipt
     },
 
     getOrders: async (userId) => {
@@ -57,5 +76,5 @@ module.exports = {
         else
             return true
     }
-    
+
 }

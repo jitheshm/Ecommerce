@@ -1,5 +1,5 @@
 class Coupon {
-    constructor({ couponId, expireDate, maxUsers, discountType, discount, minPurchase, description, usedUsers}) {
+    constructor({ couponId, expireDate, maxUsers, discountType, discount, minPurchase, description, usedUsers, claimedUsers }) {
         this.couponId = couponId;
         this.expireDate = expireDate;
         this.maxUsers = maxUsers;
@@ -8,12 +8,17 @@ class Coupon {
         this.minPurchase = minPurchase;
         this.description = description;
         this.usedUsers = usedUsers;
+        this.claimedUsers = claimedUsers;
     }
 
 
 
-    isExpired() {
-        return new Date() > this.expirationDate;
+    isValid(id) {
+        console.log(id);
+        if (new Date() > this.expirationDate || this.usedUsers === this.maxUsers || this.claimedUsers.includes(id)) {
+            return false;
+        }
+        return true;
     }
 }
 

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+var Schema = mongoose.Schema
 const CouponSchema = new mongoose.Schema({
     couponId: {
         type: String,
@@ -40,6 +40,11 @@ const CouponSchema = new mongoose.Schema({
         type: String,
         required: true,
 
+    },
+    claimedUsers: {
+        type: [Schema.ObjectId],
+        required: true,
+        default: []
     }
 
 
