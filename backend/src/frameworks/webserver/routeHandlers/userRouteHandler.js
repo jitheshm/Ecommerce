@@ -13,6 +13,7 @@ const razorpayUtils = require('razorpay/dist/utils/razorpay-utils');
 const { getWallet } = require('../../../adapters/controllers/walletController');
 const { addToWishlist, checkWishlist, removeFromWishlist, getWishlist } = require('../../../adapters/controllers/wishlistController');
 const { getCategory } = require('../../../adapters/controllers/categoryController');
+const { applyCoupon } = require('../../../adapters/controllers/couponController');
 
 
 
@@ -537,6 +538,21 @@ module.exports = {
         try {
             const categories = await getCategory()
             res.status(200).json({ success: true, data: categories })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    applyCouponHandler: async (req, res) => {
+        try {
+            const coupon = await applyCoupon(req.body, new ObjectId(req.user.id))
+            console.log(coupon);
+            if (coupon) {
+                res.status(200).json({ success: true, data: coupon })
+            }
+            else {
+                res.status(200).json({ success: false, msg: "invalid coupon" })
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

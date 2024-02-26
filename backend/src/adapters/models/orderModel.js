@@ -6,6 +6,8 @@ const Schema = mongoose.Schema
 const OrderSchema = new mongoose.Schema({
     userId: { type: Schema.ObjectId, required: true },
     orderAmount: { type: Number, required: true },
+    discount: { type: Number, required: true },
+    amountPaid: { type: Number, required: true },
     deliveryAddress: { type: Object, required: true },
     orderDate: { type: String, required: true },
     deliveryDate: { type: String },
@@ -19,7 +21,13 @@ const OrderSchema = new mongoose.Schema({
             returnReason: { type: String, default: "Not Requested" }
         }], required: true
     },
-    coupon: { type: String },
+    coupon: {
+        type: {
+            couponId: { type: String },
+            discount: { type: Number },
+
+        }
+    },
     offer: { type: String },
 
     transactionId: { type: String },

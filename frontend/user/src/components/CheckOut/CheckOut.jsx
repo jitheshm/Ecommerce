@@ -17,7 +17,10 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
     const [discount, setDiscount] = useState(0)
     const [payment, setPayment] = useState('Razorpay')
     const [cartItems, setCartItems] = useState([])
-
+    const [coupon, setCoupon] = useState('')
+    const [applyCoupon, setApplyCoupon] = useState([])
+    const [couponStatus, setCouponStatus] = useState(false)
+    const [couponError, setCouponError] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -160,6 +163,9 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
             deliveryAddress: orderAddress,
             paymentMethod: payment,
             orderAmount: total,
+            discount: discount,
+            amountPaid: total - discount,
+            coupon: applyCoupon,
             orderedItems: cartItems.map((item) => {
                 return {
                     productId: item.products.productId,
@@ -193,6 +199,42 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
             }
         })
     }
+
+    const handleApplyCoupon = () => {
+        instance.post('/user/applycoupon', {
+            couponId: coupon
+        }, {
+            headers: {
+                Authorization: Cookies.get('token')
+            }
+        }).then((res) => {
+            console.log(res);
+            if (res.data.success) {
+                let discountValue
+                if (res.data.data.discountType === 'percentage') {
+                    discountValue = (total * res.data.data.discount) / 100
+                } else {
+                    discountValue = res.data.data.discount
+                }
+                setDiscount(discountValue)
+                setApplyCoupon({
+                    couponId: coupon,
+                    discount: discountValue
+                })
+                setCouponStatus(true)
+                setCouponError('')
+
+            } else {
+                console.log(res.data.msg);
+                setCouponStatus(false)
+                setCouponError(res.data.msg)
+            }
+
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     return (
         <div className='container-fluid pt-5 checkOut'>
             <div className='row ms-4 checkOutContent'>
@@ -232,7 +274,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
 
                     </div>
 
-                    <div className=' p-5 mb-5  right'>
+                    <div className=' p-5 mb-3  right'>
                         <h4><b>Payment Options</b></h4>
 
                         <div className='row py-4 justify-content-center gap-5'>
@@ -259,6 +301,33 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                             </div>
 
                         </div>
+
+                    </div>
+
+                    <div className=' px-5 py-3 mb-5  right'>
+                        
+                            <h4><b><i className="fa-solid fa-plus me-3" />
+                                Add Coupons</b></h4>
+                        
+
+                        <form action="" className='col-12 pb-4'>
+                            <div className='row'>
+                                <div className='col-5'>
+                                    <input type="text" className="form-control my-3" placeholder="Enter coupon code" name='couponCode' value={coupon} onChange={(e) => {
+                                        setCoupon(e.target.value)
+                                    }} />
+                                </div>
+                                {   
+                                    couponStatus && <p className='text-success col-5 p-4' >Coupon applied successfully</p>
+                                }
+                                {
+                                    couponError && <p className='text-danger col-5 p-4' >{couponError}</p>
+                                }
+                            </div>
+                            <button type='button' className='btn primary' onClick={handleApplyCoupon}>Apply</button>
+                        </form>
+
+
 
                     </div>
                 </div>

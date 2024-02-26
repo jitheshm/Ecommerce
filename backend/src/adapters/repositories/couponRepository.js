@@ -45,5 +45,31 @@ module.exports = {
         } catch (error) {
             throw new Error(error);
         }
+    },
+    couponClaim: async (id, userId) => {
+        try {
+            const res = await CouponModel.updateOne(
+                { couponId: id },
+                {
+                    $inc: {
+                        usedUsers: 1,
+                    },
+                    $push: {
+                        claimedUsers: userId,
+                    },
+                }
+            );
+            if (res.modifiedCount === 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (err) {
+            throw new Error(err);
+        }
     }
+
+
+
+
 }

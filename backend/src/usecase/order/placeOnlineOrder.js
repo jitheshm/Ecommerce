@@ -14,6 +14,6 @@ module.exports = async (orderRepository, addressRepository, razorpayGateway, dat
 
 
     console.log(reciept);
-    const razOrder = await razorpayGateway.createOrder(razorpaykey_id, razorpaykey_secret, data.orderAmount, reciept._id,);
+    const razOrder = await razorpayGateway.createOrder(razorpaykey_id, razorpaykey_secret, data.amountPaid, reciept._id,);
     return razOrder;
 }
