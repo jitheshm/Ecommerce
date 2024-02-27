@@ -14,5 +14,35 @@ module.exports = {
         } catch (err) {
             throw new Error(err);
         }
-    }
+    },
+    getOffer: (id) => {
+        try {
+            return OfferModel.findOne({ _id: id });
+        } catch (err) {
+            throw new Error(err);
+        }
+    },
+    updateOffer: async (id, data) => {
+        try {
+            const res = await OfferModel.updateOne({ _id: id }, { $set: { ...data } });
+            if (res.modifiedCount === 0) {
+                return false
+            } else
+                return true
+
+        } catch (error) {
+            throw new Error(error);
+        }
+    },
+    deleteOffer: async (id) => {
+        try {
+            const status = await OfferModel.deleteOne({ _id: id }) 
+            if (status.deletedCount === 0) {
+                return false
+            }
+            return true
+        } catch (error) {
+            throw new Error(error);
+        }
+    },
 }

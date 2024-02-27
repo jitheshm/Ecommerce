@@ -27,14 +27,14 @@ function OffersList() {
 
     const handleDelete = (id) => {
         if (confirm('Are you sure you want to delete this coupon?')) {
-            instance.delete(`/admin/deletecoupon/${id}`, {
+            instance.delete(`/admin/deleteoffer/${id}`, {
                 headers: {
                     Authorization: Cookies.get('token')
                 }
             }).then((res) => {
                 console.log(res);
-                setOffers(offers.filter((coupon) => {
-                    return coupon.couponId !== id
+                setOffers(offers.filter((offer) => {
+                    return offer._id !== id
                 }))
             })
         }
@@ -87,7 +87,7 @@ function OffersList() {
                                                             <td style={{ color: "#bcc0d7" }}>{offer.applicables}</td>
                                                             <td className='d-flex gap-3 justify-content-center' style={{ width: "200px" }}>
 
-                                                                <Link to={`/editcoupon/${offer._id}`} className='btn btn-outline-warning'>Edit</Link>
+                                                                <Link to={`/editoffer/${offer._id}`} className='btn btn-outline-warning'>Edit</Link>
 
 
                                                                 <button className='btn btn-outline-danger' onClick={() => handleDelete(offer._id)}>Delete</button>
