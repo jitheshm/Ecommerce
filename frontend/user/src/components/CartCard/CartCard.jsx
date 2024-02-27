@@ -24,7 +24,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                 setStockError(true)
             }
         })
-    }, [quantity])
+    }, [quantity])    
 
     const handleincrement = () => {
         instance.patch('user/incrementquantity', {
@@ -124,7 +124,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                     <img className="card-img-top " src={BASEURL + "/" + item.varient.imagesUrl[0]} alt="Card image cap" style={{ height: "65px", width: "50px" }} />
                 </div>
                 <div className="card-body pt-4 col-6 ms-2 mt-2">
-                    <h4 className="card-title "><>{item.productDetails[0].productName}</></h4>
+                    <h4 className="card-title "><>{item.productDetails.productName}</></h4>
                     <div className="d-flex flex-row">
                         <div className="text-warning mb-1 me-2">
                             <i className="fa fa-star" />

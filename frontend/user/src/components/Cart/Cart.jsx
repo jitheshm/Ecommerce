@@ -35,6 +35,12 @@ function Cart() {
     })
   }, [refetch])
 
+  // useEffect(() => {
+  //   setDiscount(()=>{
+  //     const offers=cartItems.
+  //   })
+  // },[])
+
   return (
     <>
       <div className='cartContainer'>
