@@ -18,7 +18,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
     const [payment, setPayment] = useState('Razorpay')
     const [cartItems, setCartItems] = useState([])
     const [coupon, setCoupon] = useState('')
-    const [applyCoupon, setApplyCoupon] = useState([])
+    const [applyCoupon, setApplyCoupon] = useState()
     const [couponStatus, setCouponStatus] = useState(false)
     const [couponError, setCouponError] = useState('')
     const dispatch = useDispatch()

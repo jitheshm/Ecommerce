@@ -22,6 +22,7 @@ const couponClaim = require("../../usecase/coupon/couponClaim")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
+        console.log(data);
         if (data.coupon) {
             const obj = {
                 couponId: data.coupon.couponId,
@@ -36,6 +37,7 @@ module.exports = {
 
         }
         let receipt
+        
         if (data.paymentMethod === "COD") {
             receipt = await placeCodOrder(orderRepository, addressRepository, cartRepository, productVarientRepository, data)
 

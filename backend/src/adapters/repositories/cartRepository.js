@@ -98,11 +98,55 @@ module.exports = {
                         as: "productDetails"
                     }
                 }, {
+                    $unwind: "$productDetails"
+                }
+                , {
+                    $lookup: {
+                        from: "offers",
+                        let: { localField1: "$productDetails.categoryId", localField2: "$varient._id" },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $or: [
+                                            { $eq: ["$applicables", "$$localField1"] },
+                                            { $eq: ["$applicables", "$$localField2"] }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        as: "offers"
+                    }
+                }, {
                     $project: {
                         "products": 1,
                         "varient": 1,
                         "productDetails": 1,
-                        "totalPrice": { $multiply: ["$products.quantity", "$varient.salePrice"] }
+                        "offers": 1,
+                        //"totalPrice": { $multiply: ["$products.quantity", "$varient.salePrice"] },
+                        "totalPrice": {
+                            $subtract: [{ $multiply: ["$products.quantity", "$varient.salePrice"] }, {
+                                $sum: {
+                                    $map: {
+                                        input: "$offers", // Iterate over the offers array
+                                        as: "offer",
+                                        in: {
+                                            $cond: {
+                                                if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
+                                                then: {
+                                                    $multiply: [
+                                                        "$$offer.discount", // Percentage value
+                                                        { $divide: ["$varient.salePrice", 100] } // Convert percentage to a decimal
+                                                    ]
+                                                },
+                                                else: "$$offer.discount" // Use the discount amount as is
+                                            }
+                                        }
+                                    }
+                                }
+                            }]
+                        }
                     }
 
                 }
