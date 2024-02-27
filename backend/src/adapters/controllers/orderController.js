@@ -23,7 +23,11 @@ module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
         if (data.coupon) {
-            const res = await applyCoupon(data.coupon, couponRepository)
+            const obj = {
+                couponId: data.coupon.couponId,
+                totalAmount: data.orderAmount
+            }
+            const res = await applyCoupon(obj, userId, couponRepository)
 
             if (!res)
                 return null

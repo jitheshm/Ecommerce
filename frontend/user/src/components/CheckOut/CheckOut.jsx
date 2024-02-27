@@ -179,14 +179,18 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                 Authorization: Cookies.get('token')
             }
         }).then((res) => {
-            if (payment === 'COD') {
-                console.log(res);
-                setOrderReciept(res.data.data)
-                setOrderPlaced(true)
-            } else {
-                console.log(res.data.data.id);
-                initiatePayment(res.data.data);
+            if (res.data.success) {
+                if (payment === 'COD') {
+                    console.log(res);
+                    setOrderReciept(res.data.data)
+                    setOrderPlaced(true)
+                } else {
+                    console.log(res.data.data.id);
+                    initiatePayment(res.data.data);
 
+                }
+            } else {
+                console.log(res.data.msg);
             }
 
         }).catch((error) => {
@@ -202,7 +206,8 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
 
     const handleApplyCoupon = () => {
         instance.post('/user/applycoupon', {
-            couponId: coupon
+            couponId: coupon,
+            totalAmount: total
         }, {
             headers: {
                 Authorization: Cookies.get('token')
@@ -233,6 +238,12 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
         }).catch((error) => {
             console.log(error);
         })
+    }
+    const handleRemoveCoupon = () => {
+        setDiscount(0)
+        setCoupon('')
+        setApplyCoupon([])
+        setCouponStatus(false)
     }
 
     return (
@@ -305,10 +316,10 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                     </div>
 
                     <div className=' px-5 py-3 mb-5  right'>
-                        
-                            <h4><b><i className="fa-solid fa-plus me-3" />
-                                Add Coupons</b></h4>
-                        
+
+                        <h4><b><i className="fa-solid fa-plus me-3" />
+                            Add Coupons</b></h4>
+
 
                         <form action="" className='col-12 pb-4'>
                             <div className='row'>
@@ -317,14 +328,16 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                                         setCoupon(e.target.value)
                                     }} />
                                 </div>
-                                {   
+                                {
                                     couponStatus && <p className='text-success col-5 p-4' >Coupon applied successfully</p>
                                 }
                                 {
                                     couponError && <p className='text-danger col-5 p-4' >{couponError}</p>
                                 }
                             </div>
-                            <button type='button' className='btn primary' onClick={handleApplyCoupon}>Apply</button>
+                            {
+                                !couponStatus ? <button type='button' className='btn primary' onClick={handleApplyCoupon}>Apply</button> : <button type='button' className='btn primary' onClick={handleRemoveCoupon}>Remove</button>
+                            }
                         </form>
 
 

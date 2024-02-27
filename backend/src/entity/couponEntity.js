@@ -13,9 +13,9 @@ class Coupon {
 
 
 
-    isValid(id) {
+    isValid(id,amount) {
         console.log(id);
-        if (new Date() > this.expirationDate || this.usedUsers === this.maxUsers || this.claimedUsers.includes(id)) {
+        if (new Date() > this.expirationDate || this.usedUsers === this.maxUsers || this.claimedUsers.includes(id)||this.minPurchase>amount) {
             return false;
         }
         return true;
