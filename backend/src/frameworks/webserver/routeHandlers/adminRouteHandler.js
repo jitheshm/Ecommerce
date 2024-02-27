@@ -9,7 +9,7 @@ const { categoryAdd, categoryUpdate, categoryDelete, getCategory, getSpecificCat
 const { ordersList, changeStatus, returnOrdersList, changeReturnStatus } = require('../../../adapters/controllers/orderController');
 const { validationResult } = require('express-validator');
 const { addCoupon, getCoupon, updateCoupon, getAllCoupon, deleteCoupon } = require('../../../adapters/controllers/couponController');
-const { addOffer } = require('../../../adapters/controllers/offerController');
+const { addOffer, getAllOffers } = require('../../../adapters/controllers/offerController');
 
 module.exports = {
     loginHandler: async (req, res) => {
@@ -465,5 +465,14 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
+    getallOffersHandler: async (req, res) => {
+        try {
 
+            const result = await getAllOffers()
+            res.status(200).json({ success: true, data: result })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    }
 }

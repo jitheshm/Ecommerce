@@ -115,8 +115,8 @@ function OfferForm({ api, method, id, title, btnName }) {
                                                 <label className="col-sm-3 col-md-4 col-form-label">Offer Type</label>
                                                 <div className="col-sm-7">
                                                     <select {...register("offerType")} className="form-control text-white">
-                                                        <option value="amount">Category Offer</option>
-                                                        <option value="percentage">Product Offer</option>
+                                                        <option value="category">Category Offer</option>
+                                                        <option value="product">Product Offer</option>
 
                                                     </select>
                                                     <div style={{ height: "30px" }}>
