@@ -36,7 +36,7 @@ module.exports = {
     },
     deleteOffer: async (id) => {
         try {
-            const status = await OfferModel.deleteOne({ _id: id }) 
+            const status = await OfferModel.deleteOne({ _id: id })
             if (status.deletedCount === 0) {
                 return false
             }
@@ -45,4 +45,14 @@ module.exports = {
             throw new Error(error);
         }
     },
+    getAvailableOffers: async (productId, categoryId) => {
+        try {
+            console.log();
+            const offers = await OfferModel.find({ applicables: { $in: [productId, categoryId] } })
+            console.log(offers);
+            return offers 
+        } catch (err) {
+            throw new Error(err)
+        }
+    }
 }

@@ -23,6 +23,7 @@ function ProductDetails() {
     const [cartStatus, setcartStatus] = useState(false)
     const [stockError, setStockError] = useState(false)
     const [wishlistStatus, setwishlistStatus] = useState(false)
+    const [offers, setOffers] = useState([])
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -86,6 +87,14 @@ function ProductDetails() {
 
     }, [product])
 
+    useEffect(() => {
+        if (product[0])
+            instance.get(`user/availableoffers/${product[0].productDetails[0].categoryId}/${product[0].productId}`).then((res) => {
+                console.log(res.data.data);
+                setOffers(res.data.data);
+            })
+
+    }, [product])
 
     const handleColorChange = (e) => {
         navigate(`/product/${productId}/${e.target.value}`)
@@ -293,8 +302,15 @@ function ProductDetails() {
                                                 <h5><b style={{ color: "black" }}>Available offers</b></h5>
                                                 <p>
                                                     <ul>
-                                                        <li>Bank Offer5% Cashback on Flipkart Axis Bank Card</li>
-                                                        <li>Buy This Product and get ₹500 Off on Next AC Purchase</li>
+                                                        {
+                                                            offers.map((offer) => {
+                                                                return (
+                                                                    <li>{offer.offerTitle}</li>
+                                                                )
+                                                            })
+                                                        }
+                                                        {/* <li>Bank Offer5% Cashback on Flipkart Axis Bank Card</li> */}
+
                                                     </ul>
                                                 </p>
 
