@@ -30,6 +30,7 @@ import CouponForm from './components/CouponForm/CouponForm';
 import EditCoupon from './pages/EditCoupon';
 import AddOffer from './pages/AddOffer';
 import ListOffers from './pages/ListOffers';
+import EditOffer from './pages/EditOffer';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -129,8 +130,11 @@ function App() {
     {
       path: '/offers',
       element: <Layout><ListOffers /></Layout>
-    }
-
+    },
+    {
+      path: '/editoffer/:id',
+      element: <Layout><EditOffer/></Layout>
+    },
 
 
   ])
