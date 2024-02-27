@@ -6,9 +6,40 @@ import { useDispatch } from 'react-redux';
 import { BASEURL } from "../../constants/constant.json"
 function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
     const [quantity, setQuantity] = useState(item.products.quantity)
-
+    const [offers, setOffers] = useState([])
+    const [discount, setDiscount] = useState(0)
+    const [displayOff, setDisplayOff] = useState({})
 
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (item)
+            instance.get(`user/availableoffers/${item.productDetails.categoryId}/${item.products.productId}`).then((res) => {
+                console.log(res.data.data);
+                setOffers(res.data.data);
+                setDiscount(res.data.data.reduce((acc, curr) => {
+                    if (curr.offerType === 'amount') {
+                        return acc + curr.discount
+                    }
+                    else {
+                        return acc + (item.varient.salePrice * curr.discount / 100)
+                    }
+                }, 0))
+
+                setDisplayOff(res.data.data.reduce((acc, curr) => {
+                    if (curr.offerType === 'amount') {
+                        return { amount: acc.amount + curr.discount, percentage: acc.percentage }
+                    } else {
+                        return { amount: acc.amount, percentage: acc.percentage + curr.discount }
+                    }
+                }, {
+                    amount: 0,
+                    percentage: 0
+                }))
+
+            })
+
+    }, [item])
 
 
     useEffect(() => {
@@ -24,7 +55,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                 setStockError(true)
             }
         })
-    }, [quantity])    
+    }, [quantity])
 
     const handleincrement = () => {
         instance.patch('user/incrementquantity', {
@@ -98,7 +129,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
             }).then((res) => {
                 console.log(res);
                 if (res.data.success) {
-                   
+
                     setRefetch((prev) => {
                         return !prev
                     })
@@ -137,9 +168,9 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                             </span>
                         </div>
 
-                    </div>
+                    </div>  
 
-                    <p className="card-text mt-2 row"><h4 className='col-3'><b>₹ {item.varient.salePrice}</b></h4> <b className='col-3' style={{ color: "green" }}>20% OFF</b></p>
+                    <p className="card-text mt-2 row"><h4 className='col-3'><b>₹ {item.varient.salePrice - discount > 0 ? item.varient.salePrice - discount : 0}</b></h4> <b className='col-3' style={{ color: "green" }}>{displayOff.percentage}% {displayOff.percentage > 0 && displayOff.amount > 0 ? <span>+</span> : <span></span>} {displayOff.amount > 0 ? displayOff.amount : ""}&nbsp;OFF</b></p>
                     <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div>
                 </div>
 

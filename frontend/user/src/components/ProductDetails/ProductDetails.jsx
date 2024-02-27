@@ -24,6 +24,8 @@ function ProductDetails() {
     const [stockError, setStockError] = useState(false)
     const [wishlistStatus, setwishlistStatus] = useState(false)
     const [offers, setOffers] = useState([])
+    const [discount, setDiscount] = useState(0)
+    const [displayOff, setDisplayOff] = useState({})
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -92,6 +94,26 @@ function ProductDetails() {
             instance.get(`user/availableoffers/${product[0].productDetails[0].categoryId}/${product[0].productId}`).then((res) => {
                 console.log(res.data.data);
                 setOffers(res.data.data);
+                setDiscount(res.data.data.reduce((acc, curr) => {
+                    if (curr.offerType === 'amount') {
+                        return acc + curr.discount
+                    }
+                    else {
+                        return acc + (product[0].salePrice * curr.discount / 100)
+                    }
+                }, 0))
+
+                setDisplayOff(res.data.data.reduce((acc, curr) => {
+                    if (curr.offerType === 'amount') {
+                        return { amount: acc.amount + curr.discount, percentage: acc.percentage }
+                    } else {
+                        return { amount: acc.amount, percentage: acc.percentage + curr.discount }
+                    }
+                }, {
+                    amount: 0,
+                    percentage: 0
+                }))
+
             })
 
     }, [product])
@@ -283,9 +305,10 @@ function ProductDetails() {
 
                                             </div>
                                             <div className="mb-3 row align-items-center p-3">
-                                                <h3><b className='me-2 '>₹{product[0].salePrice}</b></h3>
-                                                <s className='d-flex' style={{ width: "fit-content" }}>₹{product[0].actualPrice} </s><b className='d-flex' style={{ color: "green", width: "fit-content" }}>20% OFF</b>
-
+                                                <h3><b className='me-2 '>₹{product[0].salePrice - discount > 0 ? product[0].salePrice - discount : 0}</b></h3>
+                                                {
+                                                    displayOff.amount || displayOff.percentage > 0 ? <div className='d-flex'><s className='d-flex' style={{ width: "fit-content" }}>₹{product[0].salePrice} </s> &nbsp;&nbsp;<b className='d-flex' style={{ color: "green", width: "fit-content" }}>{displayOff.percentage}% {displayOff.percentage > 0 && displayOff.amount > 0 ? <span>+</span> : <span></span>} {displayOff.amount > 0 ? displayOff.amount : ""}&nbsp;OFF</b> </div> : ""
+                                                }
                                             </div>
                                             <hr style={{ borderColor: "black" }} />
                                             <div className="row px-4">
