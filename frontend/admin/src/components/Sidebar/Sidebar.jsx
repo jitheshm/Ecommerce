@@ -58,7 +58,7 @@ function Sidebar() {
                             <ul className="nav flex-column sub-menu">
                                 <li className="nav-item"> <Link to='/products' className="nav-link" href="/">View Products</Link></li>
                                 <li className="nav-item"> <Link to='/addproduct' className="nav-link">Add products</Link></li>
-                                
+
                             </ul>
                         </div>
                     </li>
@@ -70,11 +70,11 @@ function Sidebar() {
                             </span>
                             <span className="menu-title">Users</span>
                         </a>
-                        <div className="collapse" id="users"> 
+                        <div className="collapse" id="users">
                             <ul className="nav flex-column sub-menu">
                                 <li className="nav-item"> <Link to='/users' className="nav-link" href="/">View Users</Link></li>
-                                
-                               
+
+
                             </ul>
                         </div>
                     </li>
@@ -90,7 +90,7 @@ function Sidebar() {
                             <ul className="nav flex-column sub-menu">
                                 <li className="nav-item"> <Link to={'/orders'} className="nav-link" >View Orders</Link></li>
                                 <li className="nav-item"> <a className="nav-link" href="/">Return Requests</a></li>
-                                
+
                             </ul>
                         </div>
                     </li>
@@ -103,10 +103,10 @@ function Sidebar() {
                             <span className="menu-title">Categories</span>
                         </a>
                         <div className="collapse" id="categories">
-                            <ul className="nav flex-column sub-menu"> 
+                            <ul className="nav flex-column sub-menu">
                                 <li className="nav-item"> <Link to='/category' className="nav-link" >View Category</Link></li>
                                 <li className="nav-item"> <Link to='/addcategory' className="nav-link" >Add Category</Link></li>
-                                
+
                             </ul>
                         </div>
                     </li>
@@ -122,7 +122,7 @@ function Sidebar() {
                             <ul className="nav flex-column sub-menu">
                                 <li className="nav-item"> <Link to={'/coupons'} className="nav-link" >View Coupons</Link></li>
                                 <li className="nav-item"> <Link to={'/addcoupon'} className="nav-link" >Add Coupons</Link></li>
-                                
+
                             </ul>
                         </div>
                     </li>
@@ -137,9 +137,9 @@ function Sidebar() {
                         </a>
                         <div className="collapse" id="offers">
                             <ul className="nav flex-column sub-menu">
-                                <li className="nav-item"> <a className="nav-link" href="/">View Offers</a></li>
-                                <li className="nav-item"> <a className="nav-link" href="/">Add Offers</a></li>
-                               
+                                <li className="nav-item"> <Link to={'/offers'} className="nav-link" >View Offers</Link></li>
+                                <li className="nav-item"> <Link to={'/addoffer'} className="nav-link" >Add Offers</Link></li>
+
                             </ul>
                         </div>
                     </li>

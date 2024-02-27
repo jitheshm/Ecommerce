@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const authToken = require('../../middlewares/adminAuthToken');
 const fileUpload = require('../../middlewares/fileUpload');
-const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler, handleDeleteCouponHandler } = require('../routeHandlers/adminRouteHandler');
+const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler, handleDeleteCouponHandler, addOfferHandler } = require('../routeHandlers/adminRouteHandler');
 const { checkSchema } = require('express-validator');
 const loginValidator = require('../validators/admin/loginValidator');
 const productValidator = require('../validators/admin/productValidator');
@@ -72,6 +72,13 @@ router.get('/getcoupon/:id', authToken, getCouponHandler)
 router.patch('/updatecoupon', authToken, checkSchema(couponValidator()), updateCouponHandler)
 router.get('/getallcoupons', authToken, getallCouponHandler)
 router.delete(`/deletecoupon/:id`, authToken, handleDeleteCouponHandler)
+
+
+router.post('/addoffer', authToken, addOfferHandler)
+// router.get('/getcoupon/:id', authToken, getCouponHandler)
+// router.patch('/updatecoupon', authToken, checkSchema(couponValidator()), updateCouponHandler)
+// router.get('/getallcoupons', authToken, getallCouponHandler)
+// router.delete(`/deletecoupon/:id`, authToken, handleDeleteCouponHandler)
 
 
 module.exports = router
