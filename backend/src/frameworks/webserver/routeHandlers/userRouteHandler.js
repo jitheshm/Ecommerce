@@ -14,6 +14,7 @@ const { getWallet } = require('../../../adapters/controllers/walletController');
 const { addToWishlist, checkWishlist, removeFromWishlist, getWishlist } = require('../../../adapters/controllers/wishlistController');
 const { getCategory } = require('../../../adapters/controllers/categoryController');
 const { applyCoupon } = require('../../../adapters/controllers/couponController');
+const { getAvailableOffers } = require('../../../adapters/controllers/offerController');
 
 
 
@@ -553,6 +554,15 @@ module.exports = {
             else {
                 res.status(200).json({ success: false, msg: "invalid coupon" })
             }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    getAvailableOffersHandler: async (req, res) => {
+        try {
+            const offers = await getAvailableOffers(new ObjectId(req.params.productId), new ObjectId(req.params.categoryId))
+            res.status(200).json({ success: true, data: offers })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
