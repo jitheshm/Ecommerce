@@ -70,6 +70,10 @@ function CouponForm({ api, method, id, title, btnName }) {
     const onSubmit = (data) => {
 
         console.log(data);
+        if (data.minPurchase < data.discount) {
+            alert('Minimum purchase should be greater than discount')
+            return
+        }
         instance.request({
             method: method,
             url: api,
@@ -113,7 +117,7 @@ function CouponForm({ api, method, id, title, btnName }) {
                                                     !id ? <div className='col-3'>
                                                         <button type='button' className='btn-inverse-primary' onClick={generateId}>Generate New Id</button>
                                                     </div> : ""
-                                               }
+                                                }
                                             </div>
 
                                             <div className='col-6 row'>
@@ -183,7 +187,7 @@ function CouponForm({ api, method, id, title, btnName }) {
                                                 <div className="col-sm-6">
                                                     <input type="number" className="form-control text-white"  {...register("minPurchase")} />
                                                     <div style={{ height: "30px" }}>
-                                                        <p className='text-danger'>{errors.discount ? 'Invalid discount' : ''}</p>
+                                                        <p className='text-danger'>{errors.minPurchase ? 'Invalid minPurchase' : ''}</p>
                                                     </div>
                                                 </div>
                                             </div>
