@@ -143,6 +143,24 @@ function Sidebar() {
                             </ul>
                         </div>
                     </li>
+
+                    <li className="nav-item menu-items">
+                        <a className="nav-link" data-bs-toggle="collapse" href="#report" aria-expanded="false" aria-controls="auth">
+                            <span className="menu-icon">
+                                <i className="fa-solid fa-gift" />
+
+                            </span>
+                            <span className="menu-title">Sales Report</span>
+                            <i className="menu-arrow" />
+                        </a>
+                        <div className="collapse" id="report">
+                            <ul className="nav flex-column sub-menu">
+                                <li className="nav-item"> <Link to={'/salesreport'} className="nav-link" >View Report</Link></li>
+                                
+
+                            </ul>
+                        </div>
+                    </li>
                     {/* <li className="nav-item menu-items">
                         <a className="nav-link" href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
                             <span className="menu-icon">

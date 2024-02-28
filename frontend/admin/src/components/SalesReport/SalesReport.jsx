@@ -35,23 +35,32 @@ function SalesReport() {
 
         } else if (e.target.value == 'Weekly') {
             setStartDate(new Date(new Date().getTime() - 604800000).toISOString().split('T')[0])
-            setEndDate(new Date().toISOString().split('T')[0])
+            let tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
+            console.log(tomorrow);
+
+            setEndDate(tomorrow)
             setFilter(e.target.value)
         } else if (e.target.value == 'Monthly') {
             setStartDate(new Date(new Date().getTime() - 2592000000).toISOString().split('T')[0])
-            setEndDate(new Date().toISOString().split('T')[0])
+            let tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
+            console.log(tomorrow);
+
+            setEndDate(tomorrow)
             setFilter(e.target.value)
         } else if (e.target.value == 'Yearly') {
             setStartDate(new Date(new Date().getTime() - 31536000000).toISOString().split('T')[0])
-            setEndDate(new Date().toISOString().split('T')[0])
+            let tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
+            console.log(tomorrow);
+
+            setEndDate(tomorrow)
             setFilter(e.target.value)
         }
     }
 
     const handleExcel = () => {
-        generateExcel(orders)     
+        generateExcel(orders)
     }
-    const handlePdf=()=>{
+    const handlePdf = () => {
         generatePDF(orders)
     }
 
