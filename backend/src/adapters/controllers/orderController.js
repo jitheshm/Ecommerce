@@ -57,7 +57,14 @@ module.exports = {
         return await getSpecificOrder(orderRepository, orderId, productId)
     },
     changeStatus: async (orderId, userId, productId, orderStatus) => {
-        return await changeStatus(orderRepository, orderId, userId, productId, orderStatus)
+        const order = await changeStatus(orderRepository, orderId, userId, productId, orderStatus)
+        console.log(orderStatus === 'Cancelled' ,order.transactionId != 'Not Paid');
+        if (order && orderStatus === 'Cancelled' && order.transactionId != 'Not Paid') {
+            return await refund(orderId, productId, "", orderRepository, walletRepository,)
+        }
+        else
+            return true
+
     },
     ordersList: async () => {
         return await orderList(orderRepository)

@@ -120,17 +120,19 @@ module.exports = {
     },
     changeOrderStatus: async (orderId, userId, productId, status) => {
         try {
-            const order = await OrderModel.updateMany(
+            const order = await OrderModel.findOneAndUpdate(
                 { _id: orderId, userId: userId },
                 { $set: { "orderedItems.$[elem].deliveryStatus": status } },
-                { arrayFilters: [{ "elem.productId": productId }] }
+                { arrayFilters: [{ "elem.productId": productId }], new: true }
             );
+            console.log("jj");
             console.log(order);
-            if (order.modifiedCount > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return order
+            // if (order) {
+            //     return true;
+            // } else {
+            //     return false;
+            // }
         } catch (error) {
             throw error;
         }
@@ -277,7 +279,7 @@ module.exports = {
                             }
                         }
                     }
-                }, 
+                },
                 {
                     $group: {
                         _id: '$_id.orderDate',
