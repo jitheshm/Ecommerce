@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
+import generateExcel from '../../utils/generateExcel';
 
 function SalesReport() {
 
@@ -46,7 +47,11 @@ function SalesReport() {
         }
     }
 
-    return (   
+    const handleExcel = () => {
+        generateExcel(orders)  
+    }
+
+    return (
         <>
             <div className='pt-5'>
                 <div className="col-lg-11 mt-5 m-auto grid-margin stretch-card">
@@ -76,7 +81,7 @@ function SalesReport() {
                                     Download as:
                                     <div className='ms-3'>
                                         <button className='btn btn-outline-success me-3'> PDF</button>
-                                        <button className='btn btn-outline-success'> Excel</button>
+                                        <button className='btn btn-outline-success' onClick={handleExcel}> Excel</button>
                                     </div>
                                 </div>
                             </div>
