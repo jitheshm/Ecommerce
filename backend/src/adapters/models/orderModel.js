@@ -32,7 +32,7 @@ const OrderSchema = new mongoose.Schema({
     },
     offer: { type: String },
 
-    transactionId: { type: String },
+    transactionId: { type: String, required: true, default: "Not Paid" },
 
 
 });
