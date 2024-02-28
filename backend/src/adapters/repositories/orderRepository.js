@@ -259,7 +259,7 @@ module.exports = {
                     $group: {
                         _id: {
                             _id: "$_id",
-                            orderDate: "$orderDate"
+                            orderDate: { $dateToString: { format: "%Y-%m-%d", date: "$orderDate"}}
                         },
                         ProductsCount: { $sum: 1 },
                         revenue: {
@@ -282,7 +282,7 @@ module.exports = {
                 },
                 {
                     $group: {
-                        _id: '$_id.orderDate',
+                        _id: "$_id.orderDate" ,
                         ProductsCount: { $sum: '$ProductsCount' },
                         revenue: { $sum: '$revenue' },
                         discount: { $sum: '$discount' },
