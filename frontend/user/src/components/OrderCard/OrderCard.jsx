@@ -12,7 +12,7 @@ function OrderCard({ order }) {
                     <h4 className="card-title col-6"><b>{order.productDetails.productName}</b></h4>
 
 
-                    <p className="card-text  col-2">₹ {order.orderedItems.price * order.orderedItems.quantity}</p>
+                    <p className="card-text  col-2">₹ {order.orderedItems.totalprice}</p>
                     {
                         order.orderedItems.returnStatus === 'Not Requested' ?
                             <div className='col-4'>
