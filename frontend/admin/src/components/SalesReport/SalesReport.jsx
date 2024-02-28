@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
 import generateExcel from '../../utils/generateExcel';
+import generatePDF from '../../utils/generatePdf';
 
 function SalesReport() {
 
@@ -48,7 +49,10 @@ function SalesReport() {
     }
 
     const handleExcel = () => {
-        generateExcel(orders)  
+        generateExcel(orders)     
+    }
+    const handlePdf=()=>{
+        generatePDF(orders)
     }
 
     return (
@@ -80,7 +84,7 @@ function SalesReport() {
                                 <div className='col-6 d-flex justify-content-end'>
                                     Download as:
                                     <div className='ms-3'>
-                                        <button className='btn btn-outline-success me-3'> PDF</button>
+                                        <button className='btn btn-outline-success me-3' onClick={handlePdf}> PDF</button>
                                         <button className='btn btn-outline-success' onClick={handleExcel}> Excel</button>
                                     </div>
                                 </div>
