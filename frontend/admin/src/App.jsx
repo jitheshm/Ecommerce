@@ -31,6 +31,7 @@ import EditCoupon from './pages/EditCoupon';
 import AddOffer from './pages/AddOffer';
 import ListOffers from './pages/ListOffers';
 import EditOffer from './pages/EditOffer';
+import SalesReport from './pages/SalesReport';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -135,6 +136,10 @@ function App() {
       path: '/editoffer/:id',
       element: <Layout><EditOffer/></Layout>
     },
+    {
+      path:'/salesreport',
+      element:<Layout><SalesReport/></Layout>
+    }
 
 
   ])
