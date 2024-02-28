@@ -58,8 +58,12 @@ function SalesReport() {
                                             <th>No</th>
                                             <th>Date</th>
                                             <th>Products</th>
+                                            <th>Offer discount</th>
+                                            <th>Coupon discount</th>
+                                            <th>Total discount</th>
                                             <th>Revenue</th>
-                                            <th>Cancelled Products</th>
+
+
 
                                         </tr>
                                     </thead>
@@ -73,8 +77,11 @@ function SalesReport() {
                                                         <td style={{ color: "#6c7293" }}>{index + 1}</td>
                                                         <td style={{ color: "#6c7293" }}>{new Date(order._id).toDateString()}</td>
                                                         <td style={{ color: "#6c7293" }}>{order.ProductsCount}</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.discount}</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.couponDiscount}</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.couponDiscount+order.discount}</td>
                                                         <td style={{ color: "#6c7293" }}>{order.revenue}</td>
-                                                        <td style={{ color: "#6c7293" }}>{order.cancelledProducts}</td>
+                                                        
 
                                                     </tr>
                                                 )

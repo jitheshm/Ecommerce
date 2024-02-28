@@ -170,7 +170,10 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                 return {
                     productId: item.products.productId,
                     quantity: item.products.quantity,
+                    salePrice: item.varient.salePrice,
+                    discount: (item.varient.salePrice * item.products.quantity) - item.totalPrice,
                     totalprice: item.totalPrice,
+
 
                 }
             })
