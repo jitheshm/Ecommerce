@@ -55,11 +55,11 @@ router.get('/tokenverify', authToken, tokenVerifyHandler)
 router.get('/editvarient/:id', authToken, editVarientHandler)
 
 
-router.patch('/changelistproduct', productListChangeHandler)
+router.patch('/changelistproduct',authToken, productListChangeHandler)
 
-router.get('/product/:id', viewProductHandler)
+router.get('/product/:id',authToken, viewProductHandler)
 
-router.get('/getallvarient/:proId', getProductAllVarientHandler)
+router.get('/getallvarient/:proId',authToken, getProductAllVarientHandler)
 
 router.get('/orders', authToken, ordersListHandler)
 router.get('/returnorders', authToken, returnordersListHandler)
