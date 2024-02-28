@@ -124,7 +124,7 @@ module.exports = {
                         "varient": 1,
                         "productDetails": 1,
                         "offers": 1,
-                        //"totalPrice": { $multiply: ["$products.quantity", "$varient.salePrice"] },
+                        //"price": { $multiply: ["$products.quantity", "$varient.salePrice"] },
                         "totalPrice": {
                             $subtract: [{ $multiply: ["$products.quantity", "$varient.salePrice"] }, {
                                 $sum: {

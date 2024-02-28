@@ -15,7 +15,7 @@ const OrderSchema = new mongoose.Schema({
         type: [{
             productId: { type: Schema.ObjectId, required: true },
             quantity: { type: Number, required: true },
-            price: { type: Number, required: true },
+            totalprice: { type: Number, required: true },
             deliveryStatus: { type: String, default: "pending", required: true },
             returnStatus: { type: String, default: "Not Requested" },
             returnReason: { type: String, default: "Not Requested" }

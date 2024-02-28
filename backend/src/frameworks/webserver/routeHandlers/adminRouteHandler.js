@@ -6,7 +6,7 @@ const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, all
 const path = require('path');
 const fs = require('fs');
 const { categoryAdd, categoryUpdate, categoryDelete, getCategory, getSpecificCategory } = require('../../../adapters/controllers/categoryController');
-const { ordersList, changeStatus, returnOrdersList, changeReturnStatus } = require('../../../adapters/controllers/orderController');
+const { ordersList, changeStatus, returnOrdersList, changeReturnStatus, generateSalesReport } = require('../../../adapters/controllers/orderController');
 const { validationResult } = require('express-validator');
 const { addCoupon, getCoupon, updateCoupon, getAllCoupon, deleteCoupon } = require('../../../adapters/controllers/couponController');
 const { addOffer, getAllOffers, getOffer, updateOffer, deleteOffer } = require('../../../adapters/controllers/offerController');
@@ -509,6 +509,19 @@ module.exports = {
             else {
                 res.status(200).json({ success: false, msg: "offer not found" })
             }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    salesReportHandler: async (req, res) => {
+        try {
+            const startDate = req.params.startDate
+            const endDate = req.params.endDate
+
+            const report = await generateSalesReport(startDate, endDate)
+            console.log(report);
+            res.status(200).json({ success: true, data: report })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
