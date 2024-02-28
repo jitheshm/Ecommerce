@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2'
 function CategoryList() {
     const [category, setCategory] = useState([])
     const [search, setSearch] = useState('')
@@ -18,16 +19,30 @@ function CategoryList() {
 
 
     const handleDelete = (id) => {
-        if (confirm('Are you sure you want to delete this user?')) {
-            instance.delete(`/admin/deleteCategory?id=${id}`, {
-                headers: {
-                    Authorization: Cookies.get('token')
-                }
-            }).then((res) => {
-                console.log(res);
-                setCategory(category.filter((obj) => obj._id !== id))
-            })
-        }
+        Swal.fire({
+            title: "Are you sure to delete it?",
+            background: '#191C24',
+            showCancelButton: true,
+            confirmButtonText: "Confirm",
+            customClass: {
+                title: 'text-light',
+                confirmButton: 'danger-btn-btn'
+            }
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                instance.delete(`/admin/deleteCategory?id=${id}`, {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then((res) => {
+                    console.log(res);
+                    setCategory(category.filter((obj) => obj._id !== id))
+                })
+            }
+
+        })
+       
 
     }
 
@@ -38,7 +53,7 @@ function CategoryList() {
     return (
         <>
             <div className='pt-5'>
-                <div className="col-lg-10 mt-5 m-auto grid-margin stretch-card"> 
+                <div className="col-lg-10 mt-5 m-auto grid-margin stretch-card">
                     <div className="card">
                         <div className="card-body">
                             <div className='row align-items-center mb-4'>

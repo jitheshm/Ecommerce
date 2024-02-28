@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
-
+import Swal from 'sweetalert2'
 
 function OffersList() {
 
@@ -26,18 +26,31 @@ function OffersList() {
     }
 
     const handleDelete = (id) => {
-        if (confirm('Are you sure you want to delete this coupon?')) {
-            instance.delete(`/admin/deleteoffer/${id}`, {
-                headers: {
-                    Authorization: Cookies.get('token')
-                }
-            }).then((res) => {
-                console.log(res);
-                setOffers(offers.filter((offer) => {
-                    return offer._id !== id
-                }))
-            })
-        }
+        Swal.fire({
+            title: "Are you sure to delete it?",
+            background: '#191C24',
+            showCancelButton: true,  
+            confirmButtonText: "Confirm",
+            customClass:{
+                title: 'text-light',
+                confirmButton: 'danger-btn-btn'
+            }
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                instance.delete(`/admin/deleteoffer/${id}`, {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then((res) => {
+                    console.log(res);
+                    setOffers(offers.filter((offer) => {
+                        return offer._id !== id
+                    }))
+                })
+            }
+        })
+        
     }
     return (
         <>

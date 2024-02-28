@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2'
 function ProductList() {
     const [products, setProducts] = useState([])
     const [search, setSearch] = useState('')
@@ -18,16 +19,29 @@ function ProductList() {
 
 
     const handleDelete = (id) => {
-        if (confirm('Are you sure you want to delete this user?')) {
-            instance.delete(`/admin/deleteproduct?id=${id}`, {
-                headers: {
-                    Authorization: Cookies.get('token')
-                }
-            }).then((res) => {
-                console.log(res);
-                setProducts(products.filter((product) => product._id !== id))
-            })
-        }
+        Swal.fire({
+            title: "Are you sure to delete it?",
+            background: '#191C24',
+            showCancelButton: true,
+            confirmButtonText: "Confirm",
+            customClass: {
+                title: 'text-light',
+                confirmButton: 'danger-btn-btn'
+            }
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                instance.delete(`/admin/deleteproduct?id=${id}`, {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then((res) => {
+                    console.log(res);
+                    setProducts(products.filter((product) => product._id !== id))
+                })
+            }
+        })
+       
 
     }
 
@@ -101,8 +115,8 @@ function ProductList() {
                                                                 <button className='btn btn-outline-success' onClick={() => {
                                                                     handleListChange(product._id)
                                                                 }}>
-                                                                    {!product.isListed?<span>List</span>:<span>Unlist</span>}
-                                                                    </button>
+                                                                    {!product.isListed ? <span>List</span> : <span>Unlist</span>}
+                                                                </button>
                                                                 {/* <button className='btn btn-outline-success'>List</button>
                                                                 <button className='btn btn-outline-danger' onClick={() => {
                                                                     handleDelete(product._id)
@@ -123,7 +137,7 @@ function ProductList() {
                                                                         <Link to={`/viewproduct/${product._id}`} className="dropdown-item preview-item">
 
                                                                             <div className="preview-item-content">
-                                                                                <p className="preview-subject mb-1">Details</p>  
+                                                                                <p className="preview-subject mb-1">Details</p>
 
                                                                             </div>
 
@@ -146,14 +160,15 @@ function ProductList() {
 
                                                                         </Link>
                                                                         <button className="dropdown-item preview-item" onClick={() => {
-                                                                    handleDelete(product._id)}}>
+                                                                            handleDelete(product._id)
+                                                                        }}>
 
                                                                             <div className="preview-item-content">
                                                                                 <p className="preview-subject mb-1">Delete</p>
 
                                                                             </div>
 
-                                                                        </button> 
+                                                                        </button>
 
                                                                     </div>
                                                                 </div>

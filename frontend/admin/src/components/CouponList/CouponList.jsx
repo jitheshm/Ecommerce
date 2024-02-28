@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
-
+import Swal from 'sweetalert2'
 function CouponList() {
     const [coupons, setCoupons] = useState([])
     const [search, setSearch] = useState("")
@@ -24,18 +24,32 @@ function CouponList() {
     }
 
     const handleDelete = (id) => {
-        if (confirm('Are you sure you want to delete this coupon?')) {
-            instance.delete(`/admin/deletecoupon/${id}`, {
-                headers: {
-                    Authorization: Cookies.get('token')
-                }
-            }).then((res) => {
-                console.log(res);
-                setCoupons(coupons.filter((coupon) => {
-                    return coupon.couponId !== id
-                }))
-            })
-        }
+        Swal.fire({
+            title: "Are you sure to delete it?",
+            background: '#191C24',
+            showCancelButton: true,
+            confirmButtonText: "Confirm",
+            customClass: {
+                title: 'text-light',
+                confirmButton: 'danger-btn-btn'
+            }
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                instance.delete(`/admin/deletecoupon/${id}`, {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then((res) => {
+                    console.log(res);
+                    setCoupons(coupons.filter((coupon) => {
+                        return coupon.couponId !== id
+                    }))
+                })
+            }
+
+        })
+
     }
     return (
         <>

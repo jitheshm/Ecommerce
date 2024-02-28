@@ -10,7 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import generateUniqueId from '../../utils/generateUniqueId';
 import DatePicker, { registerLocale } from "react-datepicker";
-
+import Swal from 'sweetalert2'
 import "react-datepicker/dist/react-datepicker.css";
 
 const schema = yup
@@ -71,7 +71,18 @@ function CouponForm({ api, method, id, title, btnName }) {
 
         console.log(data);
         if (data.minPurchase < data.discount) {
-            alert('Minimum purchase should be greater than discount')
+            Swal.fire({
+                title: "Error!",
+                text: " Discount should be less than minimum purchase",
+                icon: "error",
+                background: '#191C24',
+                color: '#bb2a2f',
+                padding: '1rem',
+                customClass:{
+                    title: 'text-light',
+                    
+                }
+            });
             return
         }
         instance.request({
