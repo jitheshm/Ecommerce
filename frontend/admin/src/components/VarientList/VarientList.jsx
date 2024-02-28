@@ -4,6 +4,7 @@ import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2'
 function VarientList() {
     const [varients, setVarients] = useState([])
     const [search, setSearch] = useState('')
@@ -21,16 +22,29 @@ function VarientList() {
 
 
     const handleDelete = (id) => {
-        if (confirm('Are you sure you want to delete this user?')) {
-            instance.delete(`/admin/deletevarient?id=${id}`, {
-                headers: {
-                    Authorization: Cookies.get('token')
-                }
-            }).then((res) => {
-                console.log(res);
-                setVarients(varients.filter((varientObj) => varientObj._id !== id))
-            })
-        }
+        Swal.fire({
+            title: "Are you sure to delete it?",
+            background: '#191C24',
+            showCancelButton: true,
+            confirmButtonText: "Confirm",
+            customClass: {
+                title: 'text-light',
+                confirmButton: 'danger-btn-btn'
+            }
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                instance.delete(`/admin/deletevarient?id=${id}`, {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then((res) => {
+                    console.log(res);
+                    setVarients(varients.filter((varientObj) => varientObj._id !== id))
+                })
+            }
+        })
+        
 
     }
 

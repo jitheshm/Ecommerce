@@ -20848,3 +20848,7 @@
     text-overflow: ellipsis;
     
   }
+
+  .danger-btn-btn{
+    background-color: #bb2a2f!important;
+  }
