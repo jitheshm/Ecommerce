@@ -75,7 +75,7 @@ function OrdersList() {
                                                         // eslint-disable-next-line react/jsx-key
                                                         <tr >
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order._id}</td>
-                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderDate}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{new Date(order.orderDate).toDateString()}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.productId}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.price}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.deliveryStatus}</td>

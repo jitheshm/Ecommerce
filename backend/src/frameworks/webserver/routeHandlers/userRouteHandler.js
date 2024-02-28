@@ -300,7 +300,7 @@ module.exports = {
         try {
             const data = req.body
             data.deliveryDate = moment().add(10, 'days').format('DD-MM-yyyy')
-            data.orderDate = moment().format('DD-MM-yyyy')
+            data.orderDate = moment().toDate()
             const result = await placeOrder(req.user.id, data, razorpaykey_id, razorpaykey_secret)
             if (result) {
                 res.status(200).json({ success: true, data: result })

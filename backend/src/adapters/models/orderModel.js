@@ -9,7 +9,7 @@ const OrderSchema = new mongoose.Schema({
     discount: { type: Number, required: true },
     amountPaid: { type: Number, required: true },
     deliveryAddress: { type: Object, required: true },
-    orderDate: { type: String, required: true },
+    orderDate: { type: Date, required: true },
     deliveryDate: { type: String },
     orderedItems: {
         type: [{
