@@ -258,6 +258,7 @@ module.exports = {
                     $match: {
                         "productDetails.isListed": true,
                         "productDetails.isDeleted": false,
+                        "isDeleted": false,
 
 
                         $or: [
