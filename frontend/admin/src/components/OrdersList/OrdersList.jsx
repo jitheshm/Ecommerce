@@ -77,7 +77,7 @@ function OrdersList() {
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order._id}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{new Date(order.orderDate).toDateString()}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.productId}</td>
-                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.price}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.totalprice}</td>  
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.deliveryStatus}</td>
 
                                                             <td className='d-flex gap-3 align-items-center justify-content-center ' >

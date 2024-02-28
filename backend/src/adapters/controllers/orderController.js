@@ -19,6 +19,7 @@ const getCoupon = require("../../usecase/coupon/getCoupon")
 const couponRepository = require("../repositories/couponRepository")
 const applyCoupon = require("../../usecase/coupon/applyCoupon")
 const couponClaim = require("../../usecase/coupon/couponClaim")
+const generateSalesReport = require("../../usecase/order/generateSalesReport")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
@@ -37,7 +38,7 @@ module.exports = {
 
         }
         let receipt
-        
+
         if (data.paymentMethod === "COD") {
             receipt = await placeCodOrder(orderRepository, addressRepository, cartRepository, productVarientRepository, data)
 
@@ -81,6 +82,9 @@ module.exports = {
             return await refund(orderId, productId, status, orderRepository, walletRepository,)
         else
             return true
-    }
+    },
+    generateSalesReport: async (startDate, endDate) => {
+        return await generateSalesReport(startDate, endDate, orderRepository)
+    },
 
 }

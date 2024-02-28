@@ -54,7 +54,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                 navigate('/cart')
             }
             setCartItems(res.data.data)
-
+            console.log(res.data.data);
             setTotal(res.data.data.reduce((acc, item) => acc + item.totalPrice, 0))
         }).catch((error) => {
             console.log(error);
@@ -170,7 +170,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                 return {
                     productId: item.products.productId,
                     quantity: item.products.quantity,
-                    price: item.varient.salePrice,
+                    totalprice: item.totalPrice,
 
                 }
             })

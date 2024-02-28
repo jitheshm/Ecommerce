@@ -15,7 +15,8 @@ function SalesReport() {
                 Authorization: Cookies.get('token')
             }
         }).then((res) => {
-            console.log(res);
+            console.log(res.data.data);
+            setOrders(res.data.data)
         })
     }, [startDate, endDate])
 
@@ -56,9 +57,9 @@ function SalesReport() {
                                         <tr>
                                             <th>No</th>
                                             <th>Date</th>
-                                            <th>Orders</th>
+                                            <th>Products</th>
                                             <th>Revenue</th>
-                                            <th>Cancelled Orders</th>
+                                            <th>Cancelled Products</th>
 
                                         </tr>
                                     </thead>
@@ -70,10 +71,10 @@ function SalesReport() {
                                                     // eslint-disable-next-line react/jsx-key
                                                     <tr >
                                                         <td style={{ color: "#6c7293" }}>{index + 1}</td>
-                                                        <td style={{ color: "#6c7293" }}>{order.orderDate}</td>
-                                                        <td style={{ color: "#6c7293" }}>{order.count}</td>
+                                                        <td style={{ color: "#6c7293" }}>{new Date(order._id).toDateString()}</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.ProductsCount}</td>
                                                         <td style={{ color: "#6c7293" }}>{order.revenue}</td>
-                                                        <td style={{ color: "#6c7293" }}>{order.cancelled}</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.cancelledProducts}</td>
 
                                                     </tr>
                                                 )

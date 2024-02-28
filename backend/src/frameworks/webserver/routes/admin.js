@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const authToken = require('../../middlewares/adminAuthToken');
 const fileUpload = require('../../middlewares/fileUpload');
-const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler, handleDeleteCouponHandler, addOfferHandler, getallOffersHandler, getOfferHandler, updateOfferHandler, handleDeleteOfferHandler } = require('../routeHandlers/adminRouteHandler');
+const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler, handleDeleteCouponHandler, addOfferHandler, getallOffersHandler, getOfferHandler, updateOfferHandler, handleDeleteOfferHandler, salesReportHandler } = require('../routeHandlers/adminRouteHandler');
 const { checkSchema } = require('express-validator');
 const loginValidator = require('../validators/admin/loginValidator');
 const productValidator = require('../validators/admin/productValidator');
@@ -79,6 +79,8 @@ router.get('/getalloffers', authToken, getallOffersHandler)
 router.get('/getoffer/:id', authToken, getOfferHandler)
 router.patch('/updateoffer', authToken,  updateOfferHandler)
 router.delete(`/deleteoffer/:id`, authToken, handleDeleteOfferHandler)
+
+router.get('/salesreport/:startDate/:endDate', authToken, salesReportHandler)
 
 
 module.exports = router

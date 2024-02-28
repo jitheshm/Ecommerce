@@ -238,5 +238,43 @@ module.exports = {
         } catch (error) {
             throw error;
         }
+    },
+    generateSalesReport: async (startDate, endDate) => {
+        try {
+            console.log(new Date(startDate), new Date(endDate));
+            const report = await OrderModel.aggregate([
+                {
+                    $match: {
+                        orderDate: {
+                            $gte: new Date(startDate),
+                            $lte: new Date(endDate)
+                        }
+                    }
+                }, {
+                    $unwind: '$orderedItems'
+                },
+                {
+                    $group: {
+                        _id: "$orderDate",
+                        ProductsCount: { $sum: 1 },
+                        revenue: {
+                            $sum: {
+                                $cond: [{ $ne: ["$orderedItems.deliveryStatus", "Cancelled"] }, "$orderedItems.totalprice", 0]
+                            }
+                        },
+                        cancelledProducts: {
+                            $sum: {
+                                $cond: [{ $eq: ["$orderedItems.deliveryStatus", "Cancelled"] }, 1, 0]
+                            }
+                        },
+                    }
+                }
+
+
+            ]).exec()
+            return report
+        } catch (error) {
+            throw error;
+        }
     }
 }
