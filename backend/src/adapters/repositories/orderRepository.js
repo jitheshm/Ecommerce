@@ -255,18 +255,36 @@ module.exports = {
                 },
                 {
                     $group: {
-                        _id: "$orderDate",
+                        _id: {
+                            _id: "$_id",
+                            orderDate: "$orderDate"
+                        },
                         ProductsCount: { $sum: 1 },
                         revenue: {
                             $sum: {
                                 $cond: [{ $ne: ["$orderedItems.deliveryStatus", "Cancelled"] }, "$orderedItems.totalprice", 0]
                             }
                         },
-                        cancelledProducts: {
+                        discount: {
                             $sum: {
-                                $cond: [{ $eq: ["$orderedItems.deliveryStatus", "Cancelled"] }, 1, 0]
+                                $cond: [{ $ne: ["$orderedItems.deliveryStatus", "Cancelled"] }, "$orderedItems.discount", 0]
                             }
+
                         },
+                        couponDiscount: {
+                            $max: {
+                                $cond: [{ $ne: ["$orderedItems.deliveryStatus", "Cancelled"] }, "$discount", 0]
+                            }
+                        }
+                    }
+                }, 
+                {
+                    $group: {
+                        _id: '$_id.orderDate',
+                        ProductsCount: { $sum: '$ProductsCount' },
+                        revenue: { $sum: '$revenue' },
+                        discount: { $sum: '$discount' },
+                        couponDiscount: { $sum: '$couponDiscount' }
                     }
                 }
 
