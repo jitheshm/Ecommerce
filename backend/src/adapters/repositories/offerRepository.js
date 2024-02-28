@@ -48,11 +48,15 @@ module.exports = {
     getAvailableOffers: async (productId, categoryId) => {
         try {
             console.log();
-            const offers = await OfferModel.find({ applicables: { $in: [productId, categoryId] } })
+            const currentDate = new Date();
+            const offers = await OfferModel.find({ 
+                applicables: { $in: [productId, categoryId] },
+                endDate: { $gte: currentDate }
+            });
             console.log(offers);
-            return offers 
+            return offers;
         } catch (err) {
-            throw new Error(err)
+            throw new Error(err);
         }
     }
 }
