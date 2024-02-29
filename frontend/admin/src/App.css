@@ -16028,7 +16028,8 @@
   html {
     overflow-x: hidden;
     padding-right: 0 !important;
-    background-color: #191c24; }
+    /* background-color: #191c24; */
+   }
   
   *:-moz-full-screen,
   *:-webkit-full-screen,
@@ -20325,7 +20326,7 @@
   /* Sidebar */
   .sidebar {
     /* min-height: calc(100vh - 70px); */
-    height: 100vh;
+    /* height: 100vh; */
     background: #191c24;
     font-weight: normal;
     padding: 0;
