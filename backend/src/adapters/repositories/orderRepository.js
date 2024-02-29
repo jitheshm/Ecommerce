@@ -22,7 +22,7 @@ module.exports = {
                 {
                     $match: {
                         userId: userId,
-                        orderStatus: { $ne: 'pending' }
+                        "orderedItems.deliveryStatus": { $ne: 'pending' }
                     }
                 },
                 {
@@ -249,11 +249,17 @@ module.exports = {
                     $match: {
                         orderDate: {
                             $gte: new Date(startDate),
-                            $lte: new Date(endDate)
+                            $lte: new Date(endDate),
+                            
                         }
                     }
                 }, {
                     $unwind: '$orderedItems'
+                },
+                {
+                    $match:{
+                        "orderedItems.deliveryStatus": { $nin: ['Cancelled', 'pending'] }
+                    }
                 },
                 {
                     $group: {
