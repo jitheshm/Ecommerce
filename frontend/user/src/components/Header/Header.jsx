@@ -92,12 +92,12 @@ function Header() {
                                 <div className="header-ctn d-flex">
                                     {/* Wishlist */}
                                     <div>
-                                        <a href="#">
+                                        <Link to={'/profile/wishlist'}>
                                             <i className="fa-regular fa-heart" style={{ color: '#ffffff' }} />
 
                                             <span>Your Wishlist</span>
-                                            <div className="qty">2</div>
-                                        </a>
+                                            {/* <div className="qty">2</div>   */}
+                                        </Link>
 
                                     </div>
                                     {/* /Wishlist */}

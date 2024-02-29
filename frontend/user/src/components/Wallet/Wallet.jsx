@@ -8,7 +8,7 @@ import moment from 'moment'
 function Wallet() {
 
     const [balance, setBalance] = useState(0.00)
-    const [transactions, setTransactions] = useState([{}])
+    const [transactions, setTransactions] = useState([])
     const dispatch = useDispatch()
     useEffect(() => {
         instance.get('/user/wallet', {
