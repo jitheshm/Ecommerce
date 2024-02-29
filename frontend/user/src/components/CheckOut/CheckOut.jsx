@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux'
 import { logout } from '../../features/user/userSlice'
 import { useNavigate } from 'react-router-dom'
+import OrderSummary from '../OrderSummary/OrderSummary'
 function CheckOut({ setOrderPlaced, setOrderReciept }) {
     const [address, setAddress] = useState([])
     const [orderAddress, setOrderAddress] = useState()
@@ -287,6 +288,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
 
 
                     </div>
+                    <OrderSummary items={cartItems} />
 
                     <div className=' p-5 mb-3  right'>
                         <h4><b>Payment Options</b></h4>
