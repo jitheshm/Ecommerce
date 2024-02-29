@@ -74,10 +74,11 @@ function CouponForm({ api, method, id, title, btnName }) {
             Swal.fire({
                 title: "Error!",
                 text: " Discount should be less than minimum purchase",
-                icon: "error",
+                icon: "warning",
                 background: '#191C24',
                 color: '#bb2a2f',
                 padding: '1rem',
+                confirmButtonColor: "#3085d6",
                 customClass:{
                     title: 'text-light',
                     

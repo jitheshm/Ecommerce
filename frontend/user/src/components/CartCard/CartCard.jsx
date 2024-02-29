@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { logout } from '../../features/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { BASEURL } from "../../constants/constant.json"
+import Swal from 'sweetalert2'
 function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
     const [quantity, setQuantity] = useState(item.products.quantity)
     const [offers, setOffers] = useState([])
@@ -118,33 +119,56 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
     }
 
     const handleRemove = () => {
-        if (confirm('Are you sure you want to remove this product from cart?')) {
-            instance.patch('user/deletefromcart', {
-                productId: item.products.productId
-            }, {
-                headers: {
-                    Authorization: Cookies.get('token')
-                },
 
-            }).then((res) => {
-                console.log(res);
-                if (res.data.success) {
 
-                    setRefetch((prev) => {
-                        return !prev
-                    })
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger",
+                actions: 'action-btn'
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true,
+            width: "50rem",
 
-                }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                instance.patch('user/deletefromcart', {
+                    productId: item.products.productId
+                }, {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    },
 
-            }).catch((error) => {
+                }).then((res) => {
+                    console.log(res);
+                    if (res.data.success) {
 
-                console.log(error.response.status);
-                if (error.response.status === 401) {
-                    Cookies.remove('token')
-                    dispatch(logout())
-                }
-            })
-        }
+                        setRefetch((prev) => {
+                            return !prev
+                        })
+
+                    }
+
+                }).catch((error) => {
+
+                    console.log(error.response.status);
+                    if (error.response.status === 401) {
+                        Cookies.remove('token')
+                        dispatch(logout())
+                    }
+                })
+            }
+        })
+        
     }
     return (
         <div className='card mb-3'>
@@ -168,7 +192,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                             </span>
                         </div>
 
-                    </div>  
+                    </div>
 
                     <p className="card-text mt-2 row"><h4 className='col-3'><b>₹ {item.varient.salePrice - discount > 0 ? item.varient.salePrice - discount : 0}</b></h4> <b className='col-3' style={{ color: "green" }}>{displayOff.percentage}% {displayOff.percentage > 0 && displayOff.amount > 0 ? <span>+</span> : <span></span>} {displayOff.amount > 0 ? displayOff.amount : ""}&nbsp;OFF</b></p>
                     <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div>

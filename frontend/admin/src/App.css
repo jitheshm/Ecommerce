@@ -20852,3 +20852,7 @@
   .danger-btn-btn{
     background-color: #bb2a2f!important;
   }
+
+  .action-btn{
+    gap: 5px;
+  }

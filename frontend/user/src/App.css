@@ -398,3 +398,6 @@
     .horizontal-timeline .items .items-list {
     padding-top: 15px;
     }
+    .action-btn{
+      gap: 5px;
+    }
