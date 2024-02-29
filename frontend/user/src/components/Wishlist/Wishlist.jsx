@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import { BASEURL } from '../../constants/constant.json'
 import { logout } from '../../features/user/userSlice';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2'
 function Wishlist() {
     const [wishlist, setWishlist] = useState([])
     const [toogle, setToogle] = useState(false)
@@ -22,27 +23,49 @@ function Wishlist() {
     }, [toogle])
 
     const handleRemove = (id) => {
-        if (confirm('Are you sure you want to remove this product from wishlist')) {
-            instance.patch('/user/removefromwishlist', {
-                productId: id
-            }, {
-                headers: {
-                    Authorization: Cookies.get('token')
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger",
+                actions: 'action-btn'
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true,
+            width: "50rem",
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                instance.patch('/user/removefromwishlist', {
+                    productId: id
+                }, {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then((res) => {
+                    console.log(res.data);
+                    if (res.data.success) {
+                        setToogle(!toogle)
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    if (error.response.status === 401) {
+                        Cookies.remove('token')
+                        dispatch(logout())
+                    }
                 }
-            }).then((res) => {
-                console.log(res.data);
-                if (res.data.success) {
-                    setToogle(!toogle)
-                }
-            }).catch((error) => {
-                console.log(error);
-                if (error.response.status === 401) {
-                    Cookies.remove('token')
-                    dispatch(logout())
-                }
+                )
             }
-            )
-        }
+        })
+
     }
 
     return (

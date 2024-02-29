@@ -26,15 +26,24 @@ function OffersList() {
     }
 
     const handleDelete = (id) => {
-        Swal.fire({
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger",
+                actions: 'action-btn'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
             title: "Are you sure to delete it?",
+            icon: 'warning',
             background: '#191C24',
-            showCancelButton: true,  
+            showCancelButton: true,
             confirmButtonText: "Confirm",
-            customClass:{
-                title: 'text-light',
-                confirmButton: 'danger-btn-btn'
-            }
+            // customClass: {
+            //     title: 'text-light',
+                
+            // }
 
         }).then((result) => {
             if (result.isConfirmed) {

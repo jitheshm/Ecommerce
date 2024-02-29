@@ -5,37 +5,58 @@ import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
-
-function AddressCard({ addrObj, setEdit, setAddress, checkOut=false }) {
-    const dispatch = useDispatch()   
+import Swal from 'sweetalert2'
+function AddressCard({ addrObj, setEdit, setAddress, checkOut = false }) {
+    const dispatch = useDispatch()
 
     const handleEdit = () => {
         setEdit(addrObj._id)
     }
     const handleDelete = () => {
-        if (confirm('Are you sure you want to delete this address?')) {
-            instance.delete(`/user/deleteaddress?id=${addrObj._id}`, {
-                headers: {
-                    Authorization: Cookies.get('token')
-                }
-            }).then((res) => {
-                console.log(res);
-                setAddress((prev) => {
-                    return prev.filter((address) => {
-                        return address._id !== addrObj._id
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger",
+                actions:'action-btn'
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true,
+            width:"50rem",
+            
+        }).then((result) => {
+            if (result.isConfirmed) {
+                instance.delete(`/user/deleteaddress?id=${addrObj._id}`, {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then((res) => {
+                    console.log(res);
+                    setAddress((prev) => {
+                        return prev.filter((address) => {
+                            return address._id !== addrObj._id
+                        })
                     })
+
+                }).catch((error) => {
+                    console.log(error.response.status);
+                    if (error.response.status === 401) {
+                        Cookies.remove('token')
+                        dispatch(logout())
+
+
+                    }
                 })
-
-            }).catch((error) => {
-                console.log(error.response.status);
-                if (error.response.status === 401) {
-                    Cookies.remove('token')
-                    dispatch(logout())
-
-
-                }
-            })
-        }
+            }
+        })
+      
     }
     return (
         <div className=' col-12 ps-0 pe-0  pt-5'>
