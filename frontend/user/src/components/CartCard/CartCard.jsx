@@ -74,6 +74,45 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                 setTotal((prev) => {
                     return prev + item.varient.salePrice
                 })
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "bottom-left",
+                    color: "white",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    padding: "2rem",
+                    background: "#212121",
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;  
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: res.data.msg,
+                    iconColor: "green"
+                });
+            } else {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "bottom-left",
+                    color: "white",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    padding: "2rem",
+                    background: "#212121",
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "info",
+                    title: res.data.msg,
+                    iconColor: "yellow"
+                });
             }
 
         }).catch((error) => {
@@ -104,6 +143,46 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                 setTotal((prev) => {
                     return prev - item.varient.salePrice
                 })
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "bottom-left",
+                    color: "white",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    padding: "2rem",
+                    background: "#212121",
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: res.data.msg,
+                    iconColor: "green"
+                });
+            } else {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "bottom-left",
+                    color: "white",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    padding: "2rem",
+                    background: "#212121",
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "info",
+                    title: res.data.msg,
+                    iconColor: "yellow"
+                });
             }
 
         }).catch((error) => {
@@ -168,7 +247,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                 })
             }
         })
-        
+
     }
     return (
         <div className='card mb-3'>

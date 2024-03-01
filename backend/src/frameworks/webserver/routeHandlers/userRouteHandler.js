@@ -220,12 +220,12 @@ module.exports = {
     },
     incrementQuantityHandler: async (req, res) => {
         try {
-            const status = await changeQuantity(new ObjectId(req.user.id), new ObjectId(req.body.productId), 1)
+            const { status, msg } = await changeQuantity(new ObjectId(req.user.id), new ObjectId(req.body.productId), 1)
             if (status) {
-                res.status(200).json({ success: true })
+                res.status(200).json({ success: true, msg: msg })
             }
             else {
-                res.status(200).json({ success: false, msg: "quantity not updated" })
+                res.status(200).json({ success: false, msg: msg })
             }
         } catch (error) {
             console.log(error);
@@ -234,12 +234,13 @@ module.exports = {
     },
     decrementQuantityHandler: async (req, res) => {
         try {
-            const status = await changeQuantity(new ObjectId(req.user.id), new ObjectId(req.body.productId), -1)
+            const { status, msg } = await changeQuantity(new ObjectId(req.user.id), new ObjectId(req.body.productId), -1)
             if (status) {
-                res.status(200).json({ success: true })
+                res.status(200).json({ success: true, msg: msg })
             }
             else {
-                res.status(200).json({ success: false, msg: "quantity not updated" })
+                console.log(msg);
+                res.status(200).json({ success: false, msg: msg })
             }
         } catch (error) {
             console.log(error);
