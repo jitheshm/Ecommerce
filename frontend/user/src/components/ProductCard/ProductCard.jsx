@@ -36,11 +36,11 @@ function ProductCard({ product }) {
     }, [product])
     return (
         <>
-            <Link to={`/product/${product.productId}/${product.color}`} className="card col-5 col-md-2 mt-5 mt-md-0 mx-2" >
-                <div className='p-3' style={{ height: "188px", width: "150px" }}>
+            <Link to={`/product/${product.productId}/${product.color}`} className="card col-5 col-md-3 col-lg-2 mt-5 mt-md-0 mx-2 d-flex justify-content-center" >
+                <div className='p-3 m-auto' style={{ height: "188px", width: "150px" }}>
                     <img className="card-img-top" src={`${BASEURL}/${product.imagesUrl[0]}`} alt="Card image cap" style={{ height: "100%", objectFit: "contain" }} />
                 </div>
-                <div className="card-body">
+                <div className="card-body text-center">
                     <h5 className="card-title "><b>{product.productDetails[0].productName}</b></h5>
 
                     <p className="card-text mt-2"><b>₹{product.salePrice - discount > 0 ? product.salePrice - discount : 0}</b> <b style={{ color: "green" }}>{displayOff.percentage}% {displayOff.percentage > 0 && displayOff.amount > 0 ? <span>+</span> : <span></span>} {displayOff.amount > 0 ? displayOff.amount : ""}&nbsp;OFF</b></p>
