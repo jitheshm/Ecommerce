@@ -85,7 +85,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                     background: "#212121",
                     didOpen: (toast) => {
                         toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;  
+                        toast.onmouseleave = Swal.resumeTimer;
                     }
                 });
                 Toast.fire({
@@ -253,11 +253,11 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
         <div className='card mb-3'>
 
 
-            <div className=" d-flex flex-row  ">
-                <div className='p-5 col-2 '>
-                    <img className="card-img-top " src={BASEURL + "/" + item.varient.imagesUrl[0]} alt="Card image cap" style={{ height: "65px", width: "50px" }} />
+            <div className=" d-flex flex-row flex-wrap ">
+                <div className='col-5 col-sm-2 py-5 ps-2'>
+                    <img className="card-img-top " src={BASEURL + "/" + item.varient.imagesUrl[0]} alt="Card image cap" style={{ height: "100%", width: "100%", objectFit: "contain" }} />
                 </div>
-                <div className="card-body pt-4 col-6 ms-2 mt-2">
+                <div className="card-body pt-4 col-6 col-md-6 ms-2 mt-2">
                     <h4 className="card-title "><>{item.productDetails.productName}</></h4>
                     <div className="d-flex flex-row">
                         <div className="text-warning mb-1 me-2">
@@ -273,11 +273,11 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
 
                     </div>
 
-                    <p className="card-text mt-2 row"><h4 className='col-3'><b>₹ {item.varient.salePrice - discount > 0 ? item.varient.salePrice - discount : 0}</b></h4> <b className='col-3' style={{ color: "green" }}>{displayOff.percentage}% {displayOff.percentage > 0 && displayOff.amount > 0 ? <span>+</span> : <span></span>} {displayOff.amount > 0 ? displayOff.amount : ""}&nbsp;OFF</b></p>
+                    <p className="card-text mt-2 row"><h4 className='col-md-3'><b>₹ {item.varient.salePrice - discount > 0 ? item.varient.salePrice - discount : 0}</b></h4> <b className='col-md-3' style={{ color: "green" }}>{displayOff.percentage}% {displayOff.percentage > 0 && displayOff.amount > 0 ? <span>+</span> : <span></span>} {displayOff.amount > 0 ? displayOff.amount : ""}&nbsp;OFF</b></p>
                     <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div>
                 </div>
 
-                <div className='col-2 text-end pe-4 pt-4'>
+                <div className='col-2 text-end pe-4 pt-4 d-none d-md-block'>
                     <button className=' pt-0 px-0' onClick={handleRemove} style={{ outline: "none", border: "none", background: "none" }}>
                         <i className="fa-solid fa-trash " style={{ color: '#15161d', fontSize: "19px" }} />
                     </button>
@@ -285,22 +285,31 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
 
             </div>
 
-            <div className='px-5 mb-4'>
-                <div className='row col-6'>
-                    <div className='col-1 d-flex justify-content-center'>
-                        <button className=' pt-0 px-0' onClick={handledecrement} style={{ outline: "none", border: "none", background: "none" }}>
-                            <i className="fa-solid fa-circle-minus" style={{ color: '#15161d', fontSize: "19px" }} />
-                        </button>
+            <div className='px-5 mb-4 row'>
+                <div className='row col-12 col-md-6'>
+                    <div className='row col-8 col-md-12'>
+                        <div className='col-1 d-flex justify-content-center'>
+                            <button className=' pt-0 px-0' onClick={handledecrement} style={{ outline: "none", border: "none", background: "none" }}>
+                                <i className="fa-solid fa-circle-minus" style={{ color: '#15161d', fontSize: "19px" }} />
+                            </button>
+                        </div>
+                        <div className='col-8 col-md-3'>
+                            <input type="text" className='w-100 text-center' value={quantity} readOnly />
+                        </div>
+                        <div className='col-1 d-flex justify-content-center'>
+                            <button className='pt-0' onClick={handleincrement} style={{ outline: "none", border: "none", background: "none" }}>
+                                <i className="fa-solid fa-circle-plus" style={{ color: '#15161d', fontSize: "19px" }} />
+                            </button>
+                        </div>
                     </div>
-                    <div className='col-3'>
-                        <input type="text" className='w-100 text-center' value={quantity} readOnly />
-                    </div>
-                    <div className='col-1 d-flex justify-content-center'>
-                        <button className='pt-0' onClick={handleincrement} style={{ outline: "none", border: "none", background: "none" }}>
-                            <i className="fa-solid fa-circle-plus" style={{ color: '#15161d', fontSize: "19px" }} />
+                    <div className='col-4 d-md-none'>
+                        <button className=' pt-0 px-0 d-flex   ' onClick={handleRemove} style={{ outline: "none", border: "none", background: "none" }}>
+                            
+                            <p className='col-12'>REMOVE</p>
                         </button>
                     </div>
                 </div>
+
             </div>
         </div>
     )

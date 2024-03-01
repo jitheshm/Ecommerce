@@ -43,9 +43,9 @@ function Cart() {
 
   return (
     <>
-      <div className='cartContainer'>
-        <div className='row container-fluid cartContent '>
-          <div className='col-md-7 p-5 mt-5 ms-5 address border '>
+      <div className='cartContainer px-md-3 col-12'>
+        <div className='d-flex flex-wrap container-fluid  col-12'>
+          <div className='col-12 col-lg-7 p-5 mt-5 address border '> 
             {
               cartItems.map((item) => {
                 return (

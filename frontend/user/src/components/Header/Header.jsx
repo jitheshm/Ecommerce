@@ -53,7 +53,7 @@ function Header() {
                 </div>
                 {/* /TOP HEADER */}
                 {/* MAIN HEADER */}
-                <div id="header">
+                <div id="header" className='col-12'>
                     {/* container */}
                     <div className="container-fluid">
                         {/* row */}

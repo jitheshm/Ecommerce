@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 function PriceDetails({ discount, total, itemsCount, stockError, checkOut = false , handleConfirm }) {
     return (
         <>
-            <div className='col-md-4 pt-4  mt-5 ms-5 mb-5 address border cart'>
+            <div className=' col-12 col-md-4 pt-4  mt-5 ms-lg-5 mb-5 address border cart'>
                 <h4><b>PRICE DETAILS</b></h4>
                 <div className='col-10 m-auto mt-5'>
                     <div className='row'>
