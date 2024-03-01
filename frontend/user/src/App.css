@@ -401,3 +401,6 @@
     .action-btn{
       gap: 5px;
     }
+    body{
+      overflow-x: hidden!important;
+    }
