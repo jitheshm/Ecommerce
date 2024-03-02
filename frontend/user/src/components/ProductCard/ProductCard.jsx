@@ -36,7 +36,7 @@ function ProductCard({ product }) {
     }, [product])
     return (
         <>
-            <Link to={`/product/${product.productId}/${product.color}`} className="card col-5 col-md-3 col-lg-2 mt-5 mt-md-0 mx-2 d-flex justify-content-center" >
+            <Link to={`/product/${product.productId}/${product.color}`} className="card col-5 col-md-3 col-lg-2 mt-5 mt-md-0 mx-2 d-flex justify-content-center"style={{ height: "250px", width: "182px" }} >
                 <div className='p-3 m-auto' style={{ height: "188px", width: "150px" }}>
                     <img className="card-img-top" src={`${BASEURL}/${product.imagesUrl[0]}`} alt="Card image cap" style={{ height: "100%", objectFit: "contain" }} />
                 </div>

@@ -229,9 +229,9 @@ function ProductDetails() {
                                             </div>
                                     }
 
-                                    <aside className="col-11 col-lg-5 ">
+                                    <aside className="col-8 col-lg-4 m-auto">
 
-                                        <div className="border rounded-1 mb-3 py-4 d-flex justify-content-center">
+                                        <div className="border rounded-1 mb-3 py-4 d-flex justify-content-center" >
                                             <ReactImageMagnify {...{
                                                 smallImage: {
 
@@ -241,9 +241,9 @@ function ProductDetails() {
                                                 },
                                                 largeImage: {
                                                     src: `${product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage}`,
-                                                    width: 800,
+                                                    width: 1200,
                                                     height: 1000,
-
+                                                    isFluidWidth: false
                                                 },
                                                 shouldUsePositiveSpaceLens: true,
 
