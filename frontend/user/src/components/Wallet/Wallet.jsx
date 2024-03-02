@@ -35,7 +35,7 @@ function Wallet() {
             <div className='col-md-7 '>
                 <div className='px-5 pt-5 address border mt-3 row' style={{ height: "180px" }}>
                     <h4><b>My Wallet</b></h4>
-                    <div className='col-3 border text-white mb-4 text-center' style={{ "backgroundColor": "#1E1F29", borderRadius: "10px" }}>
+                    <div className='col-md-3 col-6 border text-white mb-4 text-center' style={{ "backgroundColor": "#1E1F29", borderRadius: "10px" }}>
 
 
                         <div className='mt-5 text-center'>

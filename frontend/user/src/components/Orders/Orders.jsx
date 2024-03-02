@@ -27,23 +27,33 @@ function Orders() {
     }, [])
     return (
         <>
-            <div className='col-md-7 py-5 address border mt-3'>
+            <div className='col-md-7 py-md-5 address border mt-md-3'>
 
-                <h4><b>Orders</b></h4>
+                <h4 className='d-none d-md-block'><b>Orders</b></h4>
+
+                <div className='left-top m-auto mb-4 row px-5  col-12 d-md-none' style={{ width: "100%", height: "40px" }}>
+
+
+
+                    <div className='col-6 nameContainer ms-4'>
+                        <h4>My Orders</h4>   
+                    </div>
+
+                </div>
 
                 {
-                    orders.map((order)=>{
-                        return(
+                    orders.map((order) => {
+                        return (
                             <>
-                                <OrderCard order={order}/>
+                                <OrderCard order={order} />
                             </>
                         )
                     })
                 }
 
-               
 
-                
+
+
 
 
 

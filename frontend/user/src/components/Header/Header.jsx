@@ -27,12 +27,12 @@ function Header() {
             navigate(`/search/${search}`)
     }
 
-    const handleCategoryChange=(category)=>{
+    const handleCategoryChange = (category) => {
         navigate(`/search/${category.target.value}`)
     }
     return (
         <>
-            <header>
+            <header style={{height:"100px"}}>
                 {/* TOP HEADER */}
                 <div id="top-header" className='d-none d-md-block'>
                     <div className="container">
@@ -68,7 +68,7 @@ function Header() {
                             </div>
                             {/* /LOGO */}
                             {/* SEARCH BAR */}
-                            <div className="col-md-6 ">
+                            <div className="col-md-6 d-none d-md-block">
                                 <div className="header-search">
                                     <form>
                                         <select className="input-select" onChange={handleCategoryChange}>
@@ -88,7 +88,7 @@ function Header() {
                             </div>
                             {/* /SEARCH BAR */}
                             {/* ACCOUNT */}
-                            <div className="col-md-3 ">
+                            <div className="col-md-3 d-none d-md-block ">
                                 <div className="header-ctn d-flex">
                                     {/* Wishlist */}
                                     <div>

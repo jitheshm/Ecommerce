@@ -9,12 +9,12 @@ function Dashboard() {
     return (
         <>
 
-            <div className='container-fluid profile'>
-                <div className='row my-4'>
+            <div className='container-fluid-md profile'>
+                <div className='row my-md-4'>
                    
                    <Sidebar/>
                    <Outlet />
-                </div>
+                </div>   
             </div>
         </>
     )

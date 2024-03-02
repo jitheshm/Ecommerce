@@ -29,6 +29,7 @@ import OrderDetails from './components/OrderDetails/OrderDetails';
 import SearchResults from './components/SearchResults/SearchResults';
 import SearchResult from './pages/SearchResult';
 import Wallet from './pages/Wallet';
+import Account from './components/mobile/Account';
 
 function App() {
     const [loading, setloading] = useState(true)
@@ -73,6 +74,10 @@ function App() {
             path: "/profile",
             element: <Auth><Dashboard /></Auth>,
             children: [
+                {
+                    path: "",
+                    element: <Account />,
+                },
                 {
                     path: "personal",
                     element: <Personal />,

@@ -64,9 +64,9 @@ function AddressCard({ addrObj, setEdit, setAddress, checkOut = false }) {
                 <div className='row col-12 mt-3 ms-2 '>
 
 
-                    <p className='col-1 bg-secondary rounded d-flex align-items-center text-white justify-content-center'>{addrObj.addressType}</p>
+                    <p className='col-2 col-md-1 bg-secondary rounded d-flex align-items-center text-white justify-content-center'>{addrObj.addressType}</p>
 
-                    <p className='col-11 text-end' ><button type='button' className='btn me-4' onClick={handleEdit}>Edit</button> {!checkOut && <button type='button' className='btn' onClick={handleDelete}>Delete</button>}</p>
+                    <p className='col-10 text-end' ><button type='button' className='btn me-4' onClick={handleEdit}>Edit</button> {!checkOut && <button type='button' className='btn' onClick={handleDelete}>Delete</button>}</p>
                 </div>
                 <div className='mt-3' >
                     <div className='d-flex gap-3'>

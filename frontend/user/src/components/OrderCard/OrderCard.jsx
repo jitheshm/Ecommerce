@@ -4,18 +4,18 @@ import { BASEURL } from "../../constants/constant.json"
 function OrderCard({ order }) {
     return (
         <Link to={`/profile/orders/${order._id}/${order.orderedItems.productId}`}  >
-            <div className="card d-flex flex-row align-items-center mb-3">
-                <div className='p-3 col-1 '>
+            <div className="card d-flex flex-row align-items-center mb-3 col-11 m-auto col-md-12">
+                <div className='p-3 col-md-1  '>
                     <img className="card-img-top " src={order ? BASEURL + "/" + order.variants.imagesUrl[0] : ""} alt="Card image cap" style={{ maxHeight: "50px" }} />
                 </div>
                 <div className="card-body col-11 row ms-2">
-                    <h4 className="card-title col-6"><b>{order.productDetails.productName}</b></h4>
+                    <h5 className="card-title col-md-6">{order.productDetails.productName}</h5>
 
 
-                    <p className="card-text  col-2">₹ {order.orderedItems.totalprice}</p>
+                    <p className="card-text  col-2 d-none d-md-block">₹ {order.orderedItems.totalprice}</p>
                     {
                         order.orderedItems.returnStatus === 'Not Requested' ?
-                            <div className='col-4'>
+                            <div className='col-md-4 '>
                                 {
                                     order.orderedItems.deliveryStatus === 'Cancelled' && <p className="text-danger">{order.orderedItems.deliveryStatus}</p>
                                 }
@@ -24,7 +24,7 @@ function OrderCard({ order }) {
                                 }
 
                             </div> :
-                            <div className='col-4'>
+                            <div className='col-4 d-none d-md-block'>
                                 <p className='text-danger'>Return request {order.orderedItems.returnStatus}</p>
                             </div>
                     }

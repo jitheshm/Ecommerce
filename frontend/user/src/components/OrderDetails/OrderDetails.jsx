@@ -69,7 +69,7 @@ function OrderDetails() {
                     !requestForm &&
 
                     <>
-                        <div className='px-5 pt-5 address border mt-3 row' style={{ height: "245px" }}>
+                        <div className='px-5 pt-5 address border mt-3  row' style={{ height: "245px" }}>
                             <div className='col-6'>
                                 <h4><b>Delivery Address</b></h4>
                                 <div>
@@ -109,10 +109,10 @@ function OrderDetails() {
 
 
                         </div>
-                        <div className='px-5 py-5 address border mt-3 row'>
-                            <div className='col-4'>
+                        <div className='px-5 py-5 address border mt-3 mb-5 row'>
+                            <div className='col-md-12'>
                                 <div className="card d-flex flex-row mb-3 mt-3" style={{ border: "none" }}>
-                                    <div className=' col-3 '>
+                                    <div className=' col-4 col-md-2 col-sm-4 '>   
                                         <img className="card-img-top " src={orderDetails && orderDetails.variants ? BASEURL + "/" + orderDetails.variants.imagesUrl[0] : ""} alt="Card image cap" />
                                     </div>
                                     <div className="card-body  col-9 ms-4 pt-0 ">
@@ -124,7 +124,7 @@ function OrderDetails() {
 
                                 </div>
                             </div>
-                            <div className='col-8 d-flex align-items-center justify-content-center'>
+                            <div className='col-md-8 mt-5  d-flex align-items-center justify-content-center'>
 
 
                                 <div className="row col-12">
