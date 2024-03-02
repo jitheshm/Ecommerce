@@ -50,6 +50,11 @@ module.exports = {
                 },
                 {
                     $unwind: '$productDetails'
+                },
+                {
+                    $sort: {
+                        orderDate: -1
+                    }
                 }
 
                 // {
@@ -142,6 +147,10 @@ module.exports = {
             const orders = await OrderModel.aggregate([
                 {
                     $unwind: '$orderedItems'
+                }, {
+                    $sort: {
+                        orderDate: -1
+                    }
                 }
             ])
             console.log(orders);
@@ -190,6 +199,11 @@ module.exports = {
                 {
                     $match: {
                         "orderedItems.returnStatus": { $in: ["pending", "Confirmed", "Returned"] }
+                    }
+                },
+                {
+                    $sort: {
+                        orderDate: -1
                     }
                 }
             ])
@@ -250,14 +264,14 @@ module.exports = {
                         orderDate: {
                             $gte: new Date(startDate),
                             $lte: new Date(endDate),
-                            
+
                         }
                     }
                 }, {
                     $unwind: '$orderedItems'
                 },
                 {
-                    $match:{
+                    $match: {
                         "orderedItems.deliveryStatus": { $nin: ['Cancelled', 'pending'] }
                     }
                 },
@@ -265,7 +279,7 @@ module.exports = {
                     $group: {
                         _id: {
                             _id: "$_id",
-                            orderDate: { $dateToString: { format: "%Y-%m-%d", date: "$orderDate"}}
+                            orderDate: { $dateToString: { format: "%Y-%m-%d", date: "$orderDate" } }
                         },
                         ProductsCount: { $sum: 1 },
                         revenue: {
@@ -288,7 +302,7 @@ module.exports = {
                 },
                 {
                     $group: {
-                        _id: "$_id.orderDate" ,
+                        _id: "$_id.orderDate",
                         ProductsCount: { $sum: '$ProductsCount' },
                         revenue: { $sum: '$revenue' },
                         discount: { $sum: '$discount' },
