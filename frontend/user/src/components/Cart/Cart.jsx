@@ -13,7 +13,7 @@ function Cart() {
   const [discount, setDiscount] = useState(0)
   const [stockError, setStockError] = useState(false)
   const [refetch, setRefetch] = useState(false)
-  
+
   const dispatch = useDispatch()
   useEffect(() => {
     instance.get('/user/cart', {
@@ -43,14 +43,25 @@ function Cart() {
 
   return (
     <>
-      <div className='cartContainer px-md-3 col-12'>
-        <div className='d-flex flex-wrap container-fluid  col-12'>
-          <div className='col-12 col-lg-7 p-5 mt-5 address border '> 
+      <div className='left-top m-auto mb-4 row px-5  col-12 ' style={{ width: "100%", height: "50px",position:"fixed", top:101,left:0,zIndex:10}}>
+
+
+
+        <div className='col-12 nameContainer ms-4'>
+          <h4>My Cart</h4>
+        </div>
+
+      </div>   
+      <div className='cartContainer px-md-3 mt-5 col-12'>
+
+        <div className='d-flex flex-wrap container-fluid-md   col-12'>
+
+          <div className='col-12 col-lg-7 p-5 mt-md-5  address border '>
             {
               cartItems.map((item) => {
                 return (
                   <>
-                    <CartCard key={item.products.productId} item={item} setTotal={setTotal} stockError={stockError} setStockError={setStockError} setRefetch={setRefetch}/>
+                    <CartCard key={item.products.productId} item={item} setTotal={setTotal} stockError={stockError} setStockError={setStockError} setRefetch={setRefetch} />
                   </>
                 )
               })
