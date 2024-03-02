@@ -108,17 +108,25 @@ module.exports = {
                             {
                                 $match: {
                                     $expr: {
-                                        $or: [
-                                            { $eq: ["$applicables", "$$localField1"] },
-                                            { $eq: ["$applicables", "$$localField2"] }
+                                        $and: [
+                                            {
+                                                $or: [
+                                                    { $eq: ["$applicables", "$$localField1"] },
+                                                    { $eq: ["$applicables", "$$localField2"] }
+                                                ]
+                                            },
+                                            { $gt: ["$endDate", new Date()] }
                                         ]
-                                    }
+                                    },
+
+
                                 }
                             }
                         ],
                         as: "offers"
                     }
-                }, {
+                },
+                {
                     $project: {
                         "products": 1,
                         "varient": 1,
@@ -127,24 +135,29 @@ module.exports = {
                         //"price": { $multiply: ["$products.quantity", "$varient.salePrice"] },
                         "totalPrice": {
                             $subtract: [{ $multiply: ["$products.quantity", "$varient.salePrice"] }, {
-                                $sum: {
-                                    $map: {
-                                        input: "$offers", // Iterate over the offers array
-                                        as: "offer",
-                                        in: {
-                                            $cond: {
-                                                if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
-                                                then: {
-                                                    $multiply: [
-                                                        "$$offer.discount", // Percentage value
-                                                        { $divide: ["$varient.salePrice", 100] } // Convert percentage to a decimal
-                                                    ]
-                                                },
-                                                else: "$$offer.discount" // Use the discount amount as is
+                                $multiply: [
+                                    {
+                                        $sum: {
+                                            $map: {
+                                                input: "$offers", // Iterate over the offers array
+                                                as: "offer",
+                                                in: {
+                                                    $cond: {
+                                                        if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
+                                                        then: {
+                                                            $multiply: [
+                                                                "$$offer.discount", // Percentage value
+                                                                { $divide: ["$varient.salePrice", 100] } // Convert percentage to a decimal
+                                                            ]
+                                                        },
+                                                        else: "$$offer.discount" // Use the discount amount as is
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
-                                }
+                                    },
+                                    "$products.quantity"
+                                ]
                             }]
                         }
                     }

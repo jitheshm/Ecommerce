@@ -119,7 +119,7 @@ function OrderDetails() {
                                         <h4 className="card-title "><b>{orderDetails && orderDetails.productDetails ? orderDetails.productDetails.productName : ""}</b></h4>
 
 
-                                        <p className="card-text row mt-4"><h4 className=''><b>₹ {orderDetails && orderDetails.orderedItems ? orderDetails.orderedItems.totalprice/ orderDetails.orderedItems.quantity: ""}</b></h4></p>
+                                        <p className="card-text row mt-4"><h4 className=''><b>₹ {orderDetails && orderDetails.orderedItems ? orderDetails.orderedItems.totalprice/orderDetails.orderedItems.quantity: ""}</b></h4></p>  
                                     </div>
 
                                 </div>

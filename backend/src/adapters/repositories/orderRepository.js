@@ -7,7 +7,7 @@ module.exports = {
             await order.save()
             return {
                 _id: order._id,
-                orderAmount: order.orderAmount,
+                amountPaid: order.amountPaid,
                 orderDate: order.orderDate,
                 transactionId: order.transactionId
             }

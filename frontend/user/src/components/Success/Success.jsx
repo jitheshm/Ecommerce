@@ -16,7 +16,7 @@ function Success({ orderReciept }) {
                                 <h3><b>Order Placed Successfully</b></h3>
                                 <p>Thank you for shopping with us</p>
                                 <p>Order ID: {orderReciept._id}</p>
-                                <p>Amount: {orderReciept.orderAmount}</p>
+                                <p>Amount: {orderReciept.amountPaid}</p>    
                                 <p>Order Date:{orderReciept.orderDate}</p>
                                 <p>Transaction ID:{orderReciept.transactionId}</p>
                             </div>

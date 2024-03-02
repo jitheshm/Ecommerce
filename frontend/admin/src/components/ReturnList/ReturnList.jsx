@@ -79,7 +79,7 @@ function ReturnList() {
 
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.productId}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.returnReason}</td>
-                                                            <td style={{ color: "#6c7293", textAlign: "center", width: "100px" }}>{order.orderedItems.price}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center", width: "100px" }}>{order.orderedItems.totalprice}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.returnStatus}</td>
 
                                                             <td className='d-flex gap-3 ' >

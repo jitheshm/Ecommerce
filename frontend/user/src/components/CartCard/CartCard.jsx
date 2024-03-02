@@ -10,6 +10,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
     const [offers, setOffers] = useState([])
     const [discount, setDiscount] = useState(0)
     const [displayOff, setDisplayOff] = useState({})
+    
 
     const dispatch = useDispatch()
 
@@ -70,10 +71,13 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                 setQuantity((prev) => {
                     return prev + 1
                 })
-
-                setTotal((prev) => {
-                    return prev + item.varient.salePrice
+                setRefetch((prev)=>{
+                    return !prev
+                
                 })
+                // setTotal((prev) => {
+                //     return prev + item.varient.salePrice
+                // })
                 const Toast = Swal.mixin({
                     toast: true,
                     position: "bottom-left",
@@ -140,9 +144,13 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                 setQuantity((prev) => {
                     return prev - 1
                 })
-                setTotal((prev) => {
-                    return prev - item.varient.salePrice
+                setRefetch((prev)=>{
+                    return !prev
+                
                 })
+                // setTotal((prev) => {
+                //     return prev - item.varient.salePrice
+                // })
 
                 const Toast = Swal.mixin({
                     toast: true,
