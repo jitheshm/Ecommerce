@@ -70,16 +70,25 @@ function Wishlist() {
 
     return (
         <>
-            <div className='col-md-7 p-5 address border '>
+            <div className='col-md-7 p-5 address border  '>
 
-                <h4><b>Wishlist</b></h4>
+                <h4 className='d-none d-md-block'><b>Wishlist</b></h4>
+                <div className='left-top m-auto mb-4 row px-5 d-md-none  col-12 ' style={{ width: "100%", height: "50px", position: "fixed", top: 101, left: 0, zIndex: 10 }}>
+
+
+
+                    <div className='col-12 nameContainer ms-4'>
+                        <h4>My Wishlist</h4>
+                    </div>
+
+                </div>
 
 
                 {
                     wishlist.map((item, index) => {
                         return (
                             <Link to={``}  >
-                                <div className="card  mb-3">
+                                <div className="card mt-5 mt-md-0 mb-3">
                                     <div className='d-flex flex-row'>
 
 

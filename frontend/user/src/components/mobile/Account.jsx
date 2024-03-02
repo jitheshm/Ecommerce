@@ -8,8 +8,8 @@ function Account() {
     const dispatch = useDispatch()
     return (
 
-        <div style={{ backgroundColor: "white", height: "100vh" }}>
-            <div className='left-top m-auto mb-4 row px-5 py-4 col-12' style={{ width: "100%", height: "fit-content" }}>
+        <div className='d-md-none' style={{ backgroundColor: "white", height: "100vh" }}>
+            <div className='left-top m-auto mb-4 row px-5 py-4 col-12 d-md-none' style={{ width: "100%", height: "fit-content",position: "fixed", top: 101, left: 0, zIndex: 10 }}>
                 <div className='dp' style={{ backgroundImage: `url(${man})`, backgroundSize: "cover" }}>
 
                 </div>
@@ -17,6 +17,9 @@ function Account() {
                     <p>Hello</p>
                     <b className='fs-3'>Jithesh</b>
                 </div>
+
+            </div>
+            <div className='d-md-none' style={{height:"100px"}}>   
 
             </div>
             <div className='container-fluid'>
