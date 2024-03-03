@@ -8,6 +8,7 @@ import { BASEURL } from "../../constants/constant.json"
 import moment from 'moment'
 import ReturnRequestForm from '../ReturnRequestForm/ReturnRequestForm';
 
+
 function OrderDetails() {
     const [orderDetails, setOrderDetails] = useState({})
     const [toogle, setToogle] = useState(false)
@@ -119,9 +120,10 @@ function OrderDetails() {
                                         <h4 className="card-title "><b>{orderDetails && orderDetails.productDetails ? orderDetails.productDetails.productName : ""}</b></h4>
 
 
-                                        <p className="card-text row mt-4"><h4 className=''><b>₹ {orderDetails && orderDetails.orderedItems ? orderDetails.orderedItems.totalprice : ""} </b> &nbsp; <i className="fa-solid fa-circle-exclamation" style={{fontSize:"14px"}} /> </h4> 
+                                        <p className="card-text row mt-4"><h4 className=''><b>₹ {orderDetails && orderDetails.orderedItems ? orderDetails.orderedItems.totalprice : ""} </b> </h4>
                                             <b style={{ color: "green" }}>offers applied</b></p>
                                     </div>
+
 
                                 </div>
                             </div>
@@ -283,10 +285,70 @@ function OrderDetails() {
 
                             </div>
                         </div>
+
+                        <div className='px-5 pt-5 pb-4 address border mt-1  row' >
+
+
+                            <div className="card-body">
+                                <h5 className="card-title">Price Details</h5>
+                                <hr />
+                                <div className="row">
+                                    <div className=" col-6 col-md-6">
+                                        <h6 className="card-text">Sale Price(1):</h6>
+                                    </div>
+                                    <div className=" col-6 col-md-6 text-right">
+                                        <h6 className="card-text">{orderDetails.orderedItems && orderDetails.orderedItems.salePrice}</h6>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-6 col-md-6">
+                                        <h6 className="card-text"> Discount:</h6>
+                                    </div>
+                                    <div className="col-6 col-md-6 text-right">
+                                        <h6 className="card-text">{orderDetails.orderedItems && orderDetails.orderedItems.discount/orderDetails.orderedItems.quantity}</h6>   
+                                    </div>
+                                </div>
+
+
+                                
+                                <div className="row">
+                                    <div className="col-6 col-md-6">
+                                        <h5 className="card-text">Total Price:</h5>
+                                    </div>
+                                    <div className="col-6 col-md-6 text-right">
+                                        <h5 className="card-text">{orderDetails.orderedItems && orderDetails.orderedItems.totalprice/orderDetails.orderedItems.quantity}</h5>
+                                    </div>
+                                </div>
+                                
+                                <div className="row">
+                                    <div className="col-6 col-md-6">
+                                        <h5 className="card-text">Quantity:</h5>
+                                    </div>
+                                    <div className="col-6 col-md-6 text-right">
+                                        <h5 className="card-text">x{orderDetails.orderedItems && orderDetails.orderedItems.quantity}</h5>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div className="row">
+                                    <div className="col-6 col-md-6">
+                                        <h5 className="card-text">Amount paid:</h5>
+                                    </div>
+                                    <div className="col-6 col-md-6 text-right">
+                                        <h5 className="card-text">{orderDetails.orderedItems && orderDetails.orderedItems.totalprice}</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
                     </>}
                 {
                     requestForm && <ReturnRequestForm orderId={orderId} productId={productId} toogle={toogle} setToogle={setToogle} setrequestForm={setrequestForm} />
                 }
+
             </div >
 
         </>

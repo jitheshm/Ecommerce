@@ -212,19 +212,19 @@ function ProductDetails() {
     return (
         <>
             {
-                loading ? <div>loading...</div> :
+                loading ? <div>loading...</div> :   
                     <div style={{ backgroundColor: "white" }}>
                         <section className="py-5 ">
-                            <div className="container">
+                            <div className="container">   
                                 <div className="row " style={{ position: "relative" }}>
                                     {
 
                                         wishlistStatus ?
-                                            <div onClick={handleWishList} style={{ width: "40px", position: "absolute", top: 0, right: 0 }}>
+                                            <div onClick={handleWishList} style={{ width: "40px",zIndex:9, position: "absolute", top: 0, right: 0 }}>
                                                 <img src={wishlist} alt="" style={{ width: "27px" }} />
                                             </div>
                                             :
-                                            <div onClick={handleWishList} style={{ width: "40px", position: "absolute", top: 0, right: 0 }}>
+                                            <div onClick={handleWishList} style={{ width: "40px",zIndex:9, position: "absolute", top: 0, right: 0 }}>
                                                 <img src={nowishlist} alt="" style={{ width: "27px" }} />
                                             </div>
                                     }
