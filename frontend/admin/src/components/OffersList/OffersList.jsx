@@ -106,7 +106,7 @@ function OffersList() {
                                                             <td style={{ color: "#bcc0d7" }}>{offer.discountType}</td>
                                                             <td style={{ color: "#bcc0d7" }}>{offer.discount}</td>
                                                             <td style={{ color: "#bcc0d7" }}>{offer.offerType}</td>
-                                                            <td style={{ color: "#bcc0d7" }}>{offer.applicables}</td>
+                                                            <td style={{ color: "#bcc0d7" }}>{offer.offerType==='category'?offer.offerCategories[0].category:offer.offerProducts[0].productName}</td>
                                                             <td className='d-flex gap-3 justify-content-center' style={{ width: "200px" }}>
 
                                                                 <Link to={`/editoffer/${offer._id}`} className='btn btn-outline-warning'>Edit</Link>

@@ -477,7 +477,7 @@ module.exports = {
     },
     getOfferHandler: async (req, res) => {
         try {
-            const id = req.params.id
+            const id = new ObjectId(req.params.id)
             const result = await getOffer(id)
             res.status(200).json({ success: true, data: result })
         } catch (error) {
@@ -490,6 +490,10 @@ module.exports = {
             // const valResult = validationResult(req)
             // console.log(valResult.array());
             // if (valResult.isEmpty()) {
+            console.log(req.body);
+            req.body.applicables=req.body.applicables.map((obj)=>{
+                return obj.value
+            })
             await updateOffer(req.body)
             res.status(200).json({ success: true })
             // } else {

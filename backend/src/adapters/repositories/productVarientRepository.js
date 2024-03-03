@@ -130,7 +130,7 @@ module.exports = {
                         from: "offers",
                         let: {
                             localField1: { $arrayElemAt: ["$productDetails.categoryId", 0] },
-                            localField2: "$_id"
+                            localField2: "$productId"
                         },
                         pipeline: [
                             {
@@ -175,6 +175,7 @@ module.exports = {
                         actualPrice: 1,
                         isDeleted: 1,
                         productDetails: 1,
+                        offers: 1,
                         offerPrice: {
                             $subtract: ["$salePrice", {
                                 $max: {
@@ -229,7 +230,7 @@ module.exports = {
                     from: "offers",
                     let: {
                         localField1: { $arrayElemAt: ["$productDetails.categoryId", 0] },
-                        localField2: "$_id"
+                        localField2: "$productId"
                     },
                     pipeline: [
                         {
@@ -262,6 +263,7 @@ module.exports = {
                     actualPrice: 1,
                     isDeleted: 1,
                     productDetails: 1,
+                    offers: 1,
                     offerPrice: {
                         $subtract: ["$salePrice", {
                             $max: {

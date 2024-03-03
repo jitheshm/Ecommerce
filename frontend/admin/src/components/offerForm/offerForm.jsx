@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-
+import Select from 'react-select';
 import DatePicker, { registerLocale } from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,12 +22,13 @@ const schema = yup
         discountType: yup.string().trim().required(),
         discount: yup.number().integer().positive().required(),
         offerType: yup.string().trim().required(),
-        applicables: yup.string().trim().required()
+        applicables: yup.array().min(1, 'Select at least one applicable'),
     })
     .required()
 
 
 function OfferForm({ api, method, id, title, btnName }) {
+    const [options, setOptions] = useState([])
     const {
         register,
         handleSubmit,
@@ -44,6 +45,40 @@ function OfferForm({ api, method, id, title, btnName }) {
     }
     )
     const navigate = useNavigate()
+    const offerType = watch('offerType')
+    useEffect(() => {
+        if (offerType === 'category') {
+            instance.get('/admin/getcategories', {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                console.log(res.data.data);
+                const options = res.data.data.map((category) => {
+                    return {
+                        value: category._id,
+                        label: category.category
+                    }
+                })
+                setOptions(options)
+            })
+        } else {
+            instance.get('/admin/products', {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                console.log(res.data.data);
+                const options = res.data.data.map((product) => {
+                    return {
+                        value: product._id,
+                        label: product.productName
+                    }
+                })
+                setOptions(options)
+            })
+        }
+    }, [offerType])
 
     useEffect(() => {
         if (id) {
@@ -53,17 +88,25 @@ function OfferForm({ api, method, id, title, btnName }) {
                 }
             }).then((res) => {
                 console.log(res.data.data);
-                setValue('offerTitle', res.data.data.offerTitle)
-                setValue('startDate', new Date(res.data.data.startDate))
-                setValue('endDate', new Date(res.data.data.endDate))
-                setValue('offerDetails', res.data.data.offerDetails)
-                setValue('discountType', res.data.data.discountType)
-                setValue('discount', res.data.data.discount)
-                setValue('offerType', res.data.data.offerType)
-                setValue('applicables', res.data.data.applicables[0])
+                setValue('offerTitle', res.data.data[0].offerTitle)
+                setValue('startDate', new Date(res.data.data[0].startDate))
+                setValue('endDate', new Date(res.data.data[0].endDate))
+                setValue('offerDetails', res.data.data[0].offerDetails)
+                setValue('discountType', res.data.data[0].discountType)
+                setValue('discount', res.data.data[0].discount)
+                setValue('offerType', res.data.data[0].offerType)
+                setValue('applicables', res.data.data.map((obj) => {
+                    return {
+                        value: obj.applicables,
+                        label: obj.offerProducts[0].productName || obj.offerCategories[0].category
+                    }
+                }))
             })
         }
     }, [])
+
+
+
 
 
     const onSubmit = (data) => {
@@ -74,6 +117,7 @@ function OfferForm({ api, method, id, title, btnName }) {
             url: api,
             data: {
                 id,
+
                 ...data
 
             },
@@ -88,6 +132,14 @@ function OfferForm({ api, method, id, title, btnName }) {
         })
 
     }
+
+    // const options = [
+    //     { value: 'apple', label: 'Apple' },
+    //     { value: 'banana', label: 'Banana' },
+    //     { value: 'orange', label: 'Orange' },
+    //     { value: 'grape', label: 'Grape' },
+    //     { value: 'watermelon', label: 'Watermelon' }
+    // ];
     return (
         <>
             <div className='pt-5'>
@@ -213,14 +265,49 @@ function OfferForm({ api, method, id, title, btnName }) {
                                                         <p className='text-danger'>{errors.discount ? 'Invalid discount' : ''}</p>
                                                     </div>
                                                 </div>
-                                            </div>   
+                                            </div>
 
 
 
-                                            <div className='row col-6'>
+                                            <div className='row col-12'>
                                                 <label className="col-sm-3 col-md-5 col-form-label">applicables</label>
                                                 <div className="col-sm-7">
-                                                    <input type="text" className="form-control text-white"  {...register("applicables")} />
+                                                    <Controller
+                                                        name="applicables"
+                                                        control={control}
+                                                        defaultValue={[]}
+                                                        render={({ field }) => (
+                                                            <Select
+                                                                {...field}
+                                                                options={options}
+                                                                isMulti
+                                                                closeMenuOnSelect={false}
+                                                                styles={{
+                                                                    control: (baseStyles, state) => ({
+                                                                        ...baseStyles,
+
+                                                                        backgroundColor: '#191c24',
+                                                                        color: 'white'
+                                                                    }),
+                                                                    menu: (provided) => ({
+                                                                        ...provided,
+                                                                        backgroundColor: '#191c24', // Change the background color of the menu
+                                                                        maxHeight: '100px', // Set a maximum height for the menu container
+                                                                        overflowY: 'auto', // Enable vertical scrolling
+                                                                    }),
+                                                                    option: (provided, state) => ({
+                                                                        ...provided,
+                                                                        backgroundColor: state.isFocused ? '#191c24' : '#191c24', // Change the background color on hover
+                                                                        '&:hover': {
+                                                                            color: "black",
+                                                                            backgroundColor: 'white' // Change the background color on hover
+                                                                        }
+                                                                    })
+                                                                }}
+                                                            />
+                                                        )}
+                                                    />
+                                                    {/* <input type="text" className="form-control text-white"  {...register("applicables")} /> */}
                                                     <div style={{ height: "30px" }}>
                                                         <p className='text-danger'>{errors.applicables ? 'Invalid offer applicable' : ""}</p>
                                                     </div>
