@@ -10,14 +10,59 @@ module.exports = {
     },
     getAllOffers: async () => {
         try {
-            return await OfferModel.find();
+            return await OfferModel.aggregate([
+                {
+                    $unwind: "$applicables"
+                },
+                {
+                    $lookup: {
+                        from: "products",
+                        localField: "applicables",
+                        foreignField: "_id",
+                        as: "offerProducts"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "categories",
+                        localField: "applicables",
+                        foreignField: "_id",
+                        as: "offerCategories"
+                    }
+                }
+            ]);
         } catch (err) {
             throw new Error(err);
         }
     },
-    getOffer: (id) => {
+    getOffer: async (id) => {
         try {
-            return OfferModel.findOne({ _id: id });
+            const offer = await OfferModel.aggregate([
+                {
+                    $match: { _id: id }
+                },
+                {
+                    $unwind: "$applicables"
+                },
+                {
+                    $lookup: {
+                        from: "products",
+                        localField: "applicables",
+                        foreignField: "_id",
+                        as: "offerProducts"
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "categories",
+                        localField: "applicables",
+                        foreignField: "_id",
+                        as: "offerCategories"
+                    }
+                }
+            ]);
+            console.log(offer);
+            return offer;
         } catch (err) {
             throw new Error(err);
         }
@@ -49,7 +94,7 @@ module.exports = {
         try {
             console.log();
             const currentDate = new Date();
-            const offers = await OfferModel.find({ 
+            const offers = await OfferModel.find({
                 applicables: { $in: [productId, categoryId] },
                 endDate: { $gte: currentDate }
             });

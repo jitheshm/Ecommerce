@@ -103,7 +103,7 @@ module.exports = {
                 , {
                     $lookup: {
                         from: "offers",
-                        let: { localField1: "$productDetails.categoryId", localField2: "$varient._id" },
+                        let: { localField1: "$productDetails.categoryId", localField2: "$varient.productId" },
                         pipeline: [
                             {
                                 $match: {
