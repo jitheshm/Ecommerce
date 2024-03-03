@@ -10,12 +10,13 @@ module.exports = async (cartRepository, productVarientRepository, userId, produc
 
 
     const count = await productVarientRepository.countStock(productId)
-    const status = data.canChangeQuantity(count)
-    if(status){
+    console.log(count);
+    const res = data.canChangeQuantity(count)
+    if (res.status) {
         return await cartRepository.addToCart(data)
-    
-    }else{
+
+    } else {
         return false
     }
-    
+
 }
