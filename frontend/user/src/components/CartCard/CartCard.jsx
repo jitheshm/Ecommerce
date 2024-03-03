@@ -8,40 +8,40 @@ import Swal from 'sweetalert2'
 function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
     const [quantity, setQuantity] = useState(item.products.quantity)
     const [offers, setOffers] = useState([])
-    const [discount, setDiscount] = useState(0)
-    const [displayOff, setDisplayOff] = useState({})
-    
+    //const [discount, setDiscount] = useState(0)
+    // const [displayOff, setDisplayOff] = useState({})
+
 
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        if (item)
-            instance.get(`user/availableoffers/${item.productDetails.categoryId}/${item.products.productId}`).then((res) => {
-                console.log(res.data.data);
-                setOffers(res.data.data);
-                setDiscount(res.data.data.reduce((acc, curr) => {
-                    if (curr.offerType === 'amount') {
-                        return acc + curr.discount
-                    }
-                    else {
-                        return acc + (item.varient.salePrice * curr.discount / 100)
-                    }
-                }, 0))
+    // useEffect(() => {
+    //     if (item)
+    //         instance.get(`user/availableoffers/${item.productDetails.categoryId}/${item.products.productId}`).then((res) => {
+    //             console.log(res.data.data);
+    //             setOffers(res.data.data);
+    //             // setDiscount(res.data.data.reduce((acc, curr) => {
+    //             //     if (curr.offerType === 'amount') {
+    //             //         return acc + curr.discount
+    //             //     }
+    //             //     else {
+    //             //         return acc + (item.varient.salePrice * curr.discount / 100)
+    //             //     }
+    //             // }, 0))
 
-                setDisplayOff(res.data.data.reduce((acc, curr) => {
-                    if (curr.offerType === 'amount') {
-                        return { amount: acc.amount + curr.discount, percentage: acc.percentage }
-                    } else {
-                        return { amount: acc.amount, percentage: acc.percentage + curr.discount }
-                    }
-                }, {
-                    amount: 0,
-                    percentage: 0
-                }))
+    //             // setDisplayOff(res.data.data.reduce((acc, curr) => {
+    //             //     if (curr.offerType === 'amount') {
+    //             //         return { amount: acc.amount + curr.discount, percentage: acc.percentage }
+    //             //     } else {
+    //             //         return { amount: acc.amount, percentage: acc.percentage + curr.discount }
+    //             //     }
+    //             // }, {
+    //             //     amount: 0,
+    //             //     percentage: 0
+    //             // }))
 
-            })
+    //         })
 
-    }, [item])
+    // }, [item])
 
 
     useEffect(() => {
@@ -71,9 +71,9 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                 setQuantity((prev) => {
                     return prev + 1
                 })
-                setRefetch((prev)=>{
+                setRefetch((prev) => {
                     return !prev
-                
+
                 })
                 // setTotal((prev) => {
                 //     return prev + item.varient.salePrice
@@ -144,9 +144,9 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                 setQuantity((prev) => {
                     return prev - 1
                 })
-                setRefetch((prev)=>{
+                setRefetch((prev) => {
                     return !prev
-                
+
                 })
                 // setTotal((prev) => {
                 //     return prev - item.varient.salePrice
@@ -281,7 +281,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
 
                     </div>
 
-                    <p className="card-text mt-2 row"><h4 className='col-md-3'><b>₹ {item.varient.salePrice - discount > 0 ? item.varient.salePrice - discount : 0}</b></h4> <b className='col-md-3' style={{ color: "green" }}>{displayOff.percentage}% {displayOff.percentage > 0 && displayOff.amount > 0 ? <span>+</span> : <span></span>} {displayOff.amount > 0 ? displayOff.amount : ""}&nbsp;OFF</b></p>
+                    <p className="card-text mt-2 row"><h4 className='col-md-3'><b>₹ {item.totalPrice ? item.totalPrice : item.varient.salePrice}</b></h4> </p>
                     <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div>
                 </div>
 
@@ -312,7 +312,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
                     </div>
                     <div className='col-4 d-md-none'>
                         <button className=' pt-0 px-0 d-flex   ' onClick={handleRemove} style={{ outline: "none", border: "none", background: "none" }}>
-                            
+
                             <p className='col-12'>REMOVE</p>
                         </button>
                     </div>

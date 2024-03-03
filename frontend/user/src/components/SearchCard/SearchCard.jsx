@@ -37,8 +37,8 @@ function SearchCard({product}) {
                 </div>
 
                 <div className='col-2'>   
-                    <h3><b>₹ {product.salePrice}</b></h3>
-                    <h5><s>₹ {product.actualPrice}</s><b className='col-3 ms-3' style={{ color: "green" }}>20% OFF</b> </h5>
+                    <h3><b>₹ {product.salePrice-product.discount}</b></h3>    
+                    <h5><s>₹ {product.salePrice}</s><b className='col-3 ms-3' style={{ color: "green" }}>20% OFF</b> </h5>
                 </div>
 
             </div>
