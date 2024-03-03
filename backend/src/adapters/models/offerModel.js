@@ -36,11 +36,11 @@ const OfferSchema = new mongoose.Schema({
         required: true,
 
     },
-    applicables: {
+    applicables: [{
         type: Schema.ObjectId,
         required: true,
 
-    }
+    }]
 
 
 });
