@@ -112,14 +112,15 @@ function OrderDetails() {
                         <div className='px-5 py-5 address border mt-3 mb-5 row'>
                             <div className='col-md-12'>
                                 <div className="card d-flex flex-row mb-3 mt-3" style={{ border: "none" }}>
-                                    <div className=' col-4 col-md-2 col-sm-4 '>   
+                                    <div className=' col-4 col-md-2 col-sm-4 '>
                                         <img className="card-img-top " src={orderDetails && orderDetails.variants ? BASEURL + "/" + orderDetails.variants.imagesUrl[0] : ""} alt="Card image cap" />
                                     </div>
                                     <div className="card-body  col-9 ms-4 pt-0 ">
                                         <h4 className="card-title "><b>{orderDetails && orderDetails.productDetails ? orderDetails.productDetails.productName : ""}</b></h4>
 
 
-                                        <p className="card-text row mt-4"><h4 className=''><b>₹ {orderDetails && orderDetails.orderedItems ? orderDetails.orderedItems.totalprice/orderDetails.orderedItems.quantity: ""}</b></h4></p>  
+                                        <p className="card-text row mt-4"><h4 className=''><b>₹ {orderDetails && orderDetails.orderedItems ? orderDetails.orderedItems.totalprice : ""} </b> &nbsp; <i className="fa-solid fa-circle-exclamation" style={{fontSize:"14px"}} /> </h4> 
+                                            <b style={{ color: "green" }}>offers applied</b></p>
                                     </div>
 
                                 </div>
@@ -286,7 +287,7 @@ function OrderDetails() {
                 {
                     requestForm && <ReturnRequestForm orderId={orderId} productId={productId} toogle={toogle} setToogle={setToogle} setrequestForm={setrequestForm} />
                 }
-            </div>
+            </div >
 
         </>
     )

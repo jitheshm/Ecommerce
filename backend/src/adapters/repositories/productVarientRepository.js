@@ -125,6 +125,33 @@ module.exports = {
                         "productDetails.isDeleted": false,
                     }
                 },
+                {
+                    $lookup: {
+                        from: "offers",
+                        let: {
+                            localField1: { $arrayElemAt: ["$productDetails.categoryId", 0] },
+                            localField2: "$_id"
+                        },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $and: [
+                                            {
+                                                $or: [
+                                                    { $in: ["$$localField1", "$applicables"] },
+                                                    { $in: ["$$localField2", "$applicables"] }
+                                                ]
+                                            },
+                                            { $gt: ["$endDate", new Date()] }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        as: "offers"
+                    }
+                },
 
                 {
                     $group: {
@@ -132,9 +159,46 @@ module.exports = {
                         productVarient: { $first: "$$ROOT" }
                     }
                 },
+
                 {
                     $replaceRoot: { newRoot: "$productVarient" }
-                }
+                },
+                {
+                    $project: {
+                        _id: 1,
+
+                        productId: 1,
+                        color: 1,
+                        imagesUrl: 1,
+                        stock: 1,
+                        salePrice: 1,
+                        actualPrice: 1,
+                        isDeleted: 1,
+                        productDetails: 1,
+                        offerPrice: {
+                            $subtract: ["$salePrice", {
+                                $max: {
+                                    $map: {
+                                        input: "$offers", // Iterate over the offers array
+                                        as: "offer",
+                                        in: {
+                                            $cond: {
+                                                if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
+                                                then: {
+                                                    $multiply: [
+                                                        "$$offer.discount", // Percentage value
+                                                        { $divide: ["$salePrice", 100] } // Convert percentage to a decimal
+                                                    ]
+                                                },
+                                                else: "$$offer.discount" // Use the discount amount as is
+                                            }
+                                        }
+                                    }
+                                }
+                            }]
+                        },
+                    }
+                },
             ]).exec()
             console.log(result);
             return result
@@ -143,7 +207,7 @@ module.exports = {
             throw error
         }
     },
-    getVarientDetails: async (color,id) => {
+    getVarientDetails: async (color, id) => {
         const varientDetail = await ProductVarientModel.aggregate([
             {
                 $match: {
@@ -160,6 +224,69 @@ module.exports = {
 
                 }
             },
+            {
+                $lookup: {
+                    from: "offers",
+                    let: {
+                        localField1: { $arrayElemAt: ["$productDetails.categoryId", 0] },
+                        localField2: "$_id"
+                    },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        {
+                                            $or: [
+                                                { $in: ["$$localField1", "$applicables"] },
+                                                { $in: ["$$localField2", "$applicables"] }
+                                            ]
+                                        },
+                                        { $gt: ["$endDate", new Date()] }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "offers"
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    productId: 1,
+                    color: 1,
+                    imagesUrl: 1,
+                    stock: 1,
+                    salePrice: 1,
+                    actualPrice: 1,
+                    isDeleted: 1,
+                    productDetails: 1,
+                    offerPrice: {
+                        $subtract: ["$salePrice", {
+                            $max: {
+                                $map: {
+                                    input: "$offers", // Iterate over the offers array
+                                    as: "offer",
+                                    in: {
+                                        $cond: {
+                                            if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
+                                            then: {
+                                                $multiply: [
+                                                    "$$offer.discount", // Percentage value
+                                                    { $divide: ["$salePrice", 100] } // Convert percentage to a decimal
+                                                ]
+                                            },
+                                            else: "$$offer.discount" // Use the discount amount as is
+                                        }
+                                    }
+                                }
+                            }
+                        }]
+                    },
+                }
+            },
+
         ]).exec()
         return varientDetail
     },
@@ -270,15 +397,99 @@ module.exports = {
                         ]
                     }
                 },
+                {
+                    $lookup: {
+                        from: "offers",
+                        let: {
+                            localField1: { $arrayElemAt: ["$productDetails.categoryId", 0] },
+                            localField2: "$_id"
+                        },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $and: [
+                                            {
+                                                $or: [
+                                                    { $in: ["$$localField1", "$applicables"] },
+                                                    { $in: ["$$localField2", "$applicables"] }
+                                                ]
+                                            },
+                                            { $gt: ["$endDate", new Date()] }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        as: "offers"
+                    }
+                },
 
             ]
-            if (filter.instock==='true') {
+            if (filter.instock === 'true') {
                 pipeLine.push({
                     $match: {
                         stock: { $gt: 0 }
                     }
                 })
             }
+
+            pipeLine.push({
+                $project: {
+                    _id: 1,
+                    productId: 1,
+                    color: 1,
+                    imagesUrl: 1,
+                    stock: 1,
+                    salePrice: 1,
+                    discount: {
+                        $max: {
+                            $map: {
+                                input: "$offers", // Iterate over the offers array
+                                as: "offer",
+                                in: {
+                                    $cond: {
+                                        if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
+                                        then: {
+                                            $multiply: [
+                                                "$$offer.discount", // Percentage value
+                                                { $divide: ["$salePrice", 100] } // Convert percentage to a decimal
+                                            ]
+                                        },
+                                        else: "$$offer.discount" // Use the discount amount as is
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    offerPrice: {
+                        $subtract: ["$salePrice", {
+                            $max: {
+                                $map: {
+                                    input: "$offers", // Iterate over the offers array
+                                    as: "offer",
+                                    in: {
+                                        $cond: {
+                                            if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
+                                            then: {
+                                                $multiply: [
+                                                    "$$offer.discount", // Percentage value
+                                                    { $divide: ["$salePrice", 100] } // Convert percentage to a decimal
+                                                ]
+                                            },
+                                            else: "$$offer.discount" // Use the discount amount as is
+                                        }
+                                    }
+                                }
+                            }
+                        }]
+                    },
+                    productDetails: 1,
+                    category: 1,
+                    offers: 1
+                }
+            })
+
             if (!sort.hasOwnProperty(null) && !sort.hasOwnProperty(undefined)) {
                 pipeLine.push({
                     $sort: sort

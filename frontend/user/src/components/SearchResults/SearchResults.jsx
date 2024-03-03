@@ -75,10 +75,10 @@ function SearchResults() {
 
                             <div className="dropdown-menu">
                                 <button className="dropdown-item" onClick={() => {
-                                    handleSort('salePrice', 1)
+                                    handleSort('offerPrice', 1)
                                 }}>Price --Low to High</button>
                                 <button className="dropdown-item" onClick={() => {
-                                    handleSort('salePrice', -1)
+                                    handleSort('offerPrice', -1)
                                 }}>Price --High to Low</button>
                                 <button className="dropdown-item" onClick={() => {
                                     handleSort('productDetails.productName', 1)

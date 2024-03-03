@@ -60,7 +60,7 @@ function OfferForm({ api, method, id, title, btnName }) {
                 setValue('discountType', res.data.data.discountType)
                 setValue('discount', res.data.data.discount)
                 setValue('offerType', res.data.data.offerType)
-                setValue('applicables', res.data.data.applicables)
+                setValue('applicables', res.data.data.applicables[0])
             })
         }
     }, [])

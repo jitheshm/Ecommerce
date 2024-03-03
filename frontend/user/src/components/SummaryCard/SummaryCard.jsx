@@ -2,38 +2,38 @@ import React, { useEffect, useState } from 'react'
 import { BASEURL } from '../../constants/constant.json'
 import instance from '../../axios'
 function SummaryCard({ item }) {
-    const [offers, setOffers] = useState([])
-    const [discount, setDiscount] = useState(0)
-    const [displayOff, setDisplayOff] = useState({})
+    // const [offers, setOffers] = useState([])
+    // const [discount, setDiscount] = useState(0)
+    // const [displayOff, setDisplayOff] = useState({})
 
-    useEffect(() => {
-        if (item)
-            instance.get(`user/availableoffers/${item.productDetails.categoryId}/${item.products.productId}`).then((res) => {
-                console.log(res.data.data);
-                setOffers(res.data.data);
-                setDiscount(res.data.data.reduce((acc, curr) => {
-                    if (curr.offerType === 'amount') {
-                        return acc + curr.discount
-                    }
-                    else {
-                        return acc + (item.varient.salePrice * curr.discount / 100)
-                    }
-                }, 0))
+    // useEffect(() => {
+    //     if (item)
+    //         instance.get(`user/availableoffers/${item.productDetails.categoryId}/${item.products.productId}`).then((res) => {
+    //             console.log(res.data.data);
+    //             setOffers(res.data.data);
+    //             setDiscount(res.data.data.reduce((acc, curr) => {
+    //                 if (curr.offerType === 'amount') {
+    //                     return acc + curr.discount
+    //                 }
+    //                 else {
+    //                     return acc + (item.varient.salePrice * curr.discount / 100)
+    //                 }
+    //             }, 0))
 
-                setDisplayOff(res.data.data.reduce((acc, curr) => {
-                    if (curr.offerType === 'amount') {
-                        return { amount: acc.amount + curr.discount, percentage: acc.percentage }
-                    } else {
-                        return { amount: acc.amount, percentage: acc.percentage + curr.discount }
-                    }
-                }, {
-                    amount: 0,
-                    percentage: 0
-                }))
+    //             setDisplayOff(res.data.data.reduce((acc, curr) => {
+    //                 if (curr.offerType === 'amount') {
+    //                     return { amount: acc.amount + curr.discount, percentage: acc.percentage }
+    //                 } else {
+    //                     return { amount: acc.amount, percentage: acc.percentage + curr.discount }
+    //                 }
+    //             }, {
+    //                 amount: 0,
+    //                 percentage: 0
+    //             }))
 
-            })
+    //         })
 
-    }, [item])
+    // }, [item])
     return (
         <>
             <div className='card mb-3'>
@@ -59,7 +59,7 @@ function SummaryCard({ item }) {
 
                         </div>
 
-                        <p className="card-text mt-2 row"><h4 className='col-3'><b>₹ {item.varient.salePrice - discount > 0 ? item.varient.salePrice - discount : 0}</b></h4> <b className='col-3' style={{ color: "green" }}>{displayOff.percentage}% {displayOff.percentage > 0 && displayOff.amount > 0 ? <span>+</span> : <span></span>} {displayOff.amount > 0 ? displayOff.amount : ""}&nbsp;OFF</b></p>
+                        <p className="card-text mt-2 row"><h4 className='col-3'><b>₹ {item.totalPrice}</b></h4> </p>
                         {/* <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div> */}
                     </div>
 
