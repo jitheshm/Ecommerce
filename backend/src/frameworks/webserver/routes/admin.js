@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const authToken = require('../../middlewares/adminAuthToken');
 const fileUpload = require('../../middlewares/fileUpload');
-const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler, handleDeleteCouponHandler, addOfferHandler, getallOffersHandler, getOfferHandler, updateOfferHandler, handleDeleteOfferHandler, salesReportHandler } = require('../routeHandlers/adminRouteHandler');
+const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler, handleDeleteCouponHandler, addOfferHandler, getallOffersHandler, getOfferHandler, updateOfferHandler, handleDeleteOfferHandler, salesReportHandler, getOrderSpecificHandler } = require('../routeHandlers/adminRouteHandler');
 const { checkSchema } = require('express-validator');
 const loginValidator = require('../validators/admin/loginValidator');
 const productValidator = require('../validators/admin/productValidator');
@@ -62,6 +62,7 @@ router.get('/product/:id',authToken, viewProductHandler)
 router.get('/getallvarient/:proId',authToken, getProductAllVarientHandler)
 
 router.get('/orders', authToken, ordersListHandler)
+router.get('/order/:id/:productId',authToken, getOrderSpecificHandler)
 router.get('/returnorders', authToken, returnordersListHandler)
 
 router.patch('/changeorderstatus', authToken, orderStatusHandler)

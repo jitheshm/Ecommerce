@@ -146,8 +146,46 @@ module.exports = {
         try {
             const orders = await OrderModel.aggregate([
                 {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'userId',
+                        foreignField: '_id',
+                        as: 'userDetails'
+                    }
+                },
+                {
                     $unwind: '$orderedItems'
+                },
+                {
+                    $lookup: {
+                        from: 'productvarients',
+                        localField: 'orderedItems.productId',
+                        foreignField: '_id',
+                        as: 'variants'
+                    }
                 }, {
+                    $unwind: '$variants'
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: 'variants.productId',
+                        foreignField: '_id',
+                        as: 'productDetails'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: 'variants.productId',
+                        foreignField: '_id',
+                        as: 'productDetails'
+                    }
+                },
+                {
+                    $unwind: '$productDetails'
+                },
+                {
                     $sort: {
                         orderDate: -1
                     }

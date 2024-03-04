@@ -6,7 +6,7 @@ const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, all
 const path = require('path');
 const fs = require('fs');
 const { categoryAdd, categoryUpdate, categoryDelete, getCategory, getSpecificCategory } = require('../../../adapters/controllers/categoryController');
-const { ordersList, changeStatus, returnOrdersList, changeReturnStatus, generateSalesReport } = require('../../../adapters/controllers/orderController');
+const { ordersList, changeStatus, returnOrdersList, changeReturnStatus, generateSalesReport, getSpecificOrder } = require('../../../adapters/controllers/orderController');
 const { validationResult } = require('express-validator');
 const { addCoupon, getCoupon, updateCoupon, getAllCoupon, deleteCoupon } = require('../../../adapters/controllers/couponController');
 const { addOffer, getAllOffers, getOffer, updateOffer, deleteOffer } = require('../../../adapters/controllers/offerController');
@@ -491,7 +491,7 @@ module.exports = {
             // console.log(valResult.array());
             // if (valResult.isEmpty()) {
             console.log(req.body);
-            req.body.applicables=req.body.applicables.map((obj)=>{
+            req.body.applicables = req.body.applicables.map((obj) => {
                 return obj.value
             })
             await updateOffer(req.body)
@@ -530,5 +530,18 @@ module.exports = {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
         }
-    }
+    },
+    getOrderSpecificHandler: async (req, res) => {
+        try {
+            const result = await getSpecificOrder(new ObjectId(req.params.id), new ObjectId(req.params.productId))
+            if (result) {
+                res.status(200).json({ success: true, data: result })
+            } else {
+                res.status(200).json({ success: false, msg: "order not found" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
 }

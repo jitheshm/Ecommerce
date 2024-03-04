@@ -32,6 +32,7 @@ import AddOffer from './pages/AddOffer';
 import ListOffers from './pages/ListOffers';
 import EditOffer from './pages/EditOffer';
 import SalesReport from './pages/SalesReport';
+import OrderDetails from './pages/OrderDetails';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -109,6 +110,10 @@ function App() {
       element: <Layout><OrdersList /></Layout>
     },
     {
+      path: "/orders/orderdetails/:orderId/:productId",     
+      element: <Layout><OrderDetails /></Layout>
+    },
+    {
       path: "/returnorders",
       element: <Layout><ReturnList /></Layout>
     },
@@ -134,11 +139,11 @@ function App() {
     },
     {
       path: '/editoffer/:id',
-      element: <Layout><EditOffer/></Layout>
+      element: <Layout><EditOffer /></Layout>
     },
     {
-      path:'/salesreport',
-      element:<Layout><SalesReport/></Layout>
+      path: '/salesreport',
+      element: <Layout><SalesReport /></Layout>
     }
 
 
