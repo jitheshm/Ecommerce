@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import instance from '../../axios'
 import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
 function OrdersList() {
     const [search, setSearch] = useState('')
     const [orders, setOrders] = useState([])
@@ -60,7 +61,8 @@ function OrdersList() {
                                         <tr>
                                             <th style={{ textAlign: "center" }}>Order ID</th>
                                             <th style={{ textAlign: "center" }}>Date</th>
-                                            <th style={{ textAlign: "center" }}>Product Id</th>
+                                            <th style={{ textAlign: "center" }}>Product</th>
+                                            <th style={{ textAlign: "center" }}>User Name</th>
                                             <th style={{ textAlign: "center" }}>Total Price</th>
                                             <th style={{ textAlign: "center" }}>Status</th>
 
@@ -76,72 +78,78 @@ function OrdersList() {
                                                         <tr >
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order._id}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{new Date(order.orderDate).toDateString()}</td>
-                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.productId}</td>
-                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.totalprice}</td>  
+                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.productDetails.productName}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.userDetails[0].firstName} {order.userDetails[0].lastName}</td>
+                                                            <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.totalprice}</td>
                                                             <td style={{ color: "#6c7293", textAlign: "center" }}>{order.orderedItems.deliveryStatus}</td>
 
                                                             <td className='d-flex gap-3 align-items-center justify-content-center ' >
 
-                                                                {order.orderedItems.deliveryStatus != 'Cancelled' && order.orderedItems.deliveryStatus != 'Delivered' ?
-                                                                    <div className="nav-item dropdown" style={{ position: "initial" }}>
-                                                                        <a className='btn btn-outline-success' id="profileDropdown" href="#" data-bs-toggle="dropdown">
+                                                                <div className='d-flex gap-3 col-9 text-center justify-content-center'>
+                                                                    {order.orderedItems.deliveryStatus != 'Cancelled' && order.orderedItems.deliveryStatus != 'Delivered' ?
+                                                                        <div className="nav-item dropdown" style={{ position: "initial" }}>
+                                                                            <a className='btn btn-outline-success' id="profileDropdown" href="#" data-bs-toggle="dropdown">
 
 
-                                                                            <p className="mb-0 d-none d-sm-block navbar-profile-name">Change Status</p>
+                                                                                <p className="mb-0 d-none d-sm-block navbar-profile-name">Change Status</p>
 
 
-                                                                        </a>
+                                                                            </a>
 
-                                                                        <div className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-
-
-
-
+                                                                            <div className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
 
 
 
-                                                                            <button className="dropdown-item preview-item" onClick={() => {
-                                                                                handleChangeStatus('Shipped', order._id, order.userId, order.orderedItems.productId)
-                                                                            }}>
 
-                                                                                <div className="preview-item-content">
-                                                                                    <p className="preview-subject mb-1">Shipped</p>
 
-                                                                                </div>
 
-                                                                            </button>
-                                                                            <button className="dropdown-item preview-item" onClick={() => {
-                                                                                handleChangeStatus('Out for delivery', order._id, order.userId, order.orderedItems.productId)
-                                                                            }}>
 
-                                                                                <div className="preview-item-content">
-                                                                                    <p className="preview-subject mb-1">Out for delivery</p>
+                                                                                <button className="dropdown-item preview-item" onClick={() => {
+                                                                                    handleChangeStatus('Shipped', order._id, order.userId, order.orderedItems.productId)
+                                                                                }}>
 
-                                                                                </div>
+                                                                                    <div className="preview-item-content">
+                                                                                        <p className="preview-subject mb-1">Shipped</p>
 
-                                                                            </button>
-                                                                            <button className="dropdown-item preview-item" onClick={() => {
-                                                                                handleChangeStatus('Delivered', order._id, order.userId, order.orderedItems.productId)
-                                                                            }}>
+                                                                                    </div>
 
-                                                                                <div className="preview-item-content">
-                                                                                    <p className="preview-subject mb-1">Delivered</p>
+                                                                                </button>
+                                                                                <button className="dropdown-item preview-item" onClick={() => {
+                                                                                    handleChangeStatus('Out for delivery', order._id, order.userId, order.orderedItems.productId)
+                                                                                }}>
 
-                                                                                </div>
+                                                                                    <div className="preview-item-content">
+                                                                                        <p className="preview-subject mb-1">Out for delivery</p>
 
-                                                                            </button>
-                                                                        </div>
+                                                                                    </div>
 
-                                                                    </div> :
-                                                                    order.orderedItems.returnStatus === 'Not Requested' ? <p className='text-success text-center'>product {order.orderedItems.deliveryStatus}</p> : <p className='text-danger text-center'> {order.orderedItems.returnStatus === 'pending' || order.orderedItems.returnStatus === 'Confirmed' ? <>Return Request {order.orderedItems.returnStatus}</>: <>Order {order.orderedItems.returnStatus}</>}</p>
-                                                                }
-                                                                {
-                                                                    order.orderedItems.deliveryStatus != 'Cancelled' && order.orderedItems.deliveryStatus != 'Delivered' && <button className='btn btn-outline-danger' onClick={() => {
-                                                                        handleChangeStatus('Cancelled', order._id, order.userId, order.orderedItems.productId)
-                                                                    }}>
-                                                                        Cancel
-                                                                    </button>
-                                                                }
+                                                                                </button>
+                                                                                <button className="dropdown-item preview-item" onClick={() => {
+                                                                                    handleChangeStatus('Delivered', order._id, order.userId, order.orderedItems.productId)
+                                                                                }}>
+
+                                                                                    <div className="preview-item-content">
+                                                                                        <p className="preview-subject mb-1">Delivered</p>
+
+                                                                                    </div>
+
+                                                                                </button>
+                                                                            </div>
+
+                                                                        </div> :
+                                                                        order.orderedItems.returnStatus === 'Not Requested' ? <p className='text-success text-center'>product {order.orderedItems.deliveryStatus}</p> : <p className='text-danger text-center'> {order.orderedItems.returnStatus === 'pending' || order.orderedItems.returnStatus === 'Confirmed' ? <>Return Request {order.orderedItems.returnStatus}</> : <>Order {order.orderedItems.returnStatus}</>}</p>
+                                                                    }
+                                                                    {
+                                                                        order.orderedItems.deliveryStatus != 'Cancelled' && order.orderedItems.deliveryStatus != 'Delivered' && <button className='btn btn-outline-danger' onClick={() => {
+                                                                            handleChangeStatus('Cancelled', order._id, order.userId, order.orderedItems.productId)
+                                                                        }}>
+                                                                            Cancel
+                                                                        </button>
+                                                                    }
+                                                                </div>
+                                                                <Link to={`/orders/orderdetails/${order._id}/${order.orderedItems.productId}`} className='btn btn-outline-info' >
+                                                                    View
+                                                                </Link>
                                                             </td>
                                                         </tr>
                                                     )
