@@ -1,0 +1,30 @@
+.coupon {
+    display: flex;
+    align-items: center;
+}
+
+.coupon input {
+    border: 2px dashed;
+    border-color: white;
+    background-color: transparent;
+    color: white;
+    height: 55px;
+}
+
+.coupon input:focus {
+    outline: none !important;
+}
+
+.coupon button:focus {
+    outline: none !important;
+
+}
+
+.coupon button:hover {
+    background-color: #ffffff !important;
+}
+
+.couponContainer::-webkit-scrollbar {
+    display: none;
+   
+  }

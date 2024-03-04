@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { logout } from '../../features/user/userSlice'
 import { useNavigate } from 'react-router-dom'
 import OrderSummary from '../OrderSummary/OrderSummary'
+import CouponList from '../CouponList/CouponList'
 function CheckOut({ setOrderPlaced, setOrderReciept }) {
     const [address, setAddress] = useState([])
     const [orderAddress, setOrderAddress] = useState()
@@ -22,6 +23,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
     const [applyCoupon, setApplyCoupon] = useState()
     const [couponStatus, setCouponStatus] = useState(false)
     const [couponError, setCouponError] = useState('')
+    const [showCouponList, setShowCouponList] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -343,6 +345,11 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                             {
                                 !couponStatus ? <button type='button' className='btn primary' onClick={handleApplyCoupon}>Apply</button> : <button type='button' className='btn primary' onClick={handleRemoveCoupon}>Remove</button>
                             }
+                            <button type='button' className='btn primary ms-4' onClick={() => {
+                                setShowCouponList(true)
+
+                            }} style={{ backgroundColor: "#c91c1c", color: "#ffffff" }}>Show Coupons</button>
+
                         </form>
 
 
@@ -351,6 +358,10 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                 </div>
                 <PriceDetails checkOut={true} itemsCount={cartItems.length} total={total} discount={discount} handleConfirm={handleConfirm} />
             </div>
+            {
+                showCouponList && <CouponList setShowCouponList={setShowCouponList}/>
+            }
+
         </div>
     )
 }

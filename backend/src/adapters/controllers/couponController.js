@@ -1,6 +1,9 @@
 const addCoupon = require("../../usecase/coupon/addCoupon")
 const applyCoupon = require("../../usecase/coupon/applyCoupon")
 const deleteCoupon = require("../../usecase/coupon/deleteCoupon")
+const getActiveCoupons = require("../../usecase/coupon/getActiveCoupons")
+
+
 const getAllCoupon = require("../../usecase/coupon/getAllCoupon")
 const getCoupon = require("../../usecase/coupon/getCoupon")
 const updateCoupon = require("../../usecase/coupon/updateCoupon")
@@ -24,5 +27,9 @@ module.exports = {
     },
     applyCoupon: async (data, id) => {
         return await applyCoupon(data, id, couponRepository)
+    },
+    getActiveCoupons: async () => {
+       
+        return await getActiveCoupons(couponRepository)
     }
 }
