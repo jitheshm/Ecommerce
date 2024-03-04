@@ -67,6 +67,13 @@ module.exports = {
         } catch (err) {
             throw new Error(err);
         }
+    },
+    getActiveCoupons: async () => {
+        try {
+            return await CouponModel.find({ expireDate: { $gte: new Date() } });
+        } catch (err) {
+            throw new Error(err);
+        }
     }
 
 
