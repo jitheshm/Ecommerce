@@ -365,7 +365,7 @@ module.exports = {
     },
     searchProducts: async (searchQuery, sort, filter) => {
         try {
-            console.log(sort);
+            console.log(filter);
             const pipeLine = [
                 {
                     $lookup: {
@@ -436,6 +436,7 @@ module.exports = {
                 })
             }
 
+
             pipeLine.push({
                 $project: {
                     _id: 1,
@@ -494,6 +495,24 @@ module.exports = {
                 }
             })
 
+            if (parseInt(filter.minPrice)) {
+                pipeLine.push({
+                    $match: {
+                        offerPrice: { $gte: parseInt(filter.minPrice) }
+                    }
+                })
+            }
+
+
+            ;
+            if (parseInt(filter.maxPrice) <= 50000) {
+                console.log("nnn");
+                pipeLine.push({
+                    $match: {
+                        offerPrice: { $lte: parseInt(filter.maxPrice) }
+                    }
+                })
+            }
             if (!sort.hasOwnProperty(null) && !sort.hasOwnProperty(undefined)) {
                 console.log(sort);
                 pipeLine.push({
