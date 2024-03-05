@@ -20,6 +20,7 @@ const couponRepository = require("../repositories/couponRepository")
 const applyCoupon = require("../../usecase/coupon/applyCoupon")
 const couponClaim = require("../../usecase/coupon/couponClaim")
 const generateSalesReport = require("../../usecase/order/generateSalesReport")
+const placeWalletOrder = require("../../usecase/order/placeWalletOrder")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
@@ -30,7 +31,7 @@ module.exports = {
                 totalAmount: data.orderAmount
             }
             const res = await applyCoupon(obj, userId, couponRepository)
-
+            
             if (!res)
                 return null
             else
@@ -42,6 +43,8 @@ module.exports = {
         if (data.paymentMethod === "COD") {
             receipt = await placeCodOrder(orderRepository, addressRepository, cartRepository, productVarientRepository, data)
 
+        } else if (data.paymentMethod === "Wallet") {
+            receipt = await placeWalletOrder(orderRepository, addressRepository, cartRepository, productVarientRepository,walletRepository, data)
         }
 
         else
@@ -58,7 +61,7 @@ module.exports = {
     },
     changeStatus: async (orderId, userId, productId, orderStatus) => {
         const order = await changeStatus(orderRepository, orderId, userId, productId, orderStatus)
-        console.log(orderStatus === 'Cancelled' ,order.transactionId != 'Not Paid');
+        console.log(orderStatus === 'Cancelled', order.transactionId != 'Not Paid');
         if (order && orderStatus === 'Cancelled' && order.transactionId != 'Not Paid') {
             return await refund(orderId, productId, "", orderRepository, walletRepository,)
         }

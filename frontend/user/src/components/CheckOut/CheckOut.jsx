@@ -24,6 +24,8 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
     const [couponStatus, setCouponStatus] = useState(false)
     const [couponError, setCouponError] = useState('')
     const [showCouponList, setShowCouponList] = useState(false)
+    const [walletBalance, setWalletBalance] = useState(0)
+    const [walletStatus, setWalletStatus] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -69,6 +71,33 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
             }
         })
     }, [])
+
+    useEffect(() => {
+        instance.get('/user/wallet', {
+            headers: {
+                Authorization: Cookies.get('token')
+            }
+        }).then((res) => {
+            console.log(res);
+            setWalletBalance(res.data.data.balance)
+            if (res.data.data.balance < total - discount) {
+
+                setWalletStatus(false)
+            }
+            else {
+                console.log(total, res.data.data.balance);
+                setWalletStatus(true)
+            }
+
+        }).catch((error) => {
+            console.log(error.response.status);
+            if (error.response.status === 401) {
+                Cookies.remove('token')
+                dispatch(logout())
+            }
+
+        })
+    }, [total, discount])
 
     const handleAddressChange = (e) => {
         setOrderAddress(e.target.value)
@@ -186,7 +215,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
             }
         }).then((res) => {
             if (res.data.success) {
-                if (payment === 'COD') {
+                if (payment === 'COD' || payment === 'Wallet') {
                     console.log(res);
                     setOrderReciept(res.data.data)
                     setOrderPlaced(true)
@@ -296,28 +325,49 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                         <h4><b>Payment Options</b></h4>
 
                         <div className='row py-4 justify-content-center gap-5'>
-                            <div className="card col-3" onClick={() => {
-                                setPayment('Razorpay')
-                            }} style={payment === 'Razorpay' ? { borderColor: "#333" } : { borderColor: "rgba(0, 0, 0, 0.175)" }} >
+                            <div className='col-md-3'>
+                                <div className="card col-12" onClick={() => {
+                                    if (walletStatus)
+                                        setPayment('Wallet')
+                                }} style={payment === 'Wallet' ? { borderColor: "#333" } : { borderColor: "rgba(0, 0, 0, 0.175)" }} >
 
-                                <div className="card-body text-center py-4" >
-                                    <i className="fa-solid fa-wallet" style={{ color: '#15161d', fontSize: "39px" }} />
-                                    <h5><b>Razorpay</b></h5>
+                                    <div className="card-body text-center py-4" >
+                                        <i className="fa-solid fa-wallet" style={{ color: '#15161d', fontSize: "39px" }} />
+                                        <h5><b>Wallet</b></h5>
 
+                                    </div>
+                                </div>
+                                <div>
+                                    {
+                                        !walletStatus && <p className='text-danger text-center mt-3'>Insufficient balance</p>
+                                    }
                                 </div>
                             </div>
+                            <div className='col-md-3'>
+                                <div className="card col-12" onClick={() => {
+                                    setPayment('Razorpay')
+                                }} style={payment === 'Razorpay' ? { borderColor: "#333" } : { borderColor: "rgba(0, 0, 0, 0.175)" }} >
 
-                            <div className="card col-3" onClick={() => {
-                                setPayment('COD')
-                            }} style={payment === 'COD' ? { borderColor: "#333" } : { borderColor: "rgba(0, 0, 0, 0.175)" }}>
+                                    <div className="card-body text-center py-4" >
+                                        <i className="fa-solid fa-globe" style={{ color: '#15161d', fontSize: "39px" }} />
+                                        <h5><b>Razorpay</b></h5>
 
-                                <div className="card-body text-center py-4">
-                                    <i className="fa-solid fa-money-bill-1" style={{ color: '#15161d', fontSize: "39px" }} />
-                                    <h5><b>Cash on delivery</b></h5>
-
+                                    </div>
                                 </div>
                             </div>
+                            <div className='col-md-3'>
+                                <div className="card col-12" onClick={() => {
+                                    setPayment('COD')
+                                }} style={payment === 'COD' ? { borderColor: "#333" } : { borderColor: "rgba(0, 0, 0, 0.175)" }}>
 
+                                    <div className="card-body text-center py-4">
+                                        <i className="fa-solid fa-money-bill-1" style={{ color: '#15161d', fontSize: "39px" }} />
+                                        <h5><b>COD</b></h5>
+
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
 
                     </div>
@@ -359,7 +409,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                 <PriceDetails checkOut={true} itemsCount={cartItems.length} total={total} discount={discount} handleConfirm={handleConfirm} />
             </div>
             {
-                showCouponList && <CouponList setShowCouponList={setShowCouponList}/>
+                showCouponList && <CouponList setShowCouponList={setShowCouponList} />
             }
 
         </div>
