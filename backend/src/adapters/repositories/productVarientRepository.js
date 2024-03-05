@@ -465,26 +465,28 @@ module.exports = {
                         }
                     },
                     offerPrice: {
-                        $subtract: ["$salePrice", {
-                            $max: {
-                                $map: {
-                                    input: "$offers", // Iterate over the offers array
-                                    as: "offer",
-                                    in: {
-                                        $cond: {
-                                            if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
-                                            then: {
-                                                $multiply: [
-                                                    "$$offer.discount", // Percentage value
-                                                    { $divide: ["$salePrice", 100] } // Convert percentage to a decimal
-                                                ]
-                                            },
-                                            else: "$$offer.discount" // Use the discount amount as is
+                        $ifNull: [{
+                            $subtract: ["$salePrice", {
+                                $max: {
+                                    $map: {
+                                        input: "$offers", // Iterate over the offers array
+                                        as: "offer",
+                                        in: {
+                                            $cond: {
+                                                if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
+                                                then: {
+                                                    $multiply: [
+                                                        "$$offer.discount", // Percentage value
+                                                        { $divide: ["$salePrice", 100] } // Convert percentage to a decimal
+                                                    ]
+                                                },
+                                                else: "$$offer.discount" // Use the discount amount as is
+                                            }
                                         }
                                     }
                                 }
-                            }
-                        }]
+                            }]
+                        }, "$salePrice"]
                     },
                     productDetails: 1,
                     category: 1,
@@ -493,6 +495,7 @@ module.exports = {
             })
 
             if (!sort.hasOwnProperty(null) && !sort.hasOwnProperty(undefined)) {
+                console.log(sort);
                 pipeLine.push({
                     $sort: sort
                 })
