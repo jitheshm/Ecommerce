@@ -283,8 +283,10 @@ module.exports = {
     },
     getAllProductsHandler: async (req, res) => {
         try {
-            const result = await getAllProducts()
-            res.status(200).json({ success: true, data: result })
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const result = await getAllProducts(page,limit)
+            res.status(200).json({ success: true, data: result.products, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
