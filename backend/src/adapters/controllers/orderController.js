@@ -21,6 +21,8 @@ const applyCoupon = require("../../usecase/coupon/applyCoupon")
 const couponClaim = require("../../usecase/coupon/couponClaim")
 const generateSalesReport = require("../../usecase/order/generateSalesReport")
 const placeWalletOrder = require("../../usecase/order/placeWalletOrder")
+const repay = require("../../usecase/order/repay")
+const getOneOrder = require("../../usecase/order/getOneOrder")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
@@ -31,7 +33,7 @@ module.exports = {
                 totalAmount: data.orderAmount
             }
             const res = await applyCoupon(obj, userId, couponRepository)
-            
+
             if (!res)
                 return null
             else
@@ -44,7 +46,7 @@ module.exports = {
             receipt = await placeCodOrder(orderRepository, addressRepository, cartRepository, productVarientRepository, data)
 
         } else if (data.paymentMethod === "Wallet") {
-            receipt = await placeWalletOrder(orderRepository, addressRepository, cartRepository, productVarientRepository,walletRepository, data)
+            receipt = await placeWalletOrder(orderRepository, addressRepository, cartRepository, productVarientRepository, walletRepository, data)
         }
 
         else
@@ -96,5 +98,10 @@ module.exports = {
     generateSalesReport: async (startDate, endDate) => {
         return await generateSalesReport(startDate, endDate, orderRepository)
     },
-
+    repay: async (data, razorpaykey_id, razorpaykey_secret) => {
+        return await repay(razorpayGateway, data, razorpaykey_id, razorpaykey_secret)
+    },
+    getOneOrder: async(orderId) => {
+        return await getOneOrder(orderRepository, orderId)
+    }
 }

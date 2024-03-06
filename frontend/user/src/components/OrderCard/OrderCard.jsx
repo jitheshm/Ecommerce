@@ -20,7 +20,10 @@ function OrderCard({ order }) {
                                     order.orderedItems.deliveryStatus === 'Cancelled' && <p className="text-danger">{order.orderedItems.deliveryStatus}</p>
                                 }
                                 {
-                                    order.orderedItems.deliveryStatus != 'Cancelled' && <p>{order.orderedItems.deliveryStatus === 'Delivered' ? <span>Deliverd on</span> : <span>Expect to delivery on</span>} {order.deliveryDate} </p>
+                                    order.orderedItems.deliveryStatus === 'pending' && <p className="text-danger">Payment failed</p>
+                                }
+                                {
+                                    order.orderedItems.deliveryStatus != 'Cancelled' && order.orderedItems.deliveryStatus != 'pending' && <p>{order.orderedItems.deliveryStatus === 'Delivered' ? <span>Deliverd on</span> : <span>Expect to delivery on</span>} {order.deliveryDate} </p>
                                 }
 
                             </div> :

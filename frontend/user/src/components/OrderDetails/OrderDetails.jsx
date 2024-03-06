@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import instance from '../../axios';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
@@ -13,6 +13,7 @@ function OrderDetails() {
     const [orderDetails, setOrderDetails] = useState({})
     const [toogle, setToogle] = useState(false)
     const [requestForm, setrequestForm] = useState(false)
+    const [stockError, setStockError] = useState(true)
 
     const { orderId, productId } = useParams()
     const dispatch = useDispatch()
@@ -32,6 +33,23 @@ function OrderDetails() {
             }
         })
     }, [toogle])
+
+    useEffect(() => {
+        if (orderDetails.orderedItems) {
+            instance.get(`user/checkstockavailable?varientId=${orderDetails.orderedItems.productId}&&quantity=${orderDetails.orderedItems.quantity}`, {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                console.log(res);
+                if (res.data.success) {
+                    setStockError(false)
+                } else {
+                    setStockError(true)
+                }
+            })
+        }
+    }, [orderDetails])
 
 
     const handleCancel = () => {
@@ -63,6 +81,25 @@ function OrderDetails() {
 
 
     }
+    const handleRepay= () => {
+        // instance.post('/user/orderrepayment',{
+        //     orderId: orderId,
+        //     amountPaid: orderDetails.amountPaid
+            
+        // },{
+        //     headers: {
+        //         Authorization: Cookies.get('token')
+        //     }
+        // }).then((res) => {
+        //     console.log(res);
+        //     if (res.data.success) {
+        //         initiatePayment(res.data.data, res.data.data.total)
+        //     }
+            
+        // })
+    }
+
+   
     return (
         <>
             <div className='col-md-7 '>
@@ -96,13 +133,19 @@ function OrderDetails() {
                                     <button className='btn primary '>Download invoice</button>
                                 }
                                 {
-                                    orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Cancelled" && orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Delivered" &&
+                                    orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Cancelled" && orderDetails.orderedItems.deliveryStatus != "pending" && orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Delivered" &&
                                     <button className='btn btn-danger mt-4' onClick={handleCancel}>Cancel Order</button>
                                 }
                                 {
                                     orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Delivered" && orderDetails.orderedItems.returnStatus === 'Not Requested' && moment(orderDetails.deliveryDate, 'DD-MM-YYYY').add(7, 'days').isAfter(moment()) &&
 
                                     <button className='btn btn-danger mt-4' onClick={handleReturn}>Return</button>
+                                }
+
+                                {
+                                    !stockError && orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "pending" && moment(orderDetails.orderDate).add(1, 'days').isAfter(moment()) &&
+
+                                    <Link to={`/order/repayment/${orderId}`} className='btn btn-danger mt-4' >Repay</Link>
                                 }
 
                             </div>
@@ -122,6 +165,10 @@ function OrderDetails() {
 
                                         <p className="card-text row mt-4"><h4 className=''><b>₹ {orderDetails && orderDetails.orderedItems ? orderDetails.orderedItems.totalprice : ""} </b> </h4>
                                             <b style={{ color: "green" }}>offers applied</b></p>
+                                        {
+                                            stockError && <p className="card-text row mt-4 text-danger">
+                                                out of stock</p>
+                                        }
                                     </div>
 
 
@@ -188,8 +235,10 @@ function OrderDetails() {
 
                                                 </ul>
                                             }
-
-                                            {orderDetails.orderedItems && (orderDetails.orderedItems.returnStatus != 'Confirmed' && orderDetails.orderedItems.returnStatus != 'Refund') &&
+                                            {
+                                                orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === 'pending' && <p className='text-danger'>Payment failed</p>
+                                            }
+                                            {orderDetails.orderedItems && (orderDetails.orderedItems.returnStatus != 'Confirmed' && orderDetails.orderedItems.deliveryStatus != 'pending' && orderDetails.orderedItems.returnStatus != 'Refund') &&
                                                 <ul className="list-inline items d-flex ">
                                                     <li className="list-inline-item items-list col-3" style={{ borderTop: "2px #26A541 solid" }}>
                                                         <div className="before" style={{ content: '""', position: 'absolute', height: 8, width: 8, borderRadius: '50%', backgroundColor: '#26A541', top: 0, marginTop: '-5px', left: 0 }} />
@@ -305,21 +354,21 @@ function OrderDetails() {
                                         <h6 className="card-text"> Discount:</h6>
                                     </div>
                                     <div className="col-6 col-md-6 text-right">
-                                        <h6 className="card-text">{orderDetails.orderedItems && orderDetails.orderedItems.discount/orderDetails.orderedItems.quantity}</h6>   
+                                        <h6 className="card-text">{orderDetails.orderedItems && orderDetails.orderedItems.discount / orderDetails.orderedItems.quantity}</h6>
                                     </div>
                                 </div>
 
 
-                                
+
                                 <div className="row">
                                     <div className="col-6 col-md-6">
                                         <h5 className="card-text">Total Price:</h5>
                                     </div>
                                     <div className="col-6 col-md-6 text-right">
-                                        <h5 className="card-text">{orderDetails.orderedItems && orderDetails.orderedItems.totalprice/orderDetails.orderedItems.quantity}</h5>
+                                        <h5 className="card-text">{orderDetails.orderedItems && orderDetails.orderedItems.totalprice / orderDetails.orderedItems.quantity}</h5>
                                     </div>
                                 </div>
-                                
+
                                 <div className="row">
                                     <div className="col-6 col-md-6">
                                         <h5 className="card-text">Quantity:</h5>

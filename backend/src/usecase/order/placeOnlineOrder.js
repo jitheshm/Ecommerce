@@ -7,6 +7,7 @@ module.exports = async (orderRepository, addressRepository, razorpayGateway, dat
 
     data.deliveryAddress = address
     data.transactionId = "pending"
+    data.paymentMethod = "Online"
     const order = new Order(data)
 
     const reciept = await orderRepository.placeOrder(order)

@@ -1,5 +1,5 @@
 const express = require('express');
-const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler, searchHandler, verifyPaymentHandler, returnProductHandler, walletHandler, checkWishlistHandler, addWishlistHandler, removeWishlistHandler, WishlistHandler, fetchCategoryHandler, applyCouponHandler, getAvailableOffersHandler, getActiveCouponsHandler } = require('../routeHandlers/userRouteHandler');
+const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler, searchHandler, verifyPaymentHandler, returnProductHandler, walletHandler, checkWishlistHandler, addWishlistHandler, removeWishlistHandler, WishlistHandler, fetchCategoryHandler, applyCouponHandler, getAvailableOffersHandler, getActiveCouponsHandler, repayHandler, getOneOrderHandler } = require('../routeHandlers/userRouteHandler');
 const userAuthToken = require('../../middlewares/userAuthToken');
 const { checkSchema, checkExact } = require('express-validator');
 const signupValidator = require('../validators/user/signupValidator');
@@ -74,11 +74,15 @@ router.patch('/addtowishlist', userAuthToken, addWishlistHandler)
 router.patch('/removefromwishlist', userAuthToken, removeWishlistHandler)
 router.get('/checkwishlist', userAuthToken, checkWishlistHandler)
 router.get('/wishlist', userAuthToken, WishlistHandler)
-router.get('/categories',fetchCategoryHandler)
+router.get('/categories', fetchCategoryHandler)
 router.post('/applycoupon', userAuthToken, applyCouponHandler)
 router.get('/coupons', userAuthToken, getActiveCouponsHandler)
 
 router.get('/availableoffers/:categoryId/:productId', getAvailableOffersHandler)
+
+router.post('/orderrepayment', userAuthToken, repayHandler)
+
+router.get('/getoneorder/:orderId', userAuthToken, getOneOrderHandler)
 
 
 

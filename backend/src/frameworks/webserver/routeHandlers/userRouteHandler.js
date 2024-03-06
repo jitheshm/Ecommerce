@@ -6,7 +6,7 @@ const { signup, verifyUser, loginUser, resendOtp, changePersonaldata, getPersona
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
-const { placeOrder, getOrders, getSpecificOrder, changeStatus, verifyPayment, returnProduct } = require('../../../adapters/controllers/orderController');
+const { placeOrder, getOrders, getSpecificOrder, changeStatus, verifyPayment, returnProduct, repay, getOneOrder } = require('../../../adapters/controllers/orderController');
 const moment = require('moment');
 const { validationResult } = require('express-validator');
 const razorpayUtils = require('razorpay/dist/utils/razorpay-utils');
@@ -579,5 +579,31 @@ module.exports = {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
         }
+    },
+    repayHandler: async (req, res) => {
+        try {
+            const data = req.body
+            const result = await repay(data, razorpaykey_id, razorpaykey_secret)
+            console.log(result);
+            if (result) {
+                res.status(200).json({ success: true, data: result })
+            } else {
+                res.status(200).json({ success: false, msg: "repayment failed" })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    getOneOrderHandler: async (req, res) => {
+        try {
+            const orderId = new ObjectId(req.params.orderId)
+            const order = await getOneOrder(orderId)
+            res.status(200).json({ success: true, data: order })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+
     }
 }
