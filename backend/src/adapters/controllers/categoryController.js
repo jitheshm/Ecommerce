@@ -18,8 +18,8 @@ module.exports = {
         return status
 
     },
-    getCategory:async ()=>{
-        const result=await getCategory(categoryRepository)
+    getCategory:async (page, limit)=>{
+        const result=await getCategory(categoryRepository,page, limit)
         return result
     },
     getSpecificCategory:async(id)=>{

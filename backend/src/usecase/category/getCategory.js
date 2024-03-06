@@ -1,5 +1,5 @@
-const getCategory = async (categoryRepository) => {
-    const result = await categoryRepository.getCategory()
+const getCategory = async (categoryRepository,page, limit) => {
+    const result = await categoryRepository.getCategory(page, limit)
     return result
 }
 
