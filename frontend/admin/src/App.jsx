@@ -33,6 +33,7 @@ import ListOffers from './pages/ListOffers';
 import EditOffer from './pages/EditOffer';
 import SalesReport from './pages/SalesReport';
 import OrderDetails from './pages/OrderDetails';
+import Dashboard from './pages/Dashboard';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -110,7 +111,7 @@ function App() {
       element: <Layout><OrdersList /></Layout>
     },
     {
-      path: "/orders/orderdetails/:orderId/:productId",     
+      path: "/orders/orderdetails/:orderId/:productId",
       element: <Layout><OrderDetails /></Layout>
     },
     {
@@ -144,6 +145,10 @@ function App() {
     {
       path: '/salesreport',
       element: <Layout><SalesReport /></Layout>
+    },
+    {
+      path: "/",
+      element: <Layout><Dashboard /></Layout>   
     }
 
 
