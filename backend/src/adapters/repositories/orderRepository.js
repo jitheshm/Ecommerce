@@ -142,7 +142,7 @@ module.exports = {
             throw error;
         }
     },
-    getOrdersList: async () => {
+    getOrdersList: async (page, limit) => {
         try {
             const orders = await OrderModel.aggregate([
                 {
@@ -189,10 +189,20 @@ module.exports = {
                     $sort: {
                         orderDate: -1
                     }
-                }
+                },
+                {
+                    $skip: (page - 1) * limit
+                },
+                {
+                    $limit: limit
+                },
+
             ])
+            const totalCount = await OrderModel.countDocuments();
+            const totalPages = Math.ceil(totalCount / limit);
+
             console.log(orders);
-            return orders
+            return { orders, totalPages }
         } catch (error) {
             throw error
         }
@@ -423,7 +433,7 @@ module.exports = {
                     $group: {
                         _id: {
                             _id: "$_id",
-                            orderDate:  "$orderDate" 
+                            orderDate: "$orderDate"
                         },
                         ProductsCount: { $sum: 1 },
                         revenue: {
@@ -459,7 +469,7 @@ module.exports = {
                     }
                 }
             ]).exec()
-           
+
         } catch (error) {
             console.log(error);
             throw error

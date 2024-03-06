@@ -6,21 +6,26 @@ function OrdersList() {
     const [search, setSearch] = useState('')
     const [orders, setOrders] = useState([])
     const [toogle, setToogle] = useState(false)
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
     const handleSearch = (e) => {
         setSearch(e.target.value)
 
     }
 
     useEffect(() => {
-        instance.get('/admin/orders', {
+        instance.get(`/admin/orders?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
         }).then((res) => {
             console.log(res);
             setOrders(res.data.data)
+            setTotalPages(res.data.totalPages);
         })
-    }, [toogle])
+    }, [toogle, page])
+
     const handleChangeStatus = (status, orderId, userId, productId) => {
         instance.patch('/admin/changeorderstatus', {
             orderId: orderId,
@@ -40,6 +45,18 @@ function OrdersList() {
             console.log(err);
         })
     }
+
+    const handleNextPage = () => {
+        if (page < totalPages) {
+            setPage(page + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            setPage(page - 1);
+        }
+    };
 
     return (
         <>
@@ -161,6 +178,35 @@ function OrdersList() {
 
                                     </tbody>
                                 </table>
+
+                            </div>
+                            <div>
+                                <nav aria-label="Page navigation example">
+                                    <ul className="pagination justify-content-center  mt-4">
+                                        <li className="page-item">
+                                            {
+                                                page != 1 && <button disabled={page === 1} className="page-link" aria-label="Previous" onClick={handlePrevPage}>
+                                                    <span aria-hidden="true">«</span>
+                                                    <span className="sr-only">Previous</span>
+                                                </button>
+                                            }
+
+                                        </li>
+                                        {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">2</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">3</a></li> */}
+                                        <li className="page-item">
+                                            {
+                                                page != totalPages && <button className="page-link" aria-label="Next" onClick={handleNextPage}>
+                                                    <span aria-hidden="true">»</span>
+                                                    <span className="sr-only">Next</span>
+                                                </button>
+                                            }
+
+                                        </li>
+                                    </ul>
+                                </nav>
+
                             </div>
                         </div>
                     </div>
