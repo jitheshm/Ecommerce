@@ -14,11 +14,13 @@ module.exports = async (orderRepository, addressRepository, cartRepository, prod
             deliveryStatus: 'Confirmed',
         }
     })
+    data.paymentMethod = "Wallet"
     const tid = await walletRepository.useFund(data.userId, data.amountPaid, "debit")
-    console.log(tid,"kk");
+    console.log(tid, "kk");
     if (!tid)
         return null
     data.transactionId = tid
+    data.paymentStatus = "Payment Successfully"
     const order = new Order(data)
 
 

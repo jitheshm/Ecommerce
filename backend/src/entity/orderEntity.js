@@ -1,9 +1,11 @@
 class Order {
-    constructor({ userId, orderAmount, deliveryAddress, orderDate, deliveryDate, orderedItems, coupon, offer, transactionId, discount, amountPaid}) {
+    constructor({ userId, orderAmount, deliveryAddress, orderDate, deliveryDate, orderedItems, coupon, offer, transactionId, discount, amountPaid, paymentMethod, paymentStatus }) {
         this.userId = userId
         this.orderAmount = orderAmount;
         this.discount = discount;
         this.amountPaid = amountPaid;
+        this.paymentStatus = paymentStatus;
+        this.paymentMethod = paymentMethod;
         this.deliveryAddress = deliveryAddress;
         this.orderDate = orderDate;
         this.deliveryDate = deliveryDate;

@@ -8,6 +8,8 @@ const OrderSchema = new mongoose.Schema({
     orderAmount: { type: Number, required: true },
     discount: { type: Number, required: true },
     amountPaid: { type: Number, required: true },
+    paymentStatus: { type: String, required: true, default: "payment pending" },
+    paymentMethod: { type: String, required: true },
     deliveryAddress: { type: Object, required: true },
     orderDate: { type: Date, required: true },
     deliveryDate: { type: String },

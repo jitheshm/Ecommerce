@@ -30,6 +30,8 @@ import SearchResults from './components/SearchResults/SearchResults';
 import SearchResult from './pages/SearchResult';
 import Wallet from './pages/Wallet';
 import Account from './components/mobile/Account';
+import Repayment from './pages/Repayment';
+
 
 function App() {
     const [loading, setloading] = useState(true)
@@ -115,6 +117,10 @@ function App() {
         {
             path: "/search/:searchQuery",
             element: <SearchResult />
+        },
+        {
+            path: "/order/repayment/:orderId",
+            element: <Repayment />
         }
 
 

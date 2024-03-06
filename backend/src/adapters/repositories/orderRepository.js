@@ -22,7 +22,7 @@ module.exports = {
                 {
                     $match: {
                         userId: userId,
-                        "orderedItems.deliveryStatus": { $ne: 'pending' }
+
                     }
                 },
                 {
@@ -197,11 +197,17 @@ module.exports = {
             throw error
         }
     },
-    updateOrder: async (orderId, paymentId, status) => {
+    updateOrder: async (orderId, paymentId, status, paymentStatus) => {
         try {
             const order = await OrderModel.findOneAndUpdate(
                 { _id: orderId },
-                { $set: { "orderedItems.$[].deliveryStatus": status }, transactionId: paymentId },
+                {
+                    $set: {
+                        "orderedItems.$[].deliveryStatus": status,
+                        transactionId: paymentId,
+                        paymentStatus: paymentStatus
+                    }
+                },
                 { new: true }
             );
 
@@ -354,5 +360,44 @@ module.exports = {
         } catch (error) {
             throw error;
         }
+    },
+    getOrder: async (orderId) => {
+        const order = await OrderModel.aggregate([
+            {
+                $match: {
+                    _id: orderId
+                }
+            }
+            ,
+            {
+                $unwind: '$orderedItems'
+            }
+            ,
+            {
+                $lookup: {
+                    from: 'productvarients',
+                    localField: 'orderedItems.productId',
+                    foreignField: '_id',
+                    as: 'variants'
+                }
+            },
+            {
+                $unwind: '$variants'
+            },
+            {
+                $lookup: {
+                    from: 'products',
+                    localField: 'variants.productId',
+                    foreignField: '_id',
+                    as: 'productDetails'
+                }
+            },
+            {
+                $unwind: '$productDetails'
+            }
+
+        ]).exec()
+        return order
     }
+
 }
