@@ -72,8 +72,8 @@ module.exports = {
             return true
 
     },
-    ordersList: async () => {
-        return await orderList(orderRepository)
+    ordersList: async (page,limit) => {
+        return await orderList(orderRepository,page,limit)
     },
     verifyPayment: async (data, secret) => {
         console.log("verify payment");
