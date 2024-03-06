@@ -1,3 +1,3 @@
-module.exports = async (couponRepository) => {
-    return await couponRepository.getAllCoupon()
+module.exports = async (couponRepository,page, limit) => {
+    return await couponRepository.getAllCoupon(page, limit)
 }
