@@ -244,9 +244,9 @@ module.exports = {
         }
 
     },
-    getReturnOrdersList: async () => {
+    getReturnOrdersList: async (page, limit) => {
         try {
-            const orders = await OrderModel.aggregate([
+            const result = await OrderModel.aggregate([
                 {
                     $unwind: '$orderedItems'
                 },
@@ -256,13 +256,34 @@ module.exports = {
                     }
                 },
                 {
-                    $sort: {
-                        orderDate: -1
+                    $facet: {
+                        totalCount: [
+                            {
+                                $count: "total"
+                            }
+                        ],
+                        orders: [
+                            {
+                                $sort: {
+                                    orderDate: -1
+                                }
+                            },
+                            {
+                                $skip: (page - 1) * limit
+                            },
+                            {
+                                $limit: limit
+                            }
+                        ]
                     }
                 }
             ])
-            console.log(orders);
-            return orders
+           
+            const orders = result[0].orders
+            const totalCount = result[0].totalCount.length > 0 ? result[0].totalCount[0].total : 0;
+            const totalPages = Math.ceil(totalCount / limit);
+
+            return { orders, totalPages }
         } catch (error) {
             throw error
         }

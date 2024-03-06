@@ -86,8 +86,8 @@ module.exports = {
 
         return await returnProduct(orderRepository, orderId, userId, productId, reason)
     },
-    returnOrdersList: async () => {
-        return await returnOrdersList(orderRepository)
+    returnOrdersList: async (page,limit) => {
+        return await returnOrdersList(orderRepository,page,limit)
     },
     changeReturnStatus: async (orderId, productId, status) => {
         await changeReturnStatus(orderRepository, orderId, productId, status)

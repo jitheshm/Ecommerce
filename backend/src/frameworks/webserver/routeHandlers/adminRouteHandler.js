@@ -368,8 +368,11 @@ module.exports = {
     },
     returnordersListHandler: async (req, res) => {
         try {
-            const orders = await returnOrdersList()
-            res.status(200).json({ success: true, data: orders })
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const result = await returnOrdersList(page, limit)
+            console.log(result);
+            res.status(200).json({ success: true, data: result.orders, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
