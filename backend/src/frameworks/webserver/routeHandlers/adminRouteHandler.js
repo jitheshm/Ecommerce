@@ -256,8 +256,10 @@ module.exports = {
     },
     getCategoryHandler: async (req, res) => {
         try {
-            const result = await getCategory()
-            res.status(200).json({ success: true, data: result })
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const result = await getCategory(page, limit)
+            res.status(200).json({ success: true, data: result.categories, totalPages: result.totalPages})
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

@@ -14,7 +14,7 @@ module.exports = {
     },
     update: async (data, id) => {
         try {
-            const res=await CategoryModel.updateOne({ _id: id,isDeleted:false }, data)
+            const res = await CategoryModel.updateOne({ _id: id, isDeleted: false }, data)
             if (res.matchedCount === 0)
                 return false
             else
@@ -26,7 +26,7 @@ module.exports = {
     },
     delete: async (id) => {
         try {
-            const status=await CategoryModel.findOne({ _id: id })
+            const status = await CategoryModel.findOne({ _id: id })
             if (status) {
                 status.isDeleted = true
                 await status.save()
@@ -39,20 +39,21 @@ module.exports = {
             throw error
         }
     },
-    getCategory: async() => {
+    getCategory: async (page, limit) => {
         try {
-            const categories=await CategoryModel.find({isDeleted:false})
+            const categories = await CategoryModel.find({ isDeleted: false }).skip((page - 1) * limit).limit(limit)
+            const count = await CategoryModel.countDocuments({ isDeleted: false })
             console.log(categories);
-            return categories
+            return { categories, totalPages: Math.ceil(count / limit) }
         } catch (error) {
             console.log("category fetching failed" + error);
             throw error
         }
     },
-    getSpecificCategory: async(id) => {
+    getSpecificCategory: async (id) => {
         try {
-            const category=await CategoryModel.findOne({_id:id})
-            
+            const category = await CategoryModel.findOne({ _id: id })
+
             return category
         } catch (error) {
             console.log("category fetching failed" + error);
