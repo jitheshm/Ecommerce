@@ -64,10 +64,12 @@ module.exports = {
             throw error
         }
     },
-    fetchUsers: async () => {
+    fetchUsers: async (page, limit) => {
         try {
-            const users = await UserModel.find({})
-            return users
+            const users = await UserModel.find({}).skip((page - 1) * limit).limit(limit)
+            const totalUsers = await UserModel.countDocuments()
+            const totalPages = Math.ceil(totalUsers / limit)
+            return { users, totalPages }
         } catch (error) {
             throw error
         }

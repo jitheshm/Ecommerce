@@ -64,8 +64,11 @@ module.exports = {
     },
     fetchAllUsersHandler: async (req, res) => {
         try {
-            const users = await fetchAllUsers()
-            res.status(200).json({ success: true, data: users })
+
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const result = await fetchAllUsers(page, limit)
+            res.status(200).json({ success: true, data: result.users, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
@@ -285,7 +288,7 @@ module.exports = {
         try {
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 10;
-            const result = await getAllProducts(page,limit)
+            const result = await getAllProducts(page, limit)
             res.status(200).json({ success: true, data: result.products, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
