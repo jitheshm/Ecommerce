@@ -19,8 +19,8 @@ module.exports={
         const status= await unblockUser(userId,userRepository)
         return status
     },
-    fetchAllUsers:async()=>{
-        const users=await fetchUsers(userRepository)
+    fetchAllUsers:async(page, limit)=>{
+        const users=await fetchUsers(userRepository,page, limit)
         return users
     }
 }
