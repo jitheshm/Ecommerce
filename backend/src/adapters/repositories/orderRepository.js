@@ -398,6 +398,72 @@ module.exports = {
 
         ]).exec()
         return order
+    },
+    salesOverview: (startDate, endDate, dateFormat) => {
+        try {
+            console.log(startDate, endDate, dateFormat);
+            return OrderModel.aggregate([
+                {
+                    $match: {
+                        orderDate: {
+                            $gte: new Date(startDate),
+                            $lte: new Date(endDate)
+                        }
+                    }
+                },
+                {
+                    $unwind: '$orderedItems'
+                },
+                {
+                    $match: {
+                        "orderedItems.deliveryStatus": { $nin: ['Cancelled', 'pending'] }
+                    }
+                },
+                {
+                    $group: {
+                        _id: {
+                            _id: "$_id",
+                            orderDate:  "$orderDate" 
+                        },
+                        ProductsCount: { $sum: 1 },
+                        revenue: {
+                            $sum: {
+                                $cond: [{ $ne: ["$orderedItems.deliveryStatus", "Cancelled"] }, "$orderedItems.totalprice", 0]
+                            }
+                        },
+                        discount: {
+                            $sum: {
+                                $cond: [{ $ne: ["$orderedItems.deliveryStatus", "Cancelled"] }, "$orderedItems.discount", 0]
+                            }
+
+                        },
+                        couponDiscount: {
+                            $max: {
+                                $cond: [{ $ne: ["$orderedItems.deliveryStatus", "Cancelled"] }, "$discount", 0]
+                            }
+                        }
+                    }
+                },
+                {
+                    $group: {
+                        _id: { $dateToString: { format: dateFormat, date: "$_id.orderDate" } },
+                        orderCount: { $sum: 1 },
+                        productsCount: { $sum: '$ProductsCount' },
+                        revenue: { $sum: '$revenue' },
+                        discount: { $sum: '$discount' },
+                        couponDiscount: { $sum: '$couponDiscount' }
+                    }
+                }, {
+                    $sort: {
+                        _id: 1
+                    }
+                }
+            ]).exec()
+           
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
 
 }

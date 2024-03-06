@@ -23,6 +23,7 @@ const generateSalesReport = require("../../usecase/order/generateSalesReport")
 const placeWalletOrder = require("../../usecase/order/placeWalletOrder")
 const repay = require("../../usecase/order/repay")
 const getOneOrder = require("../../usecase/order/getOneOrder")
+const salesOverview = require("../../usecase/order/salesOverview")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
@@ -101,7 +102,11 @@ module.exports = {
     repay: async (data, razorpaykey_id, razorpaykey_secret) => {
         return await repay(razorpayGateway, data, razorpaykey_id, razorpaykey_secret)
     },
-    getOneOrder: async(orderId) => {
+    getOneOrder: async (orderId) => {
         return await getOneOrder(orderRepository, orderId)
+    },
+
+    salesOverview: async (filter) => {
+        return await salesOverview(orderRepository, filter)
     }
 }
