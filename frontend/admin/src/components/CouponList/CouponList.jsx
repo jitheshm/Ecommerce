@@ -6,9 +6,11 @@ import Swal from 'sweetalert2'
 function CouponList() {
     const [coupons, setCoupons] = useState([])
     const [search, setSearch] = useState("")
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
-        instance.get('/admin/getallcoupons', {
+        instance.get(`/admin/getallcoupons?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -16,8 +18,21 @@ function CouponList() {
             console.log(res);
 
             setCoupons(res.data.data)
+            setTotalPages(res.data.totalPages);
         })
-    }, [])
+    }, [page])
+
+    const handleNextPage = () => {
+        if (page < totalPages) {
+            setPage(page + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            setPage(page - 1);
+        }
+    };
 
     const handleSearch = (e) => {
         setSearch(e.target.value)
@@ -40,7 +55,7 @@ function CouponList() {
             confirmButtonText: "Confirm",
             // customClass: {
             //     title: 'text-light',
-                
+
             // }
 
         }).then((result) => {
@@ -120,6 +135,34 @@ function CouponList() {
 
                                     </tbody>
                                 </table>
+                            </div>
+                            <div>
+                                <nav aria-label="Page navigation example">
+                                    <ul className="pagination justify-content-center  mt-4">
+                                        <li className="page-item">
+                                            {
+                                                page != 1 && <button disabled={page === 1} className="page-link" aria-label="Previous" onClick={handlePrevPage}>
+                                                    <span aria-hidden="true">«</span>
+                                                    <span className="sr-only">Previous</span>
+                                                </button>
+                                            }
+
+                                        </li>
+                                        {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">2</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">3</a></li> */}
+                                        <li className="page-item">
+                                            {
+                                                page != totalPages && <button className="page-link" aria-label="Next" onClick={handleNextPage}>
+                                                    <span aria-hidden="true">»</span>
+                                                    <span className="sr-only">Next</span>
+                                                </button>
+                                            }
+
+                                        </li>
+                                    </ul>
+                                </nav>
+
                             </div>
                         </div>
                     </div>

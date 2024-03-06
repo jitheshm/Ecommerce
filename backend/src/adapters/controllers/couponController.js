@@ -19,8 +19,8 @@ module.exports = {
     updateCoupon: async (data) => {
         return await updateCoupon(data, couponRepository)
     },
-    getAllCoupon: async () => {
-        return await getAllCoupon(couponRepository)
+    getAllCoupon: async (page, limit) => {
+        return await getAllCoupon(couponRepository,page, limit)
     },
     deleteCoupon: async (id) => {
         return await deleteCoupon(id, couponRepository)

@@ -28,9 +28,12 @@ module.exports = {
             throw new Error(error);
         }
     },
-    getAllCoupon: async () => {
+    getAllCoupon: async (page, limit) => {
         try {
-            return await CouponModel.find();
+            const coupons = await CouponModel.find().skip((page - 1) * limit).limit(limit);
+            const totalCoupons = await CouponModel.countDocuments();
+            const totalPages = Math.ceil(totalCoupons / limit);
+            return { coupons, totalPages };
         } catch (err) {
             throw new Error(err);
         }
