@@ -63,8 +63,8 @@ module.exports = {
         const result = await editProduct(id, productRepository)
         return result
     },
-    getAllProducts: async () => {
-        const result = await getAllProducts(productRepository)
+    getAllProducts: async (page,limit) => {
+        const result = await getAllProducts(productRepository,page,limit)
         return result
     },
     getVarient: async (id) => {

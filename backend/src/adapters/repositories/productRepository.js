@@ -71,10 +71,43 @@ module.exports = {
             throw error
         }
     },
-    getAll: async () => {
+    getAll: async (page, limit) => {
         try {
-            const products = await ProductModel.find({ isDeleted: false })
-            return products
+            // const products = await ProductModel.find({ isDeleted: false }).skip((page - 1) * limit).limit(limit)
+            const result = await ProductModel.aggregate([
+                {
+                    $match: {
+                        isDeleted: false
+                    },
+
+
+                }, {
+                    $facet: {
+                        totalCount: [
+                            {
+                                $count: "total"
+                            }
+                        ],
+                        products: [
+
+                            {
+                                $skip: (page - 1) * limit
+                            },
+                            {
+                                $limit: limit
+                            }
+                        ]
+
+
+
+                    }
+                }
+
+            ])
+            const products = result[0].products
+            const totalCount = result[0].totalCount.length > 0 ? result[0].totalCount[0].total : 0;
+            const totalPages = Math.ceil(totalCount / limit);
+            return { products, totalPages }
         } catch (error) {
             console.log(error);
             throw error
