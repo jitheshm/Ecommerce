@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import AddressCard from '../AddressCard/AddressCard'
 import OrderSummary from '../OrderSummary/OrderSummary'
 import PriceDetails from '../PriceDetails/PriceDetails'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import instance from '../../axios'
 import Cookies from 'js-cookie'
 import { BASEURL } from '../../constants/constant.json'
@@ -15,16 +15,20 @@ function Repayment({ setOrderPlaced, setOrderReciept }) {
     const [total, setTotal] = useState(0)
     const { orderId } = useParams()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     useEffect(() => {
         instance.get(`user/getoneorder/${orderId}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
         }).then((res) => {
-            console.log(res.data.data[0]);
-            if (res.data.data[0].paymentStatus === "delivered") {
+            console.log(res.data.data);
+            if (res.data.data[0].paymentStatus === "payment pending") {
                 setOrderItems(res.data.data)
                 //setTotal(res.data.data.totalPrice)
+            }
+            else {
+                navigate('/profile/orders')
             }
 
         }).catch((err) => {
