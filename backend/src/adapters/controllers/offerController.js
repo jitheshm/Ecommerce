@@ -10,8 +10,8 @@ module.exports = {
     addOffer: async (data) => {
         return await addOffer(data, offerRepository)
     },
-    getAllOffers: async () => {
-        return await getAllOffers(offerRepository)
+    getAllOffers: async (page, limit) => {
+        return await getAllOffers(offerRepository,page, limit)
     },
     getOffer: async (id) => {
         return await getOffer(id, offerRepository)

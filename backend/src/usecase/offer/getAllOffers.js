@@ -1,3 +1,3 @@
-module.exports = async (offerRepository) => {
-    return await offerRepository.getAllOffers()
+module.exports = async (offerRepository,page, limit) => {
+    return await offerRepository.getAllOffers(page, limit)
 }

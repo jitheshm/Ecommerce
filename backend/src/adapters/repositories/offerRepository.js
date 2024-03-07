@@ -8,9 +8,9 @@ module.exports = {
             throw new Error(err);
         }
     },
-    getAllOffers: async () => {
+    getAllOffers: async (page, limit) => {
         try {
-            return await OfferModel.aggregate([
+            const offers = await OfferModel.aggregate([
                 {
                     $unwind: "$applicables"
                 },
@@ -29,8 +29,17 @@ module.exports = {
                         foreignField: "_id",
                         as: "offerCategories"
                     }
+                },
+                {
+                    $skip: (page - 1) * limit
+                },
+                {
+                    $limit: limit
                 }
             ]);
+            const totalCount = await OfferModel.countDocuments();
+            const totalPages = Math.ceil(totalCount / limit);
+            return { offers, totalPages };
         } catch (err) {
             throw new Error(err);
         }
