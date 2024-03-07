@@ -16,9 +16,9 @@ module.exports = {
             throw error
         }
     },
-    getOrders: async (userId) => {
+    getOrders: async (userId, page, limit) => {
         try {
-            const orders = await OrderModel.aggregate([
+            const result = await OrderModel.aggregate([
                 {
                     $match: {
                         userId: userId,
@@ -51,9 +51,27 @@ module.exports = {
                 {
                     $unwind: '$productDetails'
                 },
+
                 {
-                    $sort: {
-                        orderDate: -1
+                    $facet: {
+                        totalCount: [
+                            {
+                                $count: "total"
+                            }
+                        ],
+                        orders: [
+                            {
+                                $sort: {
+                                    orderDate: -1
+                                }
+                            },
+                            {
+                                $skip: (page - 1) * limit
+                            },
+                            {
+                                $limit: limit
+                            }
+                        ]
                     }
                 }
 
@@ -67,7 +85,10 @@ module.exports = {
                 // },
 
             ]).exec()
-            return orders
+            const orders = result[0].orders
+            const totalCount = result[0].totalCount.length > 0 ? result[0].totalCount[0].total : 0;
+            const totalPages = Math.ceil(totalCount / limit);
+            return { orders, totalPages }
         } catch (error) {
             throw error
         }
@@ -142,7 +163,7 @@ module.exports = {
             throw error;
         }
     },
-    getOrdersList: async (page=1, limit=1000) => {
+    getOrdersList: async (page = 1, limit = 1000) => {
         try {
             const orders = await OrderModel.aggregate([
                 {
@@ -278,7 +299,7 @@ module.exports = {
                     }
                 }
             ])
-           
+
             const orders = result[0].orders
             const totalCount = result[0].totalCount.length > 0 ? result[0].totalCount[0].total : 0;
             const totalPages = Math.ceil(totalCount / limit);

@@ -56,8 +56,8 @@ module.exports = {
         return receipt
     },
 
-    getOrders: async (userId) => {
-        return await getOrders(orderRepository, userId)
+    getOrders: async (userId,page, limit) => {
+        return await getOrders(orderRepository, userId,page, limit)
     },
     getSpecificOrder: async (orderId, productId) => {
         return await getSpecificOrder(orderRepository, orderId, productId)

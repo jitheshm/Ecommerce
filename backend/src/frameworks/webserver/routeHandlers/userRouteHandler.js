@@ -317,9 +317,11 @@ module.exports = {
     },
     getOrderHandler: async (req, res) => {
         try {
-            const result = await getOrders(new ObjectId(req.user.id))
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const result = await getOrders(new ObjectId(req.user.id),page, limit)
             console.log(result);
-            res.status(200).json({ success: true, data: result })
+            res.status(200).json({ success: true, data: result.orders, totalPages: result.totalPages})
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
