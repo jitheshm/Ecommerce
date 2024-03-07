@@ -10,6 +10,7 @@ import { logout } from '../../features/user/userSlice'
 import { useNavigate } from 'react-router-dom'
 import OrderSummary from '../OrderSummary/OrderSummary'
 import CouponList from '../CouponList/CouponList'
+import Swal from 'sweetalert2'
 function CheckOut({ setOrderPlaced, setOrderReciept }) {
     const [address, setAddress] = useState([])
     const [orderAddress, setOrderAddress] = useState()
@@ -133,9 +134,11 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
             name: 'Your Company Name',
             description: 'Test Payment',
             order_id: data.id,
+            retry:false,
             handler: async function (response) {
                 try {
                     console.log(data);
+                   
                     const paymentId = response.razorpay_payment_id;
                     const orderId = response.razorpay_order_id
                     const signature = response.razorpay_signature;
@@ -155,19 +158,29 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                         }
                     }).then((res) => {
                         if (res.data.success) {
+
                             console.log("Payment successfull");
                             console.log(res.data.data);
                             setOrderReciept(res.data.data)
                             setOrderPlaced(true)
                         } else {
-                            alert('Payment failed')
+                            Swal.fire({
+                                title: "Payment Failed",
+                                text: "Payment failed, please try again",
+                                icon: "error"
+                            });
                         }
                     })
 
                 } catch (error) {
                     console.error('Error capturing payment:', error);
                     // setPaymentStatus('Payment failed!');
-                    alert('Payment failed')
+                    // alert('Payment failed')
+                    Swal.fire({
+                        title: "Payment Failed",
+                        text: "Payment failed, please try again",
+                        icon: "error"
+                    });
                 }
             },
             prefill: {
@@ -185,6 +198,21 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
 
 
         const paymentObject = new window.Razorpay(options);
+        paymentObject.on('payment.failed', function (response) {
+            console.log(response.error.code);
+            console.log(response.error.description);
+            console.log(response.error.source);
+            console.log(response.error.step);
+            console.log(response.error.reason);
+            console.log(response.error.metadata.order_id);
+            console.log(response.error.metadata.payment_id);
+            //paymentObject.close();
+            Swal.fire({
+                title: "Payment Failed",
+                text: "Payment failed, please try again",
+                icon: "error"
+            });
+        })
 
         paymentObject.open();
     }
