@@ -577,8 +577,8 @@ module.exports = {
                 {
                     $project: {
                         _id: 0,
-                        productId: '$_id.productId',
-                        productName: '$_id.productName',
+                        id: '$_id.productId',
+                        name: '$_id.productName',
                         totalQuantity: 1
                     }
                 }
@@ -588,6 +588,173 @@ module.exports = {
         } catch (error) {
             throw error
         }
-    }
+    },
+
+    topSellingCategories: async () => {
+        try {
+            const topCategories = await OrderModel.aggregate([
+                {
+                    $unwind: '$orderedItems'
+                },
+                {
+                    $group: {
+                        _id: "$orderedItems.productId",
+                        totalQuantity: { $sum: "$orderedItems.quantity" }
+                    }
+                },
+                {
+                    $sort: {
+                        totalQuantity: -1
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'productvarients',
+                        localField: '_id',
+                        foreignField: '_id',
+                        as: 'varientDetails'
+                    }
+                },
+                {
+                    $unwind: '$varientDetails'
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: 'varientDetails.productId',
+                        foreignField: '_id',
+                        as: 'productDetails'
+                    }
+                },
+                {
+                    $unwind: '$productDetails'
+                },
+                {
+                    $group: {
+                        _id: {
+                            categoryId: '$productDetails.categoryId',
+
+                        },
+                        totalQuantity: { $sum: "$totalQuantity" }
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'categories',
+                        localField: '_id.categoryId',
+                        foreignField: '_id',
+                        as: 'categoryDetails'
+                    }
+                },
+                {
+                    $unwind: '$categoryDetails'
+                },
+                {
+                    $group: {
+                        _id: {
+                            categoryId: '$_id.categoryId',
+                            categoryName: '$categoryDetails.category'
+                        },
+                        totalQuantity: { $sum: "$totalQuantity" }
+                    }
+                },
+                {
+                    $sort: {
+                        totalQuantity: -1
+                    }
+                },
+                {
+                    $limit: 10
+                },
+
+                {
+                    $project: {
+                        _id: 0,
+                        id: '$_id.categoryId',
+                        name: '$_id.categoryName',
+                        totalQuantity: 1
+                    }
+                }
+            ]).exec()
+            console.log(topCategories);
+            return topCategories
+        } catch (error) {
+            throw error
+        }
+    },
+
+    topSellingBrands: async () => {
+        try {
+            const topBrands = await OrderModel.aggregate([
+                {
+                    $unwind: '$orderedItems'
+                },
+                {
+                    $group: {
+                        _id: "$orderedItems.productId",
+                        totalQuantity: { $sum: "$orderedItems.quantity" }
+                    }
+                },
+                {
+                    $sort: {
+                        totalQuantity: -1
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'productvarients',
+                        localField: '_id',
+                        foreignField: '_id',
+                        as: 'varientDetails'
+                    }
+                },
+                {
+                    $unwind: '$varientDetails'
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: 'varientDetails.productId',
+                        foreignField: '_id',
+                        as: 'productDetails'
+                    }
+                },
+                {
+                    $unwind: '$productDetails'
+                },
+                {
+                    $group: {
+                        _id: {
+                            brand: '$productDetails.brand'
+
+                        },
+                        totalQuantity: { $sum: "$totalQuantity" }
+                    }
+                },
+
+
+                {
+                    $sort: {
+                        totalQuantity: -1
+                    }
+                },
+                {
+                    $limit: 10
+                },
+
+                {
+                    $project: {
+                        _id: 0,
+                        name: '$_id.brand',
+                        totalQuantity: 1
+                    }
+                }
+            ]).exec()
+            console.log(topBrands);
+            return topBrands
+        } catch (error) {
+            throw error
+        }
+    },
 
 }

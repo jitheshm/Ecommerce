@@ -6,7 +6,7 @@ const { productAdd, varientAdd, varientUpdate, varientDelete, productUpdate, all
 const path = require('path');
 const fs = require('fs');
 const { categoryAdd, categoryUpdate, categoryDelete, getCategory, getSpecificCategory } = require('../../../adapters/controllers/categoryController');
-const { ordersList, changeStatus, returnOrdersList, changeReturnStatus, generateSalesReport, getSpecificOrder, salesOverview, topSellingProducts } = require('../../../adapters/controllers/orderController');
+const { ordersList, changeStatus, returnOrdersList, changeReturnStatus, generateSalesReport, getSpecificOrder, salesOverview, topSellingProducts, topSellingCategories, topSellingBrands } = require('../../../adapters/controllers/orderController');
 const { validationResult } = require('express-validator');
 const { addCoupon, getCoupon, updateCoupon, getAllCoupon, deleteCoupon } = require('../../../adapters/controllers/couponController');
 const { addOffer, getAllOffers, getOffer, updateOffer, deleteOffer } = require('../../../adapters/controllers/offerController');
@@ -574,6 +574,24 @@ module.exports = {
     topSellingProductsHandler:async(req,res)=>{
         try {
             const data = await topSellingProducts()
+            res.status(200).json({ success: true, data: data })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    topSellingCategoriesHandler:async(req,res)=>{
+        try {
+            const data = await topSellingCategories()
+            res.status(200).json({ success: true, data: data })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    topSellingBrandsHandler:async(req,res)=>{
+        try {
+            const data = await topSellingBrands()
             res.status(200).json({ success: true, data: data })
         } catch (error) {
             console.log(error);
