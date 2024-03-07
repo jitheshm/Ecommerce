@@ -8,9 +8,11 @@ function OffersList() {
 
     const [offers, setOffers] = useState([])
     const [search, setSearch] = useState("")
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
-        instance.get('/admin/getalloffers', {
+        instance.get(`/admin/getalloffers?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -18,8 +20,21 @@ function OffersList() {
             console.log(res);
 
             setOffers(res.data.data)
+            setTotalPages(res.data.totalPages);
         })
     }, [])
+
+    const handleNextPage = () => {
+        if (page < totalPages) {
+            setPage(page + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            setPage(page - 1);
+        }
+    };
 
     const handleSearch = (e) => {
         setSearch(e.target.value)
@@ -42,7 +57,7 @@ function OffersList() {
             confirmButtonText: "Confirm",
             // customClass: {
             //     title: 'text-light',
-                
+
             // }
 
         }).then((result) => {
@@ -59,7 +74,7 @@ function OffersList() {
                 })
             }
         })
-        
+
     }
     return (
         <>
@@ -106,7 +121,7 @@ function OffersList() {
                                                             <td style={{ color: "#bcc0d7" }}>{offer.discountType}</td>
                                                             <td style={{ color: "#bcc0d7" }}>{offer.discount}</td>
                                                             <td style={{ color: "#bcc0d7" }}>{offer.offerType}</td>
-                                                            <td style={{ color: "#bcc0d7" }}>{offer.offerType==='category'?offer.offerCategories[0].category:offer.offerProducts[0].productName}</td>
+                                                            <td style={{ color: "#bcc0d7" }}>{offer.offerType === 'category' ? offer.offerCategories[0].category : offer.offerProducts[0].productName}</td>
                                                             <td className='d-flex gap-3 justify-content-center' style={{ width: "200px" }}>
 
                                                                 <Link to={`/editoffer/${offer._id}`} className='btn btn-outline-warning'>Edit</Link>
@@ -126,6 +141,34 @@ function OffersList() {
 
                                     </tbody>
                                 </table>
+                            </div>
+                            <div>
+                                <nav aria-label="Page navigation example">
+                                    <ul className="pagination justify-content-center  mt-4">
+                                        <li className="page-item">
+                                            {
+                                                page != 1 && <button disabled={page === 1} className="page-link" aria-label="Previous" onClick={handlePrevPage}>
+                                                    <span aria-hidden="true">«</span>
+                                                    <span className="sr-only">Previous</span>
+                                                </button>
+                                            }
+
+                                        </li>
+                                        {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">2</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">3</a></li> */}
+                                        <li className="page-item">
+                                            {
+                                                page != totalPages && <button className="page-link" aria-label="Next" onClick={handleNextPage}>
+                                                    <span aria-hidden="true">»</span>
+                                                    <span className="sr-only">Next</span>
+                                                </button>
+                                            }
+
+                                        </li>
+                                    </ul>
+                                </nav>
+
                             </div>
                         </div>
                     </div>

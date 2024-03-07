@@ -442,7 +442,7 @@ module.exports = {
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 10;
             const result = await getAllCoupon(page, limit)
-            res.status(200).json({ success: true, data: result.coupons, totalPages: result.totalPages})
+            res.status(200).json({ success: true, data: result.coupons, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
@@ -480,9 +480,10 @@ module.exports = {
     },
     getallOffersHandler: async (req, res) => {
         try {
-
-            const result = await getAllOffers()
-            res.status(200).json({ success: true, data: result })
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const result = await getAllOffers(page, limit)
+            res.status(200).json({ success: true, data: result.offers, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
