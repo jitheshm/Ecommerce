@@ -24,6 +24,7 @@ const placeWalletOrder = require("../../usecase/order/placeWalletOrder")
 const repay = require("../../usecase/order/repay")
 const getOneOrder = require("../../usecase/order/getOneOrder")
 const salesOverview = require("../../usecase/order/salesOverview")
+const topSellingProducts = require("../../usecase/order/topSellingProducts")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
@@ -56,8 +57,8 @@ module.exports = {
         return receipt
     },
 
-    getOrders: async (userId,page, limit) => {
-        return await getOrders(orderRepository, userId,page, limit)
+    getOrders: async (userId, page, limit) => {
+        return await getOrders(orderRepository, userId, page, limit)
     },
     getSpecificOrder: async (orderId, productId) => {
         return await getSpecificOrder(orderRepository, orderId, productId)
@@ -72,8 +73,8 @@ module.exports = {
             return true
 
     },
-    ordersList: async (page,limit) => {
-        return await orderList(orderRepository,page,limit)
+    ordersList: async (page, limit) => {
+        return await orderList(orderRepository, page, limit)
     },
     verifyPayment: async (data, secret) => {
         console.log("verify payment");
@@ -86,8 +87,8 @@ module.exports = {
 
         return await returnProduct(orderRepository, orderId, userId, productId, reason)
     },
-    returnOrdersList: async (page,limit) => {
-        return await returnOrdersList(orderRepository,page,limit)
+    returnOrdersList: async (page, limit) => {
+        return await returnOrdersList(orderRepository, page, limit)
     },
     changeReturnStatus: async (orderId, productId, status) => {
         await changeReturnStatus(orderRepository, orderId, productId, status)
@@ -108,5 +109,9 @@ module.exports = {
 
     salesOverview: async (filter) => {
         return await salesOverview(orderRepository, filter)
+    },
+
+    topSellingProducts: async () => {
+        return await topSellingProducts(orderRepository)
     }
 }

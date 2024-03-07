@@ -516,6 +516,78 @@ module.exports = {
             console.log(error);
             throw error
         }
+    },
+    topSellingProducts: async () => {
+        try {
+            const topProducts = await OrderModel.aggregate([
+                {
+                    $unwind: '$orderedItems'
+                },
+                {
+                    $group: {
+                        _id: "$orderedItems.productId",
+                        totalQuantity: { $sum: "$orderedItems.quantity" }
+                    }
+                },
+                {
+                    $sort: {
+                        totalQuantity: -1
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'productvarients',
+                        localField: '_id',
+                        foreignField: '_id',
+                        as: 'varientDetails'
+                    }
+                },
+                {
+                    $unwind: '$varientDetails'
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: 'varientDetails.productId',
+                        foreignField: '_id',
+                        as: 'productDetails'
+                    }
+                },
+                {
+                    $unwind: '$productDetails'
+                },
+                {
+                    $group: {
+                        _id: {
+                            productId: '$_id',
+                            productName: '$productDetails.productName'
+                        },
+                        totalQuantity: { $sum: "$totalQuantity" }
+                    }
+                },
+                {
+                    $sort: {
+                        totalQuantity: -1
+                    }
+                },
+                {
+                    $limit: 10
+                },
+
+                {
+                    $project: {
+                        _id: 0,
+                        productId: '$_id.productId',
+                        productName: '$_id.productName',
+                        totalQuantity: 1
+                    }
+                }
+            ]).exec()
+            console.log(topProducts);
+            return topProducts
+        } catch (error) {
+            throw error
+        }
     }
 
 }
