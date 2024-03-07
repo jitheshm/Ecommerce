@@ -351,10 +351,10 @@ module.exports = {
             throw error;
         }
     },
-    generateSalesReport: async (startDate, endDate) => {
+    generateSalesReport: async (startDate, endDate, page, limit) => {
         try {
             console.log(new Date(startDate), new Date(endDate));
-            const report = await OrderModel.aggregate([
+            const result = await OrderModel.aggregate([
                 {
                     $match: {
                         orderDate: {
@@ -372,43 +372,67 @@ module.exports = {
                     }
                 },
                 {
-                    $group: {
-                        _id: {
-                            _id: "$_id",
-                            orderDate: { $dateToString: { format: "%Y-%m-%d", date: "$orderDate" } }
-                        },
-                        ProductsCount: { $sum: 1 },
-                        revenue: {
-                            $sum: {
-                                $cond: [{ $ne: ["$orderedItems.deliveryStatus", "Cancelled"] }, "$orderedItems.totalprice", 0]
-                            }
-                        },
-                        discount: {
-                            $sum: {
-                                $cond: [{ $ne: ["$orderedItems.deliveryStatus", "Cancelled"] }, "$orderedItems.discount", 0]
-                            }
-
-                        },
-                        couponDiscount: {
-                            $max: {
-                                $cond: [{ $ne: ["$orderedItems.deliveryStatus", "Cancelled"] }, "$discount", 0]
-                            }
-                        }
+                    $lookup: {
+                        from: 'users',
+                        localField: 'userId',
+                        foreignField: '_id',
+                        as: 'userDetails'
                     }
                 },
                 {
-                    $group: {
-                        _id: "$_id.orderDate",
-                        ProductsCount: { $sum: '$ProductsCount' },
-                        revenue: { $sum: '$revenue' },
-                        discount: { $sum: '$discount' },
-                        couponDiscount: { $sum: '$couponDiscount' }
+                    $lookup: {
+                        from: 'productvarients',
+                        localField: 'orderedItems.productId',
+                        foreignField: '_id',
+                        as: 'varients'
+
+                    }
+                },
+                {
+                    $unwind: '$varients'
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: 'varients.productId',
+                        foreignField: '_id',
+                        as: 'productDetails'
+
+                    }
+                },
+                {
+                    $unwind: '$productDetails'
+                },
+                {
+                    $facet: {
+                        totalCount: [
+                            {
+                                $count: "total"
+                            }
+                        ],
+                        orders: [
+                            {
+                                $sort: {
+                                    orderDate: -1
+                                }
+                            },
+                            {
+                                $skip: (page - 1) * limit
+                            },
+                            {
+                                $limit: limit
+                            }
+                        ]
                     }
                 }
 
 
             ]).exec()
-            return report
+           
+            const orders = result[0].orders
+            const totalCount = result[0].totalCount.length > 0 ? result[0].totalCount[0].total : 0;
+            const totalPages = Math.ceil(totalCount / limit);
+            return { orders, totalPages }
         } catch (error) {
             throw error;
         }

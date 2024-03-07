@@ -103,8 +103,8 @@ module.exports = {
         else
             return true
     },
-    generateSalesReport: async (startDate, endDate) => {
-        return await generateSalesReport(startDate, endDate, orderRepository)
+    generateSalesReport: async (startDate, endDate,page, limit) => {
+        return await generateSalesReport(startDate, endDate, orderRepository,page, limit)
     },
     repay: async (data, razorpaykey_id, razorpaykey_secret) => {
         return await repay(razorpayGateway, data, razorpaykey_id, razorpaykey_secret)

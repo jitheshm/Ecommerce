@@ -11,17 +11,32 @@ function SalesReport() {
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0])
     const [endDate, setEndDate] = useState(new Date(new Date().getTime() + 86400000).toISOString().split('T')[0])
     const [filter, setFilter] = useState('Daily')
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
-        instance.get(`/admin/salesreport/${startDate}/${endDate}`, {
+        instance.get(`/admin/salesreport/${startDate}/${endDate}?page=${page}&&limit=10`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
         }).then((res) => {
             console.log(res.data.data);
             setOrders(res.data.data)
+            setTotalPages(res.data.totalPages);
         })
-    }, [startDate, endDate])
+    }, [startDate, endDate, page])
+
+    const handleNextPage = () => {
+        if (page < totalPages) {
+            setPage(page + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            setPage(page - 1);
+        }
+    };
 
     const handleFilter = (e) => {
         if (e.target.value == 'Custom') {
@@ -58,10 +73,29 @@ function SalesReport() {
     }
 
     const handleExcel = () => {
-        generateExcel(orders)
+        instance.get(`/admin/salesreport/${startDate}/${endDate}?page=${page}`, {
+            headers: {
+                Authorization: Cookies.get('token')
+            }
+        }).then((res) => {
+            console.log(res.data.data);
+            generateExcel(res.data.data)
+            
+        })
+        
     }
     const handlePdf = () => {
-        generatePDF(orders)
+        instance.get(`/admin/salesreport/${startDate}/${endDate}?page=${page}`, {
+            headers: {
+                Authorization: Cookies.get('token')
+            }
+        }).then((res) => {
+            console.log(res.data.data);
+            generatePDF(res.data.data)
+            
+            
+        })
+        
     }
 
     return (
@@ -101,16 +135,21 @@ function SalesReport() {
 
 
                             <div className="table-responsive col-12">
-                                <table className="table" style={{ tableLayout: 'fixed' }}>
+                                <table className="table text-center" >
                                     <thead>
                                         <tr>
                                             <th>No</th>
                                             <th>Date</th>
+                                            <th>OrderId</th>
+
+                                            <th>Delivery Address</th>
                                             <th>Products</th>
-                                            <th>Offer discount</th>
-                                            <th>Coupon discount</th>
-                                            <th>Total discount</th>
-                                            <th>Revenue</th>
+                                            <th>Sale Price</th>
+                                            <th>quantity</th>
+                                            <th>Amount</th>
+                                            <th>Discount</th>
+
+                                            <th>Total</th>
 
 
 
@@ -123,13 +162,19 @@ function SalesReport() {
                                                 return (
                                                     // eslint-disable-next-line react/jsx-key
                                                     <tr >
-                                                        <td style={{ color: "#6c7293" }}>{index + 1}</td>
-                                                        <td style={{ color: "#6c7293" }}>{new Date(order._id).toDateString()}</td>
-                                                        <td style={{ color: "#6c7293" }}>{order.ProductsCount}</td>
-                                                        <td style={{ color: "#6c7293" }}>{order.discount}</td>
-                                                        <td style={{ color: "#6c7293" }}>{order.couponDiscount}</td>
-                                                        <td style={{ color: "#6c7293" }}>{order.couponDiscount + order.discount}</td>
-                                                        <td style={{ color: "#6c7293" }}>{order.revenue}</td>
+                                                        <td style={{ color: "#6c7293" }}>{index + 1+(page-1)*10}</td>
+                                                        <td style={{ color: "#6c7293" }}>{new Date(order.orderDate).toDateString()}</td>
+                                                        <td style={{ color: "#6c7293" }}>{order._id}</td>
+                                                        <td style={{ color: "#6c7293", whiteSpace: "normal" }}>{
+                                                            order.deliveryAddress.name} <br /> {order.deliveryAddress.street + ', ' + order.deliveryAddress.city + ', ' + order.deliveryAddress.state + ', ' + order.deliveryAddress.pincode
+
+                                                            }</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.productDetails.productName} ({order.varients.color})</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.orderedItems.salePrice}</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.orderedItems.quantity}</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.orderedItems.salePrice * order.orderedItems.quantity}</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.orderedItems.discount}</td>
+                                                        <td style={{ color: "#6c7293" }}>{order.orderedItems.totalprice}</td>
 
 
                                                     </tr>
@@ -140,6 +185,34 @@ function SalesReport() {
 
                                     </tbody>
                                 </table>
+                            </div>
+                            <div>
+                                <nav aria-label="Page navigation example">
+                                    <ul className="pagination justify-content-center  mt-4">
+                                        <li className="page-item">
+                                            {
+                                                page != 1 && <button disabled={page === 1} className="page-link" aria-label="Previous" onClick={handlePrevPage}>
+                                                    <span aria-hidden="true">«</span>
+                                                    <span className="sr-only">Previous</span>
+                                                </button>
+                                            }
+
+                                        </li>
+                                        {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">2</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">3</a></li> */}
+                                        <li className="page-item">
+                                            {
+                                                page != totalPages && <button className="page-link" aria-label="Next" onClick={handleNextPage}>
+                                                    <span aria-hidden="true">»</span>
+                                                    <span className="sr-only">Next</span>
+                                                </button>
+                                            }
+
+                                        </li>
+                                    </ul>
+                                </nav>
+
                             </div>
                         </div>
                     </div>
