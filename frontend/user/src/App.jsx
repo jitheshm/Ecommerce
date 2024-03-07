@@ -31,6 +31,7 @@ import SearchResult from './pages/SearchResult';
 import Wallet from './pages/Wallet';
 import Account from './components/mobile/Account';
 import Repayment from './pages/Repayment';
+import Invoice from './pages/Invoice';
 
 
 function App() {
@@ -121,6 +122,10 @@ function App() {
         {
             path: "/order/repayment/:orderId",
             element: <Repayment />
+        },
+        {
+            path: "/order/invoice/:orderId",
+            element: <Auth><Invoice /></Auth>
         }
 
 

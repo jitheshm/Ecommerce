@@ -16,6 +16,7 @@ const { getCategory } = require('../../../adapters/controllers/categoryControlle
 const { applyCoupon, getActiveCoupons } = require('../../../adapters/controllers/couponController');
 const { getAvailableOffers } = require('../../../adapters/controllers/offerController');
 const getActiveCoupopns = require('../../../usecase/coupon/getActiveCoupons');
+const { getInvoice } = require('../../../adapters/controllers/InvoiceController');
 
 
 
@@ -319,9 +320,9 @@ module.exports = {
         try {
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 10;
-            const result = await getOrders(new ObjectId(req.user.id),page, limit)
+            const result = await getOrders(new ObjectId(req.user.id), page, limit)
             console.log(result);
-            res.status(200).json({ success: true, data: result.orders, totalPages: result.totalPages})
+            res.status(200).json({ success: true, data: result.orders, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
@@ -607,5 +608,15 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
 
+    },
+    getInvoiceHandler: async (req, res) => {
+        try {
+            const orderId = new ObjectId(req.params.orderId)
+            const invoice = await getInvoice(orderId)
+            res.status(200).json({ success: true, data: invoice })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
     }
 }

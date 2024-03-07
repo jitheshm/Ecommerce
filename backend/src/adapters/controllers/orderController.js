@@ -27,6 +27,7 @@ const salesOverview = require("../../usecase/order/salesOverview")
 const topSellingProducts = require("../../usecase/order/topSellingProducts")
 const topSellingCategories = require("../../usecase/order/topSellingCategories")
 const topSellingBrands = require("../../usecase/order/topSellingBrands")
+const { generateInvoice } = require("./InvoiceController")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
@@ -67,6 +68,9 @@ module.exports = {
     },
     changeStatus: async (orderId, userId, productId, orderStatus) => {
         const order = await changeStatus(orderRepository, orderId, userId, productId, orderStatus)
+        if (orderStatus === 'Delivered') {
+            generateInvoice(orderId, userId)
+        }
         console.log(orderStatus === 'Cancelled', order.transactionId != 'Not Paid');
         if (order && orderStatus === 'Cancelled' && order.transactionId != 'Not Paid') {
             return await refund(orderId, productId, "", orderRepository, walletRepository,)

@@ -81,11 +81,11 @@ function OrderDetails() {
 
 
     }
-    const handleRepay= () => {
+    const handleRepay = () => {
         // instance.post('/user/orderrepayment',{
         //     orderId: orderId,
         //     amountPaid: orderDetails.amountPaid
-            
+
         // },{
         //     headers: {
         //         Authorization: Cookies.get('token')
@@ -95,11 +95,11 @@ function OrderDetails() {
         //     if (res.data.success) {
         //         initiatePayment(res.data.data, res.data.data.total)
         //     }
-            
+
         // })
     }
 
-   
+
     return (
         <>
             <div className='col-md-7 '>
@@ -129,8 +129,8 @@ function OrderDetails() {
                             </div>
                             <div className='col-6 d-flex align-items-center flex-column justify-content-center'>
                                 {
-                                    orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Cancelled" &&
-                                    <button className='btn primary '>Download invoice</button>
+                                    orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus === "Delivered" &&
+                                    <Link to={`/order/invoice/${orderId}`} className='btn primary '>Invoice</Link>
                                 }
                                 {
                                     orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Cancelled" && orderDetails.orderedItems.deliveryStatus != "pending" && orderDetails.orderedItems && orderDetails.orderedItems.deliveryStatus != "Delivered" &&
