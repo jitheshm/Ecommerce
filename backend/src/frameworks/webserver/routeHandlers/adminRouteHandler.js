@@ -344,8 +344,10 @@ module.exports = {
     getProductAllVarientHandler: async (req, res) => {
         try {
             const id = new ObjectId(req.params.proId)
-            const result = await getProductAllVarient(id)
-            res.status(200).json({ success: true, data: result })
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const result = await getProductAllVarient(id,page, limit)
+            res.status(200).json({ success: true, data: result.varients, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

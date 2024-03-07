@@ -333,10 +333,13 @@ module.exports = {
     },
 
 
-    getProductAllVarient: async (id) => {
+    getProductAllVarient: async (id, page, limit) => {
         try {
-            const result = await ProductVarientModel.find({ productId: id, isDeleted: false })
-            return result
+            const result = await ProductVarientModel.find({ productId: id, isDeleted: false }).skip((page-1) * limit).limit(limit)
+            const totalVarients = await ProductVarientModel.countDocuments({ productId: id, isDeleted: false });
+            const totalPages = Math.ceil(totalVarients / limit);
+            console.log(result, totalVarients);
+            return {varients:result,totalPages:totalPages}
         } catch (error) {
             console.log(error);
             throw error
