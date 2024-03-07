@@ -1,6 +1,8 @@
 const Order = require("../../entity/orderEntity")
 
 module.exports = async (orderRepository, addressRepository, cartRepository, productVarientRepository, data) => {
+    if (data.amountPaid > 5000)
+        return null
 
     const deliveryAddress = await addressRepository.findAddress(data.deliveryAddress)
     console.log(data);

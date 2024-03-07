@@ -134,11 +134,11 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
             name: 'Your Company Name',
             description: 'Test Payment',
             order_id: data.id,
-            retry:false,
+            retry: false,
             handler: async function (response) {
                 try {
                     console.log(data);
-                   
+
                     const paymentId = response.razorpay_payment_id;
                     const orderId = response.razorpay_order_id
                     const signature = response.razorpay_signature;
@@ -385,7 +385,8 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                             </div>
                             <div className='col-md-3'>
                                 <div className="card col-12" onClick={() => {
-                                    setPayment('COD')
+                                    if (total - discount < 5000)
+                                        setPayment('COD')
                                 }} style={payment === 'COD' ? { borderColor: "#333" } : { borderColor: "rgba(0, 0, 0, 0.175)" }}>
 
                                     <div className="card-body text-center py-4">
@@ -393,6 +394,11 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                                         <h5><b>COD</b></h5>
 
                                     </div>
+                                </div>
+                                <div>
+                                    {
+                                        total - discount > 5000 && <p className='text-danger text-center mt-3'>Not available </p>
+                                    }
                                 </div>
 
                             </div>
