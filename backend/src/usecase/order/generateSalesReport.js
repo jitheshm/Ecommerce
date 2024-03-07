@@ -1,3 +1,3 @@
-module.exports = async (startDate, endDate, orderRepository) => {
-    return await orderRepository.generateSalesReport(startDate, endDate)
+module.exports = async (startDate, endDate, orderRepository,page, limit) => {
+    return await orderRepository.generateSalesReport(startDate, endDate,page, limit)
 }

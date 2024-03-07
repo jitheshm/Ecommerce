@@ -346,7 +346,7 @@ module.exports = {
             const id = new ObjectId(req.params.proId)
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 10;
-            const result = await getProductAllVarient(id,page, limit)
+            const result = await getProductAllVarient(id, page, limit)
             res.status(200).json({ success: true, data: result.varients, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
@@ -538,10 +538,12 @@ module.exports = {
         try {
             const startDate = req.params.startDate
             const endDate = req.params.endDate
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || Number.MAX_SAFE_INTEGER;
 
-            const report = await generateSalesReport(startDate, endDate)
-            console.log(report);
-            res.status(200).json({ success: true, data: report })
+            const result = await generateSalesReport(startDate, endDate, page, limit)
+            
+            res.status(200).json({ success: true, data: result.orders, totalPages: result.totalPages})
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
@@ -571,7 +573,7 @@ module.exports = {
         }
 
     },
-    topSellingProductsHandler:async(req,res)=>{
+    topSellingProductsHandler: async (req, res) => {
         try {
             const data = await topSellingProducts()
             res.status(200).json({ success: true, data: data })
@@ -580,7 +582,7 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    topSellingCategoriesHandler:async(req,res)=>{
+    topSellingCategoriesHandler: async (req, res) => {
         try {
             const data = await topSellingCategories()
             res.status(200).json({ success: true, data: data })
@@ -589,7 +591,7 @@ module.exports = {
             res.status(500).json({ "error": "internal server error" })
         }
     },
-    topSellingBrandsHandler:async(req,res)=>{
+    topSellingBrandsHandler: async (req, res) => {
         try {
             const data = await topSellingBrands()
             res.status(200).json({ success: true, data: data })

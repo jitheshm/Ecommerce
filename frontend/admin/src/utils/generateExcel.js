@@ -4,22 +4,29 @@ export default (datas) => {
     const columns = [
         { header: 'No', key: 'no' },
         { header: 'Date', key: 'date' },
+        { header: 'OrderId', key: 'orderId' },
+        { header: 'Delivery Address', key: 'deliveryAddress' },
         { header: 'Products', key: 'products' },
-        { header: 'Offer Discount', key: 'offerDiscount' },
-        { header: 'Coupon Discount', key: 'couponDiscount' },
-        { header: 'Total Discount', key: 'totalDiscount' },
-        { header: 'Revenue', key: 'revenue' }
+        { header: 'Sale Price', key: 'saleprice' },
+        { header: 'Quantity', key: 'quantity' },
+        { header: 'Amount', key: 'amount' },
+        { header: 'Discount', key: 'discount' },
+        { header: 'Total', key: 'total' }
     ];
 
-    const data = datas.map((order,index)=>{
+    const data = datas.map((order, index) => {
         return {
             no: index + 1,
-            date: new Date(order._id).toDateString(),
-            products: order.ProductsCount,
-            offerDiscount: order.discount,
-            couponDiscount: order.couponDiscount,
-            totalDiscount: order.couponDiscount + order.discount,
-            revenue: order.revenue
+            date: new Date(order.orderDate).toDateString(),
+            orderId: order._id,
+            deliveryAddress: `${order.deliveryAddress.name} , ${order.deliveryAddress.street},${order.deliveryAddress.city},${order.deliveryAddress.state},${order.deliveryAddress.pincode}`,
+            products: order.productDetails.productName,
+            saleprice: order.orderedItems.salePrice,
+            quantity: order.orderedItems.quantity,
+            amount: order.orderedItems.salePrice * order.orderedItems.quantity,
+            discount: order.orderedItems.discount,
+            total: order.orderedItems.totalprice
+
         }
     });
 
@@ -77,7 +84,7 @@ export default (datas) => {
             const buf = await workbook.xlsx.writeBuffer();
 
             // download the processed file
-            saveAs(new Blob([buf]), `${fileName}.xlsx`);
+            saveAs(new Blob([buf]), `${ fileName }.xlsx`);
         } catch (error) {
             console.error('<<<ERRROR>>>', error);
             console.error('Something Went Wrong', error.message);
