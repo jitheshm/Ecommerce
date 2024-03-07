@@ -1,7 +1,8 @@
 import React from 'react'
 import SaleOverview from './SaleOverview'
 import OrderOverview from './OrderOverview'
-import PaymentAnalysis from './PaymentAnalysis'
+import TopSellingChart from './TopSellingChart'
+
 
 function Dashboard() {
     return (
@@ -110,7 +111,7 @@ function Dashboard() {
                 </div>
                 <div className='mt-4'>
                     <div className=' mt-2'>
-                        <PaymentAnalysis />
+                        <TopSellingChart />
                     </div>
                 </div>
 

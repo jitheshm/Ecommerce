@@ -25,6 +25,8 @@ const repay = require("../../usecase/order/repay")
 const getOneOrder = require("../../usecase/order/getOneOrder")
 const salesOverview = require("../../usecase/order/salesOverview")
 const topSellingProducts = require("../../usecase/order/topSellingProducts")
+const topSellingCategories = require("../../usecase/order/topSellingCategories")
+const topSellingBrands = require("../../usecase/order/topSellingBrands")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
@@ -113,5 +115,12 @@ module.exports = {
 
     topSellingProducts: async () => {
         return await topSellingProducts(orderRepository)
+    },
+
+    topSellingCategories: async () => {
+        return await topSellingCategories(orderRepository)
+    },
+    topSellingBrands: async () => {
+        return await topSellingBrands(orderRepository)
     }
 }
