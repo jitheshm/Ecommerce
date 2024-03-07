@@ -34,7 +34,7 @@ function Header() {
     }
     return (
         <>
-            <header style={{height:"100px"}}>
+            <header style={{ height: "100px" }}>
                 {/* TOP HEADER */}
                 <div id="top-header" className='d-none d-md-block'>
                     <div className="container">
@@ -92,6 +92,24 @@ function Header() {
                             {/* ACCOUNT */}
                             <div className="col-md-3 d-none d-md-block ">
                                 <div className="header-ctn d-flex">
+
+                                    <div>
+                                        {
+                                            verified ? <Link to={`/profile/personal`}>
+                                                <i className="fa-regular fa-user" style={{ color: '#ffffff' }} />
+
+                                                <span>Account</span>
+                                                {/* <div className="qty">2</div>   */}
+                                            </Link> : <Link to={'/login'}>
+                                                <i className="fa-regular fa-user" style={{ color: '#ffffff' }} />
+
+                                                <span>Login</span>
+                                                {/* <div className="qty">2</div>   */}
+                                            </Link>
+                                        }
+
+
+                                    </div>
                                     {/* Wishlist */}
                                     <div>
                                         <Link to={'/profile/wishlist'}>
