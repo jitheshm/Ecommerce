@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const authToken = require('../../middlewares/adminAuthToken');
 const fileUpload = require('../../middlewares/fileUpload');
-const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler, handleDeleteCouponHandler, addOfferHandler, getallOffersHandler, getOfferHandler, updateOfferHandler, handleDeleteOfferHandler, salesReportHandler, getOrderSpecificHandler, salesOverviewHandler } = require('../routeHandlers/adminRouteHandler');
+const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler, handleDeleteCouponHandler, addOfferHandler, getallOffersHandler, getOfferHandler, updateOfferHandler, handleDeleteOfferHandler, salesReportHandler, getOrderSpecificHandler, salesOverviewHandler, topSellingProductsHandler } = require('../routeHandlers/adminRouteHandler');
 const { checkSchema } = require('express-validator');
 const loginValidator = require('../validators/admin/loginValidator');
 const productValidator = require('../validators/admin/productValidator');
@@ -83,6 +83,7 @@ router.delete(`/deleteoffer/:id`, authToken, handleDeleteOfferHandler)
 
 router.get('/salesreport/:startDate/:endDate', authToken, salesReportHandler)
 router.get('/sales-overview/:filter', authToken, salesOverviewHandler)
+router.get('/topsellingproducts', authToken, topSellingProductsHandler)
 
 
 module.exports = router
