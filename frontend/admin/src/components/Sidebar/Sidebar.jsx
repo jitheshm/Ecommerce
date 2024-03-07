@@ -37,13 +37,13 @@ function Sidebar() {
                         <span className="nav-link">Navigation</span>
                     </li>
                     <li className="nav-item menu-items">
-                        <a className="nav-link" href="/">
+                        <Link to={'/'} className="nav-link" >
                             <span className="menu-icon">
                                 <i className="fa-solid fa-chart-line" />
 
                             </span>
                             <span className="menu-title">Dashboard</span>
-                        </a>
+                        </Link>
                     </li>
                     <li className="nav-item menu-items">
                         <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
@@ -156,7 +156,7 @@ function Sidebar() {
                         <div className="collapse" id="report">
                             <ul className="nav flex-column sub-menu">
                                 <li className="nav-item"> <Link to={'/salesreport'} className="nav-link" >View Report</Link></li>
-                                
+
 
                             </ul>
                         </div>
