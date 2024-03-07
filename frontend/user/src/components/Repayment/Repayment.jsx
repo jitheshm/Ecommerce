@@ -9,6 +9,7 @@ import Cookies from 'js-cookie'
 import { BASEURL } from '../../constants/constant.json'
 import { logout } from '../../features/user/userSlice'
 import { useDispatch } from 'react-redux'
+import Swal from 'sweetalert2'
 
 function Repayment({ setOrderPlaced, setOrderReciept }) {
     const [orderItems, setOrderItems] = useState([])
@@ -98,6 +99,7 @@ function Repayment({ setOrderPlaced, setOrderReciept }) {
             name: 'Your Company Name',
             description: 'Test Payment',
             order_id: data.id,
+            retry:false,
             handler: async function (response) {
                 try {
                     console.log(data);
@@ -125,14 +127,22 @@ function Repayment({ setOrderPlaced, setOrderReciept }) {
                             setOrderReciept(res.data.data)
                             setOrderPlaced(true)
                         } else {
-                            alert('Payment failed')
+                            Swal.fire({
+                                title: "Payment Failed",
+                                text: "Payment failed, please try again",
+                                icon: "error"
+                            });
                         }
                     })
 
                 } catch (error) {
                     console.error('Error capturing payment:', error);
                     // setPaymentStatus('Payment failed!');
-                    alert('Payment failed')
+                    Swal.fire({
+                        title: "Payment Failed",
+                        text: "Payment failed, please try again",
+                        icon: "error"
+                    });
                 }
             },
             prefill: {
@@ -150,7 +160,21 @@ function Repayment({ setOrderPlaced, setOrderReciept }) {
 
 
         const paymentObject = new window.Razorpay(options);
-
+        paymentObject.on('payment.failed', function (response) {
+            console.log(response.error.code);
+            console.log(response.error.description);
+            console.log(response.error.source);
+            console.log(response.error.step);
+            console.log(response.error.reason);
+            console.log(response.error.metadata.order_id);
+            console.log(response.error.metadata.payment_id);
+            //paymentObject.close();
+            Swal.fire({
+                title: "Payment Failed",
+                text: "Payment failed, please try again",
+                icon: "error"
+            });
+        })
         paymentObject.open();
     }
 
