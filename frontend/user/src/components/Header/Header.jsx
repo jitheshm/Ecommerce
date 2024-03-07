@@ -15,6 +15,8 @@ function Header() {
 
     useEffect(() => {
         instance.get('/user/categories').then((res) => {
+            console.log("categories");
+            console.log(res.data);
             setcategories(res.data.data)
 
         })

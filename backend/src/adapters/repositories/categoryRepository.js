@@ -39,7 +39,7 @@ module.exports = {
             throw error
         }
     },
-    getCategory: async (page, limit) => {
+    getCategory: async (page=1, limit=1000) => {
         try {
             const categories = await CategoryModel.find({ isDeleted: false }).skip((page - 1) * limit).limit(limit)
             const count = await CategoryModel.countDocuments({ isDeleted: false })

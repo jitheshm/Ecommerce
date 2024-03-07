@@ -540,8 +540,8 @@ module.exports = {
     },
     fetchCategoryHandler: async (req, res) => {
         try {
-            const categories = await getCategory()
-            res.status(200).json({ success: true, data: categories })
+            const result = await getCategory()
+            res.status(200).json({ success: true, data: result.categories })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

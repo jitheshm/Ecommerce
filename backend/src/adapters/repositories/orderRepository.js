@@ -142,7 +142,7 @@ module.exports = {
             throw error;
         }
     },
-    getOrdersList: async (page, limit) => {
+    getOrdersList: async (page=1, limit=1000) => {
         try {
             const orders = await OrderModel.aggregate([
                 {
