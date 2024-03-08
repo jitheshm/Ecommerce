@@ -38,9 +38,9 @@ function Wallet() {
                     <div className='col-md-3 col-6 border text-white mb-4 text-center' style={{ "backgroundColor": "#1E1F29", borderRadius: "10px" }}>
 
 
-                        <div className='mt-5 text-center'>
-                            <h4><b>Wallet Balance</b></h4>
-                            <h4>₹ {balance}</h4>
+                        <div className='mt-5 text-center '>
+                            <h4 style={{color:"white"}} ><b>Wallet Balance</b></h4>
+                            <h4 style={{color:"white"}}>₹ {balance}</h4>
                         </div>
 
 
