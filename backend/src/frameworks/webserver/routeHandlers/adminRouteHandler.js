@@ -470,6 +470,9 @@ module.exports = {
             // console.log(valResult.array());
             // if (valResult.isEmpty()) {
             console.log(req.body);
+            req.body.applicables = req.body.applicables.map((obj) => {
+                return obj.value
+            })
             await addOffer(req.body)
             res.status(200).json({ success: true })
             // } else {
@@ -542,8 +545,8 @@ module.exports = {
             const limit = parseInt(req.query.limit) || Number.MAX_SAFE_INTEGER;
 
             const result = await generateSalesReport(startDate, endDate, page, limit)
-            
-            res.status(200).json({ success: true, data: result.orders, totalPages: result.totalPages})
+
+            res.status(200).json({ success: true, data: result.orders, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

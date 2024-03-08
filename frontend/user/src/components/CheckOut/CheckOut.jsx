@@ -385,7 +385,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                             </div>
                             <div className='col-md-3'>
                                 <div className="card col-12" onClick={() => {
-                                    if (total - discount < 5000)
+                                    if (total - discount <=5000)
                                         setPayment('COD')
                                 }} style={payment === 'COD' ? { borderColor: "#333" } : { borderColor: "rgba(0, 0, 0, 0.175)" }}>
 
