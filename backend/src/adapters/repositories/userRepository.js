@@ -16,7 +16,11 @@ module.exports = {
     },
     checkUser: async (data) => {
         try {
-            const existUser = await UserModel.findOne({ email: data.email })
+            let existUser
+            if (data.authenticationProvider && data.authenticationProvider != 'google')
+                existUser = await UserModel.findOne({ authenticationId: data.authenticationId, authenticationProvider: data.authenticationProvider })
+            else
+                existUser = await UserModel.findOne({ email: data.email })
             return existUser
         } catch (error) {
             //console.log(error.message);
@@ -114,5 +118,6 @@ module.exports = {
         } catch (error) {
             throw error
         }
-    }
+    },
+
 }
