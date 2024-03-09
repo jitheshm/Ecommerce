@@ -7,6 +7,7 @@ const signupValidator = require('../validators/user/signupValidator');
 const loginValidator = require('../validators/user/loginValidator');
 const addressValidator = require('../validators/user/addressValidator');
 const profileValidator = require('../validators/user/profileValidator');
+const { client_url } = require('../../config');
 
 const router = express.Router()
 
@@ -18,7 +19,11 @@ router.post('/login', checkSchema(loginValidator()), loginHandler)
 
 router.get('/auth/google', passport.authenticate('google', { session: false, scope: ['profile', 'email'] }),);
 
-router.get('/auth/google/callback', passport.authenticate('google', { session: false, failureRedirect: '/' }), authenticationHandler);
+router.get('/auth/google/callback', passport.authenticate('google', { session: false, failureRedirect: `${client_url}` }), authenticationHandler);
+
+router.get('/auth/facebook', passport.authenticate('facebook', { session: false }),);
+
+router.get('/auth/facebook/callback', passport.authenticate('facebook', { session: false, failureRedirect: `${client_url}` }), authenticationHandler);
 
 router.get('/getproducts', getProductHandler)
 

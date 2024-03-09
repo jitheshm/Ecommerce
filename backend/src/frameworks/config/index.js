@@ -12,4 +12,8 @@ module.exports = {
     google_client_secret: process.env.google_client_secret,
     google_callback_url: process.env.google_callback_url,
     client_url: process.env.client_url,
+
+    facebook_client_id: process.env.facebook_client_id,
+    facebook_client_secret: process.env.facebook_client_secret,
+    facebook_callback_url: process.env.facebook_callback_url,
 }

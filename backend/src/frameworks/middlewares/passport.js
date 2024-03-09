@@ -1,6 +1,7 @@
 const passport = require('passport');
-const { google_client_id, google_client_secret, google_callback_url } = require('../config');
+const { google_client_id, google_client_secret, google_callback_url, facebook_client_id, facebook_client_secret, facebook_callback_url } = require('../config');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy; 
 
 passport.use(new GoogleStrategy({
     clientID: google_client_id,
@@ -17,5 +18,20 @@ passport.use(new GoogleStrategy({
     };
     return done(null, user);
 }));
+
+passport.use(new FacebookStrategy({
+    clientID: facebook_client_id,
+    clientSecret: facebook_client_secret,
+    callbackURL: facebook_callback_url,
+    profileFields: ['id', 'displayName']
+},
+    function (accessToken, refreshToken, profile, done) {
+        const user = {
+            authenticationId: profile.id,
+            authenticationProvider: 'facebook'
+        };
+        return done(null, user);
+    }
+));
 
 module.exports = passport;
