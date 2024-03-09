@@ -41,7 +41,7 @@ function Login({ setForget }) {
             console.log(err);
             setLoginError(true)
 
-        })    
+        })
     }
     return (
         <>
@@ -81,7 +81,7 @@ function Login({ setForget }) {
                                         }}>Forgot password?</button></p>
                                         <button className="btn primary verifyBtn btn-lg px-5" type="submit" onClick={handleSubmit}>Login</button>
                                         <div className="d-flex justify-content-center text-center mt-4 pt-1">
-                                            <a href="#!" className="text-dark"><i className="fab fa-facebook-f fa-lg" /></a>
+                                            <a href="http://localhost:3000/user/auth/facebook" className="text-dark"><i className="fab fa-facebook-f fa-lg" /></a>
                                             <a href="#!" className="text-dark"><i className="fab fa-twitter fa-lg mx-4 px-2" /></a>
                                             <a href="http://localhost:3000/user/auth/google" className="text-dark"><i className="fab fa-google fa-lg" /></a>
                                         </div>
