@@ -1,5 +1,6 @@
 const express = require('express');
-const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler, searchHandler, verifyPaymentHandler, returnProductHandler, walletHandler, checkWishlistHandler, addWishlistHandler, removeWishlistHandler, WishlistHandler, fetchCategoryHandler, applyCouponHandler, getAvailableOffersHandler, getActiveCouponsHandler, repayHandler, getOneOrderHandler, getInvoiceHandler } = require('../routeHandlers/userRouteHandler');
+const passport = require('../../middlewares/passport');
+const { signupHandler, otpverifyHandler, loginHandler, getProductHandler, getProductDetailHandler, tokenVerifyHandler, getColorListHandler, resendOtpHandler, addAddressHandler, updateAddressHandler, deleteAddressHandler, getUserAllAddressHandler, fetchAddressHandler, addToCartHandler, incrementQuantityHandler, decrementQuantityHandler, removeCartProductHandler, findCartHandler, checkProductExistHandler, checkStockAvailableHandler, orderPlaceHandler, getOrderHandler, getOrderSpecificHandler, cancelOrderHandler, personalDetailsChangeHandler, getPersonalDataHandler, forgetPasswordOtpHandler, newPasswordHandler, searchHandler, verifyPaymentHandler, returnProductHandler, walletHandler, checkWishlistHandler, addWishlistHandler, removeWishlistHandler, WishlistHandler, fetchCategoryHandler, applyCouponHandler, getAvailableOffersHandler, getActiveCouponsHandler, repayHandler, getOneOrderHandler, getInvoiceHandler, authenticationHandler } = require('../routeHandlers/userRouteHandler');
 const userAuthToken = require('../../middlewares/userAuthToken');
 const { checkSchema, checkExact } = require('express-validator');
 const signupValidator = require('../validators/user/signupValidator');
@@ -14,6 +15,10 @@ router.post('/signup', checkSchema(signupValidator()), signupHandler)
 router.post('/otpverify', otpverifyHandler)
 
 router.post('/login', checkSchema(loginValidator()), loginHandler)
+
+router.get('/auth/google', passport.authenticate('google', { session: false, scope: ['profile', 'email'] }),);
+
+router.get('/auth/google/callback', passport.authenticate('google', { session: false, failureRedirect: '/' }), authenticationHandler);
 
 router.get('/getproducts', getProductHandler)
 

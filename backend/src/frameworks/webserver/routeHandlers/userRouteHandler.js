@@ -1,8 +1,8 @@
-const { nodemailerEmail, nodemailerPassword, razorpaykey_id, razorpaykey_secret } = require('../../config')
+const { nodemailerEmail, nodemailerPassword, razorpaykey_id, razorpaykey_secret, client_url } = require('../../config')
 const { ObjectId } = require('mongodb');
 const { getOneVarientPerProduct, getVarientDetail, getcolorlist, searchProducts } = require('../../../adapters/controllers/productController');
 
-const { signup, verifyUser, loginUser, resendOtp, changePersonaldata, getPersonalData, forgetPasswordOtp, newPasswordUpdate } = require('../../../adapters/controllers/userController');
+const { signup, verifyUser, loginUser, resendOtp, changePersonaldata, getPersonalData, forgetPasswordOtp, newPasswordUpdate, userAuthenticate } = require('../../../adapters/controllers/userController');
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
@@ -17,6 +17,7 @@ const { applyCoupon, getActiveCoupons } = require('../../../adapters/controllers
 const { getAvailableOffers } = require('../../../adapters/controllers/offerController');
 const getActiveCoupopns = require('../../../usecase/coupon/getActiveCoupons');
 const { getInvoice } = require('../../../adapters/controllers/InvoiceController');
+
 
 
 
@@ -614,6 +615,26 @@ module.exports = {
             const orderId = new ObjectId(req.params.orderId)
             const invoice = await getInvoice(orderId)
             res.status(200).json({ success: true, data: invoice })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    authenticationHandler: async (req, res) => {
+        try {
+
+            const token = await userAuthenticate(req.user)
+            console.log(token);
+            if (token) {
+                res.cookie('token', token);
+                res.redirect(`${client_url}`)
+                // res.status(200).json({ success: true, token: token })
+            } else {
+                res.status(200).json({ success: false, "error": "user is blocked" })
+            }
+
+
+
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })

@@ -1,17 +1,19 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String },
+  lastName: { type: String },
   age: { type: String },
   gender: { type: String },
-  email: { type: String, required: true },
+  email: { type: String },
   phone: { type: Number },
-  image: { type: String },
   isBlocked: { type: Boolean, required: true },
   isVerified: { type: Boolean, required: true },
-  password: { type: String, required: true },
-  dateOfJoin: { type: String, required: true },
+  password: { type: String },
+  authenticationId: { type: String },
+  authenticationProvider: { type: String },
+  
+  dateOfJoin: { type: String, required: true, default: Date.now },
   wishlist: {
     type: [{
 
