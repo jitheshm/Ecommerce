@@ -40,10 +40,10 @@ function SummaryCard({ item }) {
 
 
                 <div className=" d-flex flex-row  ">
-                    <div className='p-5 col-2 '>
+                    <div className='p-5 col-md-3 col-4 '>
                         <img className="card-img-top " src={BASEURL + "/" + item.varient.imagesUrl[0]} alt="Card image cap" style={{ height: "65px", width: "50px" }} />
                     </div>
-                    <div className="card-body pt-4 col-6 ms-2 mt-2">
+                    <div className="card-body pt-4 col-3 ms-2 mt-2">
                         <h4 className="card-title "><>{item.productDetails.productName}</></h4>
                         <div className="d-flex flex-row">
                             <div className="text-warning mb-1 me-2">
@@ -59,7 +59,7 @@ function SummaryCard({ item }) {
 
                         </div>
 
-                        <p className="card-text mt-2 row"><h4 className='col-3'><b>₹ {item.totalPrice}</b></h4> </p>
+                        <p className="card-text mt-2 row"><h4 className='col-12'><b>₹ {item.totalPrice}</b></h4> </p>
                         {/* <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div> */}
                     </div>
 

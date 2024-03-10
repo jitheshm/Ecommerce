@@ -91,9 +91,9 @@ function Header() {
                             {/* /SEARCH BAR */}
                             {/* ACCOUNT */}
                             <div className="col-md-3 d-none d-md-block ">
-                                <div className="header-ctn d-flex">
+                                <div className="header-ctn d-flex col-12 me-5">
 
-                                    <div>
+                                    <div className='col-4'>
                                         {
                                             verified ? <Link to={`/profile/personal`}>
                                                 <i className="fa-regular fa-user" style={{ color: '#ffffff' }} />
@@ -111,7 +111,7 @@ function Header() {
 
                                     </div>
                                     {/* Wishlist */}
-                                    <div>
+                                    <div className='col-4'>
                                         <Link to={'/profile/wishlist'}>
                                             <i className="fa-regular fa-heart" style={{ color: '#ffffff' }} />
 
@@ -122,7 +122,7 @@ function Header() {
                                     </div>
                                     {/* /Wishlist */}
                                     {/* Cart */}
-                                    <div>
+                                    <div className='col-4'>
                                         <Link to={'/cart'}>
                                             <i className="fa-solid fa-cart-shopping" style={{ color: '#ffffff' }} />
                                             <span>Your Cart</span>

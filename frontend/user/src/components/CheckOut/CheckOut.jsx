@@ -312,7 +312,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
     return (
         <div className='container-fluid pt-5 checkOut'>
             <div className='row ms-4 checkOutContent'>
-                <div className='col-md-7 '>
+                <div className=' col-md-12 col-lg-7 '>
                     <div className=' p-5  right mb-5'>
                         <h4><b>Delivery Address</b></h4>
                         {
@@ -323,7 +323,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                                 return <>
                                     <div className='row'>
                                         <input className="form-check-input col-1 mt-5" type="radio" name="type" id="" value={addrObj._id} onChange={handleAddressChange} checked={orderAddress === addrObj._id} />
-                                        <div className='col-10'>
+                                        <div className='col-11'>
 
                                             <AddressCard addrObj={addrObj} setEdit={setEdit} setAddress={setAddress} checkOut={true} />
                                         </div>
@@ -385,7 +385,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                             </div>
                             <div className='col-md-3'>
                                 <div className="card col-12" onClick={() => {
-                                    if (total - discount <=5000)
+                                    if (total - discount <= 5000)
                                         setPayment('COD')
                                 }} style={payment === 'COD' ? { borderColor: "#333" } : { borderColor: "rgba(0, 0, 0, 0.175)" }}>
 
@@ -440,7 +440,9 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
 
                     </div>
                 </div>
-                <PriceDetails checkOut={true} itemsCount={cartItems.length} total={total} discount={discount} handleConfirm={handleConfirm} />
+                <div className='px-3'>
+                    <PriceDetails checkOut={true} itemsCount={cartItems.length} total={total} discount={discount} handleConfirm={handleConfirm} />
+                </div>
             </div>
             {
                 showCouponList && <CouponList setShowCouponList={setShowCouponList} />
