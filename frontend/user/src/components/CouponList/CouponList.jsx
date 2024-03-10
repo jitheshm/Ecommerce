@@ -55,8 +55,14 @@ function CouponList({ setShowCouponList }) {
                     setShowCouponList(false)
             }}>
                 <div className=' col-12 col-md-6 pb-5  m-auto' style={{ backgroundColor: "white", height: "100vh" }}>
-                    <div className='py-5 m-auto row justify-content-center couponContainer' style={{ overflowY: "scroll", maxHeight: "80%", }}>
-                        <h3 className='text-center'>Available Coupons</h3>
+                    <div className='pb-4 m-auto row justify-content-center couponContainer' style={{ overflowY: "scroll", maxHeight: "80%", }}>
+                        <div className='col-12 pt-3 row bg-white ' style={{position:"sticky",top:0,zIndex:10}}>   
+                            <i onClick={()=>{
+                                setShowCouponList(false)
+                            }} className="fa-solid fa-arrow-left col-2 d-flex align-items-center" />
+
+                            <h3 className='text-center col-8 d-flex align-items-center justify-content-center'>Available Coupons</h3>
+                        </div>
 
                         {
                             coupons.map((coupon, index) => {
