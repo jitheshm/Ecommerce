@@ -11,7 +11,10 @@ import wishlist from '../../../src/assets/heart.png'
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../features/user/userSlice'
-import ReactImageMagnify from 'react-image-magnify';
+import "./productDetails.css"
+
+import InnerImageZoom from 'react-inner-image-zoom';
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
 
 function ProductDetails() {
     const [product, setProduct] = useState([])
@@ -212,29 +215,29 @@ function ProductDetails() {
     return (
         <>
             {
-                loading ? <div>loading...</div> :   
+                loading ? <div>loading...</div> :
                     <div style={{ backgroundColor: "white" }}>
                         <section className="py-5 ">
-                            <div className="container">   
+                            <div className="container">
                                 <div className="row " style={{ position: "relative" }}>
                                     {
 
                                         wishlistStatus ?
-                                            <div onClick={handleWishList} style={{ width: "40px",zIndex:9, position: "absolute", top: 0, right: 0 }}>
+                                            <div onClick={handleWishList} style={{ width: "40px", zIndex: 9, position: "absolute", top: 0, right: 0 }}>
                                                 <img src={wishlist} alt="" style={{ width: "27px" }} />
                                             </div>
                                             :
-                                            <div onClick={handleWishList} style={{ width: "40px",zIndex:9, position: "absolute", top: 0, right: 0 }}>
+                                            <div onClick={handleWishList} style={{ width: "40px", zIndex: 9, position: "absolute", top: 0, right: 0 }}>
                                                 <img src={nowishlist} alt="" style={{ width: "27px" }} />
                                             </div>
                                     }
 
-                                    <aside className="col-8 col-lg-4 m-auto">
+                                    <aside className="col-8 col-lg-4 m-auto mt-2">    
 
-                                        <div className="border rounded-1 mb-3 py-4 d-flex justify-content-center" >
-                                            <ReactImageMagnify {...{
+                                        <div className="border rounded-1 mb-3 py-4 d-flex justify-content-center align-items-center" style={{height:"300px"}}>
+                                            {/* <ReactImageMagnify {...{
                                                 smallImage: {
-
+4
 
                                                     isFluidWidth: true,
                                                     src: `${product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage}`
@@ -247,34 +250,56 @@ function ProductDetails() {
                                                 },
                                                 shouldUsePositiveSpaceLens: true,
 
-
+                                                style:{height:"100%"},
                                                 enlargedImagePosition: "over",
 
 
-                                            }} />
+                                            }} /> */}
+
                                             {/* <img style={{ maxWidth: '90%', height: '416px', margin: 'auto' }} className="rounded-4 fit " src={product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage} /> */}
 
+                                            {/* <InnerImageZoom src={product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage} zoomSrc={product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage} 
+                                                zoomPreload={false}
+                                                zoomType='hover'
+                                                moveType='drag'
+                                                width={353}
+                                                height={416}
+                                            />  */}
+                                            {/* <div style={{height:'300px'}}> */}
+
+                                            <InnerImageZoom
+                                                src={product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage}
+                                                zoomSrc={product[0] ? BASEURL + "/" + product[0].imagesUrl[showImg] : noImage}
+                                                fullscreenOnMobile={false}
+                                                zoomScale={1.5}
+                                               
+                                               
+                                                
+                                                enlargeable={true}
+                                                
+                                            />
+                                            {/* </div> */}
                                         </div>
                                         <div className="d-flex justify-content-center mb-3">
                                             <button data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" onClick={() => {
                                                 handleImgChange(0)
                                             }}>
-                                                <img width={40} height={60} className="rounded-2" src={product[0] ? BASEURL + "/" + product[0].imagesUrl[0] : noImage} />
+                                                <img width={40} height={50} className="rounded-2" src={product[0] ? BASEURL + "/" + product[0].imagesUrl[0] : noImage} />
                                             </button>
                                             <button data-fslightbox="mygalley" className="border mx-1 rounded-2 " target="_blank" data-type="image" onClick={() => {
                                                 handleImgChange(1)
                                             }} >
-                                                <img width={40} height={60} className="rounded-2" src={product[0] ? BASEURL + "/" + product[0].imagesUrl[1] : noImage} />
+                                                <img width={40} height={50} className="rounded-2" src={product[0] ? BASEURL + "/" + product[0].imagesUrl[1] : noImage} />
                                             </button>
                                             <button data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" onClick={() => {
                                                 handleImgChange(2)
                                             }}>
-                                                <img width={40} height={60} className="rounded-2" src={product[0] ? BASEURL + "/" + product[0].imagesUrl[2] : noImage} />
+                                                <img width={40} height={50} className="rounded-2" src={product[0] ? BASEURL + "/" + product[0].imagesUrl[2] : noImage} />
                                             </button>
                                             <button data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" onClick={() => {
                                                 handleImgChange(3)
                                             }}>
-                                                <img width={40} height={60} className="rounded-2" src={product[0] ? BASEURL + "/" + product[0].imagesUrl[3] : noImage} />
+                                                <img width={40} height={50} className="rounded-2" src={product[0] ? BASEURL + "/" + product[0].imagesUrl[3] : noImage} />
                                             </button>
 
                                         </div>

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { BASEURL } from "../../constants/constant.json"
 import Resizer from "react-image-file-resizer";
 import CropImage from '../CropImage/CropImage';
+import './VarientForm.css'
 
 function VarientForm({ api, method, title, btnName, proId, id }) {
 
@@ -281,8 +282,8 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                     <div className='row col-8 m-auto mt-2'>
                       <div className='col-3 text-center'>
                         <div className="mb-4 d-flex justify-content-center">
-                          <div>
-                            <label htmlFor='file-1' id='file1-label'>
+                          <div className='imageContainer'>
+                            <label htmlFor='file-1' id='file1-label' className='imageLabel' >
                               <img id="selectedImage1" src={imagePre1 ? imagePre1 : img} style={{ width: "100%", height: "150px" }} />
                             </label>
                             <div>
@@ -300,8 +301,8 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                       </div>
                       <div className='col-3'>
                         <div className="mb-4 d-flex justify-content-center">
-                          <div>
-                            <label htmlFor='file-2' id='file2-label' >
+                          <div className='imageContainer'>
+                            <label htmlFor='file-2' id='file2-label' className='imageLabel'>
                               <img id="selectedImage" src={imagePre2 ? imagePre2 : img} style={{ width: "100%", height: "150px" }} />
                             </label>
                             <div className='text-center'>
@@ -318,8 +319,8 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                       </div>
                       <div className='col-3'>
                         <div className="mb-4 d-flex justify-content-center">
-                          <div>
-                            <label htmlFor='file-3' id='file3-label' >
+                          <div className='imageContainer'>
+                            <label htmlFor='file-3' id='file3-label' className='imageLabel' >
                               <img id="selectedImage" src={imagePre3 ? imagePre3 : img} style={{ width: "100%", height: "150px" }} />
                             </label>
                             <div className='text-center'>
@@ -338,8 +339,8 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                       </div>
                       <div className='col-3'>
                         <div className="mb-4 d-flex justify-content-center">
-                          <div>
-                            <label htmlFor='file-4' id='file4-label' >
+                          <div className='imageContainer'>
+                            <label htmlFor='file-4' id='file4-label' className='imageLabel'  >
                               <img id="selectedImage" src={imagePre4 ? imagePre4 : img} alt="example placeholder" style={{ width: "100%", height: "150px" }} />
                             </label>
                             <div className='text-center'>

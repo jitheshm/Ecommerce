@@ -422,10 +422,10 @@ body, html {
   overflow-x: hidden;
   }
 
-.border img {
+/* .border img {
   height: 100%;
   max-width: 100%;
-}
+} */
 .header-mobile-ctn {
   
   padding: 15px 0px;
