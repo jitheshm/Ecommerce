@@ -34,6 +34,7 @@ import EditOffer from './pages/EditOffer';
 import SalesReport from './pages/SalesReport';
 import OrderDetails from './pages/OrderDetails';
 import Dashboard from './pages/Dashboard';
+import PageNotFound from './pages/PageNotFound';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -149,7 +150,11 @@ function App() {
     {
       path: "/",
       element: <Layout><Dashboard /></Layout>   
-    }
+    },
+    {
+      path:"*",
+      element:<PageNotFound/>
+  }
 
 
   ])
