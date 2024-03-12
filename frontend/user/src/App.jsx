@@ -32,6 +32,8 @@ import Wallet from './pages/Wallet';
 import Account from './components/mobile/Account';
 import Repayment from './pages/Repayment';
 import Invoice from './pages/Invoice';
+import MobileCategories from './pages/MobileCategories';
+import Mobile from './components/mobile/Mobile';
 
 
 function App() {
@@ -126,6 +128,10 @@ function App() {
         {
             path: "/order/invoice/:orderId",
             element: <Auth><Invoice /></Auth>
+        },
+        {
+            path: "/categories",
+            element: <Mobile> <MobileCategories /> </Mobile>
         }
 
 

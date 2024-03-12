@@ -35,7 +35,7 @@ function Navbar() {
                                 </div>
 
                                 <div className='col-2 d-flex justify-content-center'>
-                                    <Link to={'/profile/categories'}>
+                                    <Link to={'/categories'}>
                                         <i className="fa-solid fa-list" style={{ color: '#ffffff' }} />
 
                                         <span>Categories</span>
