@@ -819,6 +819,22 @@ module.exports = {
                 {
                     $unwind: '$productDetails'
                 },
+                {
+                    $lookup: {
+                        from: "categories",
+                        localField: "productDetails.categoryId",
+                        foreignField: "_id",
+                        as: "category"
+                    }
+                },
+                {
+                    $unwind: "$category"
+                },
+                {
+                    $match: {
+                        "category.isDeleted": false
+                    }
+                },
 
                 {
                     $sort: {
