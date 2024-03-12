@@ -34,6 +34,7 @@ import Repayment from './pages/Repayment';
 import Invoice from './pages/Invoice';
 import MobileCategories from './pages/MobileCategories';
 import Mobile from './components/mobile/Mobile';
+import PageNotFound from './pages/PageNotFound';
 
 
 function App() {
@@ -132,6 +133,10 @@ function App() {
         {
             path: "/categories",
             element: <Mobile> <MobileCategories /> </Mobile>
+        },
+        {
+            path:"*",
+            element:<PageNotFound/>
         }
 
 
