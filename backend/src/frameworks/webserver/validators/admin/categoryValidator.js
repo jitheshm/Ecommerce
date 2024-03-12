@@ -12,12 +12,7 @@ module.exports = () => {
                 options: /^[^\s]{3}/
             }
         },
-        offers: {
-            optional: true,
-            isArray: {
-                errorMessage: 'Offers should be an array'
-            }
-        }
+       
 
     }
     return valObj

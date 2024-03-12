@@ -7,7 +7,7 @@ import { BASEURL } from "../../constants/constant.json"
 // import Resizer from "react-image-file-resizer";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-function CropImage({ src, setImage, setImgPrev, setCropWindow, id, setOldImage }) {
+function CropImage({ src, setImage, setImgPrev, setCropWindow, id, setOldImage, ratioWidth, ratioHeight }) {
 
 
     const cropperRef = useRef()
@@ -58,7 +58,12 @@ function CropImage({ src, setImage, setImgPrev, setCropWindow, id, setOldImage }
         const cropper = imageElement?.cropper;
         cropper.reset()
     }
-
+    var ratio
+    if (ratioWidth && ratioHeight) {
+        ratio = ratioWidth / ratioHeight
+    } else {
+        ratio = 353 / 416
+    }
 
     return (
         <>
@@ -66,22 +71,22 @@ function CropImage({ src, setImage, setImgPrev, setCropWindow, id, setOldImage }
                 <div className='col-2'>
                     <div className='col-3 m-auto py-4' style={{ height: "max-content", border: "solid", borderColor: "white", borderRadius: "40px", borderWidth: "1px" }}>
                         <div className='m-auto d-flex' style={{ width: "min-content" }} onClick={handleMove}>
-                            <i className="fa-solid fa-up-down-left-right" style={{ fontSize: "25px" }} title='Move'/>
+                            <i className="fa-solid fa-up-down-left-right" style={{ fontSize: "25px" }} title='Move' />
                         </div>
                         <div className='m-auto d-flex mt-4' style={{ width: "min-content" }} >
-                            <i className="fa-solid fa-crop" style={{ fontSize: "25px" }} onClick={handleCrop} title='Crop'/>
+                            <i className="fa-solid fa-crop" style={{ fontSize: "25px" }} onClick={handleCrop} title='Crop' />
                         </div>
                         <div className='m-auto d-flex mt-4' style={{ width: "min-content" }}>
-                            <i className="fa-solid fa-rotate-left" style={{ fontSize: "25px" }} onClick={handleLeftRotate} title='Rotate left'/>
+                            <i className="fa-solid fa-rotate-left" style={{ fontSize: "25px" }} onClick={handleLeftRotate} title='Rotate left' />
                         </div>
                         <div className='m-auto d-flex mt-4' style={{ width: "min-content" }} >
-                            <i className="fa-solid fa-rotate-right" style={{ fontSize: "25px" }} onClick={handleRightRotate} title='Rotate right'/>
+                            <i className="fa-solid fa-rotate-right" style={{ fontSize: "25px" }} onClick={handleRightRotate} title='Rotate right' />
                         </div>
                         <div className='m-auto d-flex mt-4' style={{ width: "min-content" }} >
-                            <i className="fa-solid fa-rotate" style={{ fontSize: "25px" }} onClick={handleReset} title='Reset'/>
+                            <i className="fa-solid fa-rotate" style={{ fontSize: "25px" }} onClick={handleReset} title='Reset' />
                         </div>
                         <div className='m-auto d-flex mt-4' style={{ width: "min-content" }} >
-                            <i className="fa-solid fa-check" style={{ fontSize: "25px" }} onClick={onCrop} title='Done'/>
+                            <i className="fa-solid fa-check" style={{ fontSize: "25px" }} onClick={onCrop} title='Done' />
                         </div>
 
                     </div>
@@ -93,14 +98,15 @@ function CropImage({ src, setImage, setImgPrev, setCropWindow, id, setOldImage }
                         src={src}
                         style={{ height: "100%", width: "100%" }}
                         // Cropper.js options
-                        aspectRatio={353 / 416}
+
+                        aspectRatio={ratio}
                         guides={false}
 
                         ref={cropperRef}
                     />
                 </div>
 
-            </div>
+            </div>    
 
 
         </>
