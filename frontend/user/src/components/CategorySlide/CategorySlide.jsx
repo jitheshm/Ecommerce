@@ -14,7 +14,7 @@ function CategorySlide() {
 
     return (
         <>
-            <div className='container-fluid mb-0 landing '>
+            <div className='container-fluid d-none d-md-block mt-md-4 mb-md-4  landing '>   
                 {/* <div className='ms-4'>
                     <h3><b style={{ color: "black" }}>Categories</b></h3>
                     <hr style={{ borderColor: "black" }} />
