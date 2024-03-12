@@ -57,7 +57,7 @@ function SearchResults() {
     return (
         <>
             <div className=''>
-                <div className='row container-fluid m-auto gap-2'>
+                <div className='row container-fluid-md m-auto gap-2'>
                     <div className=' col-md-3 p-5 mt-5  address border '>
                         <div>
                             <h4><b>Filters</b></h4>
