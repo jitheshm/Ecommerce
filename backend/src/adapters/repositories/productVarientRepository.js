@@ -125,6 +125,7 @@ module.exports = {
                         "productDetails.isDeleted": false,
                     }
                 },
+
                 {
                     $lookup: {
                         from: "offers",
@@ -200,19 +201,26 @@ module.exports = {
                         },
                     }
                 },
-            ]
-
-            if (filter) {
-                pipeLine.push({
+                {
                     $lookup: {
                         from: "categories",
                         localField: "productDetails.categoryId",
                         foreignField: "_id",
                         as: "category"
                     }
-                }, {
+                },
+                {
                     $unwind: "$category"
-                }, {
+                },
+                {
+                    $match: {
+                        "category.isDeleted": false
+                    }
+                },
+            ]
+
+            if (filter) {
+                pipeLine.push({
                     $match: {
                         "category.category": {
                             $regex: filter,
@@ -409,6 +417,14 @@ module.exports = {
                     }
                 },
                 {
+                    $unwind: "$category"
+                },
+                {
+                    $match: {
+                        "category.isDeleted": false
+                    }
+                },
+                {
                     $match: {
                         "productDetails.isListed": true,
                         "productDetails.isDeleted": false,
@@ -572,6 +588,22 @@ module.exports = {
                     $match: {
                         "productDetails.isListed": true,
                         "productDetails.isDeleted": false,
+                    }
+                },
+                {
+                    $lookup:{
+                        from: "categories",
+                        localField: "productDetails.categoryId",
+                        foreignField: "_id",
+                        as: "category"
+                    }
+                },
+                {
+                    $unwind: "$category"
+                },
+                {
+                    $match: {
+                        "category.isDeleted": false
                     }
                 },
                 {
