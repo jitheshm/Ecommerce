@@ -101,9 +101,9 @@ module.exports = {
             throw error
         }
     },
-    getOneVarientPerProduct: async () => {
+    getOneVarientPerProduct: async (filter) => {
         try {
-            const result = await ProductVarientModel.aggregate([
+            const pipeLine = [
                 {
                     $match: {
                         isDeleted: false
@@ -200,7 +200,29 @@ module.exports = {
                         },
                     }
                 },
-            ]).exec()
+            ]
+
+            if (filter) {
+                pipeLine.push({
+                    $lookup: {
+                        from: "categories",
+                        localField: "productDetails.categoryId",
+                        foreignField: "_id",
+                        as: "category"
+                    }
+                }, {
+                    $unwind: "$category"
+                }, {
+                    $match: {
+                        "category.category": {
+                            $regex: filter,
+                            $options: 'i'
+                        }
+                    }
+                })
+            }
+
+            const result = await ProductVarientModel.aggregate(pipeLine).exec()
             console.log(result);
             return result
         } catch (error) {
@@ -335,11 +357,11 @@ module.exports = {
 
     getProductAllVarient: async (id, page, limit) => {
         try {
-            const result = await ProductVarientModel.find({ productId: id, isDeleted: false }).skip((page-1) * limit).limit(limit)
+            const result = await ProductVarientModel.find({ productId: id, isDeleted: false }).skip((page - 1) * limit).limit(limit)
             const totalVarients = await ProductVarientModel.countDocuments({ productId: id, isDeleted: false });
             const totalPages = Math.ceil(totalVarients / limit);
             console.log(result, totalVarients);
-            return {varients:result,totalPages:totalPages}
+            return { varients: result, totalPages: totalPages }
         } catch (error) {
             console.log(error);
             throw error
@@ -523,6 +545,121 @@ module.exports = {
                 })
             }
             return await ProductVarientModel.aggregate(pipeLine).exec()
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
+    },
+    getNewProducts: async () => {
+        try {
+            const result = await ProductVarientModel.aggregate([
+                {
+                    $match: {
+                        isDeleted: false
+                    }
+                },
+
+                {
+                    $lookup: {
+                        from: "products",
+                        localField: "productId",
+                        foreignField: "_id",
+                        as: "productDetails"
+
+                    }
+                },
+                {
+                    $match: {
+                        "productDetails.isListed": true,
+                        "productDetails.isDeleted": false,
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "offers",
+                        let: {
+                            localField1: { $arrayElemAt: ["$productDetails.categoryId", 0] },
+                            localField2: "$productId"
+                        },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $and: [
+                                            {
+                                                $or: [
+                                                    { $in: ["$$localField1", "$applicables"] },
+                                                    { $in: ["$$localField2", "$applicables"] }
+                                                ]
+                                            },
+                                            { $gt: ["$endDate", new Date()] }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        as: "offers"
+                    }
+                },
+
+                {
+                    $group: {
+                        _id: "$productId",
+                        productVarient: { $first: "$$ROOT" }
+                    }
+                },
+
+                {
+                    $replaceRoot: { newRoot: "$productVarient" }
+                },
+                {
+                    $sort: {
+                        "createdAt": -1
+                    }
+                },
+                {
+                    $limit: 10
+                },
+                {
+                    $project: {
+                        _id: 1,
+
+                        productId: 1,
+                        color: 1,
+                        imagesUrl: 1,
+                        stock: 1,
+                        salePrice: 1,
+                        actualPrice: 1,
+                        isDeleted: 1,
+                        productDetails: 1,
+                        offers: 1,
+                        offerPrice: {
+                            $subtract: ["$salePrice", {
+                                $max: {
+                                    $map: {
+                                        input: "$offers", // Iterate over the offers array
+                                        as: "offer",
+                                        in: {
+                                            $cond: {
+                                                if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
+                                                then: {
+                                                    $multiply: [
+                                                        "$$offer.discount", // Percentage value
+                                                        { $divide: ["$salePrice", 100] } // Convert percentage to a decimal
+                                                    ]
+                                                },
+                                                else: "$$offer.discount" // Use the discount amount as is
+                                            }
+                                        }
+                                    }
+                                }
+                            }]
+                        },
+                    }
+                },
+            ]).exec()
+            console.log(result);
+            return result
         } catch (error) {
             console.log(error);
             throw error

@@ -428,7 +428,7 @@ module.exports = {
 
 
             ]).exec()
-           
+
             const orders = result[0].orders
             const totalCount = result[0].totalCount.length > 0 ? result[0].totalCount[0].total : 0;
             const totalPages = Math.ceil(totalCount / limit);
@@ -780,5 +780,122 @@ module.exports = {
             throw error
         }
     },
+    trendingProducts: async () => {
+        try {
+            const topProducts = await OrderModel.aggregate([
+                {
+                    $unwind: '$orderedItems'
+                },
+                {
+                    $group: {
+                        _id: "$orderedItems.productId",
+                        totalQuantity: { $sum: "$orderedItems.quantity" }
+                    }
+                },
+                {
+                    $sort: {
+                        totalQuantity: -1
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'productvarients',
+                        localField: '_id',
+                        foreignField: '_id',
+                        as: 'varientDetails'
+                    }
+                },
+                {
+                    $unwind: '$varientDetails'
+                },
+                {
+                    $lookup: {
+                        from: 'products',
+                        localField: 'varientDetails.productId',
+                        foreignField: '_id',
+                        as: 'productDetails'
+                    }
+                },
+                {
+                    $unwind: '$productDetails'
+                },
 
+                {
+                    $sort: {
+                        totalQuantity: -1
+                    }
+                },
+                {
+                    $limit: 10
+                },
+                {
+                    $lookup: {
+                        from: "offers",
+                        let: {
+                            localField1: "$productDetails.categoryId",
+                            localField2: "$productDetails._id"
+                        },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $and: [
+                                            {
+                                                $or: [
+                                                    { $in: ["$$localField1", "$applicables"] },
+                                                    { $in: ["$$localField2", "$applicables"] }
+                                                ]
+                                            },
+                                            { $gt: ["$endDate", new Date()] }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        as: "offers"
+                    }
+                },
+
+                {
+                    $project: {
+                        _id: 0,
+                        productId: '$productDetails._id',
+                        productDetails: ['$productDetails'],
+                        color: '$varientDetails.color',
+                        imagesUrl: '$varientDetails.imagesUrl',
+                        offers: 1,
+                        salePrice: '$varientDetails.salePrice',
+                        offerPrice: {
+                            $subtract: ["$varientDetails.salePrice", {
+                                $max: {
+                                    $map: {
+                                        input: "$offers", // Iterate over the offers array
+                                        as: "offer",
+                                        in: {
+                                            $cond: {
+                                                if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
+                                                then: {
+                                                    $multiply: [
+                                                        "$$offer.discount", // Percentage value
+                                                        { $divide: ["$varientDetails.salePrice", 100] } // Convert percentage to a decimal
+                                                    ]
+                                                },
+                                                else: "$$offer.discount" // Use the discount amount as is
+                                            }
+                                        }
+                                    }
+                                }
+                            }]
+                        }
+                    }
+
+                }
+
+            ]).exec()
+            console.log(topProducts);
+            return topProducts
+        } catch (error) {
+            throw error
+        }
+    }
 }

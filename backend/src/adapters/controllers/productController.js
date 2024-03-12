@@ -18,6 +18,7 @@ const getColorList = require("../../usecase/product/getColorList")
 const viewProduct = require("../../usecase/product/viewProduct")
 const getProductAllVarient = require("../../usecase/product/getProductAllVarient")
 const searchProducts = require("../../usecase/product/searchProducts")
+const getNewProducts = require("../../usecase/product/getNewProducts")
 
 module.exports = {
     productAdd: async (prodData) => {
@@ -51,20 +52,20 @@ module.exports = {
 
 
     },
-    getOneVarientPerProduct: async () => {
-        const products = await getOneVarientPerProduct(productVarientRepository)
+    getOneVarientPerProduct: async (filter) => {
+        const products = await getOneVarientPerProduct(productVarientRepository,filter)
         return products
     },
-    getVarientDetail: async (color,id) => {
-        const varientDetail = await getVarientDetails(color,id, productVarientRepository)
+    getVarientDetail: async (color, id) => {
+        const varientDetail = await getVarientDetails(color, id, productVarientRepository)
         return varientDetail
     },
     editProduct: async (id) => {
         const result = await editProduct(id, productRepository)
         return result
     },
-    getAllProducts: async (page,limit) => {
-        const result = await getAllProducts(productRepository,page,limit)
+    getAllProducts: async (page, limit) => {
+        const result = await getAllProducts(productRepository, page, limit)
         return result
     },
     getVarient: async (id) => {
@@ -83,12 +84,17 @@ module.exports = {
         const result = await viewProduct(productRepository, id)
         return result
     },
-    getProductAllVarient: async (id,page, limit) => {
-        const result = await getProductAllVarient(productVarientRepository, id,page, limit)
+    getProductAllVarient: async (id, page, limit) => {
+        const result = await getProductAllVarient(productVarientRepository, id, page, limit)
         return result
     },
-    searchProducts: async(searchQuery,sort,filter) => {
-        const result=await searchProducts(productVarientRepository,searchQuery,sort,filter)
+    searchProducts: async (searchQuery, sort, filter) => {
+        const result = await searchProducts(productVarientRepository, searchQuery, sort, filter)
         return result
-    }
+    },
+    getNewProducts: async () => {
+        const result = await getNewProducts(productVarientRepository)
+        return result
+    },
+    
 }

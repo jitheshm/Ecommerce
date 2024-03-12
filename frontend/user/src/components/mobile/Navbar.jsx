@@ -73,7 +73,7 @@ function Navbar() {
                 </div>
                 {/* container */}
             </div>
-            <div style={{height:"69px"}}>   
+            <div className='d-md-none' style={{height:"69px"}}>   
 
             </div>
         </>

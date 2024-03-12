@@ -5,15 +5,15 @@ import { useEffect } from 'react'
 import instance from '../../axios'
 import { useState } from 'react'
 
-function ProductSlide({ title }) {
+function ProductSlide({ title,api }) {
     const [products, setProducts] = useState([])
     useEffect(() => {
-        instance.get('/user/getproducts').then((res) => {
-            console.log(res);
+        instance.get(api).then((res) => {
+            console.log(title,res);
             setProducts(res.data.data)
         })
     }, [])
-
+   
     return (
         <>
             <div className='container-fluid mb-md-4  landing '> 

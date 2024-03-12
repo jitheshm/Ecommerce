@@ -1,12 +1,12 @@
 const { nodemailerEmail, nodemailerPassword, razorpaykey_id, razorpaykey_secret, client_url } = require('../../config')
 const { ObjectId } = require('mongodb');
-const { getOneVarientPerProduct, getVarientDetail, getcolorlist, searchProducts } = require('../../../adapters/controllers/productController');
+const { getOneVarientPerProduct, getVarientDetail, getcolorlist, searchProducts, getNewProducts } = require('../../../adapters/controllers/productController');
 
 const { signup, verifyUser, loginUser, resendOtp, changePersonaldata, getPersonalData, forgetPasswordOtp, newPasswordUpdate, userAuthenticate } = require('../../../adapters/controllers/userController');
 const { addAddress, updateAddress, deleteAddress, getUserAllAddress, findAddress } = require('../../../adapters/controllers/addressController');
 const { addToCart, changeQuantity, removeCartProduct, findCart, checkProductExist, stockAvailable } = require('../../../adapters/controllers/cartController');
 const isStockAvailable = require('../../../usecase/cart/isStockAvailable');
-const { placeOrder, getOrders, getSpecificOrder, changeStatus, verifyPayment, returnProduct, repay, getOneOrder } = require('../../../adapters/controllers/orderController');
+const { placeOrder, getOrders, getSpecificOrder, changeStatus, verifyPayment, returnProduct, repay, getOneOrder, topSellingProducts, trendingProducts } = require('../../../adapters/controllers/orderController');
 const moment = require('moment');
 const { validationResult } = require('express-validator');
 const razorpayUtils = require('razorpay/dist/utils/razorpay-utils');
@@ -81,7 +81,8 @@ module.exports = {
     },
     getProductHandler: async (req, res) => {
         try {
-            const products = await getOneVarientPerProduct()
+            const filter=req.query.filter
+            const products = await getOneVarientPerProduct(filter)
             res.status(200).json({ success: true, data: products })
         } catch (error) {
             console.log(error);
@@ -635,6 +636,26 @@ module.exports = {
 
 
 
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    getNewProductsHandler: async (req, res) => {
+        try {
+            const products = await getNewProducts()
+            res.status(200).json({ success: true, data: products })
+
+        } catch (error) {
+
+        }
+    },
+    getTrendingProductsHandler: async(req,res) => {
+        try {
+            const data = await trendingProducts()
+            console.log("selling");
+            console.log(data);
+            res.status(200).json({ success: true, data: data })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
