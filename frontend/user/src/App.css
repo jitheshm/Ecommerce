@@ -383,7 +383,7 @@ body {
 
 .landing {
   background-color: #ffffff !important;
- 
+
 }
 
 
@@ -419,16 +419,17 @@ body {
   gap: 5px;
 }
 
-body, html {
+body,
+html {
   overflow-x: hidden;
-  }
+}
 
 /* .border img {
   height: 100%;
   max-width: 100%;
 } */
 .header-mobile-ctn {
-  
+
   padding: 15px 0px;
 }
 
@@ -470,6 +471,14 @@ body, html {
   color: #FFF;
   background-color: #D10024;
 }
-body{
-  font-family: roboto!important;
+
+body {
+  font-family: roboto !important;
+}
+
+@media (max-width: 1025px){
+  body{
+    background-color: #ffffff !important;
+  }
+
 }
