@@ -28,6 +28,7 @@ const topSellingProducts = require("../../usecase/order/topSellingProducts")
 const topSellingCategories = require("../../usecase/order/topSellingCategories")
 const topSellingBrands = require("../../usecase/order/topSellingBrands")
 const { generateInvoice } = require("./InvoiceController")
+const trendingProducts = require("../../usecase/order/trendingProducts")
 module.exports = {
     placeOrder: async (userId, data, razorpaykey_id, razorpaykey_secret) => {
         data.userId = userId
@@ -103,8 +104,8 @@ module.exports = {
         else
             return true
     },
-    generateSalesReport: async (startDate, endDate,page, limit) => {
-        return await generateSalesReport(startDate, endDate, orderRepository,page, limit)
+    generateSalesReport: async (startDate, endDate, page, limit) => {
+        return await generateSalesReport(startDate, endDate, orderRepository, page, limit)
     },
     repay: async (data, razorpaykey_id, razorpaykey_secret) => {
         return await repay(razorpayGateway, data, razorpaykey_id, razorpaykey_secret)
@@ -126,5 +127,8 @@ module.exports = {
     },
     topSellingBrands: async () => {
         return await topSellingBrands(orderRepository)
+    },
+    trendingProducts: () => {
+        return trendingProducts(orderRepository)
     }
 }

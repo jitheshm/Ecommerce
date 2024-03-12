@@ -9,7 +9,8 @@ const ProductVarientSchema = new mongoose.Schema({
     actualPrice: { type: Number, required: true },
     avgRating: { type: Number },
     reviewCount: { type: Number },
-    isDeleted: { type: Boolean, required: true }
+    isDeleted: { type: Boolean, required: true },
+    createdAt: { type: Date, default: Date.now },
 });
 
 
