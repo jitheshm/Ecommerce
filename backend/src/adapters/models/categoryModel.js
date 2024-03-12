@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const CategorySchema = new mongoose.Schema({
     category: { type: String, required: true },
-    offers: { type: Array },
+
+    imagesUrl: { type: Array },
     isDeleted: { type: Boolean, required: true }
 
 });

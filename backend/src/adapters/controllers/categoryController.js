@@ -10,7 +10,7 @@ module.exports = {
         await addCategory(data,categoryRepository)
     },
     categoryUpdate:async(data)=>{
-        await updateCategory(data,categoryRepository)
+        return await updateCategory(data,categoryRepository)
 
     },
     categoryDelete:async(id)=>{

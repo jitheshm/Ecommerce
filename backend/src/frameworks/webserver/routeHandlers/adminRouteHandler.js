@@ -214,6 +214,12 @@ module.exports = {
         try {
             const valResult = validationResult(req);
             if (valResult.isEmpty()) {
+                if (req.files) {
+                    const imagesUrl = req.files.map((data) => {
+                        return data.path
+                    })
+                    req.body.imagesUrl = imagesUrl
+                }
                 await categoryAdd(req.body)
                 res.status(200).json({ success: true })
             } else {
@@ -228,10 +234,39 @@ module.exports = {
         try {
             const valResult = validationResult(req);
             if (valResult.isEmpty()) {
+                if (req.files) {
+                    const imagesUrl = req.files.map((data) => {
+                        return data.path
+                    })
+                    req.body.imagesUrl = imagesUrl
+                }
                 req.body.id = new ObjectId(req.body.id)
-                await categoryUpdate(req.body)
-                res.status(200).json({ success: true })
-            } else {
+                const oldObj = await categoryUpdate(req.body)
+                console.log("oldObj");
+                console.log(oldObj);
+                if (oldObj) {
+                    const filesToDelete = oldObj.imagesUrl
+                    console.log(filesToDelete);
+                    if (filesToDelete)
+                        for (const file of filesToDelete) {
+                            const filePath = path.join(__dirname, '../../../../', file);
+                            console.log(filePath);
+                            if (fs.existsSync(filePath)) {
+                                console.log(filePath);
+                                await fs.promises.unlink(filePath);
+                                console.log(`Deleted file: ${file}`);
+                            } else {
+                                console.log(`File not found: ${file}`);
+                            }
+                        }
+                    res.status(200).json({ success: true })
+                }
+                else {
+                    res.status(200).json({ success: false, msg: "categoty not found" })
+                }
+            }
+
+            else {
                 res.status(400).json({ error: valResult.array() })
             }
         } catch (error) {

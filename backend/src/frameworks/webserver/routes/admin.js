@@ -35,9 +35,9 @@ router.patch('/updateproduct', authToken, checkSchema(productValidator()), produ
 
 router.delete('/deleteproduct', authToken, productDeleteHandler)
 
-router.post('/addcategory', authToken, checkSchema(categoryValidator()), addCategoryHandler)
+router.post('/addcategory', authToken,fileUpload("categories") ,checkSchema(categoryValidator()), addCategoryHandler)
 
-router.patch('/updateCategory', authToken, checkSchema(categoryValidator()), updateCategoryHandler)
+router.patch('/updateCategory', authToken,fileUpload("categories") , checkSchema(categoryValidator()), updateCategoryHandler)
 
 router.delete('/deleteCategory', authToken, deleteCategoryHandler)
 

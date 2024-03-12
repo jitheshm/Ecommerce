@@ -14,13 +14,13 @@ module.exports = {
     },
     update: async (data, id) => {
         try {
-            const res = await CategoryModel.updateOne({ _id: id, isDeleted: false }, data)
-            if (res.matchedCount === 0)
-                return false
+            const res = await CategoryModel.findOneAndUpdate({ _id: id, isDeleted: false }, data)
+            if (!res)
+                return null
             else
-                return true
+                return res
         } catch (error) {
-            console.log("category insertion failed" + error);
+            console.log("category updation failed" + error);
             throw error
         }
     },
@@ -39,7 +39,7 @@ module.exports = {
             throw error
         }
     },
-    getCategory: async (page=1, limit=1000) => {
+    getCategory: async (page = 1, limit = 1000) => {
         try {
             const categories = await CategoryModel.find({ isDeleted: false }).skip((page - 1) * limit).limit(limit)
             const count = await CategoryModel.countDocuments({ isDeleted: false })
