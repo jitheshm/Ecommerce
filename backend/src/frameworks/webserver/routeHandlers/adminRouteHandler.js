@@ -727,12 +727,14 @@ module.exports = {
     },
     getAllBannerHandler: async (req, res) => {
         try {
-            const banners = await getAllBanner();
-            res.status(200).json({ success: true, data: banners });
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const result = await getAllBanner(page, limit);
+            res.status(200).json({ success: true, data: result.banners, totalPages: result.totalPages });
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" });
         }
     }
-    
+
 }

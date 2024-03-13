@@ -143,7 +143,7 @@ function BannerForm({ title, id, api, method, btnName }) {
 
         }).then(() => {
             console.log("success");
-            navigate('/admin/banners')
+            navigate('/banners')
 
         })
 

@@ -18,8 +18,8 @@ module.exports = {
     getBanner: async (id) => {
         return await getBanner(id, bannerRepository)
     },
-    getAllBanner: async () => {
-        return await getAllBanner(bannerRepository)
+    getAllBanner: async (page, limit) => {
+        return await getAllBanner(bannerRepository,page, limit)
     },
     getDisplayBanners: async () => {
         return await getDisplayBanners(bannerRepository)

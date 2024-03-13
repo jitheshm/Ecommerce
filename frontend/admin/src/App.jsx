@@ -37,6 +37,7 @@ import Dashboard from './pages/Dashboard';
 import PageNotFound from './pages/PageNotFound';
 import AddBanner from './pages/AddBanner';
 import EditBanner from './pages/EditBanner';
+import BannersList from './pages/BannersList';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -160,6 +161,10 @@ function App() {
     {
       path:"/editbanner/:id",
       element:<Layout><EditBanner/></Layout>
+    },
+    {
+      path:"/banners",
+      element:<Layout><BannersList/></Layout>
     },
     {
       path: "*",

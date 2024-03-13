@@ -145,9 +145,27 @@ function Sidebar() {
                     </li>
 
                     <li className="nav-item menu-items">
+                        <a className="nav-link" data-bs-toggle="collapse" href="#banners" aria-expanded="false" aria-controls="auth">
+                            <span className="menu-icon">
+                                <i className="fa-solid fa-images" />
+
+                            </span>
+                            <span className="menu-title">Banners</span>
+                            <i className="menu-arrow" />
+                        </a>
+                        <div className="collapse" id="banners">
+                            <ul className="nav flex-column sub-menu">
+                                <li className="nav-item"> <Link to={'/banners'} className="nav-link" >View Banners</Link></li>
+                                <li className="nav-item"> <Link to={'/addbanner'} className="nav-link" >Add Banner</Link></li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li className="nav-item menu-items">
                         <a className="nav-link" data-bs-toggle="collapse" href="#report" aria-expanded="false" aria-controls="auth">
                             <span className="menu-icon">
-                                <i className="fa-solid fa-gift" />
+                                <i className="fa-solid fa-receipt" />
 
                             </span>
                             <span className="menu-title">Sales Report</span>
