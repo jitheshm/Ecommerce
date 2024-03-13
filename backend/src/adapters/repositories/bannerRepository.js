@@ -37,9 +37,12 @@ module.exports = {
             throw error
         }
     },
-    getAllBanners: async () => {
+    getAllBanners: async (page, limit) => {
         try {
-            return await BannerModel.find()
+            const banners = await BannerModel.find().skip((page - 1) * limit).limit(limit)
+            const totalUsers = await BannerModel.countDocuments()
+            const totalPages = Math.ceil(totalUsers / limit)
+            return { banners, totalPages }
         } catch (error) {
             console.log(error);
             throw error
