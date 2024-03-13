@@ -35,6 +35,8 @@ import SalesReport from './pages/SalesReport';
 import OrderDetails from './pages/OrderDetails';
 import Dashboard from './pages/Dashboard';
 import PageNotFound from './pages/PageNotFound';
+import AddBanner from './pages/AddBanner';
+import EditBanner from './pages/EditBanner';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -149,12 +151,21 @@ function App() {
     },
     {
       path: "/",
-      element: <Layout><Dashboard /></Layout>   
+      element: <Layout><Dashboard /></Layout>
     },
     {
-      path:"*",
-      element:<PageNotFound/>
-  }
+      path:"/addbanner",
+      element:<Layout><AddBanner/></Layout>
+    },
+    {
+      path:"/editbanner/:id",
+      element:<Layout><EditBanner/></Layout>
+    },
+    {
+      path: "*",
+      element: <PageNotFound />
+    },
+
 
 
   ])

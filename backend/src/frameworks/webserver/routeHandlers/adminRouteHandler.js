@@ -10,6 +10,7 @@ const { ordersList, changeStatus, returnOrdersList, changeReturnStatus, generate
 const { validationResult } = require('express-validator');
 const { addCoupon, getCoupon, updateCoupon, getAllCoupon, deleteCoupon } = require('../../../adapters/controllers/couponController');
 const { addOffer, getAllOffers, getOffer, updateOffer, deleteOffer } = require('../../../adapters/controllers/offerController');
+const { bannerAdd, bannerUpdate, statusChange, getBanner, getAllBanner, getDisplayBanners } = require('../../../adapters/controllers/bannerController');
 
 module.exports = {
     loginHandler: async (req, res) => {
@@ -637,5 +638,101 @@ module.exports = {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
         }
+    },
+    addBannerHandler: async (req, res) => {
+        try {
+            const valResult = validationResult(req);
+            if (valResult.isEmpty()) {
+                if (req.files) {
+                    const imagesUrl = req.files.map((data) => {
+                        return data.path
+                    })
+                    req.body.imagesUrl = imagesUrl
+                }
+                await bannerAdd(req.body)
+                res.status(200).json({ success: true })
+            } else {
+                console.log(valResult.array());
+                res.status(400).json({ error: valResult.array() })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    updateBannerHandler: async (req, res) => {
+        try {
+            const valResult = validationResult(req);
+            if (valResult.isEmpty()) {
+                if (req.files) {
+                    const imagesUrl = req.files.map((data) => {
+                        return data.path
+                    })
+                    req.body.imagesUrl = imagesUrl
+                }
+                req.body.id = new ObjectId(req.body.id)
+                const oldObj = await bannerUpdate(req.body)
+                console.log("oldObj");
+                console.log(oldObj);
+                if (oldObj) {
+                    const filesToDelete = oldObj.imagesUrl
+                    console.log(filesToDelete);
+                    if (filesToDelete && req.files.length() > 0)
+                        for (const file of filesToDelete) {
+                            const filePath = path.join(__dirname, '../../../../', file);
+                            console.log(filePath);
+                            if (fs.existsSync(filePath)) {
+                                console.log(filePath);
+                                await fs.promises.unlink(filePath);
+                                console.log(`Deleted file: ${file}`);
+                            } else {
+                                console.log(`File not found: ${file}`);
+                            }
+                        }
+                    res.status(200).json({ success: true })
+                }
+                else {
+                    res.status(200).json({ success: false, msg: "banner not found" })
+                }
+            }
+
+            else {
+                res.status(400).json({ error: valResult.array() })
+            }
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+
+    },
+    bannerStatusHandler: async (req, res) => {
+        try {
+            const status = await statusChange(new ObjectId(req.body.id), req.body.status)
+            res.status(200).json({ success: status })
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    getBannerHandler: async (req, res) => {
+        try {
+            const id = req.params.id;
+            const banner = await getBanner(id);
+            res.status(200).json({ success: true, data: banner });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" });
+        }
+    },
+    getAllBannerHandler: async (req, res) => {
+        try {
+            const banners = await getAllBanner();
+            res.status(200).json({ success: true, data: banners });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" });
+        }
     }
+    
 }

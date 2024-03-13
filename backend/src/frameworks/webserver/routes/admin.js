@@ -2,13 +2,14 @@ const express = require('express')
 const router = express.Router()
 const authToken = require('../../middlewares/adminAuthToken');
 const fileUpload = require('../../middlewares/fileUpload');
-const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler, handleDeleteCouponHandler, addOfferHandler, getallOffersHandler, getOfferHandler, updateOfferHandler, handleDeleteOfferHandler, salesReportHandler, getOrderSpecificHandler, salesOverviewHandler, topSellingProductsHandler, topSellingCategoriesHandler, topSellingBrandsHandler } = require('../routeHandlers/adminRouteHandler');
+const { loginHandler, blockUserHandler, unblockUserHandler, fetchAllUsersHandler, productAddHandler, varientUpdateHandler, varientAddHandler, varientDeleteHandler, productUpdateHandler, productDeleteHandler, addCategoryHandler, updateCategoryHandler, deleteCategoryHandler, getCategoryHandler, getSpecificCategoryHandler, editProductHandler, getAllProductsHandler, tokenVerifyHandler, editVarientHandler, productListChangeHandler, viewProductHandler, getProductAllVarientHandler, ordersListHandler, orderStatusHandler, returnordersListHandler, orderReturnStatusHandler, addCouponHandler, getCouponHandler, updateCouponHandler, getallCouponHandler, handleDeleteCouponHandler, addOfferHandler, getallOffersHandler, getOfferHandler, updateOfferHandler, handleDeleteOfferHandler, salesReportHandler, getOrderSpecificHandler, salesOverviewHandler, topSellingProductsHandler, topSellingCategoriesHandler, topSellingBrandsHandler, addBannerHandler, updateBannerHandler, bannerStatusHandler, getAllBannerHandler, getBannerHandler, getDisplayBannersHandler } = require('../routeHandlers/adminRouteHandler');
 const { checkSchema } = require('express-validator');
 const loginValidator = require('../validators/admin/loginValidator');
 const productValidator = require('../validators/admin/productValidator');
 const categoryValidator = require('../validators/admin/categoryValidator');
 const varientValidator = require('../validators/admin/varientValidator');
 const couponValidator = require('../validators/admin/couponValidator');
+const bannerValidator = require('../validators/admin/bannerValidator');
 
 
 //admin routes
@@ -35,9 +36,9 @@ router.patch('/updateproduct', authToken, checkSchema(productValidator()), produ
 
 router.delete('/deleteproduct', authToken, productDeleteHandler)
 
-router.post('/addcategory', authToken,fileUpload("categories") ,checkSchema(categoryValidator()), addCategoryHandler)
+router.post('/addcategory', authToken, fileUpload("categories"), checkSchema(categoryValidator()), addCategoryHandler)
 
-router.patch('/updateCategory', authToken,fileUpload("categories") , checkSchema(categoryValidator()), updateCategoryHandler)
+router.patch('/updateCategory', authToken, fileUpload("categories"), checkSchema(categoryValidator()), updateCategoryHandler)
 
 router.delete('/deleteCategory', authToken, deleteCategoryHandler)
 
@@ -86,5 +87,12 @@ router.get('/sales-overview/:filter', authToken, salesOverviewHandler)
 router.get('/topsellingproducts', authToken, topSellingProductsHandler)
 router.get('/topsellingcategories', authToken, topSellingCategoriesHandler)
 router.get('/topsellingBrands', authToken, topSellingBrandsHandler)
+
+router.post('/addbanner', authToken, fileUpload("banners"), checkSchema(bannerValidator()), addBannerHandler)
+router.patch('/updatebanner', authToken, fileUpload("banners"), checkSchema(bannerValidator()), updateBannerHandler)
+router.patch('/bannerstatusChange', authToken, bannerStatusHandler)
+router.get('/getallbanners', authToken, getAllBannerHandler)
+router.get('/getbanner/:id', authToken, getBannerHandler)
+
 
 module.exports = router
