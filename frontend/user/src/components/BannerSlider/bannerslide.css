@@ -1,0 +1,11 @@
+
+@media only screen and (min-width: 600px) {
+   .carousal_sugu{
+    height: 40vh;
+   }
+  }
+  @media only screen and (max-width: 599px) {
+    .carousal_sugu{
+     height: 20vh;
+    }
+   }

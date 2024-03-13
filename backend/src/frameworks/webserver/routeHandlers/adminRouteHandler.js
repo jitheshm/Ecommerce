@@ -671,13 +671,14 @@ module.exports = {
                     req.body.imagesUrl = imagesUrl
                 }
                 req.body.id = new ObjectId(req.body.id)
+                console.log(req.body);
                 const oldObj = await bannerUpdate(req.body)
                 console.log("oldObj");
                 console.log(oldObj);
                 if (oldObj) {
                     const filesToDelete = oldObj.imagesUrl
                     console.log(filesToDelete);
-                    if (filesToDelete && req.files.length() > 0)
+                    if (filesToDelete && req.files.length > 0)
                         for (const file of filesToDelete) {
                             const filePath = path.join(__dirname, '../../../../', file);
                             console.log(filePath);
