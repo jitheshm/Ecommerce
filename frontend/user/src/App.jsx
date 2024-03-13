@@ -82,7 +82,7 @@ function App() {
             children: [
                 {
                     path: "",
-                    element: <Account />,
+                    element: <Mobile><Account /></Mobile>,
                 },
                 {
                     path: "personal",
@@ -124,7 +124,7 @@ function App() {
         },
         {
             path: "/order/repayment/:orderId",
-            element: <Repayment />
+            element:  <Auth><Repayment /></Auth>
         },
         {
             path: "/order/invoice/:orderId",
