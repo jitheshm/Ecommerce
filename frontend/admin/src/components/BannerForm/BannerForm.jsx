@@ -56,8 +56,8 @@ function BannerForm({ title, id, api, method, btnName }) {
                     Authorization: Cookies.get('token')
                 }
             }).then((res) => {
-                console.log(res.data.data);   
-                setValue('title', res.data.data.title)   
+                console.log(res.data.data);
+                setValue('title', res.data.data.title)
                 setValue('startDate', new Date(res.data.data.startDate))
                 setValue('endDate', new Date(res.data.data.endDate))
                 setValue('description', res.data.data.description)
@@ -115,6 +115,12 @@ function BannerForm({ title, id, api, method, btnName }) {
 
         console.log(data);
         const formData = new FormData();
+        if (image1) {
+            formData.append('files', image1)
+        } else if ((!id && !image1) || (id && !imagePre1)) {
+            setImgError(true)
+            return;
+        }
 
         if (new Date(data.startDate) > new Date(data.endDate)) {
             alert("Start date should be less than end date")
@@ -124,7 +130,7 @@ function BannerForm({ title, id, api, method, btnName }) {
         formData.append('description', data.description)
         formData.append('startDate', new Date(data.startDate).toISOString())
         formData.append('endDate', new Date(data.endDate).toISOString())
-        formData.append('files', image1)
+
         instance.request({
             method: method,
             url: api,
