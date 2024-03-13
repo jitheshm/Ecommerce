@@ -63,10 +63,11 @@ function CategoryForm({ api, method, id, title, btnName }) {
         formData.append('id', id)
         if (image1) {
             formData.append('files', image1)
-        } else {
+        } else if((!id && !image1)|| (id && !imagePre1)){ 
             setImgError(true)
             return;
         }
+        
         instance.request({
             method: method,
             url: api,
