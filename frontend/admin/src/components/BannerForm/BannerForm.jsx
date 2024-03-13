@@ -80,7 +80,7 @@ function BannerForm({ title, id, api, method, btnName }) {
             const reader = new FileReader();
             reader.onloadend = () => {
 
-                setCropComponent(<CropImage src={reader.result} setCropWindow={setCropWindow} setImage={setImage} setImgPrev={setImgPre} id={id} setOldImage={setOldImage} ratioWidth={1297} ratioHeight={500} />)
+                setCropComponent(<CropImage src={reader.result} setCropWindow={setCropWindow} setImage={setImage} setImgPrev={setImgPre} id={id} setOldImage={setOldImage} ratioWidth={6} ratioHeight={1} />)
                 setCropWindow(true)
                 // setImgPre((prev) => {
                 //   if (id && prev) {
@@ -126,6 +126,7 @@ function BannerForm({ title, id, api, method, btnName }) {
             alert("Start date should be less than end date")
             return
         }
+        formData.append('id', id)
         formData.append('title', data.title)
         formData.append('description', data.description)
         formData.append('startDate', new Date(data.startDate).toISOString())

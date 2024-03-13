@@ -17,6 +17,7 @@ const { applyCoupon, getActiveCoupons } = require('../../../adapters/controllers
 const { getAvailableOffers } = require('../../../adapters/controllers/offerController');
 const getActiveCoupopns = require('../../../usecase/coupon/getActiveCoupons');
 const { getInvoice } = require('../../../adapters/controllers/InvoiceController');
+const { getDisplayBanners } = require('../../../adapters/controllers/bannerController');
 
 
 
@@ -81,7 +82,7 @@ module.exports = {
     },
     getProductHandler: async (req, res) => {
         try {
-            const filter=req.query.filter
+            const filter = req.query.filter
             const products = await getOneVarientPerProduct(filter)
             res.status(200).json({ success: true, data: products })
         } catch (error) {
@@ -650,12 +651,21 @@ module.exports = {
 
         }
     },
-    getTrendingProductsHandler: async(req,res) => {
+    getTrendingProductsHandler: async (req, res) => {
         try {
             const data = await trendingProducts()
             console.log("selling");
             console.log(data);
             res.status(200).json({ success: true, data: data })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ "error": "internal server error" })
+        }
+    },
+    bannerHandler: async (req, res) => {
+        try {
+            const banners = await getDisplayBanners()
+            res.status(200).json({ success: true, data: banners })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
