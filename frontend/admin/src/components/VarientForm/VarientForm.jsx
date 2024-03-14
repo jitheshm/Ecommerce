@@ -3,7 +3,7 @@ import img from '../../assets/No-Image-Placeholder.png'
 import instance from '../../axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 import Resizer from "react-image-file-resizer";
 import CropImage from '../CropImage/CropImage';
 import './VarientForm.css'
