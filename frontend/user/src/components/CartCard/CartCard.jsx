@@ -281,7 +281,7 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
 
                     </div>
 
-                    <p className="card-text mt-2 row"><h4 className='col-md-3'><b>₹ {item.totalPrice ? item.totalPrice : item.varient.salePrice}</b></h4> </p>
+                    <p className="card-text mt-2 row"><h4 className='col-md-3'><b>₹ {item.price ? item.price : item.varient.salePrice}</b></h4> </p>
                     <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div>
                 </div>
 

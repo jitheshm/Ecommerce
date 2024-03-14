@@ -132,7 +132,36 @@ module.exports = {
                         "varient": 1,
                         "productDetails": 1,
                         offer: 1,
-                        //"price": { $multiply: ["$products.quantity", "$varient.salePrice"] },
+                        "price": {
+                            $ifNull: [
+                                {
+                                    $subtract: [
+                                         "$varient.salePrice",
+                                        {
+                                            $max: {
+                                                $map: {
+                                                    input: "$offers", // Iterate over the offers array
+                                                    as: "offer",
+                                                    in: {
+                                                        $cond: {
+                                                            if: { $eq: ["$$offer.discountType", "percentage"] }, // Check if offer type is "percentage"
+                                                            then: {
+                                                                $multiply: [
+                                                                    "$$offer.discount", // Percentage value
+                                                                    { $divide: ["$varient.salePrice", 100] } // Convert percentage to a decimal
+                                                                ]
+                                                            },
+                                                            else: "$$offer.discount" // Use the discount amount as is
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                "$varient.salePrice"
+                            ]
+                        },
                         "totalPrice": {
                             $ifNull: [
                                 {
