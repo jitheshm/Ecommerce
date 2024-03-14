@@ -1,6 +1,6 @@
 import Excel from 'exceljs';
 import { saveAs } from 'file-saver';
-export default (datas) => {
+export default (datas,startDate,endDate) => {
     const columns = [
         { header: 'No', key: 'no' },
         { header: 'Date', key: 'date' },
@@ -84,7 +84,7 @@ export default (datas) => {
             const buf = await workbook.xlsx.writeBuffer();
 
             // download the processed file
-            saveAs(new Blob([buf]), `${ fileName }.xlsx`);
+            saveAs(new Blob([buf]), `${ fileName } ${ startDate } to ${ endDate }.xlsx`);
         } catch (error) {
             console.error('<<<ERRROR>>>', error);
             console.error('Something Went Wrong', error.message);
