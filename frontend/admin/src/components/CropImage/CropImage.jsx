@@ -3,7 +3,7 @@
 import React, { useRef, useState } from 'react'
 // import Cropper from 'react-easy-crop'
 import './CropImage.css'
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 // import Resizer from "react-image-file-resizer";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";

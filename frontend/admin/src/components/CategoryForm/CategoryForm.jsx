@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import CropImage from '../CropImage/CropImage';
 import img from '../../assets/No-Image-Placeholder.png'
 import Resizer from "react-image-file-resizer";
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 function CategoryForm({ api, method, id, title, btnName }) {
     const [categoryNameError, setCategoryNameError] = useState(false)
     const [category, setCategory] = useState("")

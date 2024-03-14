@@ -11,7 +11,7 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import CropImage from '../CropImage/CropImage';
 import img from '../../assets/No-Image-Placeholder.png'
 import Resizer from "react-image-file-resizer";
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 
 const schema = yup
     .object({

@@ -3,7 +3,7 @@ import instance from '../../axios'
 import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 
 function OrderDetails() {
     const [order, setOrder] = useState({})
