@@ -173,7 +173,7 @@ function App() {
 
 
 
-  ])
+  ], { basename: '/adminpanel' })
   return (
 
     <>
