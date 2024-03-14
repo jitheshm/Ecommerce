@@ -1,11 +1,10 @@
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-const generatePDF = (orders) => {
+const generatePDF = (orders, startDate, endDate) => {
     const pageWidth = 410; // in mm (approximately 11.7 inches)
     const pageHeight = 210; // in mm (approximately 8.27 inches)
     const maxTableHeight = 170; // Maximum height of the table on a single page
-
 
     // Create a new jsPDF instance with custom page size
     const doc = new jsPDF({
@@ -14,10 +13,22 @@ const generatePDF = (orders) => {
         format: [pageWidth, pageHeight], // Set custom page size
     });
 
-    doc.text('Sales Report', 10, 10); // Title
+    const addDate = (doc, date, x, y, align) => {
+        doc.text(date, x, y, { align: align });
+    };
 
-    let yPos = 20; // Initial Y position for content
+    // Title
+    doc.setFontSize(14);
+    doc.text('Sales Report', 10, 10);
 
+    // Start and end dates
+    doc.setFontSize(10);
+    const formattedStartDate = new Date(startDate).toDateString();
+    const formattedEndDate = new Date(endDate).toDateString();
+    const dateRange = `${formattedStartDate} - ${formattedEndDate}`;
+    addDate(doc, dateRange, pageWidth - 10, 10, 'right');
+
+    let yPos = 25; // Initial Y position for content
 
     const headers = ['No', 'Date', 'OrderId', 'Delivery Address', 'Products', 'Sale Price', 'Quantity', 'Amount', 'Discount', 'Total']; // Add more headers as needed
 
@@ -30,14 +41,13 @@ const generatePDF = (orders) => {
             index + 1,
             new Date(order.orderDate).toDateString(),
             order._id,
-            `${order.deliveryAddress.name} , ${order.deliveryAddress.street},${order.deliveryAddress.city},${order.deliveryAddress.state},${order.deliveryAddress.pincode}`,
+            `${order.deliveryAddress.name}, ${order.deliveryAddress.street}, ${order.deliveryAddress.city}, ${order.deliveryAddress.state}, ${order.deliveryAddress.pincode}`,
             order.productDetails.productName,
             order.orderedItems.salePrice,
             order.orderedItems.quantity,
             order.orderedItems.salePrice * order.orderedItems.quantity,
             order.orderedItems.discount,
             order.orderedItems.totalprice
-
         ];
         data.push(rowData);
     });
@@ -48,6 +58,7 @@ const generatePDF = (orders) => {
         head: [headers],
         body: data,
         columnStyles: {
+            // Column width settings
             0: { cellWidth: 15 },
             1: { cellWidth: 40 },
             2: { cellWidth: 40 },

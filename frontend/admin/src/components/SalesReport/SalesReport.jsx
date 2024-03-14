@@ -79,7 +79,7 @@ function SalesReport() {
             }
         }).then((res) => {
             console.log(res.data.data);
-            generateExcel(res.data.data)
+            generateExcel(res.data.data,startDate,endDate)
             
         })
         
@@ -91,7 +91,7 @@ function SalesReport() {
             }
         }).then((res) => {
             console.log(res.data.data);
-            generatePDF(res.data.data)
+            generatePDF(res.data.data,startDate,endDate)
             
             
         })

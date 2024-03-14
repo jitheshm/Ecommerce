@@ -15,19 +15,19 @@ function BannerSlider() {
         })
     }, [])
     return (
-        <div style={{padding:'40px 0',display:'flex',justifyContent:'center',alignItems:'center'}}>
+        <div style={{ padding: '40px 0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
-        <Carousel showStatus={false} showThumbs={false}>
-            {
-                banners.map((banner) => {
-                    return (  
+            <Carousel showStatus={false} showThumbs={false}>
+                {
+                    banners.map((banner) => {
+                        return (
                             <img src={BASEURL + "/" + banner.imagesUrl[0]} className='carousal_sugu' />
-                    )
-                })
-            }
+                        )
+                    })
+                }
 
 
-        </Carousel>
+            </Carousel>
         </div>
     )
 
