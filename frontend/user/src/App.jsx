@@ -140,7 +140,7 @@ function App() {
         }
 
 
-    ])
+    ],{ basename: '/' })
     return (
         <>
 
