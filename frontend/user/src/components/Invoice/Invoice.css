@@ -20,12 +20,12 @@ Version:    1.1.0
 /** GLOBAL CLASSES **/
 
 .table {
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-content {
     font-family: 'Poppins', sans-serif;
-    color: #535353;
+    color: #000000;
     font-size: 14px;
 }
 
@@ -44,7 +44,7 @@ Version:    1.1.0
 
 .invoice-content h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: 'Poppins', sans-serif;
-    color: #535353;
+    color: #000000;
 }
 
 .mb-0{
@@ -239,7 +239,7 @@ table th{
     font-size: 18px;
     margin-bottom: 5px;
     text-transform: uppercase;
-    color: #262525;
+    color: #000000;
     font-weight: 500;
 }
 
@@ -248,7 +248,7 @@ table th{
 }
 
 .invoice-1 .invoice-headar {
-    height: 125px;
+    height: 167px;
     margin-bottom: 25px;
     background: #f3f3f3;
 }
@@ -263,7 +263,7 @@ table th{
 }
 
 .invoice-1 .invoice-id .info{
-    max-width: 270px;
+    max-width: 295px;
     margin:0 50px 0 auto;
     padding: 34px 0;
 }
@@ -271,7 +271,7 @@ table th{
 .invoice-1 .invoice-id{
     border-radius: 75px 0 0 75px;
     z-index: 0;
-    background-image: linear-gradient(to bottom, #ff0000, #ff8100);
+    /* background-image: linear-gradient(to bottom, #ff0000, #ff8100); */
 }
 
 .invoice-1 .payment-method-list-1{
@@ -379,7 +379,7 @@ table th{
 
 .invoice-1 .bg-active {
     background: #f3f3f3;
-    color: #535353!important;
+    color: #000000!important;
 }
 
 .invoice-1 .active-color{
@@ -393,12 +393,12 @@ table th{
 .invoice-1 .contact-info {
     padding: 30px 50px;
     border-radius: 0 40px 40px 0;
-    background-image: linear-gradient(to bottom, #f3f3f3, #ffffff);
+    /* background-image: linear-gradient(to bottom, #f3f3f3, #ffffff); */
 }
 
 .invoice-1 .contact-info a {
     margin-right: 20px;
-    color: #535353;
+    color: #000000;
     font-size: 14px;
 }
 
@@ -410,7 +410,7 @@ table th{
     font-weight: 600;
 }
 
-.invoice-1 .invoice-contact::after {
+/* .invoice-1 .invoice-contact::after {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -419,7 +419,7 @@ table th{
     border-radius: 15px 0 0 15px;
     z-index: 0;
     background-image: linear-gradient(to bottom, #ff0000, #ff8100);
-}
+} */
 
 /** MEDIA **/
 @media (max-width: 992px) {
@@ -490,6 +490,7 @@ table th{
 @media (max-width: 580px){
     .invoice-1 .invoice-id .info {
         margin: 0 auto 0 15px;
+        width: 288px;
     }
 
     .invoice-1 .invoice-id .info {
@@ -753,11 +754,11 @@ table th{
     }
 
     .invoice-2 .contact-info a {
-        color: #535353;
+        color: #000000;
     }
 
     .invoice-2 .contact-info a i{
-        color: #535353;
+        color: #000000;
     }
 
     .invoice-2 .invoice-top {
@@ -878,7 +879,7 @@ table th{
     position: relative;
     padding: 21px 30px;
     font-size: 14px;
-    color: #535353;
+    color: #000000;
     font-weight: 400;
 }
 
@@ -902,7 +903,7 @@ table th{
 }
 
 .invoice-3 p{
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-3 strong {
@@ -1004,7 +1005,7 @@ table th{
 }
 
 .invoice-4 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-4 .invoice-inner {
@@ -1014,7 +1015,7 @@ table th{
 .invoice-4 .item-desc-1 span {
     font-size: 14px;
     font-weight: 500;
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-4 .invoice-titel{
@@ -1057,7 +1058,7 @@ table th{
 
 .invoice-4 .item-desc-1 small {
     font-size: 13px;
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-4 .invoice-top .logo img {
@@ -1130,7 +1131,7 @@ table th{
 }
 
 .invoice-4 .text-muted {
-    color: #535353 !important;
+    color: #000000 !important;
 }
 
 .invoice-4 .invoice-informeshon p {
@@ -1159,7 +1160,7 @@ table th{
 
 .invoice-4 .invoice-contact a {
     margin-right: 20px;
-    color: #535353;
+    color: #000000;
     font-size: 14px;
 }
 
@@ -1325,7 +1326,7 @@ table th{
 }
 
 .invoice-5 .invoice-contact-us ul li a{
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-5 .inv-title-1 {
@@ -1366,7 +1367,7 @@ table th{
     position: relative;
     padding: 21px 30px;
     font-size: 14px;
-    color: #535353;
+    color: #000000;
     font-weight: 400;
 }
 
@@ -1571,16 +1572,16 @@ table th{
 .invoice-6 .invoice-contact-us ul li{
     font-size: 14px;
     line-height: 25px;
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-6 .invoice-contact-us ul li i{
     width: 20px;
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-6 .invoice-contact-us ul li a{
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-6 .inv-title-1 {
@@ -1634,7 +1635,7 @@ table th{
     position: relative;
     padding: 21px 30px;
     font-size: 14px;
-    color: #535353;
+    color: #000000;
     font-weight: 400;
 }
 
@@ -1782,7 +1783,7 @@ table th{
 }
 
 .invoice-7 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-7 .mb-30{
@@ -1822,7 +1823,7 @@ table th{
 .invoice-7 .item-desc-1 span {
     font-size: 14px;
     font-weight: 500;
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-7 .bank-transfer-list-1 li strong{
@@ -1835,7 +1836,7 @@ table th{
 
 .invoice-7 .item-desc-1 small {
     font-size: 13px;
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-7 .invoice-top .logo img {
@@ -1890,7 +1891,7 @@ table th{
 .invoice-7 .bg-active {
     text-transform: uppercase;
     background: #f7f7f7;
-    color: #535353!important;
+    color: #000000!important;
 }
 
 .invoice-7 .table>thead {
@@ -1904,7 +1905,7 @@ table th{
 }
 
 .invoice-7 .text-muted {
-    color: #535353 !important;
+    color: #000000 !important;
 }
 
 .invoice-7 .invoice-informeshon p {
@@ -1934,7 +1935,7 @@ table th{
 
 .invoice-7 .invoice-contact a {
     margin-right: 20px;
-    color: #535353;
+    color: #000000;
     font-size: 14px;
 }
 
@@ -2107,7 +2108,7 @@ table th{
 }
 
 .invoice-8 .invoice-contact-us ul li a{
-    color: #535353;
+    color: #000000;
 }
 
 .invoice-8 .invoice-contact-us ul li i{
@@ -2169,7 +2170,7 @@ table th{
     position: relative;
     padding: 21px 30px;
     font-size: 14px;
-    color: #535353;
+    color: #000000;
     font-weight: 400;
 }
 
@@ -2413,7 +2414,7 @@ table th{
     }
 
     .invoice-1 .inv-title-1 {
-        color: #535353;
+        color: #000000;
     }
 
     .invoice-content .color-white {
@@ -2438,15 +2439,15 @@ table th{
     }
 
     .invoice-2 .contact-info a {
-        color: #535353;
+        color: #000000;
     }
 
     .invoice-2 .contact-info a i{
-        color: #535353;
+        color: #000000;
     }
 
     .invoice-2 p {
-        color: #535353!important;
+        color: #000000!important;
     }
 
     .invoice-2 .inv-header-1 {
@@ -2462,7 +2463,7 @@ table th{
     }
 
     .invoice-2 .active-color {
-        color: #535353!important;
+        color: #000000!important;
     }
 
     .invoice-5 .invoice-info:before {
@@ -2478,7 +2479,7 @@ table th{
     }
 
     .invoice-7 .invoice-contact a i {
-        color: #535353;
+        color: #000000;
     }
 
     .invoice-7 .invoice-top .invoice h1 {
@@ -2487,7 +2488,7 @@ table th{
 
 
     .invoice-7 .inv-title-1 {
-        color: #535353;
+        color: #000000;
     }
 
     .invoice-7 .default-table thead th {
@@ -2507,7 +2508,7 @@ table th{
     }
 
     .invoice-6 .inv-title-1 {
-        color: #535353;
+        color: #000000;
     }
 
     .invoice-6 .default-table thead th {

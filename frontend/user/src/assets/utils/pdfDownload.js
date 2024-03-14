@@ -11,13 +11,13 @@ const pdfDownload = () => {
     var canvasImageHeight = contentHeight;
     var totalPDFPages = Math.ceil(contentHeight / pdfHeight) - 1;
     const input = document.getElementById("invoice_wrapper");
-    html2canvas(input).then(function (canvas) {
-        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+    html2canvas(input, { scale: 2 }).then(function (canvas) { // Adjust scale as needed
+        var imgData = canvas.toDataURL("image/png"); // Change to PNG format
         var pdf = new jsPDF('p', 'pt', [pdfWidth, pdfHeight]);
-        pdf.addImage(imgData, 'JPEG', topLeftMargin, topLeftMargin, canvasImageWidth, canvasImageHeight);
+        pdf.addImage(imgData, 'PNG', topLeftMargin, topLeftMargin, canvasImageWidth, canvasImageHeight);
         for (var i = 1; i <= totalPDFPages; i++) {
             pdf.addPage(pdfWidth, pdfHeight);
-            pdf.addImage(imgData, 'JPEG', topLeftMargin, -(pdfHeight * i) + (topLeftMargin * 4), canvasImageWidth, canvasImageHeight);
+            pdf.addImage(imgData, 'PNG', topLeftMargin, -(pdfHeight * i) + (topLeftMargin * 4), canvasImageWidth, canvasImageHeight);
         }
         pdf.save("sample-invoice.pdf");
     });
