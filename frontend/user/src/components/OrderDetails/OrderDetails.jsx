@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 import moment from 'moment'
 import ReturnRequestForm from '../ReturnRequestForm/ReturnRequestForm';
 

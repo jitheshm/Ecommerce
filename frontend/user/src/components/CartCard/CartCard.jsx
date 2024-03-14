@@ -3,7 +3,7 @@ import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { logout } from '../../features/user/userSlice';
 import { useDispatch } from 'react-redux';
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 import Swal from 'sweetalert2'
 function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
     const [quantity, setQuantity] = useState(item.products.quantity)

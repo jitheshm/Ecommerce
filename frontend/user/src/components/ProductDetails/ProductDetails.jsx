@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import instance from '../../axios'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 import noImage from '../../../src/assets/No-Image-Placeholder.png'
 import nowishlist from '../../../src/assets/wishlist (3).png'
 import wishlist from '../../../src/assets/heart.png'

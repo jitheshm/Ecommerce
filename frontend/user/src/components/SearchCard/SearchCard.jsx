@@ -1,5 +1,5 @@
 import React from 'react'
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 import { Link } from 'react-router-dom'
 function SearchCard({product}) {
     return (

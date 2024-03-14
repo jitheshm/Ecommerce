@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 
 import instance from '../../axios';
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import './bannerslide.css'

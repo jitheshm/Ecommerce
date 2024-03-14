@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 import moment from 'moment'
 import ReturnRequestForm from '../ReturnRequestForm/ReturnRequestForm';
 function OrderCard({ order, toogle, setToogle }) {
