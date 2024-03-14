@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { BASEURL } from '../../constants/constant.json'
+import { BASEURL } from '../../constants/constant'
 import { logout } from '../../features/user/userSlice';
 import Swal from 'sweetalert2'
 import instance from '../../axios';

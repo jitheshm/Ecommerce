@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 import { Link } from 'react-router-dom'
 import instance from '../../axios'
 function ProductCard({ product }) {

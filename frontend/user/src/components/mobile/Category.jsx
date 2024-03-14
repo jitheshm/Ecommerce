@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import instance from '../../axios'
 import { Link } from 'react-router-dom'
-import { BASEURL } from "../../constants/constant.json"
+import { BASEURL } from "../../constants/constant"
 function Category() {
     const [categories, setCategories] = useState([])
     useEffect(() => {
