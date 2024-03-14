@@ -9,6 +9,7 @@ import OrderCard from '../OrderCard/OrderCard';
 function Orders() {
     const [orders, setOrders] = useState([])
     const dispatch = useDispatch()
+    const [toogle, setToogle] = useState(false)
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
@@ -27,7 +28,7 @@ function Orders() {
                 dispatch(logout())
             }
         })
-    }, [page])
+    }, [page, toogle])
 
     const handleNextPage = () => {
         if (page < totalPages) {
@@ -61,7 +62,7 @@ function Orders() {
                     orders.map((order) => {
                         return (
                             <>
-                                <OrderCard order={order} />
+                                <OrderCard order={order} toogle={toogle} setToogle={setToogle}/>
                             </>
                         )
                     })
