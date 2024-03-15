@@ -22,7 +22,8 @@ function Header() {
         })
     }, [])
 
-    const handleSearch = () => {
+    const handleSearch = (e) => {
+        e.preventDefault()
         if (search === '') {
             return
         } else
@@ -84,7 +85,7 @@ function Header() {
                                         <input type='text' className="input" placeholder="Search here" value={search} onChange={(e) => {
                                             setSearch(e.target.value)
                                         }} />
-                                        <button type='button' className="search-btn" onClick={handleSearch}>Search</button>
+                                        <button type='submit' className="search-btn" onClick={handleSearch}>Search</button>
                                     </form>
                                 </div>
                             </div>

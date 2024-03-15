@@ -19,7 +19,7 @@ module.exports = () => {
                 negated: true
             },
             isLength: {
-                errorMessage: 'Password should be atleast 6 characters long',
+                errorMessage: 'Password should be atleast 5 characters long',
                 options: { min: 5 }
             }
         }
