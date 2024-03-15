@@ -368,9 +368,11 @@ module.exports = {
                 },
                 {
                     $match: {
-                        "orderedItems.deliveryStatus": { $nin: ['Cancelled', 'pending'] }
+                        "orderedItems.deliveryStatus": { $in: ['Delivered'] },
+                        "orderedItems.returnStatus": { $nin: ['Confirmed', 'Returned','Refund'] }
                     }
                 },
+               
                 {
                     $lookup: {
                         from: 'users',
