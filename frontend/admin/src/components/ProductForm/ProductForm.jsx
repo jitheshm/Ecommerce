@@ -6,7 +6,7 @@ import instance from '../../axios'
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-function ProductForm({title,method,api,id,btnName}) {
+function ProductForm({ title, method, api, id, btnName }) {
     const [productNameError, setProductNameError] = useState(false)
     const [brandError, setBrandError] = useState(false)
     const [categoryError, setCategoryError] = useState(false)
@@ -98,9 +98,10 @@ function ProductForm({title,method,api,id,btnName}) {
                 Authorization: Cookies.get('token')
             }
 
-        }).then(() => {
+        }).then((res) => {
             console.log("success");
-            navigate('/products')
+            if (res.data.success)
+                navigate('/products')
 
         })
 

@@ -2,12 +2,16 @@ const ProductModel = require('../models/productModel')
 module.exports = {
     addProduct: async (data) => {
         try {
+            const exist = await ProductModel.findOne({ productName: { $regex: new RegExp(data.productName, 'i') } })
+            if (exist) {
+                return false
+            }
             const product = new ProductModel(data)
 
             await product.save()
 
             console.log("new product added");
-            return product._id
+            return true
         } catch (error) {
             console.log("product insertion failed" + error);
             throw error
@@ -21,6 +25,9 @@ module.exports = {
                     filteredUpdateFields[key] = value;
                 }
             }
+            const exist = await ProductModel.findOne({ productName: filteredUpdateFields.productName, _id: { $ne: id } })
+            if (exist)
+                return false
             const result = await ProductModel.updateOne({ _id: id, isDeleted: false }, filteredUpdateFields)
             if (result.matchedCount === 0)
                 return false
