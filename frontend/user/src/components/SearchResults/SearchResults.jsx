@@ -95,8 +95,8 @@ function SearchResults() {
                             <b>Showing 1 – 24 of 9,695 results for "mobiles"</b>
 
                         </div>
-                        <div className="btn-group col-12 mt-4">
-                            <button type="button" className="btn primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div className="btn-group col-12 my-4">
+                            <button type="button" className="btn primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{float:"none"}}>
                                 Sort By
                             </button>
 

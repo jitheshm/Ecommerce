@@ -27,6 +27,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
     const [showCouponList, setShowCouponList] = useState(false)
     const [walletBalance, setWalletBalance] = useState(0)
     const [walletStatus, setWalletStatus] = useState(false)
+    const [addressError, setAddressError] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -131,7 +132,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
             key: 'api_key',
             // amount: 10 * 100, // Amount in paise
             currency: 'INR',
-            name: 'Your Company Name',
+            name: 'Electro',
             description: 'Test Payment',
             order_id: data.id,
             retry: false,
@@ -219,6 +220,10 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
 
     const handleConfirm = () => {
 
+        if (!orderAddress) {
+            setAddressError(true)
+            return
+        }
         instance.post('/user/placeorder', {
             deliveryAddress: orderAddress,
             paymentMethod: payment,
@@ -315,6 +320,10 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
                 <div className=' col-md-12 col-lg-7 '>
                     <div className=' p-5  right mb-5'>
                         <h4><b>Delivery Address</b></h4>
+                        {
+                            addressError && <p className='text-danger'>Please select an address</p>
+                        }
+
                         {
                             address.map((addrObj) => {
                                 if (addrObj._id === edit) {

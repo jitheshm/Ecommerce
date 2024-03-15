@@ -382,7 +382,7 @@ function ProductDetails() {
                                             </div>
                                             <div style={{ height: "30px" }}>{stockError && <p style={{ color: "red" }}>Out of stock</p>}</div>
                                             <div className='d-flex justify-content-between col-9 col-md-5 mt-4'>
-                                                <a className='btn text-white' style={{ backgroundColor: "#D10024" }}>Buy Now</a>
+                                                
                                                 {
                                                     cartStatus ? <Link to={'/cart'} className='btn text-white ' style={{ backgroundColor: "#1E1F29" }}>Go to cart</Link> : <button className='btn text-white ' style={{ backgroundColor: "#1E1F29" }} onClick={handleAddToCart}>Add to cart</button>
                                                 }

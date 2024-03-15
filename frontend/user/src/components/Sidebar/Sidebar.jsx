@@ -28,10 +28,7 @@ function Sidebar() {
                         <i className="fa-solid fa-location-arrow me-4" style={{ color: '#15161d', fontSize: "19px" }} />
                         <Link className='fw-bold' to={'/profile/address'}>Manage Address</Link>
                     </div>
-                    <div className=' pt-3'>
-                        <i className="fa-solid fa-ticket me-4" style={{ color: '#15161d', fontSize: "19px" }} />
-                        <Link className='fw-bold' to={'/profile/coupons'}>My coupons</Link>
-                    </div>
+                    
                     <div className=' pt-3'>
                         <i className="fa-solid fa-box-open me-4" style={{ color: '#15161d', fontSize: "19px" }} />
                         <Link className='fw-bold' to={'/profile/orders'}>My Orders</Link>
