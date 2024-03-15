@@ -294,7 +294,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                           </div>
                         </div>
                         <div className="d-flex justify-content-center">
-                          <input id='file-1' type="file" onChange={(e) => {
+                          <input id='file-1' type="file" accept='image/png,image/jpeg' onChange={(e) => {
                             handleImageChange(setImage1, setImagePre1, e)
                           }} style={{ display: "none" }} />
                         </div>
@@ -312,7 +312,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                             </div>
                           </div>
                         </div>
-                        <input id='file-2' type="file" onChange={(e) => {
+                        <input id='file-2' type="file" accept='image/png,image/jpeg' onChange={(e) => {
                           handleImageChange(setImage2, setImagePre2, e)
 
                         }} style={{ display: "none" }} />
@@ -331,7 +331,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                           </div>
                         </div>
                         <div className="d-flex justify-content-center">
-                          <input id='file-3' type="file" onChange={(e) => {
+                          <input id='file-3' type="file" accept='image/png,image/jpeg' onChange={(e) => {
                             handleImageChange(setImage3, setImagePre3, e)
 
                           }} style={{ display: "none" }} />
@@ -351,7 +351,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
                           </div>
                         </div>
                         <div className="d-flex justify-content-center">
-                          <input id='file-4' type="file" onChange={(e) => {
+                          <input id='file-4' type="file" accept='image/png,image/jpeg' onChange={(e) => {
                             handleImageChange(setImage4, setImagePre4, e)
 
 

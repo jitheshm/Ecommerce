@@ -2,10 +2,14 @@ const CategoryModel = require('../models/categoryModel')
 module.exports = {
     create: async (data) => {
         try {
+            const exist = await CategoryModel.findOne({ category: { $regex: new RegExp(data.category, 'i') } })
+            if (exist) {
+                return false
+            }
             const category = new CategoryModel(data)
 
             await category.save()
-
+            return true
             console.log("new category inserted");
         } catch (error) {
             console.log("category insertion failed" + error);
@@ -14,10 +18,13 @@ module.exports = {
     },
     update: async (data, id) => {
         try {
+            const exist = await CategoryModel.findOne({ category: { $regex: new RegExp(data.category, 'i') }, _id: { $ne: id } })
+            if (exist)
+                return null
             const res = await CategoryModel.findOneAndUpdate({ _id: id, isDeleted: false }, data)
             if (!res)
                 return null
-            else
+            else 
                 return res
         } catch (error) {
             console.log("category updation failed" + error);

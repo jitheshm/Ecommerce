@@ -7,7 +7,7 @@ const categoryRepository = require("../repositories/categoryRepository")
 
 module.exports = {
     categoryAdd: async(data) => {
-        await addCategory(data,categoryRepository)
+        return await addCategory(data,categoryRepository)
     },
     categoryUpdate:async(data)=>{
         return await updateCategory(data,categoryRepository)

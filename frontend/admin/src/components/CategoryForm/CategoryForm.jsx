@@ -63,11 +63,11 @@ function CategoryForm({ api, method, id, title, btnName }) {
         formData.append('id', id)
         if (image1) {
             formData.append('files', image1)
-        } else if((!id && !image1)|| (id && !imagePre1)){ 
+        } else if ((!id && !image1) || (id && !imagePre1)) {
             setImgError(true)
             return;
         }
-        
+
         instance.request({
             method: method,
             url: api,
@@ -77,9 +77,11 @@ function CategoryForm({ api, method, id, title, btnName }) {
                 'content-type': 'multipart/form-data'
             }
 
-        }).then(() => {
-            console.log("success");
-            navigate('/category')
+        }).then((res) => {
+            console.log(res);
+            if (res.data.success)
+                navigate('/category')
+
 
         })
 
@@ -95,9 +97,9 @@ function CategoryForm({ api, method, id, title, btnName }) {
         let file = image
         if (file) {
             const reader = new FileReader();
-            reader.onloadend = () => {   
+            reader.onloadend = () => {
 
-                setCropComponent(<CropImage src={reader.result} setCropWindow={setCropWindow} setImage={setImage} setImgPrev={setImgPre} id={id} setOldImage={setOldImage} ratioWidth={64} ratioHeight={64}/>)
+                setCropComponent(<CropImage src={reader.result} setCropWindow={setCropWindow} setImage={setImage} setImgPrev={setImgPre} id={id} setOldImage={setOldImage} ratioWidth={64} ratioHeight={64} />)
                 setCropWindow(true)
                 // setImgPre((prev) => {
                 //   if (id && prev) {

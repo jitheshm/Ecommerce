@@ -80,8 +80,11 @@ module.exports = {
             // req.body.categoryId = new ObjectId(req.body.categoryId)
             const valResult = validationResult(req);
             if (valResult.isEmpty()) {
-                const proId = await productAdd(req.body)
-                res.status(200).json({ success: true })
+                const status = await productAdd(req.body)
+                if (status)
+                    res.status(200).json({ success: true })
+                else
+                    res.status(200).json({ success: false, msg: "product already exist" })
             } else {
                 res.status(400).json({ error: valResult.array() })
             }
@@ -221,8 +224,25 @@ module.exports = {
                     })
                     req.body.imagesUrl = imagesUrl
                 }
-                await categoryAdd(req.body)
-                res.status(200).json({ success: true })
+                const status = await categoryAdd(req.body)
+                if (status)
+                    res.status(200).json({ success: true })
+                else {
+                    const filesToDelete = req.body.imagesUrl
+                    for (const file of filesToDelete) {
+                        const filePath = path.join(__dirname, '../../../../', file);
+                        console.log(filePath);
+                        if (fs.existsSync(filePath)) {
+                            console.log(filePath);
+                            await fs.promises.unlink(filePath);
+                            console.log(`Deleted file: ${file}`);
+                        } else {
+                            console.log(`File not found: ${file}`);
+                        }
+                    }
+                    res.status(200).json({ success: false, msg: "category already exist" })
+                }
+
             } else {
                 res.status(400).json({ error: valResult.array() })
             }
@@ -239,7 +259,7 @@ module.exports = {
                     const imagesUrl = req.files.map((data) => {
                         return data.path
                     })
-                    req.body.imagesUrl = imagesUrl
+                    imagesUrl.length > 0 ? req.body.imagesUrl = imagesUrl : ""
                 }
                 req.body.id = new ObjectId(req.body.id)
                 const oldObj = await categoryUpdate(req.body)
@@ -248,7 +268,7 @@ module.exports = {
                 if (oldObj) {
                     const filesToDelete = oldObj.imagesUrl
                     console.log(filesToDelete);
-                    if (filesToDelete)
+                    if (filesToDelete && req.files.length > 0)
                         for (const file of filesToDelete) {
                             const filePath = path.join(__dirname, '../../../../', file);
                             console.log(filePath);
@@ -260,10 +280,12 @@ module.exports = {
                                 console.log(`File not found: ${file}`);
                             }
                         }
+                    console.log("category updated");
                     res.status(200).json({ success: true })
                 }
                 else {
-                    res.status(200).json({ success: false, msg: "categoty not found" })
+                    console.log("category updation failed");
+                    res.status(200).json({ success: false, msg: "category updation failed" })
                 }
             }
 
