@@ -5,6 +5,7 @@ const { port } = require("../config")
 const userRouter = require('./routes/user')
 const adminRouter = require('./routes/admin')
 const passport = require('../middlewares/passport')
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const app = express()
 const userBuildPath = path.join(__dirname, "../../../../frontend/user/dist");
@@ -15,13 +16,14 @@ var cors = require('cors')
 
 
 app.use(cors()) // Use this after the variable declaration 
+app.use(fileUpload());
 app.use('/public', express.static('public'));
 
 db.connect()
 app.use(passport.initialize());
 
-app.use('/',express.static(userBuildPath));
-app.use('/adminpanel',express.static(adminBuildPath));
+app.use('/', express.static(userBuildPath));
+app.use('/adminpanel', express.static(adminBuildPath));
 
 app.use('/user', userRouter)
 app.use('/admin', adminRouter)

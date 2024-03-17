@@ -11,7 +11,7 @@ const { validationResult } = require('express-validator');
 const { addCoupon, getCoupon, updateCoupon, getAllCoupon, deleteCoupon } = require('../../../adapters/controllers/couponController');
 const { addOffer, getAllOffers, getOffer, updateOffer, deleteOffer } = require('../../../adapters/controllers/offerController');
 const { bannerAdd, bannerUpdate, statusChange, getBanner, getAllBanner, getDisplayBanners } = require('../../../adapters/controllers/bannerController');
-
+const cloudinary = require('cloudinary')
 module.exports = {
     loginHandler: async (req, res) => {
         try {
@@ -98,17 +98,16 @@ module.exports = {
         try {
             const valResult = validationResult(req);
             if (valResult.isEmpty()) {
+                console.log(req.files);
                 if (req.files) {
-                    const imagesUrl = req.files.map((data) => {
-                        return data.path
-                    })
-                    req.body.imagesUrl = imagesUrl
+
+                    req.body.imagesUrl = req.files
+                    //req.body.productId =new ObjectId(req.body.productId)
+                    const proVId = await varientAdd(req.body)
+                    res.status(200).json({ success: true })
+                } else {
+                    res.status(400).json({ error: valResult.array() })
                 }
-                //req.body.productId =new ObjectId(req.body.productId)
-                const proVId = await varientAdd(req.body)
-                res.status(200).json({ success: true })
-            } else {
-                res.status(400).json({ error: valResult.array() })
             }
         } catch (error) {
             console.log(error);
@@ -122,10 +121,7 @@ module.exports = {
             const valResult = validationResult(req);
             if (valResult.isEmpty()) {
                 if (req.files) {
-                    const imagesUrl = req.files.map((data) => {
-                        return data.path
-                    })
-                    req.body.imagesUrl = imagesUrl
+                    req.body.imagesUrl = req.files
 
                 }
                 console.log(req.body);
@@ -137,15 +133,20 @@ module.exports = {
                     console.log(filesToDelete);
                     if (filesToDelete)
                         for (const file of filesToDelete) {
-                            const filePath = path.join(__dirname, '../../../../', file);
-                            console.log(filePath);
-                            if (fs.existsSync(filePath)) {
-                                console.log(filePath);
-                                await fs.promises.unlink(filePath);
-                                console.log(`Deleted file: ${file}`);
-                            } else {
-                                console.log(`File not found: ${file}`);
-                            }
+                            // const filePath = path.join(__dirname, '../../../../', file);
+                            // console.log(filePath);
+                            // if (fs.existsSync(filePath)) {
+                            //     console.log(filePath);
+                            //     await fs.promises.unlink(filePath);
+                            //     console.log(`Deleted file: ${file}`);
+                            // } else {
+                            //     console.log(`File not found: ${file}`);
+                            // }
+                            const public_id = file.replace(/\.[^/.]+$/, "");
+                            console.log(public_id);
+                            cloudinary.v2.uploader.destroy(public_id).then(() => {
+                                console.log("file deleted");
+                            });
                         }
                     res.status(200).json({ success: true })
                 }
@@ -219,10 +220,11 @@ module.exports = {
             const valResult = validationResult(req);
             if (valResult.isEmpty()) {
                 if (req.files) {
-                    const imagesUrl = req.files.map((data) => {
-                        return data.path
-                    })
-                    req.body.imagesUrl = imagesUrl
+                    // const imagesUrl = req.files.map((data) => {
+                    //     return data.path
+                    // })
+                    // req.body.imagesUrl = imagesUrl
+                    req.body.imagesUrl = req.files
                 }
                 const status = await categoryAdd(req.body)
                 if (status)
@@ -230,15 +232,20 @@ module.exports = {
                 else {
                     const filesToDelete = req.body.imagesUrl
                     for (const file of filesToDelete) {
-                        const filePath = path.join(__dirname, '../../../../', file);
-                        console.log(filePath);
-                        if (fs.existsSync(filePath)) {
-                            console.log(filePath);
-                            await fs.promises.unlink(filePath);
-                            console.log(`Deleted file: ${file}`);
-                        } else {
-                            console.log(`File not found: ${file}`);
-                        }
+                        //     const filePath = path.join(__dirname, '../../../../', file);
+                        //     console.log(filePath);
+                        //     if (fs.existsSync(filePath)) {
+                        //         console.log(filePath);
+                        //         await fs.promises.unlink(filePath);
+                        //         console.log(`Deleted file: ${file}`);
+                        //     } else {
+                        //         console.log(`File not found: ${file}`);
+                        //     }
+                        const public_id = file.replace(/\.[^/.]+$/, "");
+                        console.log(public_id);
+                        cloudinary.v2.uploader.destroy(public_id).then(() => {
+                            console.log("file deleted");
+                        });
                     }
                     res.status(200).json({ success: false, msg: "category already exist" })
                 }
@@ -270,15 +277,20 @@ module.exports = {
                     console.log(filesToDelete);
                     if (filesToDelete && req.files.length > 0)
                         for (const file of filesToDelete) {
-                            const filePath = path.join(__dirname, '../../../../', file);
-                            console.log(filePath);
-                            if (fs.existsSync(filePath)) {
-                                console.log(filePath);
-                                await fs.promises.unlink(filePath);
-                                console.log(`Deleted file: ${file}`);
-                            } else {
-                                console.log(`File not found: ${file}`);
-                            }
+                            // const filePath = path.join(__dirname, '../../../../', file);
+                            // console.log(filePath);
+                            // if (fs.existsSync(filePath)) {
+                            //     console.log(filePath);
+                            //     await fs.promises.unlink(filePath);
+                            //     console.log(`Deleted file: ${file}`);
+                            // } else {
+                            //     console.log(`File not found: ${file}`);
+                            // }
+                            const public_id = file.replace(/\.[^/.]+$/, "");
+                            console.log(public_id);
+                            cloudinary.v2.uploader.destroy(public_id).then(() => {
+                                console.log("file deleted");
+                            });
                         }
                     console.log("category updated");
                     res.status(200).json({ success: true })
@@ -666,13 +678,13 @@ module.exports = {
             const valResult = validationResult(req);
             if (valResult.isEmpty()) {
                 if (req.files) {
-                    const imagesUrl = req.files.map((data) => {
-                        return data.path
-                    })
-                    req.body.imagesUrl = imagesUrl
+                    req.body.imagesUrl = req.files
+                    await bannerAdd(req.body)
+                    res.status(200).json({ success: true })
+                } else {
+                    res.status(400).json({ error: "image is required" })
                 }
-                await bannerAdd(req.body)
-                res.status(200).json({ success: true })
+
             } else {
                 console.log(valResult.array());
                 res.status(400).json({ error: valResult.array() })
@@ -687,10 +699,7 @@ module.exports = {
             const valResult = validationResult(req);
             if (valResult.isEmpty()) {
                 if (req.files) {
-                    const imagesUrl = req.files.map((data) => {
-                        return data.path
-                    })
-                    req.body.imagesUrl = imagesUrl
+                    req.body.imagesUrl = req.files
                 }
                 req.body.id = new ObjectId(req.body.id)
                 console.log(req.body);
@@ -702,15 +711,11 @@ module.exports = {
                     console.log(filesToDelete);
                     if (filesToDelete && req.files.length > 0)
                         for (const file of filesToDelete) {
-                            const filePath = path.join(__dirname, '../../../../', file);
-                            console.log(filePath);
-                            if (fs.existsSync(filePath)) {
-                                console.log(filePath);
-                                await fs.promises.unlink(filePath);
-                                console.log(`Deleted file: ${file}`);
-                            } else {
-                                console.log(`File not found: ${file}`);
-                            }
+                            const public_id = file.replace(/\.[^/.]+$/, "");
+                            console.log(public_id);
+                            cloudinary.v2.uploader.destroy(public_id).then(() => {
+                                console.log("file deleted");
+                            });
                         }
                     res.status(200).json({ success: true })
                 }
