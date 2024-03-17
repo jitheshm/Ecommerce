@@ -16,40 +16,28 @@ module.exports = {
     updateProductVarient: async ({ id, imagesUrl, oldImageUrl, ...data }) => {
         try {
 
-            // const filteredUpdateFields = {};
-            // for (const [key, value] of Object.entries(data)) {
-            //     if (value !== undefined) {
-            //         filteredUpdateFields[key] = value;
-            //     }
-            // }
-
-            // if (filteredUpdateFields || imagesUrl) {
-            //     const result = await ProductVarientModel.findOneAndUpdate({ _id: id }, {
-            //         $set: filteredUpdateFields, // Update other fields
-            //         ...(imagesUrl && { $push: { imagesUrl: { $each: imagesUrl } } }), // Pushing data to the arrayField
-            //     }, { new: true })
-            //     console.log(result);
-            // }
-
-            // if (oldImageUrl) {
-            //     console.log("oldImageUrl", oldImageUrl);
-            //     const res=await ProductVarientModel.updateOne(
-            //         { _id: id },
-            //         { $pull: { imagesUrl: { $in: oldImageUrl } } }
-
-            //     );
-            //     console.log(res);
-            // }
             const result = await ProductVarientModel.findOne({ _id: id, isDeleted: false })
             if (result) {
                 const existingImages = result.imagesUrl
-                if (oldImageUrl) {
-                    const newImages = existingImages.filter((item) => !oldImageUrl.includes(item))
-                    const finalImages = [...newImages, ...imagesUrl]
-                    data.imagesUrl = finalImages
-                } else if (imagesUrl) {
-                    data.imagesUrl = [...existingImages, ...imagesUrl]
+                const final=existingImages.map((item) => {
+                    if (oldImageUrl.includes(item)) {
+                        return imagesUrl.shift()
+                    } else {
+                        return item
+                    }
+                })
+                if (imagesUrl.length > 0) {
+                    data.imagesUrl = [...final, ...imagesUrl]
+                } else {
+                    data.imagesUrl = final
                 }
+                // if (oldImageUrl) {
+                //     const newImages = existingImages.filter((item) => !oldImageUrl.includes(item))
+                //     const finalImages = [...newImages, ...imagesUrl]
+                //     data.imagesUrl = finalImages
+                // } else if (imagesUrl) {
+                //     data.imagesUrl = [...existingImages, ...imagesUrl]
+                // }
 
 
                 const res = await ProductVarientModel.updateOne({ _id: id, isDeleted: false }, data)
@@ -591,7 +579,7 @@ module.exports = {
                     }
                 },
                 {
-                    $lookup:{
+                    $lookup: {
                         from: "categories",
                         localField: "productDetails.categoryId",
                         foreignField: "_id",

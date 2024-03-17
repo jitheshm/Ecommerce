@@ -1,8 +1,8 @@
 import axios from 'axios'
-import {BASEURL} from "../src/constants/constant"
+import {BASEAPIURL} from "../src/constants/constant"
 
 const instance = axios.create({
-    baseURL:String(BASEURL) ,
+    baseURL:String(BASEAPIURL) ,
     
    
   });
