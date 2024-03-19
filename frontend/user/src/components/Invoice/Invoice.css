@@ -1278,7 +1278,7 @@ table th{
     position: absolute;
     top: 0;
     left: 0;
-    background: url(../img/img-8.jpg) top left repeat;
+    /* background: url(../img/img-8.jpg) top left repeat; */
     background-size: cover;
     z-index: -1;
 }
@@ -1290,7 +1290,7 @@ table th{
     position: absolute;
     bottom: 0;
     right: 0;
-    background: url(../img/img-9.jpg) top left repeat;
+    /* background: url(../img/img-9.jpg) top left repeat; */
     background-size: cover;
     z-index: -1;
 }
@@ -1804,7 +1804,7 @@ table th{
     bottom: 50px;
     left: 0;
     z-index: 1;
-    background: url(../img/img-11.png) top left repeat;
+    /* background: url(../img/img-11.png) top left repeat; */
     background-size: cover;
 }
 
@@ -1816,7 +1816,7 @@ table th{
     top: 50px;
     right: 0;
     z-index: 1;
-    background: url(../img/img-10.png) top left repeat;
+    /* background: url(../img/img-10.png) top left repeat; */
     background-size: cover;
 }
 
@@ -2061,7 +2061,7 @@ table th{
     position: absolute;
     top: 0;
     right: 0;
-    background: url(../img/img-12.png) top left repeat;
+    /* background: url(../img/img-12.png) top left repeat; */
     background-size: cover;
     z-index: -1;
     border-radius: 20px 0 0 20px;
