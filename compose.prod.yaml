@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: ecommerce-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    networks:
+      - ecommerce-network
+
+  frontend-user:
+    build:
+      context: ./frontend/user
+      target: prod
+    container_name: ecommerce-frontend-user
+    env_file:
+      - ./frontend/user/.env.production
+    networks:
+      - ecommerce-network
+    depends_on:
+      - backend
+
+  frontend-admin:
+    build:
+      context: ./frontend/admin
+      target: prod
+    container_name: ecommerce-frontend-admin
+    env_file:
+      - ./frontend/admin/.env.production
+   
+    networks:
+      - ecommerce-network
+    depends_on:
+      - backend
+
+  gateway:
+    build: 
+      context: ./gateway
+      target: prod
+    container_name: ecommerce-gateway
+    ports:
+      - 80:80
+    networks:
+      - ecommerce-network
+    depends_on:
+      - frontend-admin
+      - frontend-user
+      - backend
+
+networks:
+  ecommerce-network:
+    driver: bridge
