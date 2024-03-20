@@ -7,6 +7,8 @@ services:
     restart: unless-stopped
     env_file:
       - ./backend/.env
+    ports:
+      - "3000:3000"
     networks:
       - ecommerce-network
 
@@ -17,6 +19,8 @@ services:
     container_name: ecommerce-frontend-user
     env_file:
       - ./frontend/user/.env.production
+    ports:
+      - "8001:80"
     networks:
       - ecommerce-network
     depends_on:
@@ -29,25 +33,14 @@ services:
     container_name: ecommerce-frontend-admin
     env_file:
       - ./frontend/admin/.env.production
+    ports:
+      - "8002:80"
    
     networks:
       - ecommerce-network
     depends_on:
       - backend
 
-  gateway:
-    build: 
-      context: ./gateway
-      target: prod
-    container_name: ecommerce-gateway
-    ports:
-      - 80:80
-    networks:
-      - ecommerce-network
-    depends_on:
-      - frontend-admin
-      - frontend-user
-      - backend
 
 networks:
   ecommerce-network:
