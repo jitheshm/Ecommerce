@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { verify } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { BASEURL } from '../../constants/constant';
+import { BASEAPIURL, BASEURL } from '../../constants/constant';
 function Login({ setForget }) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -82,9 +82,9 @@ function Login({ setForget }) {
                                         }}>Forgot password?</button></p>
                                         <button className="btn primary verifyBtn btn-lg px-5" type="submit" onClick={handleSubmit}>Login</button>
                                         <div className="d-flex justify-content-center text-center mt-4 pt-1 gap-4">
-                                            <a href={`${BASEURL}/user/auth/facebook`} className="text-dark"><i className="fab fa-facebook-f fa-lg" /></a>
+                                            <a href={`${BASEAPIURL}/user/auth/facebook`} className="text-dark"><i className="fab fa-facebook-f fa-lg" /></a>
 
-                                            <a href={`${BASEURL}/user/auth/google`} className="text-dark"><i className="fab fa-google fa-lg" /></a>
+                                            <a href={`${BASEAPIURL}/user/auth/google`} className="text-dark"><i className="fab fa-google fa-lg" /></a>
                                         </div>
                                     </div>
                                     <div>
