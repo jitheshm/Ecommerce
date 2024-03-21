@@ -263,10 +263,7 @@ module.exports = {
             const valResult = validationResult(req);
             if (valResult.isEmpty()) {
                 if (req.files) {
-                    const imagesUrl = req.files.map((data) => {
-                        return data.path
-                    })
-                    imagesUrl.length > 0 ? req.body.imagesUrl = imagesUrl : ""
+                    req.body.imagesUrl = req.files
                 }
                 req.body.id = new ObjectId(req.body.id)
                 const oldObj = await categoryUpdate(req.body)
@@ -275,7 +272,7 @@ module.exports = {
                 if (oldObj) {
                     const filesToDelete = oldObj.imagesUrl
                     console.log(filesToDelete);
-                    if (filesToDelete && req.files.length > 0)
+                    if (filesToDelete && req.files.length > 0 && filesToDelete.length > 0)
                         for (const file of filesToDelete) {
                             // const filePath = path.join(__dirname, '../../../../', file);
                             // console.log(filePath);
