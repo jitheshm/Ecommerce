@@ -13,6 +13,8 @@ function SearchResults() {
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const [values, setValues] = useState([0, null]);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     console.log(searchParams);
 
@@ -30,15 +32,29 @@ function SearchResults() {
             params: {
                 sort,
                 order,
+                page,
                 ...filter
             }
         }).then((res) => {
             console.log(res.data);
             setSearchResult(res.data.data)
+            setTotalPages(res.data.totalPages);
         }).catch((err) => {
-            console.log(err)    
+            console.log(err)
         })
-    }, [searchQuery, filter, sort, order])
+    }, [searchQuery, filter, sort, order, page])
+
+    const handleNextPage = () => {
+        if (page < totalPages) {
+            setPage(page + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            setPage(page - 1);
+        }
+    };
 
     const handleSort = (sort, order) => {
         setSearchParams({ sort: sort, order: order });
@@ -85,18 +101,18 @@ function SearchResults() {
                                 </div>
                                 <div className='col-4'>
                                     <label htmlFor="customRange1" className="form-label">Max</label>
-                                    <input type="text" className='col-12' value={filter.maxPrice>50000?"50000+":filter.maxPrice} />
+                                    <input type="text" className='col-12' value={filter.maxPrice > 50000 ? "50000+" : filter.maxPrice} />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className='col-md-8 p-5 mt-5  address border '>
                         <div>
-                            <b>Showing 1 – 24 of 9,695 results for "mobiles"</b>
+                            <b>Showing 1 – 10 of 9,695 results "</b>
 
                         </div>
                         <div className="btn-group col-12 my-4">
-                            <button type="button" className="btn primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{float:"none"}}>
+                            <button type="button" className="btn primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ float: "none" }}>
                                 Sort By
                             </button>
 
@@ -123,7 +139,34 @@ function SearchResults() {
                                 return <SearchCard product={product} />
                             })
                         }
+                         <div>
+                                <nav aria-label="Page navigation example">
+                                    <ul className="pagination justify-content-center  mt-4 d-flex">
+                                        <li className="page-item">
+                                            {
+                                                page != 1 && <button disabled={page === 1} className="page-link" aria-label="Previous" onClick={handlePrevPage}>
+                                                    <span aria-hidden="true">«</span>
+                                                    <span className="sr-only">Previous</span>
+                                                </button>
+                                            }
 
+                                        </li>
+                                        {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">2</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">3</a></li> */}
+                                        <li className="page-item">
+                                            {
+                                                page != totalPages && <button className="page-link" aria-label="Next" onClick={handleNextPage}>
+                                                    <span aria-hidden="true">»</span>
+                                                    <span className="sr-only">Next</span>
+                                                </button>
+                                            }
+
+                                        </li>
+                                    </ul>
+                                </nav>
+
+                            </div>
 
                     </div>
 
