@@ -1,3 +1,4 @@
+const { pipeline } = require('nodemailer/lib/xoauth2');
 const ProductVarientModel = require('../models/productVarientModel')
 module.exports = {
     addProductVarient: async (data) => {
@@ -384,7 +385,7 @@ module.exports = {
             throw error
         }
     },
-    searchProducts: async (searchQuery, sort, filter) => {
+    searchProducts: async (searchQuery, sort, filter,page=1,limit=10) => {
         try {
             console.log(filter);
             const pipeLine = [
@@ -548,7 +549,29 @@ module.exports = {
                     $sort: sort
                 })
             }
-            return await ProductVarientModel.aggregate(pipeLine).exec()
+            pipeLine.push( {
+                $facet: {
+                    totalCount: [
+                        {
+                            $count: "total"
+                        }
+                    ],
+                    products: [
+        
+                        {
+                            $skip: (page - 1) * limit
+                        },
+                        {
+                            $limit: limit
+                        }
+                    ]
+                }
+            })
+            const result= await ProductVarientModel.aggregate(pipeLine).exec()
+            const products = result[0].products
+            const totalCount = result[0].totalCount.length > 0 ? result[0].totalCount[0].total : 0;
+            const totalPages = Math.ceil(totalCount / limit);
+            return { products, totalPages }
         } catch (error) {
             console.log(error);
             throw error

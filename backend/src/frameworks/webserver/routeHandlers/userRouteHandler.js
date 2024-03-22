@@ -420,16 +420,19 @@ module.exports = {
     searchHandler: async (req, res) => {
         try {
 
-            const { sort, order, ...filter } = req.query
+            let { sort, order, page, limit, ...filter } = req.query
+            page = parseInt(page) || 1;
+            limit = parseInt(limit) || 10;
             const sortObj = {
                 [req.query.sort]: Number(req.query.order)
             }
             console.log(filter);
             filter.in
             console.log(req.params.search, sort);
-            const result = await searchProducts(req.params.search, sortObj, filter)
+            const result = await searchProducts(req.params.search, sortObj, filter,page,limit)
+
             console.log(result);
-            res.status(200).json({ success: true, data: result })
+            res.status(200).json({ success: true, data: result.products, totalPages: result.totalPages })
         } catch (error) {
             console.log(error);
             res.status(500).json({ "error": "internal server error" })
