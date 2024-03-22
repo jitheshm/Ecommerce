@@ -207,6 +207,7 @@ function BannerForm({ title, id, api, method, btnName }) {
                                                                         timeInputLabel="Time:"
                                                                         showTimeSelect
                                                                         className="form-control text-white"
+                                                                        minDate={new Date()}
 
                                                                     />
                                                                 )}
@@ -235,6 +236,7 @@ function BannerForm({ title, id, api, method, btnName }) {
                                                                         timeInputLabel="Time:"
                                                                         showTimeSelect
                                                                         className="form-control text-white"
+                                                                        minDate={new Date()}
 
                                                                     />
                                                                 )}

@@ -11,6 +11,15 @@ services:
       - 3000:3000
     networks:
       - ecommerce-network
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /app/
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
 
   frontend-user:
     build:
@@ -21,6 +30,15 @@ services:
       - ./frontend/user/.env.development
     ports:
       - 8001:8000
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/user
+          target: /app/
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
     networks:
       - ecommerce-network
     depends_on:
@@ -37,6 +55,14 @@ services:
       - 8000:8000
     networks:
       - ecommerce-network
+    develop:
+     watch:
+        - action: sync
+          path: ./frontend/admin
+          target: /app/
+
+        - action: rebuild
+          path: ./frontend/admin/package.json
     depends_on:
       - backend
       
