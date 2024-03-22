@@ -46,6 +46,7 @@ function OfferForm({ api, method, id, title, btnName }) {
     )
     const navigate = useNavigate()
     const offerType = watch('offerType')
+    const startDate = watch('startDate')
     useEffect(() => {
         if (offerType === 'category') {
             instance.get('/admin/getcategories', {
@@ -192,8 +193,7 @@ function OfferForm({ api, method, id, title, btnName }) {
                                                                 }}
                                                                 selected={field.value}
                                                                 dateFormat="MM/dd/yyyy h:mm aa"
-                                                                timeInputLabel="Time:"
-                                                                showTimeSelect
+                                                                
                                                                 className="form-control text-white"
                                                                 minDate={new Date()}
 
@@ -221,11 +221,12 @@ function OfferForm({ api, method, id, title, btnName }) {
                                                                 }}
                                                                 selected={field.value}
                                                                 dateFormat="MM/dd/yyyy h:mm aa"
-                                                                timeInputLabel="Time:"
-                                                                showTimeSelect
+                                                               
+                                                                
                                                                 className="form-control text-white"
-                                                                minDate={new Date()}
-
+                                                                minDate={startDate} 
+                                                             
+                                                                readOnly={startDate ? false : true}
                                                             />
                                                         )}
                                                     />
