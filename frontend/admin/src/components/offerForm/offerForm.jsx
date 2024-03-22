@@ -195,6 +195,7 @@ function OfferForm({ api, method, id, title, btnName }) {
                                                                 timeInputLabel="Time:"
                                                                 showTimeSelect
                                                                 className="form-control text-white"
+                                                                minDate={new Date()}
 
                                                             />
                                                         )}
@@ -223,6 +224,7 @@ function OfferForm({ api, method, id, title, btnName }) {
                                                                 timeInputLabel="Time:"
                                                                 showTimeSelect
                                                                 className="form-control text-white"
+                                                                minDate={new Date()}
 
                                                             />
                                                         )}

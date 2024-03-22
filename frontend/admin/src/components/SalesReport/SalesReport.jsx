@@ -112,10 +112,10 @@ function SalesReport() {
                                 <form className="nav-link  d-none d-lg-flex search col-6 gap-5">
                                     <input type="date" className="form-control" placeholder="" style={{ color: "white" }} onChange={(e) => {
                                         setStartDate(e.target.value)
-                                    }} value={startDate} readOnly={filter != 'Custom' ? true : false} />
+                                    }} value={startDate} readOnly={filter != 'Custom' ? true : false} max={new Date().toISOString().split('T')[0]}/>
                                     <input type="date" className="form-control" placeholder="" style={{ color: "white" }} onChange={(e) => {
                                         setEndDate(e.target.value)
-                                    }} value={endDate} readOnly={filter != 'Custom' ? true : false} />
+                                    }} value={endDate} readOnly={filter != 'Custom' ? true : false} max={new Date().toISOString().split('T')[0]}/>
                                     <select className="form-control" style={{ color: "white", backgroundColor: "#2A3038", border: 'none' }} onChange={handleFilter} value={filter}>
                                         <option value="Daily">Daily</option>
                                         <option value="Weekly">Weekly</option>
