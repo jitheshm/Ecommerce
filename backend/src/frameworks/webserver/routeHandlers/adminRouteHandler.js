@@ -49,7 +49,7 @@ module.exports = {
     unblockUserHandler: async (req, res) => {
         try {
             const userId = new ObjectId(req.params.id)
-            
+
             const status = await unblockUser(userId)
             if (status) {
                 res.status(200).json({ success: true })
@@ -261,7 +261,7 @@ module.exports = {
         try {
             const valResult = validationResult(req);
             if (valResult.isEmpty()) {
-                if (req.files) {
+                if (req.files.length > 0) {
                     req.body.imagesUrl = req.files
                 }
                 req.body.id = new ObjectId(req.body.id)
@@ -495,7 +495,7 @@ module.exports = {
             const valResult = validationResult(req)
             console.log(valResult.array());
             if (valResult.isEmpty()) {
-               
+
                 await updateCoupon(new ObjectId(req.params.id), req.body)
                 res.status(200).json({ success: true })
             } else {
@@ -580,7 +580,7 @@ module.exports = {
             req.body.applicables = req.body.applicables.map((obj) => {
                 return obj.value
             })
-            await updateOffer(new ObjectId(req.params.id),req.body)
+            await updateOffer(new ObjectId(req.params.id), req.body)
             res.status(200).json({ success: true })
             // } else {
             //     res.status(400).json({ error: valResult.array() })
