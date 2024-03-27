@@ -9,7 +9,7 @@ function EditCategory() {
 
   return (
     <>   
-      <CategoryForm api={`/admin/updatecategory`} method={'patch'} id={id} title="Edit category details" btnName="update category" />
+      <CategoryForm api={`/admin/categories`} method={'patch'} id={id} title="Edit category details" btnName="update category" />
     </>
   ) 
 }

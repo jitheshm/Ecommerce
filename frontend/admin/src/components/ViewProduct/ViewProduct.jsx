@@ -17,7 +17,7 @@ function ViewProduct() {
 
     useEffect(() => {
 
-        instance.get(`/admin/product/${id}`, {
+        instance.get(`/admin/products/${id}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }

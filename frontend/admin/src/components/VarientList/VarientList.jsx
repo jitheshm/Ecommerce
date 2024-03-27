@@ -12,7 +12,7 @@ function VarientList() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
-        instance.get(`/admin/getallvarient/${id}?page=${page}`, {
+        instance.get(`/admin/products/variants/${id}?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -58,7 +58,7 @@ function VarientList() {
 
         }).then((result) => {
             if (result.isConfirmed) {
-                instance.delete(`/admin/deletevarient?id=${id}`, {
+                instance.delete(`/admin/products/variants/${id}`, {
                     headers: {
                         Authorization: Cookies.get('token')
                     }

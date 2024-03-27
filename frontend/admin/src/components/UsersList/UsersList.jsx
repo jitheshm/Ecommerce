@@ -8,7 +8,7 @@ function UsersList() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
-        instance.get(`/admin/getusers?page=${page}`, {
+        instance.get(`/admin/users?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -34,7 +34,7 @@ function UsersList() {
 
     const handleBlock = (id) => {
 
-        instance.get(`/admin/blockuser?id=${id}`, {
+        instance.patch(`/admin/users/${id}/block`,{}, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -52,7 +52,9 @@ function UsersList() {
     }
     const handleUnblock = (id) => {
 
-        instance.get(`/admin/unblockuser?id=${id}`, {
+        instance.patch(`/admin/users/${id}/unblock`,{
+
+        },{
             headers: {
                 Authorization: Cookies.get('token')
             }

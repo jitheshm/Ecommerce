@@ -13,7 +13,7 @@ function ReturnList() {
     }
 
     useEffect(() => {
-        instance.get(`/admin/returnorders?page=${page}`, {
+        instance.get(`/admin/orders/return?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -24,8 +24,8 @@ function ReturnList() {
         })
     }, [toogle, page])
     const handleChangeStatus = (status, orderId, productId) => {
-        instance.patch('/admin/changereturnstatus', {
-            orderId: orderId,
+        instance.patch(`/admin/orders/${orderId}/return`, {
+            
 
             productId: productId,
             status: status

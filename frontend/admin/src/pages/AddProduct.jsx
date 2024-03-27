@@ -7,7 +7,7 @@ import instance from '../axios'
 function AddProduct() {
    
     return (
-        <ProductForm title="Enter product details" method="post" api="/admin/addproduct" btnName="Add product" />
+        <ProductForm title="Enter product details" method="post" api="/admin/products" btnName="Add product" />
     )
 }
 

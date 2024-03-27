@@ -10,7 +10,7 @@ function CouponList() {
     const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
-        instance.get(`/admin/getallcoupons?page=${page}`, {
+        instance.get(`/admin/coupons?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -60,7 +60,7 @@ function CouponList() {
 
         }).then((result) => {
             if (result.isConfirmed) {
-                instance.delete(`/admin/deletecoupon/${id}`, {
+                instance.delete(`/admin/coupons/${id}`, {
                     headers: {
                         Authorization: Cookies.get('token')
                     }

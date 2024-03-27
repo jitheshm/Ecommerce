@@ -16,9 +16,9 @@ module.exports = {
             throw new Error(err);
         }
     },
-    updateCoupon: async (data) => {
+    updateCoupon: async (id, data) => {
         try {
-            const res = await CouponModel.updateOne({ couponId: data.couponId }, { $set: { ...data } });
+            const res = await CouponModel.updateOne({ _id: id }, { $set: { ...data } });
             if (res.modifiedCount === 0) {
                 return false
             } else

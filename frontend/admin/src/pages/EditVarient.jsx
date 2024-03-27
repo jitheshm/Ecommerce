@@ -6,7 +6,7 @@ function EditVarient() {
     const {id} = useParams()
     return (
         <>
-            <VarientForm  title="Edit varient details" api="/admin/updatevarient" method="patch" btnName="Update Varient" id={id} />
+            <VarientForm  title="Edit varient details" api="/admin/products/variants" method="patch" btnName="Update Varient" id={id} />
         </>
     )
 }

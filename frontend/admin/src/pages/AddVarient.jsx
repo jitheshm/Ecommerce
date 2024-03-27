@@ -6,7 +6,7 @@ function AddVarient() {
     
     const {proId} = useParams()
     const props = {
-        api: '/admin/addvarient',
+        api: '/admin/products/variants',
         method: 'post',
         title: "Enter varient details",
         btnName: "Add varient",

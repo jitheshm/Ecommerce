@@ -7,7 +7,7 @@ function EditProduct() {
     const {id} = useParams()
 
     return (
-        <ProductForm  title="Edit product details" api="/admin/updateproduct" method="patch" btnName="Update Product" id={id} />
+        <ProductForm  title="Edit product details" api="/admin/products" method="patch" btnName="Update Product" id={id} />
     )
 }
 

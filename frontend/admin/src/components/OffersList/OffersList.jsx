@@ -12,7 +12,7 @@ function OffersList() {
     const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
-        instance.get(`/admin/getalloffers?page=${page}`, {
+        instance.get(`/admin/offers?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -62,7 +62,7 @@ function OffersList() {
 
         }).then((result) => {
             if (result.isConfirmed) {
-                instance.delete(`/admin/deleteoffer/${id}`, {
+                instance.delete(`/admin/offers/${id}`, {
                     headers: {
                         Authorization: Cookies.get('token')
                     }

@@ -31,7 +31,7 @@ function OrderOverview() {
 
     const [filter, setFilter] = useState("daily")
     useEffect(() => {
-        instance.get(`/admin/sales-overview/${filter}`, {
+        instance.get(`/admin/sales/overview/${filter}`, {
 
             headers: {
                 Authorization: Cookies.get('token')

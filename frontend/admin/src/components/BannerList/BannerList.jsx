@@ -11,7 +11,7 @@ function BannerList() {
     const [totalPages, setTotalPages] = useState(1);
     const [toogle, setToogle] = useState(false)
     useEffect(() => {
-        instance.get(`/admin/getallbanners?page=${page}`, {
+        instance.get(`/admin/banners?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -57,8 +57,8 @@ function BannerList() {
 
         }).then((result) => {
             if (result.isConfirmed) {
-                instance.patch(`/admin/bannerstatusChange`, {
-                    id: id,
+                instance.patch(`/admin/banners/${id}/status`, {
+                    
                     status: status
                 }, {
                     headers: {

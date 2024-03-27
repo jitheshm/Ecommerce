@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 function EditOffer() {
     const { id } = useParams()
     return (
-        <OfferForm btnName={'Update Offer'} title={'Edit Offer'} api={'/admin/updateoffer'} method={'patch'} id={id} />
+        <OfferForm btnName={'Update Offer'} title={'Edit Offer'} api={`/admin/offers/${id}`} method={'patch'} id={id} />
     )
 }
 
