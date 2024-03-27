@@ -37,7 +37,7 @@ function VarientForm({ api, method, title, btnName, proId, id }) {
 
   useEffect(() => {
     if (id) {
-      instance.get(`/admin/editvarient/${id}`, {
+      instance.get(`/admin/products/variants/${id}/edit`, {
         headers: {
           Authorization: Cookies.get('token')
         }

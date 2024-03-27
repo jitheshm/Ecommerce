@@ -22,7 +22,7 @@ function CategoryForm({ api, method, id, title, btnName }) {
 
     useEffect(() => {
         if (id) {
-            instance.get(`/admin/getcategory/${id}`, {
+            instance.get(`/admin/categories/${id}`, {
                 headers: {
                     Authorization: Cookies.get('token')
                 }

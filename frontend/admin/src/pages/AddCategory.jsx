@@ -5,7 +5,7 @@ function AddCategory() {
 
   return (
     <>
-      <CategoryForm api={'/admin/addcategory'} method={'post'} title="Enter category details" btnName="Add category" />
+      <CategoryForm api={'/admin/categories'} method={'post'} title="Enter category details" btnName="Add category" />
     </>
   )
 }

@@ -15,7 +15,7 @@ function SalesReport() {
     const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
-        instance.get(`/admin/salesreport/${startDate}/${endDate}?page=${page}&&limit=10`, {
+        instance.get(`/admin/sales/report/${startDate}/${endDate}?page=${page}&&limit=10`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -73,7 +73,7 @@ function SalesReport() {
     }
 
     const handleExcel = () => {
-        instance.get(`/admin/salesreport/${startDate}/${endDate}?page=${page}`, {
+        instance.get(`/admin/sales/report/${startDate}/${endDate}?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -85,7 +85,7 @@ function SalesReport() {
         
     }
     const handlePdf = () => {
-        instance.get(`/admin/salesreport/${startDate}/${endDate}?page=${page}`, {
+        instance.get(`/admin/sales/report/${startDate}/${endDate}?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }

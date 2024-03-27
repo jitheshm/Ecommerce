@@ -21,7 +21,7 @@ function ProductForm({ title, method, api, id, btnName }) {
     const navigate = useNavigate()
 
     useEffect(() => {
-        instance.get('/admin/getcategories', {
+        instance.get('/admin/categories', {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -33,7 +33,7 @@ function ProductForm({ title, method, api, id, btnName }) {
 
     useEffect(() => {
         if (id) {
-            instance.get(`/admin/editproduct/${id}`, {
+            instance.get(`/admin/products/${id}/edit`, {
                 headers: {
                     Authorization: Cookies.get('token')
                 }

@@ -33,8 +33,7 @@ module.exports = {
     },
     blockUserHandler: async (req, res) => {
         try {
-            const userId = new ObjectId(req.query.id)
-            console.log(req.query);
+            const userId = new ObjectId(req.params.id)
             const status = await blockUser(userId)
             if (status) {
                 res.status(200).json({ success: true })
@@ -49,8 +48,8 @@ module.exports = {
     },
     unblockUserHandler: async (req, res) => {
         try {
-            const userId = new ObjectId(req.query.id)
-            console.log(req.query);
+            const userId = new ObjectId(req.params.id)
+            
             const status = await unblockUser(userId)
             if (status) {
                 res.status(200).json({ success: true })
@@ -165,7 +164,7 @@ module.exports = {
     },
     varientDeleteHandler: async (req, res) => {
         try {
-            const status = await varientDelete(new ObjectId(req.query.id))
+            const status = await varientDelete(new ObjectId(req.params.variantId))
             if (status) {
                 res.status(200).json({ success: true })
             }
@@ -199,7 +198,7 @@ module.exports = {
     },
     productDeleteHandler: async (req, res) => {
         try {
-            const status = await productDelete(new ObjectId(req.query.id))
+            const status = await productDelete(new ObjectId(req.params.id))
 
             if (status) {
                 res.status(200).json({ success: true })
@@ -374,7 +373,7 @@ module.exports = {
     },
     editVarientHandler: async (req, res) => {
         try {
-            const id = new ObjectId(req.params.id)
+            const id = new ObjectId(req.params.variantId)
             const result = await getVarient(id)
             res.status(200).json({ success: true, data: result })
 
@@ -385,7 +384,7 @@ module.exports = {
     },
     productListChangeHandler: async (req, res) => {
         try {
-            const id = new ObjectId(req.body.id)
+            const id = new ObjectId(req.params.id)
             console.log(req.body.id);
             const status = await productListChange(id)
             if (status)
@@ -434,7 +433,7 @@ module.exports = {
     orderStatusHandler: async (req, res) => {
         try {
             console.log("hee");
-            const status = await changeStatus(new ObjectId(req.body.orderId), new ObjectId(req.body.userId), new ObjectId(req.body.productId), req.body.status)
+            const status = await changeStatus(new ObjectId(req.params.orderId), new ObjectId(req.params.userId), new ObjectId(req.params.productId), req.body.status)
             console.log(status);
             res.status(200).json({ success: true })
         } catch (error) {
@@ -457,7 +456,7 @@ module.exports = {
     orderReturnStatusHandler: async (req, res) => {
         try {
 
-            const status = await changeReturnStatus(new ObjectId(req.body.orderId), new ObjectId(req.body.productId), req.body.status)
+            const status = await changeReturnStatus(new ObjectId(req.params.orderId), new ObjectId(req.body.productId), req.body.status)
             console.log(status);
             res.status(200).json({ success: true })
         } catch (error) {
@@ -496,7 +495,8 @@ module.exports = {
             const valResult = validationResult(req)
             console.log(valResult.array());
             if (valResult.isEmpty()) {
-                await updateCoupon(req.body)
+               
+                await updateCoupon(new ObjectId(req.params.id), req.body)
                 res.status(200).json({ success: true })
             } else {
                 res.status(400).json({ error: valResult.array() })
@@ -580,7 +580,7 @@ module.exports = {
             req.body.applicables = req.body.applicables.map((obj) => {
                 return obj.value
             })
-            await updateOffer(req.body)
+            await updateOffer(new ObjectId(req.params.id),req.body)
             res.status(200).json({ success: true })
             // } else {
             //     res.status(400).json({ error: valResult.array() })
@@ -698,7 +698,7 @@ module.exports = {
                 if (req.files) {
                     req.body.imagesUrl = req.files
                 }
-                req.body.id = new ObjectId(req.body.id)
+                req.body.id = new ObjectId(req.params.id)
                 console.log(req.body);
                 const oldObj = await bannerUpdate(req.body)
                 console.log("oldObj");
@@ -732,7 +732,7 @@ module.exports = {
     },
     bannerStatusHandler: async (req, res) => {
         try {
-            const status = await statusChange(new ObjectId(req.body.id), req.body.status)
+            const status = await statusChange(new ObjectId(req.params.id), req.body.status)
             res.status(200).json({ success: status })
 
         } catch (error) {

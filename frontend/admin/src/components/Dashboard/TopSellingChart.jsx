@@ -30,7 +30,7 @@ function TopSellingChart() {
     const [dataset1, setDataset1] = useState([0])
     const [chart, setChart] = useState({
         name: "products",
-        api: "/admin/topsellingproducts",
+        api: "/admin/sales/topsellingproducts",
         backgroundColor: 'rgba(35, 179, 226)',
         title: "Top Selling products"
     })
@@ -90,7 +90,7 @@ function TopSellingChart() {
         if (e.target.value === "products") {
             setChart({
                 name: "products",
-                api: "/admin/topsellingproducts",
+                api: "/admin/sales/topsellingproducts",
                 backgroundColor: 'rgba(35, 179, 226)',
                 title: "Top Selling products"
             })
@@ -98,7 +98,7 @@ function TopSellingChart() {
         else if (e.target.value === "categories") {
             setChart({
                 name: "categories",
-                api: "/admin/topsellingcategories",
+                api: "/admin/sales/topsellingcategories",
                 backgroundColor: 'rgba(35, 179, 226)',
                 title: "Top Selling Categories"
             })
@@ -106,7 +106,7 @@ function TopSellingChart() {
         else if (e.target.value === "brands") {
             setChart({
                 name: "brands",
-                api: "/admin/topsellingbrands",
+                api: "/admin/sales/topsellingbrands",
                 backgroundColor: 'rgba(35, 179, 226)',
                 title: "Top Selling Brands"
             })

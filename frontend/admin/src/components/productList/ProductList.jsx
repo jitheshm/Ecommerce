@@ -55,7 +55,7 @@ function ProductList() {
 
         }).then((result) => {
             if (result.isConfirmed) {
-                instance.delete(`/admin/deleteproduct?id=${id}`, {
+                instance.delete(`/admin/products/${id}`, {
                     headers: {
                         Authorization: Cookies.get('token')
                     }
@@ -70,7 +70,7 @@ function ProductList() {
     }
 
     const handleListChange = (id) => {
-        instance.patch('/admin/changelistproduct', { id: id }, {
+        instance.patch(`/admin/products/${id}/list`,{}, {
             headers: {
                 Authorization: Cookies.get('token')
             }

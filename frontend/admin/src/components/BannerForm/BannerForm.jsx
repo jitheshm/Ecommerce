@@ -51,7 +51,7 @@ function BannerForm({ title, id, api, method, btnName }) {
 
     useEffect(() => {
         if (id) {
-            instance.get(`/admin/getbanner/${id}`, {
+            instance.get(`/admin/banners/${id}`, {
                 headers: {
                     Authorization: Cookies.get('token')
                 }
@@ -126,7 +126,6 @@ function BannerForm({ title, id, api, method, btnName }) {
             alert("Start date should be less than end date")
             return
         }
-        formData.append('id', id)
         formData.append('title', data.title)
         formData.append('description', data.description)
         formData.append('startDate', new Date(data.startDate).toISOString())

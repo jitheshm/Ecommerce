@@ -5,7 +5,7 @@ function EditCoupon() {
     const { id } = useParams()
     return (
         <>
-            <CouponForm btnName={'Update Coupon'} title={'Edit Coupon'} api={'/admin/updatecoupon'} method={'patch'} id={id} />
+            <CouponForm btnName={'Update Coupon'} title={'Edit Coupon'} api={`/admin/coupons/${id}`} method={'patch'} id={id} />
         </>
     )
 }

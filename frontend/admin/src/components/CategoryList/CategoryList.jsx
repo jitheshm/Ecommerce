@@ -9,7 +9,7 @@ function CategoryList() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
-        instance.get(`/admin/getcategories?page=${page}`, {
+        instance.get(`/admin/categories?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -55,7 +55,7 @@ function CategoryList() {
 
         }).then((result) => {
             if (result.isConfirmed) {
-                instance.delete(`/admin/deleteCategory?id=${id}`, {
+                instance.delete(`/admin/categories/${id}`, {
                     headers: {
                         Authorization: Cookies.get('token')
                     }

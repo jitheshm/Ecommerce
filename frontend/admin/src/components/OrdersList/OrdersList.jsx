@@ -27,10 +27,7 @@ function OrdersList() {
     }, [toogle, page])
 
     const handleChangeStatus = (status, orderId, userId, productId) => {
-        instance.patch('/admin/changeorderstatus', {
-            orderId: orderId,
-            userId: userId,
-            productId: productId,
+        instance.patch(`/admin/orders/${userId}/${orderId}/${productId}/status`, {
             status: status
         }, {
 

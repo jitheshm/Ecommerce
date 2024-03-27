@@ -16,8 +16,8 @@ module.exports = {
     getOffer: async (id) => {
         return await getOffer(id, offerRepository)
     },
-    updateOffer: async (data) => {
-        return await updateOffer(data, offerRepository)
+    updateOffer: async (id,data) => {
+        return await updateOffer(id,data, offerRepository)
     },
     deleteOffer: async (id) => {
         return await deleteOffer(id, offerRepository)

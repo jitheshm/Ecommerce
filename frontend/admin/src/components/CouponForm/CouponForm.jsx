@@ -46,7 +46,7 @@ function CouponForm({ api, method, id, title, btnName }) {
 
     useEffect(() => {
         if (id) {
-            instance.get(`/admin/getcoupon/${id}`, {
+            instance.get(`/admin/coupons/${id}`, {
                 headers: {
                     Authorization: Cookies.get('token')
                 }
@@ -90,7 +90,6 @@ function CouponForm({ api, method, id, title, btnName }) {
             method: method,
             url: api,
             data: {
-                id,
                 ...data
 
             },

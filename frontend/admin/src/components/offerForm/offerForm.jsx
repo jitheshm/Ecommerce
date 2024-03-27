@@ -49,7 +49,7 @@ function OfferForm({ api, method, id, title, btnName }) {
     const startDate = watch('startDate')
     useEffect(() => {
         if (offerType === 'category') {
-            instance.get('/admin/getcategories', {
+            instance.get('/admin/categories', {
                 headers: {
                     Authorization: Cookies.get('token')
                 }
@@ -83,7 +83,7 @@ function OfferForm({ api, method, id, title, btnName }) {
 
     useEffect(() => {
         if (id) {
-            instance.get(`/admin/getoffer/${id}`, {
+            instance.get(`/admin/offers/${id}`, {
                 headers: {
                     Authorization: Cookies.get('token')
                 }
@@ -117,8 +117,7 @@ function OfferForm({ api, method, id, title, btnName }) {
             method: method,
             url: api,
             data: {
-                id,
-
+                
                 ...data
 
             },

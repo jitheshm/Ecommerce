@@ -9,7 +9,7 @@ function OrderDetails() {
     const [order, setOrder] = useState({})
     const { orderId, productId } = useParams()
     useEffect(() => {
-        instance.get(`admin/order/${orderId}/${productId}`, {
+        instance.get(`admin/orders/${orderId}/${productId}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }

@@ -4,7 +4,7 @@ import CouponForm from '../components/CouponForm/CouponForm'
 function AddCoupon() {
     return (
         <>
-            <CouponForm btnName={'Add Coupon'} title={'Create new Coupon'} api={'/admin/addcoupon'} method={'post'} />
+            <CouponForm btnName={'Add Coupon'} title={'Create new Coupon'} api={'/admin/coupons'} method={'post'} />
         </>
     )
 }

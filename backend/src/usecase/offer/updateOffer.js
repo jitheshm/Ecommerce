@@ -1,6 +1,6 @@
 const Offer = require("../../entity/offerEntity");
 
-module.exports = async (data, offerRepository) => {
+module.exports = async (id, data, offerRepository) => {
     const offer = new Offer(data)
-    return await offerRepository.updateOffer(data.id,offer)
+    return await offerRepository.updateOffer(id, offer)
 }
