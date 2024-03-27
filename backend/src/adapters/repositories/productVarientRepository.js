@@ -20,8 +20,8 @@ module.exports = {
             const result = await ProductVarientModel.findOne({ _id: id, isDeleted: false })
             if (result) {
                 const existingImages = result.imagesUrl
-                const final=existingImages.map((item) => {
-                    if (oldImageUrl.includes(item)) {
+                const final = existingImages.map((item) => {
+                    if (oldImageUrl && oldImageUrl.includes(item)) {
                         return imagesUrl.shift()
                     } else {
                         return item
@@ -385,7 +385,7 @@ module.exports = {
             throw error
         }
     },
-    searchProducts: async (searchQuery, sort, filter,page=1,limit=10) => {
+    searchProducts: async (searchQuery, sort, filter, page = 1, limit = 10) => {
         try {
             console.log(filter);
             const pipeLine = [
@@ -549,7 +549,7 @@ module.exports = {
                     $sort: sort
                 })
             }
-            pipeLine.push( {
+            pipeLine.push({
                 $facet: {
                     totalCount: [
                         {
@@ -557,7 +557,7 @@ module.exports = {
                         }
                     ],
                     products: [
-        
+
                         {
                             $skip: (page - 1) * limit
                         },
@@ -567,7 +567,7 @@ module.exports = {
                     ]
                 }
             })
-            const result= await ProductVarientModel.aggregate(pipeLine).exec()
+            const result = await ProductVarientModel.aggregate(pipeLine).exec()
             const products = result[0].products
             const totalCount = result[0].totalCount.length > 0 ? result[0].totalCount[0].total : 0;
             const totalPages = Math.ceil(totalCount / limit);
