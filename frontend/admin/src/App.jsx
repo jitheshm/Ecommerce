@@ -38,6 +38,7 @@ import PageNotFound from './pages/PageNotFound';
 import AddBanner from './pages/AddBanner';
 import EditBanner from './pages/EditBanner';
 import BannersList from './pages/BannersList';
+import Chatting from './components/Chatting/Chatting';
 function App() {
   const [loading, setloading] = useState(true)
   const dispatch = useDispatch()
@@ -155,21 +156,26 @@ function App() {
       element: <Layout><Dashboard /></Layout>
     },
     {
-      path:"/addbanner",
-      element:<Layout><AddBanner/></Layout>
+      path: "/addbanner",
+      element: <Layout><AddBanner /></Layout>
     },
     {
-      path:"/editbanner/:id",
-      element:<Layout><EditBanner/></Layout>
+      path: "/editbanner/:id",
+      element: <Layout><EditBanner /></Layout>
     },
     {
-      path:"/banners",
-      element:<Layout><BannersList/></Layout>
+      path: "/banners",
+      element: <Layout><BannersList /></Layout>
+    },
+    {
+      path: '/chats',
+      element: <Layout><Chatting /></Layout>
     },
     {
       path: "*",
       element: <PageNotFound />
     },
+
 
 
 

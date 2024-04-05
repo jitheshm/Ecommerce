@@ -35,6 +35,7 @@ import Invoice from './pages/Invoice';
 import MobileCategories from './pages/MobileCategories';
 import Mobile from './components/mobile/Mobile';
 import PageNotFound from './pages/PageNotFound';
+import Chatting from './components/Chatting/Chatting';
 
 
 function App() {
@@ -124,7 +125,7 @@ function App() {
         },
         {
             path: "/order/repayment/:orderId",
-            element:  <Auth><Repayment /></Auth>
+            element: <Auth><Repayment /></Auth>
         },
         {
             path: "/order/invoice/:orderId",
@@ -135,17 +136,21 @@ function App() {
             element: <Mobile> <MobileCategories /> </Mobile>
         },
         {
-            path:"*",
-            element:<PageNotFound/>
+            path: "*",
+            element: <PageNotFound />
         }
 
 
-    ],{ basename: '/' })
+    ], { basename: '/' })
     return (
         <>
 
             {
-                loading ? <h1>Loading...</h1> : <RouterProvider router={router} />
+                loading ? <h1>Loading...</h1> :
+                    <>
+                        <Chatting/>
+                        <RouterProvider router={router} />
+                    </>
             }
 
         </>

@@ -28,6 +28,7 @@
     "passport-google-oauth20": "^2.0.0",
     "razorpay": "^2.9.2",
     "short-uuid": "^4.2.2",
+    "socket.io": "^4.7.5",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

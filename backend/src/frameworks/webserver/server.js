@@ -1,60 +1,43 @@
-const express = require('express')
-var logger = require('morgan');
-const db = require('../database/mongoose')
-const { port } = require("../config")
-const userRouter = require('./routes/user')
-const adminRouter = require('./routes/admin')
-const passport = require('../middlewares/passport')
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const logger = require('morgan');
+const db = require('../database/mongoose');
+const { port } = require("../config");
+const userRouter = require('./routes/user');
+const adminRouter = require('./routes/admin');
+const passport = require('../middlewares/passport');
 const fileUpload = require('express-fileupload');
 const path = require('path');
-const app = express()
-// const userBuildPath = path.join(__dirname, "../../../../frontend/user/dist");
-// const adminBuildPath = path.join(__dirname, "../../../../frontend/admin/dist")
+
+const app = express();
+
 app.use(logger('dev'));
 app.use(express.json());
-var cors = require('cors')
-
-
-app.use(cors()) // Use this after the variable declaration 
+const cors = require('cors');
+const socketHandler = require('./socketHandler/socketHandler');
+app.use(cors());
 app.use(fileUpload());
 app.use('/public', express.static('public'));
 
-db.connect()
+db.connect();
 app.use(passport.initialize());
 
-// app.use('/', express.static(userBuildPath));
-// app.use('/adminpanel', express.static(adminBuildPath));
+app.use('/user', userRouter);
+app.use('/admin', adminRouter);
 
-app.use('/user', userRouter)
-app.use('/admin', adminRouter)
+const server = http.createServer(app); // Create HTTP server
+const io = socketIo(server,{
+    cors: {
+      origin: '*',
+    }
+  }); // Attach Socket.IO to the HTTP server
 
-// app.get("/adminpanel*", function (req, res) {
-//     res.sendFile(
-//         path.join(__dirname, "../../../../frontend/admin/dist/index.html"),
-//         function (err) {
-//             if (err) {
-//                 res.status(500).send(err);
-//             }
-//         }
-//     );
-// });
+// Socket.IO logic
+io.on('connection', socket=>{
+  socketHandler(socket,io)
+});
 
-// app.get("/*", function (req, res) {
-//     res.sendFile(
-//         path.join(__dirname, "../../../../frontend/user/dist/index.html"),
-//         function (err) {
-//             if (err) {
-//                 res.status(500).send(err);
-//             }
-//         }
-//     );
-// });
-
-
-
-
-
-
-app.listen(port, () => {
-    console.log(`server running in port ${port}`);
-})
+server.listen(port, () => {
+    console.log(`Server running in port ${port}`);
+});
