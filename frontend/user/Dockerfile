@@ -15,11 +15,7 @@ EXPOSE  3000
 CMD ["npm", "run", "dev"]
 
 
-FROM base AS build
+FROM base AS prod
 RUN npm run build
 
-
-FROM nginx:latest as prod
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /app/dist /var/www/
 

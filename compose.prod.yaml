@@ -8,6 +8,9 @@ services:
     restart: unless-stopped
     env_file:
       - ./backend/.env
+    volumes:
+      - admin_build:/app/admin/dist
+      - user_build:/app/user/dist
     ports:
       - "3000:3000"
     networks:
@@ -19,11 +22,10 @@ services:
       target: prod
     image: jitheshmjithooz/ecommerce:frontend-user
     container_name: ecommerce-frontend-user
-    restart: unless-stopped
     env_file:
       - ./frontend/user/.env.production
-    ports:
-      - "8000:80"
+    volumes:
+      - user_build:/app/dist
     networks:
       - ecommerce-network
     depends_on:
@@ -35,12 +37,10 @@ services:
       target: prod
     image: jitheshmjithooz/ecommerce:frontend-admin
     container_name: ecommerce-frontend-admin
-    restart: unless-stopped
     env_file:
       - ./frontend/admin/.env.production
-    ports:
-      - "8001:80"
-
+    volumes:
+      - admin_build:/app/dist
     networks:
       - ecommerce-network
     depends_on:
@@ -49,3 +49,7 @@ services:
 networks:
   ecommerce-network:
     driver: bridge
+
+volumes:
+  admin_build:
+  user_build:
