@@ -10,6 +10,7 @@ import { BASEURL } from '../../constants/constant'
 import { logout } from '../../features/user/userSlice'
 import { useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
+import {RAZORPAY_KEY} from "../../constants/constant"
 
 function Repayment({ setOrderPlaced, setOrderReciept }) {
     const [orderItems, setOrderItems] = useState([])
@@ -93,7 +94,7 @@ function Repayment({ setOrderPlaced, setOrderReciept }) {
         }
 
         const options = {
-            key: 'api_key',
+            key: RAZORPAY_KEY,
             // amount: 10 * 100, // Amount in paise
             currency: 'INR',
             name: 'Your Company Name',

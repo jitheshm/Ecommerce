@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import OrderSummary from '../OrderSummary/OrderSummary'
 import CouponList from '../CouponList/CouponList'
 import Swal from 'sweetalert2'
+import {RAZORPAY_KEY} from "../../constants/constant"
 function CheckOut({ setOrderPlaced, setOrderReciept }) {
     const [address, setAddress] = useState([])
     const [orderAddress, setOrderAddress] = useState()
@@ -129,7 +130,7 @@ function CheckOut({ setOrderPlaced, setOrderReciept }) {
         }
 
         const options = {
-            key: 'api_key',
+            key: RAZORPAY_KEY,
             // amount: 10 * 100, // Amount in paise
             currency: 'INR',
             name: 'Electro',
