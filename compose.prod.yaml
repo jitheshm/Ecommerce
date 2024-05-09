@@ -4,7 +4,7 @@ services:
   backend:
     build: ./backend
     container_name: ecommerce-backend
-    image: jitheshmjithooz/ecommerce:backend
+    image: jitheshmjithooz/ecommerce-backend
     restart: unless-stopped
     env_file:
       - ./backend/.env
@@ -20,7 +20,7 @@ services:
     build:
       context: ./frontend/user
       target: prod
-    image: jitheshmjithooz/ecommerce:frontend-user
+    image: jitheshmjithooz/ecommerce-frontend-user
     container_name: ecommerce-frontend-user
     env_file:
       - ./frontend/user/.env.production
@@ -35,7 +35,7 @@ services:
     build:
       context: ./frontend/admin
       target: prod
-    image: jitheshmjithooz/ecommerce:frontend-admin
+    image: jitheshmjithooz/ecommerce-frontend-admin
     container_name: ecommerce-frontend-admin
     env_file:
       - ./frontend/admin/.env.production
