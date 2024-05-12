@@ -35,17 +35,17 @@ function ProductDetails() {
     const { verified } = useSelector((state) => state.user)
     useEffect(() => {
         console.log(prodColor);
-        instance.get(`/user/getproductdetails/${productId}/${prodColor}`).then((res) => {
+        instance.get(`/user/products/${productId}/color/${prodColor}`).then((res) => {
             console.log(res.data.data);
             setProduct(res.data.data)
-            return instance.get(`user/checkproductexist?varientId=${res.data.data[0]._id}`, {
+            return instance.get(`user/products/varients/${res.data.data[0]._id}/exist`, {
                 headers: {
                     Authorization: Cookies.get('token')
                 }
             })
 
         }).then((res) => {
-            console.log(res.data);
+            console.log(res.data,"ppp");
             if (res.data.success) {
                 setcartStatus(true)
 
@@ -60,7 +60,7 @@ function ProductDetails() {
     }, [prodColor])
 
     useEffect(() => {
-        instance.get(`/user/getcolorlist/${productId}`).then((res) => {
+        instance.get(`/user/products/${productId}/colors`).then((res) => {
             console.log(res.data.data);
             setColorList(res.data.data)
         })
@@ -69,7 +69,7 @@ function ProductDetails() {
     useEffect(() => {
         if (verified && product[0]) {
             console.log(product[0], "kk");
-            instance.get(`/user/checkwishlist?productId=${product[0]._id}`, {
+            instance.get(`/user/wishlist/${product[0]._id}/check`, {
                 headers: {
                     Authorization: Cookies.get('token')
                 }
@@ -94,7 +94,7 @@ function ProductDetails() {
 
     useEffect(() => {
         if (product[0])
-            instance.get(`user/availableoffers/${product[0].productDetails[0].categoryId}/${product[0].productId}`).then((res) => {
+            instance.get(`user/offers/${product[0].productDetails[0].categoryId}/${product[0].productId}`).then((res) => {
                 console.log(res.data.data);
                 setOffers(res.data.data);
                 // setDiscount(res.data.data.reduce((acc, curr) => {
@@ -135,7 +135,7 @@ function ProductDetails() {
         if (verified) {
 
 
-            instance.patch('/user/addtocart', {
+            instance.patch('/user/cart', {
                 productId: product[0]._id
             }, {
                 headers: {
@@ -166,9 +166,8 @@ function ProductDetails() {
     const handleWishList = () => {
         if (verified) {
             if (!wishlistStatus) {
-                instance.patch('/user/addtowishlist', {
-                    productId: product[0]._id
-                }, {
+                let productId=product[0]._id
+                instance.patch(`/user/wishlist/${productId}/add`, {}, {
                     headers: {
                         Authorization: Cookies.get('token')
                     }
@@ -186,9 +185,8 @@ function ProductDetails() {
                 }
                 )
             } else {
-                instance.patch('/user/removefromwishlist', {
-                    productId: product[0]._id
-                }, {
+                let productId=product[0]._id
+                instance.delete(`/user/wishlist/${productId}/remove`, {
                     headers: {
                         Authorization: Cookies.get('token')
                     }

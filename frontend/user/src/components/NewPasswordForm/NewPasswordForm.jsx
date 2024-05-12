@@ -23,7 +23,7 @@ function NewPasswordForm() {
         } else {
             setConfirmError(false)
         }
-        instance.patch("/user/passwordupdate", {
+        instance.patch("/user/reset-password", {
 
             password
         }, {

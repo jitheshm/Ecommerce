@@ -19,7 +19,7 @@ function ForgetForm() {
             setEmailError(false)
         }
 
-        instance.post('/user/forgetotpsend', {
+        instance.post('/user/forget-password', {
             email: email
         }).then((res) => {
             if (res.data.success) {

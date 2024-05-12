@@ -19,7 +19,7 @@ function Repayment({ setOrderPlaced, setOrderReciept }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     useEffect(() => {
-        instance.get(`user/getoneorder/${orderId}`, {
+        instance.get(`user/orders/${orderId}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -55,7 +55,7 @@ function Repayment({ setOrderPlaced, setOrderReciept }) {
     }
 
     const handleConfirm = () => {
-        instance.post('/user/orderrepayment', {
+        instance.post('/user/payment/repayment', {
             orderId: orderId,
             amountPaid: orderItems[0].amountPaid
         }, {
@@ -111,7 +111,7 @@ function Repayment({ setOrderPlaced, setOrderReciept }) {
                     // setPaymentStatus('Payment successful!');
 
                     // You can handle payment confirmation with your backend here if required
-                    instance.patch('/user/verifypayment', {
+                    instance.patch('/user/payment/verify', {
                         paymentId: paymentId,
                         orderId: orderId,
                         signature: signature,

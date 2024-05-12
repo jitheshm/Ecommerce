@@ -13,7 +13,7 @@ function Orders() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
-        instance.get(`/user/order?page=${page}`, {
+        instance.get(`/user/orders?page=${page}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }

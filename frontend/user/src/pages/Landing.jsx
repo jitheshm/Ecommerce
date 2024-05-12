@@ -10,10 +10,10 @@ function Landing() {
       <Header />
       <CategorySlide />
       
-      <ProductSlide title="Flash sale" api='/user/getnewproducts' />
+      <ProductSlide title="Flash sale" api='/user/products/latest' />
       <BannerSlider />
-      <ProductSlide title="Trending" api='/user/gettrendingproducts' />
-      <ProductSlide title="Smart phone" api='/user/getproducts?filter=Smart Phone' />
+      <ProductSlide title="Trending" api='/user/products/trending' />
+      <ProductSlide title="Smart phone" api='/user/products?filter=Smart Phone' />
       <MobileNavbar />
     </>
   )

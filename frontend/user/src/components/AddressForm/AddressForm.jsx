@@ -26,7 +26,7 @@ function AddressForm({ setAddressForm, id, setEdit, method, api, title }) {
     useEffect(() => {
         if (id) {
 
-            instance.get(`/user/address/${id}`, {
+            instance.get(`/user/addresses/${id}`, {
                 headers: {
                     Authorization: Cookies.get('token')
                 }

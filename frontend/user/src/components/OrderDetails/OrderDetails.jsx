@@ -18,7 +18,7 @@ function OrderDetails() {
     const { orderId, productId } = useParams()
     const dispatch = useDispatch()
     useEffect(() => {
-        instance.get(`/user/order/${orderId}/${productId}`, {
+        instance.get(`/user/orders/${orderId}/products/${productId}`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -54,7 +54,7 @@ function OrderDetails() {
 
     const handleCancel = () => {
         if (confirm('Are you sure you want to cancel this order?')) {
-            instance.patch(`/user/cancelorder/${orderId}/${productId}`, {
+            instance.patch(`/user/orders/${orderId}/products/${productId}/cancel`, {
                 orderStatus: "Cancelled"
             }, {
                 headers: {
