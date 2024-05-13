@@ -28,12 +28,42 @@ function Dashboard() {
 
                                 <div className='col-9'>
                                     <h5 className='card-title mt-2 mb-2'>Total Sales</h5>
-                                    <p className='card-text mt-0'>₹ 50000</p>
+                                    <p className='card-text mt-0'>₹ 500000</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className='col-4 row' >
+
+                        <div className='card  '>
+                            <div className='card-body px-2 pt-2 text-center row gap-2 align-items-center'>
+                                <div className='col-2'>
+                                    <i className="fa-solid fa-dolly" style={{ color: '#FFD43B', fontSize: "30px" }} />
+                                </div>
+
+                                <div className='col-9'>
+                                    <h5 className='card-title mt-2 mb-2'>Today Sales</h5>
+                                    <p className='card-text mt-0'>₹ 20000</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='col-4 row' >
+
+                        <div className='card  '>
+                            <div className='card-body px-2 pt-2 text-center row gap-2 align-items-center'>
+                                <div className='col-2'>
+                                    <i className="fa-solid fa-box-open" style={{ color: '#FFD43B', fontSize: "30px" }} />
+                                </div>
+
+                                <div className='col-9'>
+                                    <h5 className='card-title mt-2 mb-2'>Total orders</h5>
+                                    <p className='card-text mt-0'>10</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* <div className='col-4 row' >
 
                         <div className='card  '>
                             <div className='card-body px-2 pt-2 text-center row gap-2 align-items-center'>
@@ -77,37 +107,7 @@ function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className='col-4 row' >
-
-                        <div className='card  '>
-                            <div className='card-body px-2 pt-2 text-center row gap-2 align-items-center'>
-                                <div className='col-2'>
-                                    <i className="fa-solid fa-hand-holding-dollar" style={{ color: '#FFD43B', fontSize: "30px" }} />
-                                </div>
-
-                                <div className='col-9'>
-                                    <h5 className='card-title mt-2 mb-2'>Total Sales</h5>
-                                    <p className='card-text mt-0'>₹ 50000</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-4 row' >
-
-                        <div className='card  '>
-                            <div className='card-body px-2 pt-2 text-center row gap-2 align-items-center'>
-                                <div className='col-2'>
-                                    <i className="fa-solid fa-hand-holding-dollar" style={{ color: '#FFD43B', fontSize: "30px" }} />
-                                </div>
-
-                                <div className='col-9'>
-                                    <h5 className='card-title mt-2 mb-2'>Total Sales</h5>
-                                    <p className='card-text mt-0'>₹ 50000</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className='mt-4'>
                     <div className=' mt-2'>

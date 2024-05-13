@@ -2,10 +2,11 @@ import React from 'react'
 import man from '../../assets/man.png'
 import { Link } from 'react-router-dom'
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch ,useSelector} from 'react-redux';
 import { logout } from '../../features/user/userSlice';
 function Sidebar() {
     const dispatch = useDispatch()
+    const { name, verified } = useSelector((state) => state.user)
     return (
         <>
             <div className='col-md-4 d-none d-md-block'>
@@ -15,7 +16,7 @@ function Sidebar() {
                     </div>
                     <div className='col-6 nameContainer ms-4'>
                         <p>Hello</p>
-                        <b className='fs-3'>Jithesh</b>
+                        <b className='fs-3'>{name}</b>
                     </div>
                 </div>
                 <div className='left-sidebar m-auto mb-5 ps-5 py-5 '>
