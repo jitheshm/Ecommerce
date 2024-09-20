@@ -11,7 +11,7 @@ function ManageAddress() {
     const [edit,setEdit]=useState('')
     const dispatch = useDispatch()
     useEffect(() => {
-        instance.get('/user/address', {
+        instance.get('/user/addresses', {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -42,13 +42,13 @@ function ManageAddress() {
             </div>
 
             {
-                addressForm && <AddressForm title={"Add New Address"} setAddressForm={setAddressForm} api={'/user/newaddress'} method={"post"}  />
+                addressForm && <AddressForm title={"Add New Address"} setAddressForm={setAddressForm} api={'/user/addresses'} method={"post"}  />
             }
 
             {
                 address.map((addrObj) => {  
                     if(addrObj._id===edit){
-                        return <AddressForm key={addrObj._id} setAddressForm={setAddressForm} id={addrObj._id} setEdit={setEdit} method={"patch"} api={`/user/updateaddress`}/>
+                        return <AddressForm key={addrObj._id} setAddressForm={setAddressForm} id={addrObj._id} setEdit={setEdit} method={"patch"} api={`/user/addresses`}/>
                     }
                     return <AddressCard key={addrObj._id} addrObj={addrObj} setEdit={setEdit} setAddress={setAddress}/>
                 })

@@ -12,7 +12,7 @@ function WishlistCard({ item, setToogle, toogle }) {
     const navigate = useNavigate()
     const { verified } = useSelector((state) => state.user)
     useEffect(() => {
-        instance.get(`user/checkproductexist?varientId=${item.productVarientId}`, {
+        instance.get(`user/products/varients/${item.productVarientId}/exist`, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -49,9 +49,8 @@ function WishlistCard({ item, setToogle, toogle }) {
 
         }).then((result) => {
             if (result.isConfirmed) {
-                instance.patch('/user/removefromwishlist', {
-                    productId: id
-                }, {
+                let productId=id
+                instance.delete(`/user/wishlist/${productId}/remove`, {
                     headers: {
                         Authorization: Cookies.get('token')
                     }
@@ -77,7 +76,7 @@ function WishlistCard({ item, setToogle, toogle }) {
         if (verified) {
 
 
-            instance.patch('/user/addtocart', {
+            instance.patch('/user/cart', {
                 productId: id
             }, {
                 headers: {

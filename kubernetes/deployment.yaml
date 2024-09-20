@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-user
+  template:
+    metadata:
+      labels:
+        app: frontend-user
+    spec:
+      containers:
+      - name: frontend-user
+        image: jitheshmjithooz/ecommerce-frontend-user
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: user-build
+          mountPath: /app/dist
+        lifecycle:
+          postStart:
+            exec:
+              command: ['sh', '-c', 'cp -r /var/www/* /app/dist']
+      volumes:
+      - name: user-build
+        persistentVolumeClaim:
+          claimName: users-pvc
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-admin
+  template:
+    metadata:
+      labels:
+        app: frontend-admin
+    spec:
+      containers:
+      - name: frontend-admin
+        image: jitheshmjithooz/ecommerce-frontend-admin
+        # command: ['sh', '-c', 'cp -r /var/www/* /app/dist'] 
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: admin-build
+          mountPath: /app/dist
+        lifecycle:
+          postStart:
+            exec:
+              command: ['sh', '-c', 'cp -r /var/www/* /app/dist']
+      volumes:
+      - name: admin-build
+        persistentVolumeClaim:
+          claimName: admins-pvc
+        
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-backend
+  labels:
+    app: ecommerce-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecommerce-backend
+  template:
+    metadata:
+      labels:
+        app: ecommerce-backend
+    spec:
+      containers:
+      - name: ecommerce-backend
+        image: jitheshmjithooz/ecommerce-backend
+        envFrom:
+        - secretRef:
+            name: backend-secret
+        ports:
+        - containerPort: 3000
+ 
+        volumeMounts:
+        - name: admin-build
+          mountPath: /app/admin/dist
+        - name: user-build
+          mountPath: /app/user/dist
+      volumes:
+      - name: admin-build
+        persistentVolumeClaim:
+          claimName: admins-pvc
+      - name: user-build
+        persistentVolumeClaim:
+          claimName: users-pvc
+
+---
+

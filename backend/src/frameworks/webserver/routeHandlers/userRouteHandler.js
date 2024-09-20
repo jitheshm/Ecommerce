@@ -176,7 +176,7 @@ module.exports = {
     },
     deleteAddressHandler: async (req, res) => {
         try {
-            const status = await deleteAddress(req.query.id)
+            const status = await deleteAddress(req.params.id)
             console.log(status);
             if (status) {
                 res.status(200).json({ success: true })
@@ -225,7 +225,7 @@ module.exports = {
     },
     incrementQuantityHandler: async (req, res) => {
         try {
-            const { status, msg } = await changeQuantity(new ObjectId(req.user.id), new ObjectId(req.body.productId), 1)
+            const { status, msg } = await changeQuantity(new ObjectId(req.user.id), new ObjectId(req.params.productId), 1)
             if (status) {
                 res.status(200).json({ success: true, msg: msg })
             }
@@ -239,7 +239,7 @@ module.exports = {
     },
     decrementQuantityHandler: async (req, res) => {
         try {
-            const { status, msg } = await changeQuantity(new ObjectId(req.user.id), new ObjectId(req.body.productId), -1)
+            const { status, msg } = await changeQuantity(new ObjectId(req.user.id), new ObjectId(req.params.productId), -1)
             if (status) {
                 res.status(200).json({ success: true, msg: msg })
             }
@@ -254,7 +254,7 @@ module.exports = {
     },
     removeCartProductHandler: async (req, res) => {
         try {
-            const status = await removeCartProduct(req.user.id, new ObjectId(req.body.productId))
+            const status = await removeCartProduct(req.user.id, new ObjectId(req.params.productId))
             if (status) {
                 res.status(200).json({ success: true })
             }
@@ -278,7 +278,8 @@ module.exports = {
     },
     checkProductExistHandler: async (req, res) => {
         try {
-            const status = await checkProductExist(new ObjectId(req.query.varientId), new ObjectId(req.user.id))
+            console.log(req.params.varientId,"cart>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            const status = await checkProductExist(new ObjectId(req.params.varientId), new ObjectId(req.user.id))
             if (status) {
                 res.status(200).json({ success: true })
             } else {
@@ -333,7 +334,7 @@ module.exports = {
     },
     getOrderSpecificHandler: async (req, res) => {
         try {
-            const result = await getSpecificOrder(new ObjectId(req.params.id), new ObjectId(req.params.productId))
+            const result = await getSpecificOrder(new ObjectId(req.params.orderId), new ObjectId(req.params.productId))
             if (result) {
                 res.status(200).json({ success: true, data: result })
             } else {
@@ -494,8 +495,9 @@ module.exports = {
     },
     addWishlistHandler: async (req, res) => {
         try {
-            console.log(req.body.productId, req.user.id, "hh");
-            const status = await addToWishlist(new ObjectId(req.user.id), new ObjectId(req.body.productId))
+            console.log(req.params.productId, req.user.id, "hh");
+            const status = await addToWishlist(new ObjectId(req.user.id), new ObjectId(req.params.productId))
+            console.log(status)
             if (status) {
                 res.status(200).json({ success: true })
             }
@@ -509,8 +511,8 @@ module.exports = {
     },
     removeWishlistHandler: async (req, res) => {
         try {
-            console.log(req.body.productId, req.user.id, "hh");
-            const status = await removeFromWishlist(new ObjectId(req.user.id), new ObjectId(req.body.productId))
+            console.log(req.params.productId, req.user.id, "hh");
+            const status = await removeFromWishlist(new ObjectId(req.user.id), new ObjectId(req.params.productId))
             if (status) {
                 res.status(200).json({ success: true })
             }
@@ -524,8 +526,8 @@ module.exports = {
     },
     checkWishlistHandler: async (req, res) => {
         try {
-            console.log(req.query.productId, req.user.id, "ll");
-            const status = await checkWishlist(new ObjectId(req.user.id), new ObjectId(req.query.productId))
+            console.log(req.params.productId, req.user.id, "ll");
+            const status = await checkWishlist(new ObjectId(req.user.id), new ObjectId(req.params.productId))
             console.log("status", status);
             if (status) {
                 res.status(200).json({ success: true })

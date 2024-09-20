@@ -41,14 +41,15 @@ function Chatting() {
                     {
                         showChat ?
                             <ChattingWindow socket={socket} active={active} />
-                            :
-                            <div className='chat-button' onClick={() => {
-                                setShowChat(true)
-                            }}>
-                                <i className="fa-solid fa-message" />
-
-                            </div>
+                            :null
+                            
                     }
+                    <div className='chat-button' onClick={() => {
+                        setShowChat((prev)=>!prev)
+                    }}>
+                        <i className="fa-solid fa-message" />
+
+                    </div>
 
                 </div>
             }

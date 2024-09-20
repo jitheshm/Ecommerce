@@ -28,7 +28,7 @@ function SearchResults() {
 
     useEffect(() => {
         console.log("searching");
-        instance.get(`user/product/search/${searchQuery}`, {
+        instance.get(`user/products/search/${searchQuery}`, {
             params: {
                 sort,
                 order,

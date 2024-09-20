@@ -13,7 +13,7 @@ function ReturnRequestForm({ orderId, productId, toogle, setToogle, setrequestFo
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        instance.patch(`/user/returnproduct/${orderId}/${productId}`, {
+        instance.patch(`/user/orders/${orderId}/products/${productId}/return`, {
             reason: reason
         }, {
             headers: {

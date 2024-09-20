@@ -19,7 +19,7 @@ function Personal() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        instance.get('/user/personaldetails', {
+        instance.get('/user/profile', {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -71,7 +71,7 @@ function Personal() {
             setPhoneError(false)
         }
 
-        instance.patch('/user/personal', {
+        instance.patch('/user/profile', {
             firstName,
             lastName,
             gender,

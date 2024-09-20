@@ -60,81 +60,81 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
     }, [quantity])
 
     const handleincrement = () => {
-        instance.patch('user/incrementquantity', {
-            productId: item.products.productId
-        }, {
-            headers: {
-                Authorization: Cookies.get('token')
-            }
-        }).then((res) => {
-            if (res.data.success) {
-                setQuantity((prev) => {
-                    return prev + 1
-                })
-                setRefetch((prev) => {
-                    return !prev
 
-                })
-                // setTotal((prev) => {
-                //     return prev + item.varient.salePrice
-                // })
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "bottom-left",
-                    color: "white",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    padding: "2rem",
-                    background: "#212121",
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                    icon: "success",
-                    title: res.data.msg,
-                    iconColor: "green"
-                });
-            } else {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "bottom-left",
-                    color: "white",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    padding: "2rem",
-                    background: "#212121",
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                    icon: "info",
-                    title: res.data.msg,
-                    iconColor: "yellow"
-                });
-            }
+        let productId = item.products.productId
+        instance.patch(`user/cart/${productId}/increment`,{},
+            {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then((res) => {
+                if (res.data.success) {
+                    setQuantity((prev) => {
+                        return prev + 1
+                    })
+                    setRefetch((prev) => {
+                        return !prev
 
-        }).catch((error) => {
+                    })
+                    // setTotal((prev) => {
+                    //     return prev + item.varient.salePrice
+                    // })
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "bottom-left",
+                        color: "white",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        padding: "2rem",
+                        background: "#212121",
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: res.data.msg,
+                        iconColor: "green"
+                    });
+                } else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "bottom-left",
+                        color: "white",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        padding: "2rem",
+                        background: "#212121",
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "info",
+                        title: res.data.msg,
+                        iconColor: "yellow"
+                    });
+                }
 
-            console.log(error.response.status);
-            if (error.response.status === 401) {
-                Cookies.remove('token')
-                dispatch(logout())
+            }).catch((error) => {
+
+                console.log(error.response.status);
+                if (error.response.status === 401) {
+                    Cookies.remove('token')
+                    dispatch(logout())
 
 
-            }
-        })
+                }
+            })
     }
 
     const handledecrement = () => {
-        instance.patch('user/decrementquantity', {
-            productId: item.products.productId
-        }, {
+        let productId=item.products.productId
+        instance.patch(`user/cart/${productId}/decrement`,{}, {
             headers: {
                 Authorization: Cookies.get('token')
             }
@@ -228,9 +228,8 @@ function CartCard({ item, setTotal, stockError, setStockError, setRefetch }) {
 
         }).then((result) => {
             if (result.isConfirmed) {
-                instance.patch('user/deletefromcart', {
-                    productId: item.products.productId
-                }, {
+                let productId=item.products.productId
+                instance.delete(`user/cart/${productId}`, {
                     headers: {
                         Authorization: Cookies.get('token')
                     },

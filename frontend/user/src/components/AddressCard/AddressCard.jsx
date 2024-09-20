@@ -33,7 +33,7 @@ function AddressCard({ addrObj={}, setEdit, setAddress, checkOut = false, repaym
 
         }).then((result) => {
             if (result.isConfirmed) {
-                instance.delete(`/user/deleteaddress?id=${addrObj._id}`, {
+                instance.delete(`/user/addresses/${addrObj._id}`, {
                     headers: {
                         Authorization: Cookies.get('token')
                     }
