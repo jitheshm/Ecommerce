@@ -65,7 +65,7 @@ function ChattingWindow({ socket, active }) {
                                 return (
                                     <div className='col-12 receiver'>
                                         <span className="chatter_msg_item chatter_msg_item_admin">
-                                            <a href="https://lukepeters.tech" className="chatter_avatar"><img src="https://img.lukepeters.me/avatar.jpg" /></a>
+                                            <div className="chatter_avatar"><img src="https://img.lukepeters.me/avatar.jpg" /></div>
                                             <strong className="chatter_name">Admin</strong>{msg.message}</span>
                                     </div>
                                 )
@@ -73,7 +73,7 @@ function ChattingWindow({ socket, active }) {
                                 return (
                                     <div className='col-12 sender'>
                                         <span className="chatter_msg_item chatter_msg_item_user">
-                                            <a href="https://lukepeters.tech" className="chatter_avatar"><img src="http://img.lukepeters.me/jack.jpg" /></a>
+                                            <div className="chatter_avatar"><img src="/assets/man-merSeQWG.png" /></div>
                                             {msg.message}</span>
                                     </div>
                                 )
