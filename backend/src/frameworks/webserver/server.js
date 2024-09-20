@@ -12,8 +12,8 @@ const path = require('path');
 
 const app = express();
 
-const userBuildPath = path.join(__dirname, '../../../user/dist');
-const adminBuildPath = path.join(__dirname, '../../../admin/dist')
+const userBuildPath = path.join(__dirname, '../../../../frontend/user/dist');
+const adminBuildPath = path.join(__dirname, '../../../../frontend/admin/dist')
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -34,7 +34,7 @@ app.use('/admin', adminRouter);
 app.get("/adminpanel/*", function (req, res) {
   console.log("admin");
   res.sendFile(
-    path.join(__dirname, "../../../admin/dist/index.html"),
+    path.join(__dirname, "../../../../frontend/admin/dist/index.html"),
     function (err) {
       if (err) {
         res.status(500).send(err);
@@ -46,7 +46,7 @@ app.get("/adminpanel/*", function (req, res) {
 app.get("/*", function (req, res) {
   console.log("user");
   res.sendFile(
-    path.join(__dirname, "../../../user/dist/index.html"),
+    path.join(__dirname, "../../../../frontend/user/dist/index.html"),
     function (err) {
       if (err) {
         res.status(500).send(err);
